@@ -31,5 +31,14 @@ To start the app:
 ooici-pres> grails run-app
 
 In a browser:
-Visit: http://localhost:8080/ 
+Visit: http://localhost:8080/
+
+HELP
+========
+
+Grails docs:
+http://grails.org/doc/latest/
+
+Groovy docs:
+http://groovy.codehaus.org/Documentation
 
