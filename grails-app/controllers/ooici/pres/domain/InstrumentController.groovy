@@ -50,7 +50,16 @@ class InstrumentController {
 	def runcommand = {
 
 		render(view:"command")
+	}
 
+	/**
+	 * Forwards to instrument/status.gsp
+	 */
+	def seestatus = {
+
+		def status = lcademoService.getInstrumentStatus(params.instrId)
+
+		render(view:"status", model:[status:status.getContent(), headers:status.getIonHeaders()])
 	}
 
 	/**
