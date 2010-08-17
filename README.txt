@@ -4,22 +4,21 @@ OOICI-PRES-GRAILS : Presentation Framework
 
 August 2010
 
-This project is a Grails web application developed to support the 
-OOICI presentation framework initiatives. 
-
+This project represents the OOICI presentation framework. 
 
 
 Building
 ========
 
-First, you must install Grails 1.3.3. Grails can be downloaded from
-http://grails.org
+First, you must install Grails 1.3.3.
+- Grails can be downloaded from: http://grails.org/Download
 
-Second, you must have a running RabbitMQ broker. The bootstrap process 
-of this application makes a connection to a local rabbitmq broker.
+Second, you must have a running RabbitMQ broker.
+- The OOICI-PRES bootstrap process makes a connection to a local Rabbitmq broker.
 
-Run
-> grails run-app 
+To start the app:
+ooici-pres> grails run-app
 
+In a browser:
 Visit: http://localhost:8080/ 
 
