@@ -7,14 +7,24 @@ August 2010
 This project represents the OOICI presentation framework. 
 
 
-Building
+SETUP
 ========
 
-First, you must install Grails 1.3.3.
+1. Install Grails 1.3.3.
 - Grails can be downloaded from: http://grails.org/Download
 
-Second, you must have a running RabbitMQ broker.
+2. You must have a running RabbitMQ broker.
 - The OOICI-PRES bootstrap process makes a connection to a local Rabbitmq broker.
+
+3. Within your local lcaarch project, run:
+
+twistd -n magnet -a sysname=spasco res/scripts/javalca.py
+
+- This last step starts up the needed lcaarch services used by this project.
+
+
+Running
+========
 
 To start the app:
 ooici-pres> grails run-app
