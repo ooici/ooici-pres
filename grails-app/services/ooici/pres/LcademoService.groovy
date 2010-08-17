@@ -83,6 +83,35 @@ class LcademoService {
 
     }
 
+	def startAgent() {
+
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_management");
+
+		def contentMap= ['instrumentID':instrumentID, 'model':'SBE49']
+
+		// Create and send message
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "start_instrument_agent", contentMap);
+
+        BootstrapIONService.baseProcess.ackMessage(msgin);
+
+		return msgin
+	}
+
+	def IonMessage getInstrumentStatus(String instrumentID) {
+
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_management");
+
+		def commandMap = ['instrumentID':instrumentID]
+		def contentMap = ['commandInput':commandMap]
+
+		// Create and send message
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "get_instrument_state", contentMap);
+
+        BootstrapIONService.baseProcess.ackMessage(msgin);
+
+		return msgin
+	}
+
 	def createDataProduct(String name, String instrumentId, String dataFormat) {
 
 		println '******* ' + name +',' + instrumentId + ',' + dataFormat
