@@ -114,15 +114,17 @@ class LcademoService {
 
 	def createDataProduct(String name, String instrumentId, String dataFormat) {
 
-		println '******* ' + name +',' + instrumentId + ',' + dataFormat
+		println '******* name = ' + name
+		println '******* instrumentId = ' + instrumentId
+		println '******* dataFormat = ' + dataFormat
 
-		MessagingName instRegSvc = new MessagingName(SYSNAME, "data_product_registry");
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_management");
 
-		def newDataformatMap = ['name':name, 'instrumentID':instrumentId, 'dataFormat':dataFormat]
+		def newDataformatMap = ['name':name, 'instrumentID':instrumentId, 'dataformat':dataFormat]
 		def contentMap = ['dataProductInput':newDataformatMap]
 
 		// Create and send message
-        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "register_data_product", contentMap);
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "create_new_data_product", contentMap);
         BootstrapIONService.baseProcess.ackMessage(msgin);
 
 	}
@@ -149,8 +151,6 @@ class LcademoService {
 
 		// Create and send message
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "execute_command", contentMap);
-
-		println '**** command instr ' + msgin.getContent()
 
         BootstrapIONService.baseProcess.ackMessage(msgin);
 
