@@ -44,7 +44,8 @@
                         
                             <td>
 	                            <g:link action="runcommand" params="[instrId:instrumentInstance.registryId, name:instrumentInstance.name]">[Command]</g:link>
-                                <g:link action="seestatus" params="[instrId:instrumentInstance.registryId]">[Status]</g:link>[Start Agent]</td>
+                                <g:link action="seestatus" params="[instrId:instrumentInstance.registryId]">[Status]</g:link>
+	                            <g:link action="startagent" params="[instrId:instrumentInstance.registryId, model:instrumentInstance.model]">[Start Agent]</g:link></td>
 
                             <td>${fieldValue(bean: instrumentInstance, field: "registryId")}</td>
 
