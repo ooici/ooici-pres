@@ -62,6 +62,13 @@ class InstrumentController {
 		render(view:"status", model:[status:status.getContent(), headers:status.getIonHeaders()])
 	}
 
+	def startagent = {
+
+		def status = lcademoService.startAgent(params.instrId, params.model)
+
+		render(view:'seeagent', model:[status:status.getContent(), headers:status.getIonHeaders()])
+	}
+
 	/**
 	 * Handles command form submissions
 	 */
