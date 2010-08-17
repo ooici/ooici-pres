@@ -83,11 +83,11 @@ class LcademoService {
 
     }
 
-	def startAgent() {
+	def IonMessage startAgent(String instrumentId, String model) {
 
 		MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_management");
 
-		def contentMap= ['instrumentID':instrumentID, 'model':'SBE49']
+		def contentMap= ['instrumentID':instrumentId, 'model':model]
 
 		// Create and send message
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "start_instrument_agent", contentMap);
