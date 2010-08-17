@@ -22,15 +22,14 @@ class DataproductController {
 		def allDataProducts = lcademoService.listAllDataProducts()
 
 	    def dataProducts = []
-
-	    for (i in allDataProducts) {
+	    for (d in allDataProducts) {
 
 		    def dataProduct = new Dataproduct()
 
-		    dataProduct.name = (String)i.getAttribute("name")
-		    dataProduct.dataFormat = (String)i.getAttribute("dataformat")
+		    dataProduct.name = (String)d.getAttribute("name")
+		    dataProduct.dataFormat = (String)d.getAttribute("dataformat")
 
-		    DataObject instrDO = (DataObject)i.getAttribute("instrument_ref")
+		    DataObject instrDO = (DataObject)d.getAttribute("instrument_ref")
 		    dataProduct.instrumentId = instrDO.getIdentity()
 
 		    dataProducts << dataProduct
@@ -42,9 +41,26 @@ class DataproductController {
     }
 
     def create = {
+
+	    def allInstruments = lcademoService.listAllInstruments()
+
+	    def instruments = []
+	    for (i in allInstruments) {
+
+		    def instrument = new Instrument()
+
+		    def instrName = (String)i.getAttribute("name").trim()
+		    if(instrName != null && instrName != '') {
+			    instrument.name = instrName
+			    instrument.registryId = (String)i.getIdentity()
+
+			    instruments << instrument
+		    }
+	    }
+
         def dpInstance = new Dataproduct()
         dpInstance.properties = params
-        return [dpInstance: dpInstance]
+        return [dpInstance: dpInstance, instruments:instruments]
     }
 
     def save = {
