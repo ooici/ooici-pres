@@ -59,13 +59,18 @@ class InstrumentController {
 
 		def status = lcademoService.getInstrumentStatus(params.instrId)
 
+		// passes status and headers to status.gsp
 		render(view:"status", model:[status:status.getContent(), headers:status.getIonHeaders()])
 	}
 
+	/**
+	 * Forwards to instrument/seeagent.gsp
+	 */
 	def startagent = {
 
 		def status = lcademoService.startAgent(params.instrId, params.model)
 
+		// passes status and headers to seeagent.gsp
 		render(view:'seeagent', model:[status:status.getContent(), headers:status.getIonHeaders()])
 	}
 
