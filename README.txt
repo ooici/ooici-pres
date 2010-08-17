@@ -21,6 +21,7 @@ SETUP
 twistd -n magnet -a sysname=spasco res/scripts/javalca.py
 
 - This last step starts up the needed lcaarch services used by this project.
+- 'sysname' could be any name.
 
 
 Running
