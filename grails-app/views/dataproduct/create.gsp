@@ -39,10 +39,12 @@
 
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="instrumentId">Instrument Id</label>
+                                    <label for="name">Instrument</label>
                                 </td>
                                 <td valign="top" class="value">
-                                    <g:textField name="instrumentId" value="${dpInstance?.instrumentId}" />
+
+	                             <g:select optionValue="name" optionKey="registryId" name="instrumentId" from="${instruments}" noSelection="['':'-Select an Instrument-']"/>
+
                                 </td>
                             </tr>
                         
