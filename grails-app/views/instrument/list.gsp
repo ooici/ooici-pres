@@ -42,7 +42,9 @@
                     <g:each in="${instruments}" status="i" var="instrumentInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="runcommand" params="[instrId:instrumentInstance.registryId, name:instrumentInstance.name]">[Command]</g:link> [Update] [Status]</td>
+                            <td>
+	                            <g:link action="runcommand" params="[instrId:instrumentInstance.registryId, name:instrumentInstance.name]">[Command]</g:link>
+                                <g:link action="seestatus" params="[instrId:instrumentInstance.registryId]">[Status]</g:link>[Start Agent]</td>
 
                             <td>${fieldValue(bean: instrumentInstance, field: "registryId")}</td>
 
