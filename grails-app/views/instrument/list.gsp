@@ -89,10 +89,12 @@
           <col class="colA" />
           <col class="colA" />
           <col class="colA" />
+          <col class="colA" />
+          <col class="colA" />
           </colgroup>
           <thead>
             <tr>
-              <th colspan="5" class="table-head">Instruments</th>
+              <th colspan="7" class="table-head">Instruments</th>
             </tr>
             <tr>
               <th>Commands</th>
