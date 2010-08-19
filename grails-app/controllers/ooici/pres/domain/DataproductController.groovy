@@ -65,6 +65,9 @@ class DataproductController {
 
     def save = {
 
+	    if(params.Cancel)
+	        redirect(controller:"home", action:"index")
+
 	    lcademoService.createDataProduct(params.name, params.instrumentId, params.dataFormat)
 
         def dataproductInstance = new Dataproduct(params)
