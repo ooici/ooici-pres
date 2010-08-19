@@ -30,6 +30,7 @@
 				<ul>
 					<li><g:link controller="dataproduct" action="show">View all Data Products</g:link></li>
 					<li><g:link controller="dataproduct" action="create">Register a Data Product</g:link></li>
+					<li><g:link controller="instrument" action="runcommand">Command a new Instrument</g:link></li>
 				</ul>
 			</li>
 			<li><a href="">About OOICI</a></li>
