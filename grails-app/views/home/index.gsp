@@ -51,14 +51,14 @@
           </li>
           <li> <a class="menuitem">Instruments</a>
             <ul class="submenu">
-              <li> <g:link controller="instrument" action="show">See all Instruments</g:link> </li>
+              <li> <g:link controller="instrument" action="show">View all Instruments</g:link> </li>
               <li> <g:link controller="instrument" action="create">Register an Instrument</g:link> </li>
               <li> <g:link controller="instrument" action="runcommand">Command a new Instrument</g:link> </li>
             </ul>
           </li>
           <li> <a class="menuitem">Data Products</a>
             <ul class="submenu">
-              <li> <g:link controller="dataproduct" action="show">Data Products</g:link> </li>
+              <li> <g:link controller="dataproduct" action="show">View all Data Products</g:link> </li>
               <li> <g:link controller="dataproduct" action="create">Register a Data Product</g:link> </li>
             </ul>
           </li>
@@ -71,7 +71,7 @@
       <h2>Getting Started</h2>
       <div class="block" id="blockquote">
         <blockquote>
-          <p>Please make your selection from the side menu or the menu above. Popular selections include: <strong>View all Instruments</strong> and <strong>View all Data Products</strong></p>
+          <p>Please make your selection from the side menu or the menu above. Popular selections include: <g:link controller="instrument" action="show"><strong>View all Instruments</strong></g:link> and <g:link controller="dataproduct" action="show"><strong>View all Data Products</strong></g:link></p>
         </blockquote>
       </div>
     </div>
