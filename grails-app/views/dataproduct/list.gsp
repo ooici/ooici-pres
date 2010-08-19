@@ -40,7 +40,7 @@
 	</div>
 	<div class="clear"></div>
 	<div class="grid_16">
-		<h2 id="page-heading">LCA Demo</h2>
+		<h2 id="page-heading">LCA Demo - View all Data Products</h2>
 	</div>
 	<div class="clear"></div>
 	<div class="grid_4">
