@@ -101,7 +101,15 @@ class InstrumentController {
     }
 
     def show = {
-        def instrumentInstance = Instrument.get(params.id)
+
+	    def instrumentInstance
+	    if(params.id != null) {
+            instrumentInstance = Instrument.get(params.id)
+	    }
+	    else {
+		    instrumentInstance = null
+	    }
+
         if (!instrumentInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), params.id])}"
             redirect(action: "list")
