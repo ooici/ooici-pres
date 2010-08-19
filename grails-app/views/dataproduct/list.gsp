@@ -72,7 +72,7 @@
 			<h2>Welcome</h2>
 			<div class="block" id="blockquote">
 				<blockquote>
-					<p>Below you'll find the data products in the Data Product Registry.</p>
+					<p>Below you'll find the Data Products in the Data Product Registry.</p>
 				</blockquote>
 			</div>
 		</div>
@@ -93,7 +93,7 @@
 					</colgroup>
 					<thead>
 					<tr>
-						<th colspan="5" class="table-head">Data Products</th>
+						<th colspan="3" class="table-head">Data Products</th>
 					</tr>
 					<tr>
 						<th>Name</th>
@@ -103,11 +103,11 @@
 					</thead>
 					<tbody>
 					<g:each in="${dataProducts}" status="i" var="dps">
-						<tr class="odd">
-							<th>${dps.name}</th>
-							<th>${dps.dataFormat}</th>
-							<th>${dps.instrumentId}</th>
-						</tr>
+					<tr class="odd">
+						<th>${dps.name}</th>
+						<th>${dps.dataFormat}</th>
+						<th>${dps.instrumentId}</th>
+					</tr>
 					</g:each>
 					</tbody>
 				</table>
