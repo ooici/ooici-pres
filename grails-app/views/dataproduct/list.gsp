@@ -80,9 +80,6 @@
 			<h2>Data Products in the Data ProducT Registry</h2>
 			<div class="block" id="tables">
 				<table summary="This table includes examples of as many table elements as possible">
-					<g:if test="${flash.message}">
-						<div class="message">${flash.message}</div>
-					</g:if>
 					<caption>
 						An example data product list
 					</caption>
