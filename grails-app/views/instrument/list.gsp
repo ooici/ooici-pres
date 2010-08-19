@@ -48,8 +48,6 @@
 			<h2>Menu</h2>
 			<div class="block">
 				<ul class="section menu">
-					<li><a class="menuitem">Home</a>
-					</li>
 					<li>Instruments
 						<ul class="submenu">
 							<li><g:link controller="instrument" action="show" class="active">View all Instruments</g:link></li>
