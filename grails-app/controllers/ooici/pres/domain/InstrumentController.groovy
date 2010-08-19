@@ -86,6 +86,9 @@ class InstrumentController {
 
     def save = {
 
+	    if(params.Cancel)
+	        redirect(controller:"home", action:"index")
+
 	    lcademoService.createInstrument(params.name, params.model, params.manufacturer, params.serialNum, params.fwVersion)
 
         def instrumentInstance = new Instrument(params)
