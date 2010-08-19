@@ -72,7 +72,7 @@
 			<h2><a href="#" id="toggle-blockquote">Welcome</a></h2>
 			<div class="block" id="blockquote">
 				<blockquote>
-					<p>To Register a new Instrument, please enter the Name, Manufacturer, Model Number, Serial Number and Firmware version for the new Instrument.  Select the Register button when done.</p>
+					<p>To Register a new Instrument, in the form below, please enter the Name, Manufacturer, Model Number, Serial Number and Firmware version.  Select the Register button when done.</p>
 					<p class="cite"><cite>OOICI Support</cite></p>
 				</blockquote>
 			</div>
@@ -111,14 +111,32 @@
 							<label for="fwVersion"><g:message code="instrument.fwVersion.label" default="Firmware Version"/></label>
 							<g:textField name="fwVersion" value="${instrumentInstance?.fwVersion}"/>
 						</p>
-						<g:submitButton name="Register" class="save" value="Register" />
-						<g:submitButton name="Cancel" value="Cancel" />
+						<g:submitButton name="Register" class="save" value="Register"/>
+						<g:submitButton name="Cancel" value="Cancel"/>
 					</fieldset>
 				</g:form>
 			</div>
 		</div>
 	</div>
 	<div class="grid_5">
+		<div class="box articles">
+			<h2>
+				<a href="http://www.oceanleadership.org/category/discovery/" id="toggle-articles">News</a>
+			</h2>
+			<div class="block" id="articles">
+				<div class="first article">
+					<h3>
+						<a href="http://www.oceanleadership.org/category/discovery/">Discovery</a>
+					</h3>
+					<h4>Science Report describes deepwater horizon oil plume as of June</h4>
+					<p class="meta">Ocean Observing</p>
+					<a href="http://www.oceanleadership.org/2010/science-report-describes-deepwater-horizon-oil-plume-as-of-june/" class="image">
+						<img src="http://www.oceanleadership.org/wp-content/themes/arthemia-premium/scripts/timthumb.php?src=http://www.oceanleadership.org/wp-content/uploads/2010/08/0819sp_gulf_oil_burn_350w-250x244.jpg&w=80&h=80&zc=1&q=100" width="60" height="60" alt="photo"/>
+					</a>
+					<p>In mid-June, two months after the 20 April blowout of BP’s Deepwater Horizon drilling rig, the resulting oil plume had reached huge proportions, peer-reviewed research published 19 August on the Science Express Web site suggests.<a href="http://www.oceanleadership.org/category/discovery/"> More articles.</a></p>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="clear"></div>
 	<div class="grid_16" id="site_info">
