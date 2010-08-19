@@ -77,7 +77,14 @@ class DataproductController {
     }
 
     def show = {
-        def dataproductInstance = Dataproduct.get(params.id)
+	    def dataproductInstance
+	    if(params.id != null) {
+            dataproductInstance = Dataproduct.get(params.id)
+	    }
+	    else {
+		    dataproductInstance = null
+	    }
+
         if (!dataproductInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'dataproduct.label', default: 'Dataproduct'), params.id])}"
             redirect(action: "list")
