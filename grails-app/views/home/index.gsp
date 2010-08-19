@@ -50,14 +50,14 @@
 				<ul class="section menu">
 					<li><a class="menuitem">Home</a>
 					</li>
-					<li><a class="menuitem">Instruments</a>
+					<li>Instruments
 						<ul class="submenu">
 							<li><g:link controller="instrument" action="show">View all Instruments</g:link></li>
 							<li><g:link controller="instrument" action="create">Register an Instrument</g:link></li>
 							<li><g:link controller="instrument" action="runcommand">Command a new Instrument</g:link></li>
 						</ul>
 					</li>
-					<li><a class="menuitem">Data Products</a>
+					<li>Data Products
 						<ul class="submenu">
 							<li><g:link controller="dataproduct" action="show">View all Data Products</g:link></li>
 							<li><g:link controller="dataproduct" action="create">Register a Data Product</g:link></li>
