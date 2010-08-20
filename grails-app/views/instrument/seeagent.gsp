@@ -40,7 +40,7 @@
 	</div>
 	<div class="clear"></div>
 	<div class="grid_16">
-		<h2 id="page-heading">LCA Demo - Start Agent Status</h2>
+		<h2 id="page-heading">LCA Demo - Start Agent Command Status</h2>
 	</div>
 	<div class="clear"></div>
 	<div class="grid_4">
@@ -77,7 +77,7 @@
 			</div>
 		</div>
 		<div class="box">
-			<h2>Command Status</h2>
+			<h2>Start Agent Command Status</h2>
 			<div class="block" id="header-table">
 				<table summary="This table includes examples of as many table elements as possible">
 					<colgroup>
