@@ -24,16 +24,19 @@ class DataproductController {
 		def dataProducts = []
 		for (d in allDataProducts) {
 
-			def dataProduct = new Dataproduct()
+			def dpName = (String)d.getAttribute("name")
+			if(dpName != null && dpName != '') {
 
-			dataProduct.name = (String) d.getAttribute("name")
-			dataProduct.dataFormat = (String) d.getAttribute("dataformat")
+				def dataProduct = new Dataproduct()
 
-			DataObject instrDO = (DataObject) d.getAttribute("instrument_ref")
-			dataProduct.instrumentId = instrDO.getIdentity()
+				dataProduct.name = (String) d.getAttribute("name")
+				dataProduct.dataFormat = (String) d.getAttribute("dataformat")
 
-			dataProducts << dataProduct
+				DataObject instrDO = (DataObject) d.getAttribute("instrument_ref")
+				dataProduct.instrumentId = instrDO.getIdentity()
 
+				dataProducts << dataProduct
+			}
 		}
 
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -47,10 +50,11 @@ class DataproductController {
 		def instruments = []
 		for (i in allInstruments) {
 
-			def instrument = new Instrument()
-
 			def instrName = (String) i.getAttribute("name").trim()
 			if (instrName != null && instrName != '') {
+
+				def instrument = new Instrument()
+
 				instrument.name = instrName
 				instrument.registryId = (String) i.getIdentity()
 
@@ -81,10 +85,11 @@ class DataproductController {
 			def instruments = []
 			for (i in allInstruments) {
 
-				def instrument = new Instrument()
-
 				def instrName = (String) i.getAttribute("name").trim()
 				if (instrName != null && instrName != '') {
+
+					def instrument = new Instrument()
+
 					instrument.name = instrName
 					instrument.registryId = (String) i.getIdentity()
 
