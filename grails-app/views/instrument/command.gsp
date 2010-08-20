@@ -105,7 +105,7 @@
 							<label><g:message default="Argument 2" />Argument 2</label>
 							<g:textField name="arg1" value="" />
 						</p>
-						<g:submitButton name="Register" class="save" value="Register"/>
+						<g:submitButton name="SendCommand" class="save" value="Send Command"/>
 						<g:submitButton name="Cancel" value="Cancel"/>
 					</fieldset>
 				</g:form>
