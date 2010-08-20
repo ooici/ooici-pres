@@ -33,8 +33,7 @@
 					<li><g:link controller="instrument" action="runcommand">Command a new Instrument</g:link></li>
 				</ul>
 			</li>
-			<li><a href="">About OOICI</a></li>
-			<li><a href="">Contact Us</a></li>
+			<li><a href="http://www.oceanleadership.org/about-ocean-leadership/">About OOICI</a></li>
 			<li><g:link controller="logout" action="index">Logout</g:link></li>
 		</ul>
 	</div>
