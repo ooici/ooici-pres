@@ -91,7 +91,7 @@
 						<legend>Command an Instrument</legend>
 						<p>
 							<label for="instrumentId">Instrument</label>
-							<g:select optionValue="name" optionKey="registryId" name="instrumentId" from="${instruments}" noSelection="['':'-Select an Instrument-']"/>
+							<g:select optionValue="name" optionKey="registryId" name="instrumentId" from="${instruments}" value="${selectedInstrId}" noSelection="['':'-Select an Instrument-']"/>
 						</p>
 						<p>
 							<label for="command"><g:message default="Command" />Command</label>
