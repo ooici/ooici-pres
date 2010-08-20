@@ -67,11 +67,10 @@ class LcademoService {
 				for (Iterator it = resList.iterator(); it.hasNext();) {
 					ResourceDO resobj = (ResourceDO) it.next();
 					dataProducts << resobj
-					System.out.println("**** data product found ***** \n: "+resobj);
 				}
             }
 	        else {
-		        println '\n***** RESOURCE LIST IS NULL'
+		        println '\n***** LcademoService:listAllDataProducts -- RESOURCE LIST IS NULL'
 	        }
         }
 
