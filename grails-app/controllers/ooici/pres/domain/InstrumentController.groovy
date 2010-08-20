@@ -66,7 +66,13 @@ class InstrumentController {
 			}
 		}
 
-		render(view: "command", model:[instruments:instruments])
+		if(params.instrId != null && params.instrId != '') {
+			render(view: "command", model:[instruments:instruments, selectedInstrId:params.instrId])
+		}
+		else {
+			render(view: "command", model:[instruments:instruments])
+		}
+		
 	}
 
 	/**
