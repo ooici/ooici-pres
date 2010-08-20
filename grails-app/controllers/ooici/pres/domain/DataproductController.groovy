@@ -75,7 +75,7 @@ class DataproductController {
             redirect(action: "show")
         }
         else {
-            render(view: "create", model: [dataproductInstance: dataproductInstance])
+            render(view: "create", model: [dpInstance: dataproductInstance])
         }
     }
 
