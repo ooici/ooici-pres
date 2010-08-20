@@ -63,8 +63,6 @@ class LcademoService {
         	DataObject dobj = msgin.extractDataObject();
         	List resList = (List) dobj.getAttribute("resources");
 
-	        println '-------------> resList = ' + resList.toString()
-
 	        if(resList != null) {
 				for (Iterator it = resList.iterator(); it.hasNext();) {
 					ResourceDO resobj = (ResourceDO) it.next();
@@ -113,10 +111,6 @@ class LcademoService {
 	}
 
 	def createDataProduct(String name, String instrumentId, String dataFormat) {
-
-		println '******* name = ' + name
-		println '******* instrumentId = ' + instrumentId
-		println '******* dataFormat = ' + dataFormat
 
 		MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_management");
 
