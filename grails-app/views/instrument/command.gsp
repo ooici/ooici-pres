@@ -70,7 +70,7 @@
 			<h2><a href="#" id="toggle-blockquote">Welcome</a></h2>
 			<div class="block" id="blockquote">
 				<blockquote>
-					<p>To Register a new Instrument, in the form below, please enter the Name, Manufacturer, Model Number, Serial Number and Firmware version.  Select the Register button when done.</p>
+					<p>To Command an Instrument, in the form below, please enter the Name, Manufacturer, Model Number, Serial Number and Firmware version.  Select the Register button when done.</p>
 					<p class="cite"><cite>OOICI Support</cite></p>
 				</blockquote>
 			</div>
@@ -88,26 +88,22 @@
 								<g:renderErrors bean="${instrumentInstance}" as="list"/>
 							</div>
 						</g:hasErrors>
-						<legend>New Instrument</legend>
+						<legend>Command an Instrument</legend>
 						<p>
-							<label for="name"><g:message code="instrument.name.label" default="Name"/></label>
-							<g:textField name="name" value="${instrumentInstance?.name}"/>
+							<label for="instrumentId">Instrument</label>
+							<g:select optionValue="name" optionKey="registryId" name="instrumentId" from="${instruments}" noSelection="['':'-Select an Instrument-']"/>
 						</p>
 						<p>
-							<label for="manufacturer"><g:message code="instrument.manufacturer.label" default="Manufacturer"/></label>
-							<g:textField name="manufacturer" value="${instrumentInstance?.manufacturer}"/>
+							<label for="command"><g:message default="Command" />Command</label>
+							<g:select name="command" from="${['start', 'stop', 'dps']}" /> 
 						</p>
 						<p>
-							<label for="model"><g:message code="instrument.model.label" default="Model Number"/></label>
-							<g:textField name="model" value="${instrumentInstance?.model}"/>
+							<label><g:message default="Argument 1" />Argument 1</label>
+							<g:textField name="arg0" value="" />
 						</p>
 						<p>
-							<label for="name"><g:message code="instrument.serialNum.label" default="Serial Number"/></label>
-							<g:textField name="serialNum" value="${instrumentInstance?.serialNum}"/>
-						</p>
-						<p>
-							<label for="fwVersion"><g:message code="instrument.fwVersion.label" default="Firmware Version"/></label>
-							<g:textField name="fwVersion" value="${instrumentInstance?.fwVersion}"/>
+							<label><g:message default="Argument 2" />Argument 2</label>
+							<g:textField name="arg1" value="" />
 						</p>
 						<g:submitButton name="Register" class="save" value="Register"/>
 						<g:submitButton name="Cancel" value="Cancel"/>
