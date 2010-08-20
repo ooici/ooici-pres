@@ -78,7 +78,7 @@
 		<div class="box">
 			<h2><a href="#" id="toggle-forms">Register a new Instrument</a></h2>
 			<div class="block" id="forms">
-				<g:form action="save" method="post">
+				<g:form action="command" method="post">
 					<fieldset>
 						<g:if test="${flash.message}">
 							<div class="message">${flash.message}</div>
@@ -95,7 +95,7 @@
 						</p>
 						<p>
 							<label for="command"><g:message default="Command" />Command</label>
-							<g:select name="command" from="${['start', 'stop', 'dps']}" /> 
+							<g:select name="command" from="${['start', 'stop', 'dps']}" noSelection="['':'-Select a Command-']"/> 
 						</p>
 						<p>
 							<label><g:message default="Argument 1" />Argument 1</label>
