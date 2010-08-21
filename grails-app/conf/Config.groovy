@@ -97,6 +97,9 @@ grails.plugins.springsecurity.basic.realmName = "OOICI - LCA Demo"
 // For securing URLs
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
 
+// Logout URL
+logout.afterLogoutUrl = '/'
+
 // Password protecting these URIs 
 grails.plugins.springsecurity.interceptUrlMap = [
 	'/instrument/**':        ['IS_AUTHENTICATED_FULLY'],

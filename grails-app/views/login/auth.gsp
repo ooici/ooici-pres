@@ -28,8 +28,7 @@
     <div class="box">
       <h2>Welcome</h2>
       <div class="block" id="paragraphs">
-        <p>To login as administrator: <strong>admin/admin</strong></p>
-        <p>To login as a user: <strong>test/test</strong></p>
+        <p>Welcome to the LCA Demo. Please login to access the demo's main menu page.</p>
       </div>
     </div>
   </div>
