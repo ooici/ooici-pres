@@ -104,7 +104,8 @@ logout.afterLogoutUrl = '/'
 grails.plugins.springsecurity.interceptUrlMap = [
 	'/instrument/**':        ['IS_AUTHENTICATED_FULLY'],
 	'/dataproduct/**':       ['IS_AUTHENTICATED_FULLY'],
-	'/service/**':           ['IS_AUTHENTICATED_FULLY']
+	'/service/**':           ['IS_AUTHENTICATED_FULLY'],
+	'/home/**':              ['IS_AUTHENTICATED_FULLY']
 ]
 
 
