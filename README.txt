@@ -33,6 +33,8 @@ ooici-pres> grails run-app
 In a browser:
 Visit: http://localhost:8080/
 
+- You'll be prompted to login. The un/pwd is admin/admin
+
 HELP
 ========
 
