@@ -14,7 +14,7 @@ class LcademoService {
 
 	def BootstrapIONService
 
-	def SYSNAME = System.getProperty("ioncore.sysname","spasco");
+	def SYSNAME = System.getProperty("ioncore.sysname","Bill");
 
     def List listAllInstruments() {
 
@@ -88,6 +88,36 @@ class LcademoService {
 
 		// Create and send message
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "start_instrument_agent", contentMap);
+
+        BootstrapIONService.baseProcess.ackMessage(msgin);
+
+		return msgin
+	}
+
+	def IonMessage getParameter(String instrumentID, String ParameterName) {
+
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_management");
+
+		def commandMap = ['instrumentID':instrumentID,'parameterName':ParameterName]
+		def contentMap = ['commandInput':commandMap]
+
+		// Create and send message
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "get_instrument_parameter", contentMap);
+
+        BootstrapIONService.baseProcess.ackMessage(msgin);
+
+		return msgin
+	}
+
+	def IonMessage setParameter(String instrumentID, String ParameterName, String ParameterValue) {
+
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_management");
+
+		def commandMap = ['instrumentID':instrumentID, 'parameterName':ParameterName, 'parameterValue':ParameterValue]
+		def contentMap = ['commandInput':commandMap]
+
+		// Create and send message
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "set_instrument_parameter", contentMap);
 
         BootstrapIONService.baseProcess.ackMessage(msgin);
 

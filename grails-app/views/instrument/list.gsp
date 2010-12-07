@@ -107,9 +107,10 @@
             <g:each in="${instruments}" status="i" var="instrumentInstance">
             <tr class="odd">
               <th>
-	              <g:link action="runcommand" params="[instrId:instrumentInstance.registryId, name:instrumentInstance.name]">[Command]</g:link>
+	          <g:link action="runcommand" params="[instrId:instrumentInstance.registryId, name:instrumentInstance.name]">[Command]</g:link>
                   <g:link action="seestatus" params="[instrId:instrumentInstance.registryId]">[Status]</g:link>
-	              <g:link action="startagent" params="[instrId:instrumentInstance.registryId, model:instrumentInstance.model]">[Start Agent]</g:link></th>
+                  <g:link action="rungetset" params="[instrId:instrumentInstance.registryId]">[Get/Set]</g:link>
+	          <g:link action="startagent" params="[instrId:instrumentInstance.registryId, model:instrumentInstance.model]">[Start Agent]</g:link></th>
               <th>${fieldValue(bean: instrumentInstance, field: "name")}</th>
               <th>${fieldValue(bean: instrumentInstance, field: "registryId")}</th>
               <th>${fieldValue(bean: instrumentInstance, field: "model")}</th>

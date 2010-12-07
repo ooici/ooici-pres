@@ -74,6 +74,34 @@ class InstrumentController {
 		}
 		
 	}
+	
+	def rungetset = {
+
+		def allInstruments = lcademoService.listAllInstruments()
+
+		def instruments = []
+		for (i in allInstruments) {
+
+			def instrName = (String) i.getAttribute("name").trim()
+			if (instrName != null && instrName != '') {
+
+				def instrument = new Instrument()
+
+				instrument.name = instrName
+				instrument.registryId = (String) i.getIdentity()
+
+				instruments << instrument
+			}
+		}
+
+		if(params.instrId != null && params.instrId != '') {
+			render(view: "getset", model:[instruments:instruments, selectedInstrId:params.instrId])
+		}
+		else {
+			render(view: "getset", model:[instruments:instruments])
+		}
+		
+	}
 
 	/**
 	 * Forwards to instrument/status.gsp
@@ -102,7 +130,31 @@ class InstrumentController {
 	 */
 	def command = {
 
+		if (params.Cancel) {
+			redirect(action: "list", params: params)
+			return
+			}
+
 		def status = lcademoService.commandInstrument(params.instrumentId, params.command, params.arg0, params.arg1)
+
+		render(view: "commandstatus", model: [status: status.getContent(), headers: status.getIonHeaders()])
+	}
+
+	/**
+	 * Handles get/set form submissions
+	 */
+	def getset = {
+		def status
+
+		if (params.Cancel) {
+			redirect(action: "list", params: params)
+			return
+			}
+
+		else if (params.Get)
+			status = lcademoService.getParameter(params.instrumentId, params.ParameterName)
+		else if (params.Set)
+			status = lcademoService.setParameter(params.instrumentId, params.ParameterName, params.ParameterValue)
 
 		render(view: "commandstatus", model: [status: status.getContent(), headers: status.getIonHeaders()])
 	}
@@ -110,7 +162,7 @@ class InstrumentController {
 	def save = {
 
 		if (params.Cancel)
-			redirect(controller: "home", action: "index")
+			redirect(controller: "instrument", action: "index")
 
 		lcademoService.createInstrument(params.name, params.model, params.manufacturer, params.serialNum, params.fwVersion)
 

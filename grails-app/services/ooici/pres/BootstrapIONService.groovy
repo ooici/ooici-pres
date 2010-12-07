@@ -16,7 +16,7 @@ class BootstrapIONService  {
 
 	def bootstrap() {
 
-		String hostName = "localhost"
+	String hostName = "amoeba.ucsd.edu"
         int portNumber = AMQP.PROTOCOL.PORT
         String exchange = "magnet.topic"
 
