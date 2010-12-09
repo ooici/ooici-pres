@@ -94,7 +94,7 @@
 						</p>
 						<p>
 							<label for="command"><g:message default="Command" />Command</label>
-							<g:select name="command" from="${['start', 'stop', 'dps']}" noSelection="['':'-Select a Command-']"/> 
+							<g:select name="command" from="${['start', 'stop', 'dps', 'ds']}" noSelection="['':'-Select a Command-']"/> 
 						</p>
 						<p>
 							<label><g:message default="Argument 1" />Argument 1</label>
