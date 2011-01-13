@@ -1,0 +1,26 @@
+package ooici.pres.domain
+
+/**
+ * @author Stephen Pasco
+ */
+public enum Published {
+
+	// not yet sure what these values will become
+	YES("published"),
+	NO("not published")
+
+	private final String value
+
+	Published(String value) {
+		this.value = value
+	}
+
+	String getValue() {
+		value
+	}
+
+	static list() {
+		[YES, NO]
+	}
+
+}
