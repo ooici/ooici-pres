@@ -7,10 +7,13 @@ import ion.resource.ResourceDO
 import ooici.pres.domain.DataResource
 import ooici.pres.domain.Spatial
 import ooici.pres.domain.Temporal
-import ion.resource.ListAllQueryDO
-import ion.resource.InstrumentRDO
+import ooici.pres.domain.Published
 import ion.resource.FindResourceDO
 import ooici.pres.domain.DataResourceDetail
+import ooici.pres.domain.DetailType
+import ooici.pres.domain.Subscription
+import ooici.pres.domain.Notification
+import ooici.pres.domain.Status
 
 /**
  * CiService
@@ -29,12 +32,74 @@ class CiService {
 
 	def SYSNAME = System.getProperty("ioncore.sysname","spasco");
 
-	def DataResourceDetail getDataResourceDetail(UUID dataResourceId, Enum detailType) {
+	/**
+	 * Deletes a user's subscription
+	 * 
+	 * @param subscriptionId
+	 * @return
+	 */
+	Status deleteSubscription(UUID subscriptionId) {
+
+	}
+
+	/**
+	 * Updates notification status
+	 *
+	 * @param notificationID
+	 * @return
+	 */
+	Status updateNotification(UUID notificationID) {
+
+	}
+
+	/**
+	 * Returns current user's notifications
+	 *
+	 * @return
+	 */
+	Notification[] getUserNotifications() {
+
+	}
+
+	/**
+	 * Creates a new subscription for a user
+	 *
+	 * @return
+	 */
+	UUID createSubscription(Subscription subscription) {
+
+	}
+
+	/**
+	 * Returns current user's subscriptions
+	 *
+	 * @return
+	 */
+	Subscription[] findUserSubscriptions() {
+
+	}
+
+	/**
+	 * Creates a URL for the download of the complete data resource in its current state
+	 * from the OOI DAP server
+	 *
+	 * @return
+	 */
+	def String createDownloadUrl(UUID dataResourceId) {
+
+	}
+
+	/**
+	 * Returns current user's notifications
+	 *
+	 * @return
+	 */
+	def DataResourceDetail getDataResourceDetail(UUID dataResourceId, DetailType detailType) {
 		
 	}
 
 	/**
-	 * Creates a new data resource
+	 * Creates a new data resource and publishes it into the OOI
 	 *
 	 * @param dataResource
 	 * @return unique id of new data resource
@@ -70,12 +135,22 @@ class CiService {
     }
 
 	/**
-	 * Deletes a new data resource
+	 * Updates metadata related to a data resource
+	 * 
+	 * @param dataResource
+	 * @return
+	 */
+	def Status updateDataResource(DataResource dataResource) {
+		
+	}
+
+	/**
+	 * Deletes a data resource
 	 *
 	 * @param dataResourceId The id of the data resource to delete
 	 * @return returns the status of the delete operation
 	 */
-	def String deleteDataResource(UUID dataResourceId) {
+	def Status deleteDataResource(UUID dataResourceId) {
 
 		def status = 'no status returned when deleting a data resource'
 
@@ -105,12 +180,12 @@ class CiService {
 	 * Finds data resources given a user's id, publish status, spatial extent properties and temporal extent properties 
 	 *
 	 * @param userId The user making this request
-	 * @param published A user can search for published and not published dataResources
+	 * @param published A user can search for published and non-published dataResources
 	 * @param spatial A user can search by spatial extent 
 	 * @param temporal A user can search by temporal extent
 	 * @return Returns a list of dataResources that match the specified parameters
 	 */
-	def DataResource[] findDataResources(UUID userId, Enum published, Spatial spatial, Temporal temporal) {
+	def DataResource[] findDataResources(UUID userId, Published published, Spatial spatial, Temporal temporal) {
 
 	    def dataResources = []
 
