@@ -5,7 +5,6 @@ package ooici.pres.domain
  */
 public enum Published {
 
-	// not yet sure what these values will become
 	YES("published"),
 	NO("not published")
 

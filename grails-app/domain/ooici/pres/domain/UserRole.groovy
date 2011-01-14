@@ -2,6 +2,9 @@ package ooici.pres.domain
 
 import org.apache.commons.lang.builder.HashCodeBuilder
 
+/**
+ * @author Stephen Pasco
+ */
 class UserRole implements Serializable {
 
 	User user

@@ -10,6 +10,7 @@ import ooici.pres.domain.Temporal
 import ion.resource.ListAllQueryDO
 import ion.resource.InstrumentRDO
 import ion.resource.FindResourceDO
+import ooici.pres.domain.DataResourceDetail
 
 /**
  * CiService
@@ -27,6 +28,10 @@ class CiService {
 	def BootstrapIONService
 
 	def SYSNAME = System.getProperty("ioncore.sysname","spasco");
+
+	def DataResourceDetail getDataResourceDetail(UUID dataResourceId, Enum detailType) {
+		
+	}
 
 	/**
 	 * Creates a new data resource
@@ -105,7 +110,7 @@ class CiService {
 	 * @param temporal A user can search by temporal extent
 	 * @return Returns a list of dataResources that match the specified parameters
 	 */
-	def List findDataResources(UUID userId, Enum published, Spatial spatial, Temporal temporal) {
+	def DataResource[] findDataResources(UUID userId, Enum published, Spatial spatial, Temporal temporal) {
 
 	    def dataResources = []
 
@@ -127,6 +132,7 @@ class CiService {
         if (msgin.hasDataObject()) {
 
         	DataObject dobj = msgin.extractDataObject()
+	        // not sure if we'll be getting back a List or Array
         	List resList = (List) dobj.getAttribute("resources")
 
 	        if(resList != null) {

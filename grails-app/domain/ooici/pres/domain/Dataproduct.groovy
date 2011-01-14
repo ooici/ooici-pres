@@ -1,5 +1,8 @@
 package ooici.pres.domain
 
+/**
+ * @author Stephen Pasco
+ */
 class Dataproduct {
 
 	String name
