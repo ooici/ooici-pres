@@ -1,0 +1,136 @@
+Workflows and Service API calls
+===============================
+
+workflow #0100 - Find Data Resource of Interest
+--------------
+DataResource[]:findDataResources(userId:UUID, published:enum, Spatial, Temporal)
+
+NOTE: In order to fill the default view (all public data resources PLUS all user's data resources), two calls and the union of their results are necessary.
+
+
+workflow #0101 - Examine Simple Data Resource
+--------------
+DataResourceDetail:getDataResourceDetail(dataResourceId:UUID, enum:detailType)
+
+NOTE: The UI can request detail views in different type. In fact these are different detail views compiled by the integration layer.
+The format of the detail body is a structured, renderable format, maybe simple HTML: h1, h2, h3, p, img, br
+
+workflow #0102 - Download Data
+--------------
+String:createDownloadURL(dataResourceId:UUID) - create a URL for the download of the complete data resource in its current state from the OOI DAP server
+
+
+workflow #0103 - Subscribe to a Data Resource
+--------------
+Subscription[]:findUserSubscriptions() - returns current user's subscriptions
+UUID:createSubscription(Subscription) - creates a new subscription for a user
+
+
+workflow #0104 - Monitor Subscriptions
+--------------
+Notification[]:getUserNotifications() - returns current user's notifications 
+Status:updateNotification(notificationId:UUID, status:enum) - updates notification status
+Status:deleteSubscription(SubscriptionId:UUID) - deletes a user's subscription
+
+NOTE: This works like an email client. The application integration layer buffers the notifications until they are requested by the UI.
+
+
+workflow #0105 - Publish Data Resource into the OOI
+--------------
+UUID:createDataResource(DataResource) - creates a new data resource.
+
+
+workflow #0106 - Monitor publications
+--------------
+Status:updateDataResource(DataResource) - updates metadata related to a data resource
+Status:deleteDataResource(dataResourceId:UUID) - deletes a data resource
+
+
+
+Data Structures
+===============
+
+User {
+	UUID:userId
+	String:firstName
+	String:lastName
+	String:role (e.g. role_admin, role_user, etc.)
+}
+
+DataResource {
+	UUID:dataResourceDd
+	String:provider
+	String:format
+	String:protocol
+	String:type
+	String:title
+	String:dataFormat
+	String:dataType
+	String:namingAuthority
+	String:summary
+	String:publisherInstitution
+	String:publisherName
+	String:publisherEmail
+	String:publisherWebsite
+	String:creatorInstitution
+	String:creatorName
+	String:creatorEmail
+	String:openDAP - DAP uri
+	String:wcs - wcs uri
+	String:wms - wms uri
+	String:ncml - ncml uri
+	String:uddc - uddc uri
+	String:iso - iso uri
+	Array:Viewer (e.g. viewers: Integrated data viewer, netcdf-java tools ui viewer, etc.)
+	Date:lastUpdated
+	Date:dateCreated
+}
+
+Spatial {
+	String:north
+	String:south
+	String:east
+	String:west
+	String:altitudeMin
+	String:altitudeMax
+}
+
+Temporal {
+	String:dateFrom
+	String:dateTo
+}
+
+
+Viewer {
+	String:name
+}
+
+DataResourceDetail {
+	UUID:dataResourceId
+	enum:detailType (one of SUMMARY, METADATA, VARIABLE_NAME, VARIABLE_EXTENTS, VISUALIZATIONS)
+	String:body (structured body content)
+}
+
+Subscription {
+	UUID:subscriptionId
+	UUID:dataResourceId
+	String:subscriptionName
+	String:source (the dataResource name)
+	Date:subscriptionDate (when you signed up)
+	enum:deliveryMode (one of INSTANT, DIGEST)
+	int:deliveryFrequency
+	enum:deliveryChannel (one of WEBUI, DISPATCHER, later EMAIL, RSS)
+	UUID:deliveryChannelId (id of the actual target, such as the dispatcher process id)
+}
+
+Notification {
+	UUID:notificationId
+	UUID:datasetId
+	String:regarding (this is the dataResource name)
+	enum:status
+	String:notification (this is the readable type of notification)	
+	Date:date
+	String:from (readable name of the originator)
+	String:body
+}
+
