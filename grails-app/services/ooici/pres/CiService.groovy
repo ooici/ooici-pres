@@ -7,7 +7,6 @@ import ion.resource.ResourceDO
 import ooici.pres.domain.DataResource
 import ooici.pres.domain.Spatial
 import ooici.pres.domain.Temporal
-import ion.resource.FindResourceDO
 import ooici.pres.domain.DataResourceDetail
 import ooici.pres.domain.Subscription
 import ooici.pres.domain.Notification
@@ -32,29 +31,39 @@ class CiService {
 	/**
 	 * Deletes a user's subscription
 	 * 
-	 * @param subscriptionId
-	 * @return
+	 * @param subscriptionId The subscription id to delete
+	 * @return Returns a status message
 	 */
 	String deleteSubscription(UUID subscriptionId) {
 
 		def status
 		
-	    // target resource_registry service
+	    // Target subscription registry service
 	    MessagingName instRegSvc = new MessagingName(SYSNAME, "subscription_registry")
 
-		ResourceDO subscriptionToDelete = new ResourceDO()
-	    // set props from passed dataResource
-	    newDataResource.mRegIdentity = subscriptionId
-		// make the service call to create a new data resource
-        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "delete_subscription", subscriptionToDelete)
+		// Establish command map
+		def commandMap = [
+				'subscriptionId': subscriptionId
+		]
 
-	    // get UUID of newly created dataResource
+		// Establish content map
+		def contentMap = ['commandMap': commandMap]
+
+		// Make the service call
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "delete_subscription", contentMap)
+
+	    // Extract status from message
         if (msgin.hasDataObject()) {
 
         	DataObject dobj = msgin.extractDataObject()
-	        if(dobj != null) {
-        	    status = (String)dobj.getAttribute("status").toString()
-	        }
+
+	        // TODO
+
+	        /*
+
+	        Transform message payload to status message
+
+	        */
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
@@ -63,37 +72,118 @@ class CiService {
 	}
 
 	/**
-	 * Updates notification status
+	 * Updates a user's notification
 	 *
-	 * @param notificationID
-	 * @return
+	 * @param notification The notification to update
+	 * @return Returns a status message
 	 */
-	String updateNotification(UUID notificationID) {
+	String updateNotification(Notification notification) {
 
-		return "status"
+		// set default status message
+		def status = null
+
+		// Target subscription registry service
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "notification_registry")
+
+		// Establish command map
+		def commandMap = [
+				'notificationId': notification.notificationId,
+				'datasetId': notification.dataResourceId,
+				'regarding': notification.deliveryChannelId,
+				'status': notification.subscriptionName,
+				'notification': notification.source,
+				'date': notification.subscriptionDate,
+				'from': notification.deliveryMode,
+				'body': notification.deliveryFrequency
+		]
+
+		// Establish content map
+		def contentMap = ['commandMap': commandMap]
+
+		// Make the service call
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "create_subscription", contentMap)
+
+		// Extract UUID from message
+        if (msgin.hasDataObject()) {
+
+        	DataObject dobj = msgin.extractDataObject()
+
+	        // TODO
+
+	        /*
+
+	        Transform message payload to UUID
+
+	        */
+
+        }
+
+        BootstrapIONService.baseProcess.ackMessage(msgin)
+
+		return status
 
 	}
 
 	/**
 	 * Returns current user's notifications
 	 *
-	 * @return
+	 * @param userId The user's id
+	 * @return Returns an Array of notifications
 	 */
-	Notification[] getUserNotifications() {
+	Notification[] getUserNotifications(UUID userId) {
 
+		def notifications = []
+
+		// Target notification registry service
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "notification_registry")
+
+		// Establish command map
+		def commandMap = [
+				'userId': userId
+		]
+
+		// Establish content map
+		def contentMap = ['commandInput': commandMap]
+
+		// Make the service call
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "get_userNotifications", contentMap)
+
+		// Extract DataResourceDetail from message
+        if (msgin.hasDataObject()) {
+
+        	DataObject dobj = msgin.extractDataObject()
+
+	        // not sure if we'll be getting back a List or Array
+        	List resList = (List) dobj.getAttribute("notifications")
+
+	        // TODO
+
+	        /*
+
+	        Transform message payload to Notification[]
+
+	        */
+        }
+
+        BootstrapIONService.baseProcess.ackMessage(msgin)
+
+		return notifications
+		
 	}
 
 	/**
 	 * Creates a new subscription for a user
 	 *
-	 * @return
+	 * @param subscription The subscription to create
+	 * @return Returns the UUID of the newly created subscription
 	 */
 	UUID createSubscription(Subscription subscription) {
 
 		// set default status message
 		UUID uuid = null
 
-		MessagingName instRegSvc = new MessagingName(SYSNAME, "download_registry")
+		// Target subscription registry service
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "subscription_registry")
 
 		// Establish command map
 		def commandMap = [
@@ -111,6 +201,7 @@ class CiService {
 		// Establish content map
 		def contentMap = ['commandMap': commandMap]
 
+		// Make the service call
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "create_subscription", contentMap)
 
 		// Extract UUID from message
@@ -118,9 +209,14 @@ class CiService {
 
         	DataObject dobj = msgin.extractDataObject()
 
-	        if(dobj != null) {
-		        uuid = (UUID) dobj.getAttribute("uuid")
-	        }
+	        // TODO
+
+	        /*
+
+	        Transform message payload to UUID
+
+	        */
+
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
@@ -132,23 +228,27 @@ class CiService {
 	/**
 	 * Returns current user's subscriptions
 	 *
-	 * @return
+	 * @return Returns an Array of subscriptions
 	 */
 	Subscription[] findUserSubscriptions() {
 
 		def subscriptions = []
 
+		// Target resource registry service
 		MessagingName instRegSvc = new MessagingName(SYSNAME, "resource_registry")
 
-		// establish maps
+		// Establish map
 		def commandMap = [
 				'userId': userId
 		]
 
+		// Establish content map
 		def contentMap = ['commandInput':commandMap]
 
+		// Make the service call
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "find_dataResources", contentMap)
 
+		// Extract Subscription[] from message
         if (msgin.hasDataObject()) {
 
         	DataObject dobj = msgin.extractDataObject()
@@ -156,15 +256,13 @@ class CiService {
 	        // not sure if we'll be getting back a List or Array
         	List resList = (List) dobj.getAttribute("subscriptions")
 
-	        if(resList != null) {
-				for (Iterator it = resList.iterator(); it.hasNext();) {
-					ResourceDO resobj = (ResourceDO) it.next()
-					dataResources << resobj
-				}
-            }
-	        else {
-		        println '\n***** RESOURCE LIST IS NULL'
-	        }
+	        // TODO
+
+	        /*
+
+	        Transform resList to subscriptions Array
+
+	        */
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
@@ -180,10 +278,11 @@ class CiService {
 	 */
 	def String createDownloadUrl(UUID dataResourceId) {
 
-		// set default status message
+		// Set default status message
 		def status = "error creating download URL"
 
-		MessagingName instRegSvc = new MessagingName(SYSNAME, "download_registry")
+		// Target resource registry service
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "resourc_registry")
 
 		// Establish command map
 		def commandMap = [
@@ -193,6 +292,7 @@ class CiService {
 		// Establish content map
 		def contentMap = ['commandMap': commandMap]
 
+		// Make the service call
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "create_downloadUrl", contentMap)
 
 		// Extract status from message
@@ -200,9 +300,13 @@ class CiService {
 
         	DataObject dobj = msgin.extractDataObject()
 
-	        if(dobj != null) {
-		        status = (String) dobj.getAttribute("status").toString()
-	        }
+	        // TODO
+	        
+	        /*
+	        
+	        Transform message payload to status
+
+	        */
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
@@ -211,14 +315,17 @@ class CiService {
 	}
 
 	/**
-	 * Returns current user's notifications
+	 * Returns current the Data resource detail of a data resource
 	 *
-	 * @return
+	 * @param dataResourceId The data resource id
+	 * @param detailType The detailType (SUMMARY, METADATA, VARIABLE_NAME, VARIABLE_EXTENTS, VISUALIZATIONS
+	 * @return Returns data detail of a data resource
 	 */
 	def DataResourceDetail getDataResourceDetail(UUID dataResourceId, String detailType) {
 
 		DataResourceDetail dataResourceDetail = null
 
+		// Target resource registry service
 		MessagingName instRegSvc = new MessagingName(SYSNAME, "resource_registry")
 
 		// Establish command map
@@ -230,16 +337,21 @@ class CiService {
 		// Establish content map
 		def contentMap = ['commandInput': commandMap]
 
+		// Make the service call
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "get_dataResourceDetail", contentMap)
 
 		// Extract DataResourceDetail from message
         if (msgin.hasDataObject()) {
-
+	        
         	DataObject dobj = msgin.extractDataObject()
 
-	        if(dobj != null) {
-		        dataResourceDetail = (DataResourceDetail) dobj.getAttribute("detail")
-	        }
+	        // TODO
+
+	        /*
+	        
+	        Transform message payload to DataResourceDetail
+
+	        */
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
@@ -250,13 +362,14 @@ class CiService {
 	/**
 	 * Creates a new data resource and publishes it into the OOI
 	 *
-	 * @param dataResource
-	 * @return unique id of new data resource
+	 * @param dataResource The data resource to be created
+	 * @return Returns the unique id of new data resource
 	 */
     def UUID createDataResource(DataResource dataResource) {
 
 	    UUID uuid = null
 
+	    // Target resource registry service
 		MessagingName instRegSvc = new MessagingName(SYSNAME, "resource_registry")
 
 	    // Establish command map
@@ -289,6 +402,7 @@ class CiService {
 	    // Establish content map
 		def contentMap = ['commandInput': commandMap]
 
+	    // Make the service call
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "create_dataResource", contentMap)
 
 	    // Extract UUID from message
@@ -296,9 +410,13 @@ class CiService {
 
         	DataObject dobj = msgin.extractDataObject()
 
-	        if(dobj != null) {
-		        uuid = (UUID) dobj.getAttribute("uuid")
-	        }
+	        // TODO
+
+	        /*
+
+	        Transform message payload to UUID
+
+	        */
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
@@ -310,13 +428,14 @@ class CiService {
 	/**
 	 * Updates metadata related to a data resource
 	 * 
-	 * @param dataResource
-	 * @return
+	 * @param dataResource The data resource to update
+	 * @return Returns a status message
 	 */
 	def String updateDataResource(DataResource dataResource) {
 
 		def status = null
 
+		// Target resource registry service
 		MessagingName instRegSvc = new MessagingName(SYSNAME, "resource_registry")
 
 		// Establish command map
@@ -349,18 +468,22 @@ class CiService {
 		// Establish content map
 		def contentMap = ['commandInput': commandMap]
 
+		// Make the service call
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "update_dataResource", contentMap)
 
 		// Extract status from message
         if (msgin.hasDataObject()) {
 
         	DataObject dobj = msgin.extractDataObject()
-	        // not sure if we'll be getting back a List or Array
-        	status = (String) dobj.getAttribute("status").toString()
 
-	        if(status == null || status == '') {
-				status = 'no status returned from updateDataResource'
-            }
+	        // TODO
+
+	        /*
+
+	        Transform message payload to status message
+
+	        */
+
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
@@ -373,7 +496,7 @@ class CiService {
 	 * Deletes a data resource
 	 *
 	 * @param dataResourceId The id of the data resource to delete
-	 * @return returns the status of the delete operation
+	 * @return Returns the status of the delete operation
 	 */
 	def String deleteDataResource(UUID dataResourceId) {
 
@@ -388,7 +511,7 @@ class CiService {
 		// Establish content map
 		def contentMap = ['commandInput': commandMap]
 
-		// make the service call to delete a data resource
+		// Make the service call
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "delete_dataResource", contentMap)
 
 		// Extract status from message
@@ -396,9 +519,13 @@ class CiService {
 
         	DataObject dobj = msgin.extractDataObject()
 
-	        if(dobj != null) {
-				status = dobj.getAttribute("status").toString()
-            }
+	        // TODO
+
+	        /*
+
+	        Transform message payload to status message
+	        
+	        */
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
@@ -420,9 +547,10 @@ class CiService {
 
 	    def dataResources = []
 
+		// Target resource registry service
 		MessagingName instRegSvc = new MessagingName(SYSNAME, "resource_registry")
 
-		// establish maps
+		// Establish command map
 		def commandMap = [
 				'userId': userId,
 				'published': published,
@@ -430,26 +558,25 @@ class CiService {
 				'temporal', temporal
 		]
 
+		// Establish content map
 		def contentMap = ['commandInput':commandMap]
 
+		// Make the service call
         IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "find_dataResources", contentMap)
 
+		// Extract DataResource[] from message
         if (msgin.hasDataObject()) {
 
         	DataObject dobj = msgin.extractDataObject()
 	        
-	        // not sure if we'll be getting back a List or Array
-        	List resList = (List) dobj.getAttribute("resources")
+	        // TODO
 
-	        if(resList != null) {
-				for (Iterator it = resList.iterator(); it.hasNext();) {
-					ResourceDO resobj = (ResourceDO) it.next()
-					dataResources << resobj
-				}
-            }
-	        else {
-		        println '\n***** RESOURCE LIST IS NULL'
-	        }
+	        /*
+
+	        Transform message payload to DataResource[]
+	        
+	        */
+
         }
 
         BootstrapIONService.baseProcess.ackMessage(msgin)
