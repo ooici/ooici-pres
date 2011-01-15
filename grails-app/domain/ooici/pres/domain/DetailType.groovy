@@ -2,6 +2,8 @@ package ooici.pres.domain
 
 /**
  * @author Stephen Pasco
+ *
+ * Detail types
  */
 public enum DetailType {
 

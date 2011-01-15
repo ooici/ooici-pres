@@ -2,6 +2,8 @@ package ooici.pres.domain
 
 /**
  * @author Stephen Pasco
+ *
+ * Status types
  */
 public enum Status {
 
@@ -13,6 +15,10 @@ public enum Status {
 
 	Status(String value) {
 		this.value = value
+	}
+
+	def setStatus(String value) {
+    	this.value = value
 	}
 
 	String getValue() {

@@ -4,6 +4,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder
 
 /**
  * @author Stephen Pasco
+ *
+ * An OOI user's role
  */
 class UserRole implements Serializable {
 

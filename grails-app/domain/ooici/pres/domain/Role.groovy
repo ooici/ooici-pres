@@ -2,6 +2,8 @@ package ooici.pres.domain
 
 /**
  * @author Stephen Pasco
+ *
+ * A user's role
  */
 class Role {
 

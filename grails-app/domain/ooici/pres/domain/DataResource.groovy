@@ -2,11 +2,14 @@ package ooici.pres.domain
 
 /**
  * @author Stephen Pasco
+ *
+ * An OOI resource
  */
 class DataResource {
 
 	UUID dataResourceId
-	Published published
+	// published values are: "yes" and "no"
+	String published
 	String provider
 	String format
 	String protocol

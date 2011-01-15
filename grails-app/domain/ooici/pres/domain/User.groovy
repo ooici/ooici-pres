@@ -2,6 +2,8 @@ package ooici.pres.domain
 
 /**
  * @author Stephen Pasco
+ *
+ * An OOI user
  */
 class User {
 

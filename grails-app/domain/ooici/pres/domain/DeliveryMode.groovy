@@ -2,6 +2,8 @@ package ooici.pres.domain
 
 /**
  * @author Stephen Pasco
+ *
+ * Delivery modes
  */
 public enum DeliveryMode {
 
