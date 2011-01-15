@@ -7,13 +7,10 @@ import ion.resource.ResourceDO
 import ooici.pres.domain.DataResource
 import ooici.pres.domain.Spatial
 import ooici.pres.domain.Temporal
-import ooici.pres.domain.Published
 import ion.resource.FindResourceDO
 import ooici.pres.domain.DataResourceDetail
-import ooici.pres.domain.DetailType
 import ooici.pres.domain.Subscription
 import ooici.pres.domain.Notification
-import ooici.pres.domain.Status
 
 /**
  * CiService
@@ -38,8 +35,31 @@ class CiService {
 	 * @param subscriptionId
 	 * @return
 	 */
-	Status deleteSubscription(UUID subscriptionId) {
+	String deleteSubscription(UUID subscriptionId) {
 
+		def status
+		
+	    // target resource_registry service
+	    MessagingName instRegSvc = new MessagingName(SYSNAME, "subscription_registry")
+
+		ResourceDO subscriptionToDelete = new ResourceDO()
+	    // set props from passed dataResource
+	    newDataResource.mRegIdentity = subscriptionId
+		// make the service call to create a new data resource
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "delete_subscription", subscriptionToDelete)
+
+	    // get UUID of newly created dataResource
+        if (msgin.hasDataObject()) {
+
+        	DataObject dobj = msgin.extractDataObject()
+	        if(dobj != null) {
+        	    status = (String)dobj.getAttribute("status").toString()
+	        }
+        }
+
+        BootstrapIONService.baseProcess.ackMessage(msgin)
+
+	    return status
 	}
 
 	/**
@@ -48,7 +68,9 @@ class CiService {
 	 * @param notificationID
 	 * @return
 	 */
-	Status updateNotification(UUID notificationID) {
+	String updateNotification(UUID notificationID) {
+
+		return "status"
 
 	}
 
@@ -94,7 +116,7 @@ class CiService {
 	 *
 	 * @return
 	 */
-	def DataResourceDetail getDataResourceDetail(UUID dataResourceId, DetailType detailType) {
+	def DataResourceDetail getDataResourceDetail(UUID dataResourceId, String detailType) {
 		
 	}
 
@@ -140,7 +162,59 @@ class CiService {
 	 * @param dataResource
 	 * @return
 	 */
-	def Status updateDataResource(DataResource dataResource) {
+	def String updateDataResource(DataResource dataResource) {
+
+		def status = null
+
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "resource_registry")
+
+		// Create and package the resourceDO with the query payload
+		ResourceDO updatedResourceDO = new ResourceDO()
+
+		def updatedDataResourceMap = [
+				'dataResourceId':dataResource.dataResourceId,
+				'published':dataResource.published,
+				'provider':dataResource.provider,
+				'format':dataResource.format,
+				'protocol':dataResource.protocol,
+				'type':dataResource.type,
+				'title':dataResource.title,
+				'dataFormat':dataResource.dataFormat,
+				'dataType':dataResource.dataType,
+				'namingAuhority':dataResource.namingAuthority,
+				'summary':dataResource.summary,
+				'publisherInstitution':dataResource.publisherInstitution,
+				'publisherName':dataResource.publisherName,
+				'publisherEmail':dataResource.publisherEmail,
+				'publisherWebsite':dataResource.publisherWebsite,
+				'creatorInstitution':dataResource.creatorInstitution,
+				'creatorName':dataResource.creatorName,
+				'creatorEmail':dataResource.creatorEmail,
+				'openDAP':dataResource.openDAP,
+				'wcs':dataResource.wcs,
+				'ncml':dataResource.ncml,
+				'uddc':dataResource.uddc,
+				'iso':dataResource.iso
+		]
+		
+		def contentMap = ['dataResourceInput': updatedDataResourceMap]		
+
+        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "update_dataResource", contentMap)
+
+        if (msgin.hasDataObject()) {
+
+        	DataObject dobj = msgin.extractDataObject()
+	        // not sure if we'll be getting back a List or Array
+        	status = (String) dobj.getAttribute("status")
+
+	        if(status == null) {
+				status = 'status returned was null from updateDataResource'
+            }
+        }
+
+        BootstrapIONService.baseProcess.ackMessage(msgin)
+
+		return status
 		
 	}
 
@@ -150,7 +224,7 @@ class CiService {
 	 * @param dataResourceId The id of the data resource to delete
 	 * @return returns the status of the delete operation
 	 */
-	def Status deleteDataResource(UUID dataResourceId) {
+	def String deleteDataResource(UUID dataResourceId) {
 
 		def status = 'no status returned when deleting a data resource'
 
@@ -166,7 +240,7 @@ class CiService {
         	DataObject dobj = msgin.extractDataObject()
 
 	        if(dobj != null) {
-				status = dobj.getAttribute("status")
+				status = dobj.getAttribute("status").toString()
             }
         }
 
@@ -180,12 +254,12 @@ class CiService {
 	 * Finds data resources given a user's id, publish status, spatial extent properties and temporal extent properties 
 	 *
 	 * @param userId The user making this request
-	 * @param published A user can search for published and non-published dataResources
+	 * @param published A user can search for published and non-published dataResources: possible values are: "yes" and "no"
 	 * @param spatial A user can search by spatial extent 
 	 * @param temporal A user can search by temporal extent
 	 * @return Returns a list of dataResources that match the specified parameters
 	 */
-	def DataResource[] findDataResources(UUID userId, Published published, Spatial spatial, Temporal temporal) {
+	def DataResource[] findDataResources(UUID userId, String published, Spatial spatial, Temporal temporal) {
 
 	    def dataResources = []
 
