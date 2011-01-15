@@ -107,7 +107,7 @@ Viewer {
 
 DataResourceDetail {
 	UUID:dataResourceId
-	enum:detailType (one of SUMMARY, METADATA, VARIABLE_NAME, VARIABLE_EXTENTS, VISUALIZATIONS)
+	String:detailType (one of SUMMARY, METADATA, VARIABLE_NAME, VARIABLE_EXTENTS, VISUALIZATIONS)
 	String:body (structured body content)
 }
 
@@ -117,9 +117,9 @@ Subscription {
 	String:subscriptionName
 	String:source (the dataResource name)
 	Date:subscriptionDate (when you signed up)
-	enum:deliveryMode (one of INSTANT, DIGEST)
+	String:deliveryMode (one of INSTANT, DIGEST)
 	int:deliveryFrequency
-	enum:deliveryChannel (one of WEBUI, DISPATCHER, later EMAIL, RSS)
+	String:deliveryChannel (one of WEBUI, DISPATCHER, later EMAIL, RSS)
 	UUID:deliveryChannelId (id of the actual target, such as the dispatcher process id)
 }
 
@@ -127,7 +127,7 @@ Notification {
 	UUID:notificationId
 	UUID:datasetId
 	String:regarding (this is the dataResource name)
-	enum:status
+	String:status (data changes, meta-data changes and change of state (error, offline, all zeros, others)
 	String:notification (this is the readable type of notification)	
 	Date:date
 	String:from (readable name of the originator)
