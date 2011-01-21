@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>OOICI UX TEMPLATE</title>
+	<link rel="stylesheet" type="text/css" href="../../../css/reset.css" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="../../../css/text.css" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="../../../css/grid.css" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="../../../css/layout.css" media="screen"/>
+	<link rel="stylesheet" href="../../../css/sunny/jquery-ui-1.8.8.custom.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../../../css/ui.jqgrid.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../../../css/ui.multiselect.css" type="text/css" media="all"/>
+
+	
+    <!--[if IE 6]>
+	<link rel="stylesheet" type="text/css" href="../../../css/ie6.css" media="screen"/><![endif]-->
+	<!--[if IE 7]>
+	<link rel="stylesheet" type="text/css" href="../../../css/ie.css" media="screen"/><![endif]-->
+	<script src="../../../js/jquery-1.4.4.min.js" type="text/javascript"></script>
+	<script src="../../../js/jquery-ui-1.8.8.custom.min.js" type="text/javascript"></script>    
+	<script src="../../../js/jquery.layout.js" type="text/javascript"></script>
+    <script src="../../../js/grid.locale-en.js" type="text/javascript"></script>
+    <script src="../../../js/ui.multiselect.js" type="text/javascript"></script>
+    <script src="../../../js/jquery.jqGrid.min.js" type="text/javascript"></script>
+    <script src="../../../js/tablednd.js" type="text/javascript"></script>
+    <script src="../../../js/jquery.contextmenu.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	
+	jQuery(document).ready(function() {
+	
+		jQuery("#list3").jqGrid({
+				datatype: "local",
+				   	autowidth: true,
+
+				height: 150,
+				colNames:['Title','Provider', 'Format', 'Type'],
+				colModel:[
+					{name:'title',index:'title', width:264, sorttype:"string"},
+					{name:'provider',index:'provider', width:50, sorttype:"string"},
+					{name:'format',index:'format', width:50, sorttype:"string"},
+					{name:'type',index:'type', width:50, align:"right",sorttype:"string"}		
+				],
+				rowNum:30,
+				rowList:[10,20,30],
+				pager:jQuery('#pager3'),
+				multiselect: true,
+				sortname:'title',
+				sortorder:'desc',
+				loadonce:true,
+				viewrecords:true,
+				caption: "Data Resources"
+		}).navGrid('#pager3',{edit:false,add:false,del:false});
+		
+		var mydata = [
+			{title:"Argo float data from the PMEL DAPPER Server",provider:"NOAA PMEL",format:"GRIB-1",type:"GRID"},
+			{title:"COADS Surface Marine Observations, Release 2, 1854-1993",provider:"NOAA, NCAR",format:"NIDS",type:"Radial"},
+			{title:"CalCOFI Data Report Data",provider:"CalCOFI",format:"",type:"GRID"},
+			{title:"CalCOIF Fish Larvae Count",provider:"CalCOFI",format:"GINI",type:"GRID"}
+		];
+		
+		for(var i=0;i<=mydata.length;i++)
+			jQuery("#list3").jqGrid('addRowData',i+1,mydata[i]);
+			
+	});
+
+	</script>
+
+<body>
+<div class="container_16">
+	<div class="grid_16">
+		<h1 id="branding">CI UX</h1>
+	</div>
+	<div class="clear"></div>
+	<div class="grid_16">
+		<h2 id="page-heading">UX Template</h2>
+	</div>
+	<div class="clear"></div>
+	<div class="grid_5">
+		<div class="box articles">
+			<div class="block" id="articles">
+				<div class="first article">
+                	<div id="resourceContainer">
+                        <h4>Resource Selector</h4>
+                        <span id="icons" class="ui-widget resourceIconDropdown">
+                            <button class="ui-state-default ui-corner-all" title=".ui-icon-minus">
+                                <span class="ui-icon ui-icon-circle-triangle-s"></span>
+                            </button>
+                        </span>
+                        <div id="table">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <th><input name="AllPublishedResources" type="radio"/>
+                                    </th>
+                                    <td>All Published Resources</td>
+                                    <td><input name="AllSubscriptions" type="radio"/></td>
+                                    <td>My Subscriptions</td>
+                                </tr>
+                                <tr>
+                                    <th><input name="MyPublishedResources" type="radio"/>
+                                    </th>
+                                    <td>My Published Resources</td>
+                                    <th><input name="MyNotifications" type="radio"/>
+                                    </th>
+                                    <td>My Notifications</td>
+                                </tr>
+                                <tr>
+                                    <th><input name="RunningEPUs" type="radio"/>
+                                    </th>
+                                    <td>Running EPUs</td>
+                                    <th><input name="RegisteredUsers" type="radio"/>
+                                    </th>
+                                    <td>Registered Users</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				</div>
+				<div class="article">
+					<div id="geospatialContainer"> 
+                    	<h4>Geospatial Extent</h4>
+                        <span id="icons" class="ui-widget geoIconDropdown">
+                            <button class="ui-state-default ui-corner-all" title=".ui-icon-minus">
+                                <span class="ui-icon ui-icon-circle-triangle-s"></span>
+                            </button>
+                        </span>
+                        <span class="BoundingBoxControls"><strong>Bounding Box:</strong> All
+                        <input name="BoundingAll" type="radio"/>
+                        Defined
+                        <input name="BoundingDefined" type="radio"/>
+                        </span> <span class="AltitudeControls"><strong>Altitude:</strong> All
+                        <input name="AltitudeAll" type="radio"/>
+                        Defined
+                        <input name="AltitudeDefined" type="radio"/>
+                        </span> <span class="BoundingBoxText">Bounding Box<br/>
+                        (Decimal Degrees)</span> 
+                        <span class="Ntext">N</span>
+                        <input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+                        <span class="Stext">S</span>
+                        <input class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+                        <span class="Etext">E</span>
+                        <input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+                        <span class="Wtext">W</span>
+                        <input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+                        <span class="altText">Altitude<br/>
+                        (Feet MSL)</span> <span class="altitudeUpper">Upper Bound:
+                        <input class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+                        </span> <span class="altitudeLower">Lower Bound:
+                        <input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+                        </span> <span class="NSEWBackgroundBorder"></span>
+                    </div>
+				</div>
+				<div class="article">
+					<h4>Temporal Extent</h4>
+					<p class="meta">coming...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid_6">
+		<div class="box articles">
+			<div class="block" id="articles">
+				<div class="first article">
+					<div id="filterContainer">
+						<h4>Filter</h4>
+                        <span id="icons" class="ui-widget filterIconDropdown">
+                            <button class="ui-state-default ui-corner-all" title=".ui-icon-minus">
+                                <span class="ui-icon ui-icon-circle-triangle-s"></span>
+                            </button>
+                        </span>
+						<span class="filterDisplayControls">Text | None</span> <span>Text</span>
+						<select>
+							<option value="any">Any Field</option>
+						</select>
+						<select>
+							<option value="contains">Contains</option>
+						</select>
+						<input class="filterTextfield" type="text"/>
+                        <span id="icons" class="ui-widget">
+                            <button class="ui-state-default ui-corner-all" title=".ui-icon-plus">
+	                            <span class="ui-icon ui-icon-plus"></span>
+                            </button>
+                            <button class="ui-state-default ui-corner-all" title=".ui-icon-minus">
+	                            <span class="ui-icon ui-icon-minus"></span>
+                            </button>
+                        </span>
+					</div>
+				</div>
+				<div class="article">
+                	<div id="OOIResourcesContainer">
+                        <h4>OOI Resources</h4>
+    					<span id="icons" class="ui-widget OOIResourcesIconDropdown">
+                            <button class="ui-state-default ui-corner-all" title=".ui-icon-minus">
+                                <span class="ui-icon ui-icon-circle-triangle-s"></span>
+                            </button>                            
+                        </span>	
+                        <table id="list3"></table>
+                        <div id="pager3"></div>
+                    </div
+				></div>
+			</div>
+		</div>
+	</div>
+	<div class="grid_5">
+		<div class="box articles">
+			<div class="block" id="articles">
+				<div class="first article">
+					<h3>[Resource Title]</h3>
+
+					<p class="meta">coming...</p>
+				</div>
+				<div class="article">
+					<h3><a href="#">Publisher Information</a></h3>
+
+					<p class="meta">coming...</p>
+				</div>
+				<div class="article">
+					<h3><a href="#">Creator Information</a></h3>
+
+					<p class="meta">coming...</p>
+				</div>
+				<div class="article">
+					<h3><a href="#">Documentation</a></h3>
+
+					<p class="meta">coming...</p>
+				</div>
+				<div class="article">
+					<h3><a href="#">Variables</a></h3>
+
+					<p class="meta">coming...</p>
+				</div>
+				<div class="article">
+					<h3><a href="#">Access</a></h3>
+
+					<p class="meta">coming...</p>
+				</div>
+				<div class="article">
+					<h3><a href="#">Viewers</a></h3>
+
+					<p class="meta">coming...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="grid_16" id="site_info">
+		<div class="box">
+			<p>FOOTER</p>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div> 
+</body>
+</html>
