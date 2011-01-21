@@ -34,7 +34,7 @@ class CiService {
 	 * @param subscriptionId The subscription id to delete
 	 * @return Returns a status message
 	 */
-	String deleteSubscription(UUID subscriptionId) {
+	def String deleteSubscription(UUID subscriptionId) {
 
 		def status
 		
@@ -77,7 +77,7 @@ class CiService {
 	 * @param notification The notification to update
 	 * @return Returns a status message
 	 */
-	String updateNotification(Notification notification) {
+	def String updateNotification(Notification notification) {
 
 		// set default status message
 		def status = null
@@ -130,7 +130,7 @@ class CiService {
 	 * @param userId The user's id
 	 * @return Returns an Array of notifications
 	 */
-	Notification[] getUserNotifications(UUID userId) {
+	def Notification[] getUserNotifications(UUID userId) {
 
 		def notifications = []
 
@@ -177,7 +177,7 @@ class CiService {
 	 * @param subscription The subscription to create
 	 * @return Returns the UUID of the newly created subscription
 	 */
-	UUID createSubscription(Subscription subscription) {
+	def UUID createSubscription(Subscription subscription) {
 
 		// set default status message
 		UUID uuid = null
@@ -230,7 +230,7 @@ class CiService {
 	 *
 	 * @return Returns an Array of subscriptions
 	 */
-	Subscription[] findUserSubscriptions() {
+	def Subscription[] findUserSubscriptions() {
 
 		def subscriptions = []
 
