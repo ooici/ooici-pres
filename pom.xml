@@ -102,26 +102,26 @@
 			<version>1.2</version>
 		</dependency>
 
-		<dependency>
-			<artifactId>cilogon-portal</artifactId>
-			<groupId>org.cilogon</groupId>
-			<version>1.0</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<artifactId>cilogon-portal</artifactId>-->
+			<!--<groupId>org.cilogon</groupId>-->
+			<!--<version>1.0</version>-->
+		<!--</dependency>-->
 
-		<dependency>
-			<artifactId>cilogon-common</artifactId>
-			<groupId>org.cilogon</groupId>
-			<version>1.0</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<artifactId>cilogon-common</artifactId>-->
+			<!--<groupId>org.cilogon</groupId>-->
+			<!--<version>1.0</version>-->
+		<!--</dependency>-->
 	</dependencies>
 
 	<repositories>
 		<!-- Required to get hold of JTA -->
-		<repository>
-			<id>CILogon</id>
-			<name>CILogon Repository</name>
-			<url>http://cilogon.svn.sourceforge.net/svnroot/cilogon/m2-repo</url>
-		</repository>
+		<!--<repository>-->
+			<!--<id>CILogon</id>-->
+			<!--<name>CILogon Repository</name>-->
+			<!--<url>http://cilogon.svn.sourceforge.net/svnroot/cilogon/m2-repo/</url>-->
+		<!--</repository>-->
 
 		<repository>
 			<id>jboss.org</id>
