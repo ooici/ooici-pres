@@ -7,7 +7,7 @@ package ooici.pres.domain
  */
 class DataResource {
 
-	UUID dataResourceId
+	int dataResourceId
 	// published values are: "yes" and "no"
 	String published
 	String provider

@@ -7,10 +7,10 @@ package ooici.pres.domain
  */
 class Subscription {
 
-	UUID subscriptionId
-	UUID dataResourceId
+	int subscriptionId
+	int dataResourceId
 	// id of actual target, such as the dispatcher process id
-	UUID deliveryChannelId
+	int deliveryChannelId
 	String subscriptionName
 	// the dataResource name
 	String source

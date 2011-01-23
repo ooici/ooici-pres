@@ -7,7 +7,7 @@ package ooici.pres.domain
  */
 class DataResourceDetail {
 
-	UUID dataResourceId
+	int dataResourceId
 	// DetailTypes include: summary, metadata, variableName, variableExtents, visualizations
 	String detailType
 	String body // structured body content

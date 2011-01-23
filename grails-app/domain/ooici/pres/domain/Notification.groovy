@@ -7,13 +7,13 @@ package ooici.pres.domain
  */
 class Notification {
 
-	UUID notificationId
-	UUID datasetId
+	int notificationId
+	int datasetId
 	String regarding // dataResource name
-	Enum status
+	String status
 	String notification // this is the readable type of notification
 	Date date
-	String from // readable name of the originator
+	String source // readable name of the originator
 	String body
 
     static constraints = {
