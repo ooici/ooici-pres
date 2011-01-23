@@ -555,7 +555,7 @@ class CiService {
 				'userId': userId,
 				'published': published,
 				'spatial': spatial,
-				'temporal', temporal
+				'temporal': temporal
 		]
 
 		// Establish content map
