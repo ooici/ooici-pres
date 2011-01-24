@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:a="ncsa:cilogon.org,2010:/1.0/configuration/" xmlns:b="ncsa:cilogon.org,2010:/1.0/configuration/portal/" xmlns:c="ncsa:cilogon.org,2010:/1.0/configuration/portal#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+  <rdf:Description rdf:about="ncsa:cilogon.org,2010:1a07837478a80ace1ce8bd54bfe4e42">
+    <rdf:type rdf:resource="ncsa:cilogon.org,2010:/1.0/configuration/root/"/>
+    <rdfs:label>default</rdfs:label>
+    <a:hasStore>
+      <rdf:Description rdf:about="ncsa:cilogon.org,2010:14923e889d2af420d674b3f5c6382128">
+        <rdf:type rdf:resource="ncsa:cilogon.org,2010:/1.0/configuration/memory/"/>
+      </rdf:Description>
+    </a:hasStore>
+    <b:hasPortalParameters>
+      <rdf:Description rdf:about="ncsa:cilogon.org,2010:d7011c607c4ad4454cc2acdf637ebfa">
+        <rdf:type rdf:resource="ncsa:cilogon.org,2010:/1.0/configuration/portal/"/>
+        <c:callbackUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres/ReadyServlet"/>
+        <c:failureUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres/FailureServlet"/>
+        <c:portalName>Sample Java delegation portal</c:portalName>
+        <c:portalSkin/>
+        <c:successUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres/SuccessServlet"/>
+      </rdf:Description>
+    </b:hasPortalParameters>
+  </rdf:Description>
+</rdf:RDF>
