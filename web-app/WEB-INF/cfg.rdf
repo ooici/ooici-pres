@@ -11,11 +11,11 @@
     <b:hasPortalParameters>
       <rdf:Description rdf:about="ncsa:cilogon.org,2010:d7011c607c4ad4454cc2acdf637ebfa">
         <rdf:type rdf:resource="ncsa:cilogon.org,2010:/1.0/configuration/portal/"/>
-        <c:callbackUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres/ReadyServlet"/>
-        <c:failureUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres/FailureServlet"/>
+        <c:callbackUri rdf:resource="https://spasco.ucsd.edu:8443/ReadyServlet"/>
+        <c:failureUri rdf:resource="https://spasco.ucsd.edu:8443/FailureServlet"/>
         <c:portalName>Sample Java delegation portal</c:portalName>
         <c:portalSkin/>
-        <c:successUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres/SuccessServlet"/>
+        <c:successUri rdf:resource="https://spasco.ucsd.edu:8443/SuccessServlet"/>
       </rdf:Description>
     </b:hasPortalParameters>
   </rdf:Description>
