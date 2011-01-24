@@ -35,6 +35,35 @@ Visit: http://localhost:8080/
 
 - You'll be prompted to login. The un/pwd is admin/admin
 
+CILOGON
+========
+All CILogon Servlets:
+src > java > cilogon > ConfigConstants
+src > java > cilogon > FailureServlet
+src > java > cilogon > PortalAbstractServlet
+src > java > cilogon > ReadyServlet
+src > java > cilogon > SuccessServlet
+src > java > cilogon > WelcomeServlet
+
+All CILogon JSPs:
+grails-app > views > index.jsp
+grails-app > views > setup.jsp
+grails-app > views > setupBasic.jsp
+grails-app > views > setupDone.jsp
+grails-app > views > setupErrorPage.jsp
+grails-app > views > setupFileStore.jsp
+grails-app > views > setupPostresStore.jsp
+grails-app > views > setupStorageAdmin.jsp
+
+CILogon config:
+web-app > WEB-INF > WEB-INF > cfg.rdf
+
+Running Grails with CILogon:
+- grails run-app --https
+
+CILogon Start URL:
+- http://localhost:8080/WelcomeServlet
+
 HELP
 ========
 
