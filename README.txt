@@ -62,18 +62,18 @@ of the deployed runtime environment. The URL paths are currently set for use w/i
 environment and need not change. If deploying to Tomcat (in a production environment), you
 may need to adjust the URL path if the project name is part of the path.
 
-For example:
+- For example:
 
 Production: http://localhost:8443/ooici-pres/WelcomeServlet
 Development: http://localhost:8443/WelcomeServlet
 
 - Note above, the addition of "ooici-pres" to the production URL.
 
-Running Grails with CILogon:
-- grails run-app --https
+- Running Grails with CILogon:
+grails run-app --https
 
-CILogon Start URL:
-- http://localhost:8080/WelcomeServlet
+- CILogon Start URL:
+http://localhost:8080/WelcomeServlet
 
 HELP
 ========
