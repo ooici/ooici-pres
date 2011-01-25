@@ -20,8 +20,12 @@ SETUP
 
 twistd -n magnet -a sysname=spasco res/scripts/javalca.py
 
-- This last step starts up the needed lcaarch services used by this project.
+- This step starts up the needed lcaarch services used by this project.
 - 'sysname' could be any name.
+
+4. Grails requires that you set the ion.username. Modify the grails-app/conf/Config.groovy file's
+ion.username value with your username. This username gets set within the LcademoService and CiService
+classes.
 
 
 Running
