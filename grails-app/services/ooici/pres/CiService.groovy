@@ -10,6 +10,8 @@ import ooici.pres.domain.Temporal
 import ooici.pres.domain.DataResourceDetail
 import ooici.pres.domain.Subscription
 import ooici.pres.domain.Notification
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
 
 /**
  * CiService
@@ -26,7 +28,7 @@ class CiService {
 
 	def BootstrapIONService
 
-	def SYSNAME = System.getProperty("ioncore.sysname","spasco");
+	def SYSNAME = System.getProperty("ioncore.sysname", ConfigurationHolder.config.ion.username);
 
 	/**
 	 * Deletes a user's subscription

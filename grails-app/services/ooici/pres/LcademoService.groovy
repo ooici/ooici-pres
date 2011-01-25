@@ -7,6 +7,7 @@ import ion.core.messaging.IonMessage
 import ion.core.data.DataObject
 import ion.resource.ResourceDO
 import ion.resource.DataProductRDO
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class LcademoService {
 
@@ -14,7 +15,7 @@ class LcademoService {
 
 	def BootstrapIONService
 
-	def SYSNAME = System.getProperty("ioncore.sysname","Bill");
+	def SYSNAME = System.getProperty("ioncore.sysname", ConfigurationHolder.config.ion.username);
 
     def List listAllInstruments() {
 
