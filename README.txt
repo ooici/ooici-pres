@@ -77,7 +77,25 @@ Development: http://localhost:8443/WelcomeServlet
 grails run-app --https
 
 - CILogon Start URL:
-http://localhost:8080/WelcomeServlet
+http://yourusername.ucsd.edu:8443/WelcomeServlet
+
+- Deploy Grails WAR to Tomcat:
+grails war /Users/spasco/apps/apache-tomcat-6.0.29/webapps/ooici-pres.war
+
+* Remember, deploying to the Tomcat webapps dir requires, by default, you reference the web-app name w/in the URL.
+For example, http://spasco.ucsd.edu:8443/ooici-pres/WelcomeServlet. If you don't want "ooici-pres" in the URI, then deploy
+the ooici-pres app as:
+
+grails war /Users/spasco/apps/apache-tomcat-6.0.29/webapps/ROOT.war
+
+This will allow you to hit the ooici-pres project with the URL:
+
+http://spasco.ucsd.edu:8443/WelcomeServlet
+
+When deploying a Grails application, typically any Java-based web application, to a production environment, Apache is
+usually used to handle all HTTP requests. Requests destined for Grails are then dispatched, by Apache, to
+Tomcat. Images, CSS and Javascript can be loaded by Apache for better performance.
+
 
 HELP
 ========
