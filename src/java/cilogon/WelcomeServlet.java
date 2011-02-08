@@ -9,6 +9,7 @@ import java.io.PrintWriter;
  * on Aug 11, 2010 at  10:15:29 AM
  */
 public class WelcomeServlet extends PortalAbstractServlet {
+	
     protected void doIt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Throwable {
         PrintWriter writer = httpServletResponse.getWriter();
         httpServletResponse.setContentType("text/html");

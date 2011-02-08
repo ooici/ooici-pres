@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>OOICI - Template</title>
+<!-- Add your meta data here -->
+<link rel="stylesheet" href="css/hot-sneaks/jquery-ui-1.8.9.custom.css" type="text/css" media="all"/>
+<link href="css/layout_1-2-3.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 7]>
+<link href="css/patch_1-2-3.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script src="js/jquery-ui-1.8.8.custom.min.js" type="text/javascript"></script>    
+
+<script>
+	$(document).ready(function() {
+		$( "#accordion1" ).accordion({
+			autoHeight: true,
+			navigation: true,
+			fillSpace: true
+		});	
+		$("#accordion2").accordion({
+			clearStyle: true,
+			autoHeight: true,
+			navigation: true,
+			fillSpace: true
+		});	
+		$("#accordion3").accordion({
+			clearStyle: true,
+			autoHeight: true,
+			navigation: true,
+			fillSpace: true
+		});
+		$('.accordion .head').click(function() {
+			$(this).next().toggle();
+				return false;
+		}).next().hide();
+		
+		$("#notaccordion").addClass("ui-accordion ui-widget ui-helper-reset")
+		.find("h3")
+			.addClass("ui-accordion-header ui-helper-reset ui-state-default ui-corner-top ui-corner-bottom")
+			.click(function() {
+				$(this).toggleClass("ui-accordion-header-active").toggleClass("ui-state-active")
+					.toggleClass("ui-state-default").toggleClass("ui-corner-bottom")
+				.find("> .ui-icon").toggleClass("ui-icon-triangle-1-e").toggleClass("ui-icon-triangle-1-s")
+				.end().next().toggleClass("ui-accordion-content-active").toggle();
+				return false;
+			})
+			.next().addClass("ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom").hide();	
+	});
+	</script>
+
+</head>
+<body>
+
+<div class="page_margins">
+  <div class="page">
+    <div id="header" role="banner">
+      <div id="topnav" role="contentinfo">
+        <span><a href="#">Logout</a> | <a href="#">About Us</a> | <a href="#">Contact</a></span>
+      </div>
+      <h1>OOICI</h1>
+      <span>Template</span>
+    </div>
+
+    <!-- begin: main content area #main -->
+    <div id="main">
+      <!-- begin: #col1 - first float column -->
+      <div id="col1" role="complementary">
+        <div id="col1_content" class="clearfix">
+
+			<div id="notaccordion">
+
+				<h3><a href="#">Resource Selector</a></h3>
+				<div>
+					<p>
+					Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+					ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+					amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+					odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+					</p>
+				</div>
+				<h3><a href="#">Geospatial Extent</a></h3>
+				<div>
+					<p>
+					Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+					purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+					velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+					suscipit faucibus urna.
+					</p>
+				</div>
+				<h3><a href="#">Temporal Extent</a></h3>
+				<div>
+					<p>
+					Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+					Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+					ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+					lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+					</p>
+				</div>
+			</div>
+
+        </div>
+      </div>
+      <!-- end: #col1 -->
+
+      <!-- begin: #col2 second float column -->
+      <div id="col2" role="main">
+        <div id="col2_content" class="clearfix">
+          	<div id="accordion2">
+				<h3><a href="#">Filter</a></h3>
+				<div>					
+				</div>
+				<h3><a href="#">Data Resources</a></h3>
+				<div>
+					<p>
+					Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+					purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+					velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+					suscipit faucibus urna.
+					</p>
+					<p>
+					Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+					purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+					velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+					suscipit faucibus urna.
+					</p>
+					<p>
+					Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+					purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+					velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+					suscipit faucibus urna.
+					</p>
+					<p>
+					Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+					purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+					velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+					suscipit faucibus urna.
+					</p>
+					<p>
+					Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+					purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+					velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+					suscipit faucibus urna.
+					</p>
+				</div>				
+			</div>
+        </div>
+      </div>
+      <!-- end: #col2 -->
+
+      <!-- begin: #col3 static column -->
+      <div id="col3" role="complementary">
+        <div id="col3_content" class="clearfix">
+	
+          	<div id="accordion3">
+				<h3><a href="#">[Dataresource name]</a></h3>
+				<div>					
+				</div>
+				<h3><a href="#">Publisher Information</a></h3>
+				<div>
+				</div>
+				<h3><a href="#">Creator Information</a></h3>
+				<div>
+				</div>
+				<h3><a href="#">Documentation</a></h3>
+				<div>
+				</div>
+				<h3><a href="#">Variables</a></h3>
+				<div>
+				</div>	
+				<h3><a href="#">Access</a></h3>
+				<div>
+				</div>
+				<h3><a href="#">Viewers</a></h3>
+				<div>																		
+				</div>				
+			</div>
+			
+        </div>
+        <!-- IE Column Clearing -->
+        <div id="ie_clearing">&nbsp;</div>
+      </div>
+      <!-- end: #col3 -->
+    </div>
+    <!-- end: #main -->
+
+    <!-- begin: #footer -->
+    <div id="footer" role="contentinfo">Footer with copyright notice and status information</div>
+    <!-- end: #footer -->
+  </div>
+</div>
+</body>
+</html>
