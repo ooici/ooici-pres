@@ -36,8 +36,11 @@
 			leftPane.cells("a").setText("Resource Selector");
 			leftPane.cells("a").setHeight(140);
 
-			var contactForm = leftPane.cells("a").attachForm();
-			contactForm.loadStruct("dhtmlx/data/dataresform.xml");
+//			var resListForm = leftPane.cells("a").attachForm();
+//			resListForm.loadStruct("dhtmlx/data/dataresform.xml");
+
+
+			leftPane.cells("a").attachObject("resSelectors");
 
 			leftPane.cells("b").setText("Geospatial Extent");
 			leftPane.cells("c").setText("Temporal Extent");
@@ -97,9 +100,12 @@
 
 <body onload="doOnLoad();">
 
-<div id="resform">
-</div>	
-
+<div id="resSelectors">
+	<form action="">
+	All Published Resources <input type="radio"/><br/>
+	My Published Resources <input type="radio"/>
+	</form>		
+</div>
 
 <div id="filter">
 	<fieldset style="width:700">
