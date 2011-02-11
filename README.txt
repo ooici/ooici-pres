@@ -2,7 +2,7 @@
 OOICI-PRES-GRAILS : Presentation Framework
 ==================================================
 
-August 2010
+February 2011
 
 This project represents the OOICI presentation framework. 
 
@@ -41,6 +41,10 @@ Visit: http://localhost:8080/
 
 CILOGON
 ========
+CILogon authentication currently takes advantage of the sample CILogon portal project servlets
+and JSPs implemented by the CILogon team.  These objects have been integrated into the Grails project
+as part of the move towards a more seamless logon process.
+
 All CILogon Servlets:
 src > java > cilogon > ConfigConstants
 src > java > cilogon > FailureServlet
@@ -50,51 +54,69 @@ src > java > cilogon > SuccessServlet
 src > java > cilogon > WelcomeServlet
 
 All CILogon JSPs:
-grails-app > views > index.jsp
-grails-app > views > setup.jsp
-grails-app > views > setupBasic.jsp
-grails-app > views > setupDone.jsp
-grails-app > views > setupErrorPage.jsp
-grails-app > views > setupFileStore.jsp
-grails-app > views > setupPostresStore.jsp
-grails-app > views > setupStorageAdmin.jsp
+web-app > index.jsp
+web-app > setup.jsp
+web-app > setupBasic.jsp
+web-app > setupDone.jsp
+web-app > setupErrorPage.jsp
+web-app > setupFileStore.jsp
+web-app > setupPostresStore.jsp
+web-app > setupStorageAdmin.jsp
 
-CILogon config:
 web-app > WEB-INF > WEB-INF > cfg.rdf
 - The cfg.rdf file contains URL paths that should be changed according to the URL path scheme
-of the deployed runtime environment. The URL paths are currently set for use w/in a local runtime
-environment and need not change. If deploying to Tomcat (in a production environment), you
-may need to adjust the URL path if the project name is part of the path.
+of the deployed runtime environment. The URL paths are currently set for use on machine 'spasco'.
 
-- For example:
 
-Production: http://localhost:8443/ooici-pres/WelcomeServlet
-Development: http://localhost:8443/WelcomeServlet
+CILogon Pre-requisites
+======================
+To run the Grails application on your server machine and offer CILogon authentication, the following
+pre-requisites must be satisfied:
 
-- Note above, the addition of "ooici-pres" to the production URL.
+- Your server machine must have a static IP address.
+- You must contact the CILogon organization to acquire a CILogon server certificate.
+- You must stash this server certificate on your server machine in your keystore.
+- You must install Tomcat and configure SSL on the server machine.
+  Assuming that tomcat's top-level directory is $CATALINA_HOME, you need to edit
 
-- Running Grails with CILogon:
-grails run-app --https
+  $CATALINA_HOME\conf\server.xml
 
-- CILogon Start URL:
-http://yourusername.ucsd.edu:8443/WelcomeServlet
+  and look for the ssl connector (normally running on port 8443, so search for that).
+  You might need to uncomment it, but the connector should read something like this:
 
-- Deploy Grails WAR to Tomcat:
-grails war /Users/spasco/apps/apache-tomcat-6.0.29/webapps/ooici-pres.war
 
-* Remember, deploying to the Tomcat webapps dir requires, by default, you reference the web-app name w/in the URL.
-For example, http://spasco.ucsd.edu:8443/ooici-pres/WelcomeServlet. If you don't want "ooici-pres" in the URI, then deploy
-the ooici-pres app as:
+  <Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+              maxThreads="150" scheme="https" secure="true"
+              keystoreFile="${user.home}/certs/keystore.p12"
+              keystorePass="PASSWORD1"
+              keystoreType="PKCS12"
+              clientAuth="false" sslProtocol="TLS" />
 
-grails war /Users/spasco/apps/apache-tomcat-6.0.29/webapps/ROOT.war
+  Alter the keystoreFile and keystorePass values as appropriate for your server machine.
 
-This will allow you to hit the ooici-pres project with the URL:
+Running CILogon
+===============
+1. Deploy the Grails war file to Tomcat on the server machine.
+   For example, copy ooici-pres-0.1.war to $CATALINA_HOME/webapps
+2. Alter the $CATALINA_HOME/webapps/ooici-pres-0.1/WEB-INF/cfg.rdf file to reference
+   your server machine's name (ie. search/replace occurrences of 'spasco')
+3. Start Tomcat on the server machine.
+   $CATALINA_HOME/bin/startup.sh
+4. Start the identity service and the services it depends on:
 
-http://spasco.ucsd.edu:8443/WelcomeServlet
+twistd --pidfile=ps1 -n cc -a sysname=spasco ion/services/coi/datastore/DataStoreService
+twistd --pidfile=ps2 -n cc -a sysname=spasco ion/services/coi/resource_registry_beta/resource_registry/ResourceRegistryService
+twistd --pidfile=ps3 -n cc -a sysname=spasco ion/services/coi/identity_registry/IdentityRegistryService
 
-When deploying a Grails application, typically any Java-based web application, to a production environment, Apache is
-usually used to handle all HTTP requests. Requests destined for Grails are then dispatched, by Apache, to
-Tomcat. Images, CSS and Javascript can be loaded by Apache for better performance.
+5. Point a web browser at
+   https://<yourservermachinename>:8443/ooici-pres-o.1/WelcomeServlet
+   and follow the web page instructions to run through the CILogon certificate authentication
+   process. You should end up with https://cilogon.org/delegate/ page reporting success.  Follow
+   the "Return to Sample Java delegation portal" link at the bottom of the success page.  This
+   will run the SuccessServlet on the server machine.  This servlet will access the ion identity
+   service to register the user credential and public key.  The resulting OOID returned from the
+   ion identity service as well as the X.509 certificate and public key content with be displayed
+   in the browser.
 
 
 HELP
