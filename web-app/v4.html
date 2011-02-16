@@ -1,0 +1,318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title></title>
+
+	<link rel="stylesheet" type="text/css" href="css/ciux-default.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="css/cupertino/jquery-ui-1.8.9.custom.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-page.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-table-jui.css"/>
+
+	<style type="text/css">
+
+	/* CSS below is only for cosmetic and demo purposes */
+	body {
+		font-family:	Arial, sans-serif;
+		font-size:		0.85em;
+	}
+
+	</style>
+	
+	<script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+	<script src="js/jquery.layout.min.js" type="text/javascript"></script>
+	<script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+	<script src="js/jquery.multi-open-accordion.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+		var outerLayout, centerLayout;
+
+		$(document).ready(function () {
+
+			outerLayout = $('body').layout({
+				resizerClass: 'ui-state-default',
+				minSize: 50,
+				west__size: 350,
+				east__size: 350,
+				south__size: 50,
+				useStateCookie: true
+			});
+
+			centerLayout = $('div.ui-layout-center').layout({
+				minSize: 50
+			});
+
+			westLayout = $('div.ui-layout-west').layout({
+				minSize: 50,
+				center__paneSelector: ".west-center",
+				south__paneSelector: ".west-south",
+				center__size: 100,
+				south__size: 300
+			});
+
+			westLayout = $('div.ui-layout-west').layout({
+				minSize: 50
+			});
+
+			eastLayout = $('div.ui-layout-east').layout({
+				minSize: 50
+			});
+
+			/* Datatable settings */
+			$('#example').dataTable({
+				"bJQueryUI": true,
+				"sPaginationType": "full_numbers"
+
+			});
+
+			/* East and West accordion settings */
+			$('#eastMultiOpenAccordion').multiAccordion();
+			$('#westMultiOpenAccordion').multiAccordion();
+
+		});
+
+
+	</script>
+</head>
+<body>
+	<div class="ui-layout-center">
+		<div id="dt_example">
+			<div id="container">
+
+				<h1>Data Resources</h1>
+
+				<div class="demo_jui">
+					<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+						<thead>
+						<tr>
+							<th>Title</th>
+							<th>Provider</th>
+							<th>Format</th>
+							<th>Type</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>NOAA, NCAR</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>COADS Surface Marine Observations, Release 2, 1854-1993</td>
+							<td>CalCOFI</td>
+							<td>GRIB-1</td>
+							<td class="center">Radial</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>NOAA, NCAR</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>CalCOFI Data Report Data</td>
+							<td>NOAA</td>
+							<td>NIDS</td>
+							<td class="center">Radial</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>CalCOFI</td>
+							<td>GRIB-1</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>CalCOFI Data Report Data</td>
+							<td>CalCOFI</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>CalCOFI</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>NOAA, NCAR</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>COADS Surface Marine Observations, Release 2, 1854-1993</td>
+							<td>CalCOFI</td>
+							<td>GRIB-1</td>
+							<td class="center">Radial</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>NOAA, NCAR</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>CalCOFI Data Report Data</td>
+							<td>NOAA</td>
+							<td>NIDS</td>
+							<td class="center">Radial</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>CalCOFI</td>
+							<td>GRIB-1</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>CalCOFI Data Report Data</td>
+							<td>CalCOFI</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>CalCOFI</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>NOAA, NCAR</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>COADS Surface Marine Observations, Release 2, 1854-1993</td>
+							<td>CalCOFI</td>
+							<td>GRIB-1</td>
+							<td class="center">Radial</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>NOAA, NCAR</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>CalCOFI Data Report Data</td>
+							<td>NOAA</td>
+							<td>NIDS</td>
+							<td class="center">Radial</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>CalCOFI</td>
+							<td>GRIB-1</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>CalCOFI Data Report Data</td>
+							<td>CalCOFI</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>CalCOFI</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>NOAA, NCAR</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>COADS Surface Marine Observations, Release 2, 1854-1993</td>
+							<td>CalCOFI</td>
+							<td>GRIB-1</td>
+							<td class="center">Radial</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>NOAA, NCAR</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>CalCOFI Data Report Data</td>
+							<td>NOAA</td>
+							<td>NIDS</td>
+							<td class="center">Radial</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>CalCOFI</td>
+							<td>GRIB-1</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>CalCOFI Data Report Data</td>
+							<td>CalCOFI</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						<tr class="gradeA">
+							<td>Argo Float Data from the PMEL DAPPER Server</td>
+							<td>CalCOFI</td>
+							<td>NIDS</td>
+							<td class="center">GRID</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="spacer"></div>
+
+			</div>
+		</div>
+
+	</div>
+	<div class="ui-layout-north">CI UX Template</div>
+	<div class="ui-layout-west">
+		<div id="westMultiOpenAccordion">
+			<h3><a href="#">Resource Selector</a></h3>
+			<div>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+			</div>
+			<h3><a href="#">Geospatial Extent</a></h3>
+			<div>
+			</div>
+			<h3><a href="#">Temporal Extent</a></h3>
+			<div>
+			</div>
+		</div>
+	</div>
+	<div class="ui-layout-east">
+		<div id="eastMultiOpenAccordion">
+			<h3><a href="#">[Data Source]</a></h3>
+			<div>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+			</div>
+			<h3><a href="#">Publisher Information</a></h3>
+			<div>
+			</div>
+			<h3><a href="#">Creator Information</a></h3>
+			<div>
+			</div>
+			<h3><a href="#">Documentation</a></h3>
+			<div>
+			</div>
+			<h3><a href="#">Variables</a></h3>
+			<div>
+			</div>
+			<h3><a href="#">Access</a></h3>
+			<div>
+			</div>
+			<h3><a href="#">Viewers</a></h3>
+			<div>
+			</div>
+		</div>
+	</div>
+	<div class="ui-layout-south">Footer</div>
+</div>
+</body>
+
+</html>
