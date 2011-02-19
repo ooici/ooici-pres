@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<items>
-   <item type="radio" name="color" value="allpubres" label="All Published Resources" checked="true" />
-   <item type="radio" name="color" value="mypubres" label="My Published Resources"/>
-   <item type="radio" name="color" value="mysub" label="My Subscriptions"/>
-</items>               
