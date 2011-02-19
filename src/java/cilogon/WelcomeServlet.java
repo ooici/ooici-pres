@@ -16,7 +16,7 @@ public class WelcomeServlet extends PortalAbstractServlet {
         writer.println("<html><head><title>Sample Java Delegation Portal</title></head>");
         writer.println(" <body><H1>A Sample Java Delegation Portal</h1>");
         // Next line is the important one. Just set the context path and point this to the the startRequest servlet
-        writer.println("<form name=\"input\" action=\"" + httpServletRequest.getContextPath() + "/startRequest\" method=\"get\">");
+        writer.println("<form name=\"input\" action=\"" + httpServletRequest.getContextPath() + "/StartRequest\" method=\"get\">");
         writer.println("Click to request a credential<br><br><input type=\"submit\" value=\"Submit\" />");
         writer.println("</form></body></html>");
     }

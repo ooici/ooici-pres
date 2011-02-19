@@ -11,8 +11,8 @@ import ion.core.messaging.MsgBrokerClient
 class BootstrapIONService  {
 
     static transactional = false
-	static BaseProcess baseProcess
-	static MsgBrokerClient ionClient
+	public static BaseProcess baseProcess
+	public static MsgBrokerClient ionClient
 
 	def bootstrap() {
 

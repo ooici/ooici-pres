@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:a="ncsa:cilogon.org,2010:/1.0/configuration/" xmlns:b="ncsa:cilogon.org,2010:/1.0/configuration/portal/" xmlns:c="ncsa:cilogon.org,2010:/1.0/configuration/portal#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-  <rdf:Description rdf:about="ncsa:cilogon.org,2010:1a07837478a80ace1ce8bd54bfe4e42">
+  <rdf:Description rdf:about="ncsa:cilogon.org,2010:652c734c833f04985af177cc17bf7e4">
     <rdf:type rdf:resource="ncsa:cilogon.org,2010:/1.0/configuration/root/"/>
     <rdfs:label>default</rdfs:label>
     <a:hasStore>
-      <rdf:Description rdf:about="ncsa:cilogon.org,2010:14923e889d2af420d674b3f5c6382128">
+      <rdf:Description rdf:about="ncsa:cilogon.org,2010:2a1393b605a790a095ab8f31bba0c77f">
         <rdf:type rdf:resource="ncsa:cilogon.org,2010:/1.0/configuration/memory/"/>
       </rdf:Description>
     </a:hasStore>
     <b:hasPortalParameters>
-      <rdf:Description rdf:about="ncsa:cilogon.org,2010:d7011c607c4ad4454cc2acdf637ebfa">
+      <rdf:Description rdf:about="ncsa:cilogon.org,2010:1629d933aae29c7797d9a17e46baec4c">
         <rdf:type rdf:resource="ncsa:cilogon.org,2010:/1.0/configuration/portal/"/>
-        <c:callbackUri rdf:resource="https://spasco.ucsd.edu:8443/ReadyServlet"/>
-        <c:failureUri rdf:resource="https://spasco.ucsd.edu:8443/FailureServlet"/>
+        <c:callbackUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres-0.1/ready"/>
+        <c:failureUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres-0.1/failure"/>
         <c:portalName>Sample Java delegation portal</c:portalName>
         <c:portalSkin/>
-        <c:successUri rdf:resource="https://spasco.ucsd.edu:8443/SuccessServlet"/>
+        <c:successUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres-0.1/success"/>
       </rdf:Description>
     </b:hasPortalParameters>
   </rdf:Description>
