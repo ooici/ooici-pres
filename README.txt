@@ -122,7 +122,7 @@ twistd --pidfile=ps3 -n cc -a sysname=spasco ion/services/coi/identity_registry/
 
 DEVELOPMENT MADE EASY WITHOUT CILOGON:
 ======================================
-CILOGON requires much setup (see below). If you're working on the UX templates and would rather bypass
+CILOGON requires much setup. If you're working on the UX templates and would rather bypass
 CILOGON setup altogether, there's an easy way to deactivate it so you can streamline development w/out CILOGON.
 
 Here's how:
