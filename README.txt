@@ -39,6 +39,7 @@ Visit: http://localhost:8080/
 
 - You'll be prompted to login. The un/pwd is admin/admin
 
+
 CILOGON
 ========
 CILogon authentication currently takes advantage of the sample CILogon portal project servlets
@@ -117,6 +118,30 @@ twistd --pidfile=ps3 -n cc -a sysname=spasco ion/services/coi/identity_registry/
    service to register the user credential and public key.  The resulting OOID returned from the
    ion identity service as well as the X.509 certificate and public key content with be displayed
    in the browser.
+
+
+DEVELOPMENT MADE EASY WITHOUT CILOGON:
+======================================
+CILOGON requires much setup (see below). If you're working on the UX templates and would rather bypass
+CILOGON setup altogether, there's an easy way to deactivate it so you can streamline development w/out CILOGON.
+
+Here's how:
+1. Change ooici-pres/src/java/templates/web.xml
+
+To:
+
+ooici-pres/src/java/templates/web.xml.orig
+
+Don't commit this change. ;)
+
+2. Now, you can start Grails (grails run-app) and work away seeing changes made to grails files reflected immediately w/in the browser.
+
+Start Grails as usual: grails run-app
+
+View it w/in the browser without the CILOGON required dependencies.
+
+For example:
+http://localhost:8080/test.html
 
 
 HELP
