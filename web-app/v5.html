@@ -100,48 +100,48 @@
 			$('#eastMultiOpenAccordion h3').trigger('click');
 
 			// Get the hidden column data for this row
-			var aData = oTable.fnGetData(this);
+			var rowData = oTable.fnGetData(event.target.parentNode);
 
-			// Get dataSource ID from the selected row
-			var dsId = aData[0];
+			// Get the data source Id
+			var dsId = rowData[0];
 
 			// Get dataSource title from the selected row
-			var dsTitle = aData[1];
+			var dsTitle = rowData[1];
 			// Set dataSource title panel content
 			$('a#rp_dsTitle').html(dsTitle);
 
 			// Get dataSource MetaInfo from the selected row
-			var dsMeta = aData[5];
+			var dsMeta = rowData[5];
 			// Set dataSource MetaInfo panel content
 			$('div#rp_dsMetaInfo').html(dsMeta);
 
 			// Get dataSource Publisher Info from the selected row
-			var dsPubInfo = aData[6];
+			var dsPubInfo = rowData[6];
 			// Set dataSource Publisher info content
 			$('div#rp_publisherInfo').html(dsPubInfo);
 
 			// Get dataSource Creator info from the selected row
-			var dsCreatorInfo = aData[7];
+			var dsCreatorInfo = rowData[7];
 			// Set dataSource Creator info content
 			$('div#rp_creatorInfo').html(dsCreatorInfo);
 
 			// Get dataSource Documentation Info from the selected row
-			var dsDocInfo = aData[8];
+			var dsDocInfo = rowData[8];
 			// Set dataSource Documentation panel content
 			$('div#rp_docInfo').html(dsDocInfo);
 
 			// Get dataSource Variables Info from the selected row
-			var dsVarInfo = aData[9];
+			var dsVarInfo = rowData[9];
 			// Set dataSource variables panel content
 			$('div#rp_variablesInfo').html(dsVarInfo);
 
 			// Get dataSource Access Info from the selected row
-			var dsAccessInfo = aData[10];
+			var dsAccessInfo = rowData[10];
 			// Set dataSource access info panel content
 			$('div#rp_accessInfo').html(dsAccessInfo);
 
 			// Get dataSrouce Viewers Info from the selected row
-			var dsViewersInfo = aData[11];
+			var dsViewersInfo = rowData[11];
 			// Set dataSource viewers info panel content
 			$('div#rp_viewersInfo').html(dsViewersInfo);
 
