@@ -52,17 +52,16 @@
 
 		// NOW create the layout
 		pgLayout = $('#layoutContainer').layout({
-//			north__spacing_open: 0
 			resizerClass: 'ui-state-default',
 			north__size: 60,
 			west__size: 300,
 			east__size: 300
 		});
 
-		// now RESIZE the container to be a perfect fit
+		// now resize the container to be a perfect fit
 		sizeCenterPane();
-
-		/* Datatable settings */
+		
+		// Datatable settings
 		$('#example').dataTable({
 			"aoColumns": [
 				/* Id */ {"bVisible": false},
@@ -83,27 +82,14 @@
 
 		});
 
-		/* Get the rows which are currently selected */
-		function fnGetSelected(oTableLocal) {
-			var aReturn = new Array();
-			var aTrs = oTableLocal.fnGetNodes();
-
-			for (var i=0 ; i<aTrs.length ; i++ ) {
-				if ($(aTrs[i]).hasClass('row_selected')) {
-					aReturn.push(aTrs[i]);
-				}
-			}
-			
-			return aReturn;
-		}
-
-		/* Init datatable */
+		// Initialize the center pane datatable
 		oTable = $('#example').dataTable();
 
-		$("#example tbody tr").click(function(event) {
+		// Handles user click events within center pane datatable
+		$("#example tbody").click(function(event) {
 
 			// Upon deselect of a row, turns that row's highlighting off
-			$(oTable.fnSettings().aoData).each(function (){
+			$(oTable.fnSettings().aoData).each(function () {
 				$(this.nTr).removeClass('row_selected');
 			});
 
@@ -113,53 +99,53 @@
 			// Expands right pane panels when row is selected. Also closes panels if already expanded.
 			$('#eastMultiOpenAccordion h3').trigger('click');
 
-			// Get the hidden data for this row
+			// Get the hidden column data for this row
 			var aData = oTable.fnGetData(this);
 
-			// Get dataSource ID
+			// Get dataSource ID from the selected row
 			var dsId = aData[0];
 
-			// Get dataSource title
+			// Get dataSource title from the selected row
 			var dsTitle = aData[1];
 			// Set dataSource title panel content
 			$('a#rp_dsTitle').html(dsTitle);
 
-			// Get dataSource MetaInfo
+			// Get dataSource MetaInfo from the selected row
 			var dsMeta = aData[5];
 			// Set dataSource MetaInfo panel content
 			$('div#rp_dsMetaInfo').html(dsMeta);
 
-			// Get dataSource Publisher Info
+			// Get dataSource Publisher Info from the selected row
 			var dsPubInfo = aData[6];
 			// Set dataSource Publisher info content
 			$('div#rp_publisherInfo').html(dsPubInfo);
 
-			// Get dataSource Creator info
+			// Get dataSource Creator info from the selected row
 			var dsCreatorInfo = aData[7];
 			// Set dataSource Creator info content
 			$('div#rp_creatorInfo').html(dsCreatorInfo);
 
-			// Get dataSource Documentation Info
+			// Get dataSource Documentation Info from the selected row
 			var dsDocInfo = aData[8];
 			// Set dataSource Documentation panel content
 			$('div#rp_docInfo').html(dsDocInfo);
 
-			// Get dataSource Variables Info
+			// Get dataSource Variables Info from the selected row
 			var dsVarInfo = aData[9];
 			// Set dataSource variables panel content
 			$('div#rp_variablesInfo').html(dsVarInfo);
 
-			// Get dataSource Access Info
+			// Get dataSource Access Info from the selected row
 			var dsAccessInfo = aData[10];
 			// Set dataSource access info panel content
 			$('div#rp_accessInfo').html(dsAccessInfo);
-			
-			// Get dataSrouce Viewers Info
+
+			// Get dataSrouce Viewers Info from the selected row
 			var dsViewersInfo = aData[11];
 			// Set dataSource viewers info panel content
 			$('div#rp_viewersInfo').html(dsViewersInfo);
 
-		});                                 
+		});
 		
 		$('#eastMultiOpenAccordion').multiAccordion();
 		$('#westMultiOpenAccordion').multiAccordion();
@@ -177,7 +163,7 @@
 
 		$('input#radioMySub').bind('click', function(event) {
 			$('.ui-layout-center').hide();
-			$('.ui-layout-east').hide();			
+			$('.ui-layout-east').hide();
 		});
 
 		$('input#radioMyPubRes').bind('click', function(event) {
