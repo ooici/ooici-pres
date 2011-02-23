@@ -518,3 +518,148 @@ input.search.button {
 #kwick .four {
 	background: #999;
 }
+
+/*
+-----------------------------------------------
+Geospatial Extent
+----------------------------------------------- */
+
+#geospatialContainer {
+	margin:5px;
+	width: 100%;
+	height: 150px;
+	display:block;
+	position: relative;
+}
+
+.geoIconDropdown {
+	position:absolute;
+	top: -5px;
+	right: 10px;
+}
+
+div#icons {
+	position:absolute;
+	top:1px;
+	right:1px;
+}
+
+.BoundingBoxText {
+	position:absolute;
+	top:60px;
+	left: 2px;
+	font-weight:bold;
+}
+
+.BoundingBoxControls {
+	position:absolute;
+	top:30px;
+	left:0px;
+}
+
+.AltitudeControls {
+	position:absolute;
+	top:30px;
+	right:0px;
+}
+
+.Ntext {
+	position:absolute;
+	top:70px;
+	right:193px;
+	font-weight:bold;
+}
+
+.north {
+	position: absolute;
+	top: 80px;
+	right: 180px;
+	z-index: 4;
+}
+
+.Stext {
+	position:absolute;
+	top:136px;
+	right:193px;
+	font-weight:bold;
+}
+
+.south {
+    height: 14px;
+	width: 50px;
+	position: absolute;
+	top: 117px;
+	right: 180px;
+	z-index: 4;
+}
+
+.Wtext {
+	position:absolute;
+	top:90px;
+	right:254px;
+	font-weight:bold;
+}
+
+.west {
+    height: 14px;
+    width: 50px;
+	position:absolute;
+	top:100px;
+	right: 230px;
+	z-index: 4;
+}
+
+.Etext {
+	position: absolute;
+	top:90px;
+	right:135px;
+	font-weight:bold;
+}
+
+.east {
+    height: 14px;
+    width: 50px;
+	position:absolute;
+	top: 100px;
+	right: 130px;
+	z-index: 4;
+}
+
+.altText {
+	position:absolute;
+	top:53px;
+	right:2px;
+	text-align:center;
+	font-weight:bold;
+}
+
+.altitudeUpper {
+    height: 14px;
+    width: 110px;
+	position:absolute;
+	top: 80px;
+	right: 0px;
+}
+
+.altitudeLower {
+    height: 14px;
+    width: 110px;
+	position:absolute;
+	top:117px;
+	right:0px;
+}
+
+.NSEWBackgroundBorder {
+	border: 1px solid #000000;
+    height: 36px;
+    width: 100px;
+	position:absolute;
+	top: 88px;
+	right: 148px;
+	z-index:1;
+}
+
+.textfield {
+	height: 8px;
+	width: 30px;
+}
