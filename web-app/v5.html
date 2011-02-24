@@ -54,8 +54,8 @@
 		pgLayout = $('#layoutContainer').layout({
 			resizerClass: 'ui-state-default',
 			north__size: 60,
-			west__size: 300,
-			east__size: 300
+			west__size: 350,
+			east__size: 350
 		});
 
 		// now resize the container to be a perfect fit
@@ -627,13 +627,13 @@
     <div class="ui-layout-west hidden">
 		<div id="westMultiOpenAccordion">
 			<h3><a href="#">Resource Selector</a></h3>
-			<div>
+			<div style="padding-left: 10px; padding-right: 10px;">
 				<form action="">
 				<table>
 					<tr>
 						<td><input id="radioAllPubRes" name="group1" type="radio"/>
 						</td>
-						<td>All Published Resources</td>
+						<td style="padding-right: 30px;">All Published Resources</td>
 						<td><input id="radioMySub" name="group1" type="radio"/></td>
 						<td>My Subscriptions</td>
 					</tr>
@@ -658,32 +658,41 @@
 			</div>
 			<h3><a href="#">Geospatial Extent</a></h3>
 			<div id="geospatialContainer">
-				<span class="BoundingBoxControls"><strong>Bounding Box:</strong> All
+				<div class="BoundingBoxControls"><strong>Bounding Box:</strong> All
 					<input name="BoundingAll" type="radio"/>
 					Defined
 					<input name="BoundingDefined" type="radio"/>
-				</span>
-				<span class="AltitudeControls"><strong>Altitude:</strong> All
+				</div>
+				<div class="AltitudeControls"><strong>Altitude:</strong> All
 					<input name="AltitudeAll" type="radio"/>
 					Defined
 					<input name="AltitudeDefined" type="radio"/>
-				</span>
-				<span class="BoundingBoxText">Bounding Box<br/>
-				(Decimal Degrees)</span>
-				<span class="Ntext">N</span>
-				<input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
-				<span class="Stext">S</span>
-				<input class="south textfield" name="south" type="text" size="5" maxlength="5"/>
-				<span class="Etext">E</span>
-				<input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
-				<span class="Wtext">W</span>
-				<input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
-				<span class="altText">Altitude<br/>
-				(Feet MSL)</span> <span class="altitudeUpper">Upper Bound:
-				<input class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
-				</span> <span class="altitudeLower">Lower Bound:
-				<input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
-				</span> <span class="NSEWBackgroundBorder"></span>
+				</div>
+				<div class="BoundingBoxText">
+				Bounding Box<br/>
+				(Decimal Degrees)
+				</div>
+				<div class="lowerControls">
+					<span class="Ntext">N</span>
+					<input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+					<span class="Stext">S</span>
+					<input class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+					<span class="Etext">E</span>
+					<input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+					<span class="Wtext">W</span>
+					<input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+				</div>
+				<div class="altitudeControls">					
+					<span class="altText">Altitude<br/>
+					(Feet MSL)</span>
+					<span class="altitudeUpper">Upper Bound:
+					<input class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+					</span>
+					<span class="altitudeLower">Lower Bound:
+					<input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+					</span>
+					<span class="NSEWBackgroundBorder"></span>
+				</div>
 			</div>
 			<h3><a href="#">Temporal Extent</a></h3>
 			<div>
