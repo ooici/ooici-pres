@@ -117,8 +117,10 @@ Geospatial Extent
 	/*margin:5px;*/
 	/*width: 100%;*/
 	height: 150px;
-	display:block;
 	position: relative;
+	display: block;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .geoIconDropdown {
@@ -134,9 +136,9 @@ div#icons {
 }
 
 .BoundingBoxText {
-	position:absolute;
+	/*position:absolute;
 	top:45px;
-	left: 5px;
+	left: 5px;*/
 	font-weight:bold;
 }
 
@@ -150,6 +152,10 @@ div#icons {
 	/*position:absolute;*/
 	top:30px;
 	right:0px;
+}
+
+.lowerControls {
+	
 }
 
 .Ntext {
