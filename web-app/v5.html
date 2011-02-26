@@ -44,7 +44,7 @@
 		pgLayout.resizeAll();
 	}
 
-	$(document).ready(function(){
+	$(document).ready(function() {
 
 		// first set a 'fixed height' on the container so it does not collapse...
 		var $Container = $('#layoutContainer')
@@ -658,15 +658,37 @@
 			</div>
 			<h3><a href="#">Geospatial Extent</a></h3>
 			<div id="geospatialContainer">
-				<div class="BoundingBoxControls"><strong>Bounding Box:</strong> All
-					<input name="BoundingAll" type="radio"/>
-					Defined
-					<input name="BoundingDefined" type="radio"/>
+				<div class="BoundingBoxControls">
+					<form action="">
+						<table style="padding-left: 20px;">
+							<tr>
+								<td><strong>Bounding Box:</strong></td>
+								<td><input name="group1" type="radio"/></td>
+								<td>All</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input name="group1" type="radio"/></td>
+								<td>Defined</td>
+							</tr>
+						</table>
+					</form>
 				</div>
-				<div class="AltitudeControls"><strong>Altitude:</strong> All
-					<input name="AltitudeAll" type="radio"/>
-					Defined
-					<input name="AltitudeDefined" type="radio"/>
+				<div class="AltitudeControls">
+					<form action="">
+						<table style="padding-right: 20px;">
+							<tr>
+								<td><strong>Altitude:</strong></td>
+								<td><input name="group1" type="radio"/></td>
+								<td>All</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input name="group1" type="radio"/></td>
+								<td>Defined</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 				<div class="BoundingBoxText">
 				Bounding Box<br/>
