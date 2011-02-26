@@ -136,26 +136,29 @@ div#icons {
 }
 
 .BoundingBoxText {
-	/*position:absolute;
+	position:absolute;
 	top:45px;
-	left: 5px;*/
+	left: 5px;
 	font-weight:bold;
 }
 
 .BoundingBoxControls {
-	/*position:absolute;*/
-	top:30px;
+	position:absolute;
+	top:0px;
 	left:0px;
 }
 
 .AltitudeControls {
-	/*position:absolute;*/
-	top:30px;
+	position:absolute;
+	top:0px;
 	right:0px;
+	float:right;
 }
 
 .lowerControls {
-	
+	display:block;
+	top:30px;
+	left:0px;	
 }
 
 .Ntext {
