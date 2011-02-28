@@ -151,7 +151,10 @@
 
 		// auto open Resource Selector panel
 		$('#westMultiOpenAccordion h3:eq(0)').trigger('click');
+		// auto open Geospatial Extent panel
 		$('#westMultiOpenAccordion h3:eq(1)').trigger('click');
+		// auto open Temporal Extent panel
+		$('#westMultiOpenAccordion h3:eq(2)').trigger('click');		
 
 		$('.ui-layout-center').hide();
 		$('.ui-layout-east').hide();
@@ -715,7 +718,27 @@
 				</div>
 			</div>
 			<h3><a href="#">Temporal Extent</a></h3>
-			<div>
+			<div style="display: block; padding-left: 10px; padding-right: 10px;" class="temporalExtentContainer">
+				<form action="">
+				<table>
+					<tr>
+						<td class="boldText">Time Range:</td>
+						<td><input id="TE_timeRange_all" name="group1" type="radio"/>
+						</td>
+						<td>All</td>
+						<td><input id="TE_timeRange_defined" name="group1" type="radio"/></td>
+						<td>Defined</td>
+					</tr>
+				</table>
+				</form>
+				<span class="te-from boldText">From:</span>
+				<input class="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
+				<span class="te-to boldText">To:</span>
+				<input class="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
+				<div class="te-footer-text">
+					ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
+					Example: 2010-11-15T09:00:00
+				</div>
 			</div>
 		</div>
 	</div>
