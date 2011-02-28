@@ -658,9 +658,9 @@
 			</div>
 			<h3><a href="#">Geospatial Extent</a></h3>
 			<div id="geospatialContainer">
-				<div class="BoundingBoxControls">
+				<div class="boundingBoxRadios">
 					<form action="">
-						<table style="padding-left: 20px;">
+						<table>
 							<tr>
 								<td><strong>Bounding Box:</strong></td>
 								<td><input name="group1" type="radio"/></td>
@@ -674,9 +674,9 @@
 						</table>
 					</form>
 				</div>
-				<div class="AltitudeControls">
+				<div class="altitudeRadios">
 					<form action="">
-						<table style="padding-right: 20px;">
+						<table>
 							<tr>
 								<td><strong>Altitude:</strong></td>
 								<td><input name="group1" type="radio"/></td>
@@ -690,11 +690,11 @@
 						</table>
 					</form>
 				</div>
-				<div class="BoundingBoxText">
+				<div class="boundingBoxText">
 				Bounding Box<br/>
 				(Decimal Degrees)
 				</div>
-				<div class="lowerControls">
+				<div class="boundingBoxControls">
 					<span class="Ntext">N</span>
 					<input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
 					<span class="Stext">S</span>
@@ -703,6 +703,7 @@
 					<input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
 					<span class="Wtext">W</span>
 					<input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+					<span class="NSEWBackgroundBorder"></span>					
 				</div>
 				<div class="altitudeControls">					
 					<span class="altText">Altitude<br/>
@@ -713,7 +714,6 @@
 					<span class="altitudeLower">Lower Bound:
 					<input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
 					</span>
-					<span class="NSEWBackgroundBorder"></span>
 				</div>
 			</div>
 			<h3><a href="#">Temporal Extent</a></h3>
