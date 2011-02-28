@@ -79,7 +79,6 @@
 			],
 			"bJQueryUI": true,
 			"sPaginationType": "full_numbers"
-
 		});
 
 		// Initialize the center pane datatable
@@ -150,8 +149,9 @@
 		$('#eastMultiOpenAccordion').multiAccordion();
 		$('#westMultiOpenAccordion').multiAccordion();
 
-		// auto open Resource S`elector panel
-		$('#westMultiOpenAccordion h3:first').trigger('click');
+		// auto open Resource Selector panel
+		$('#westMultiOpenAccordion h3:eq(0)').trigger('click');
+		$('#westMultiOpenAccordion h3:eq(1)').trigger('click');
 
 		$('.ui-layout-center').hide();
 		$('.ui-layout-east').hide();
@@ -618,10 +618,8 @@
 				    </table>
 			    </div>
 			    <div class="spacer"></div>
-
 		    </div>
 	    </div>
-
 	</div>
 
     <div class="ui-layout-west hidden">
