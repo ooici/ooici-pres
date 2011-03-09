@@ -3,6 +3,7 @@ package ooici.pres.domain
 import ion.core.messaging.IonMessage
 import ion.resource.ResourceDO
 import com.rabbitmq.client.AMQP
+import grails.converters.JSON
 
 class ServiceController {
 
@@ -57,8 +58,42 @@ class ServiceController {
 //
 //		ionAttach.ackMessage(msgin);
 
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [services:serviceList, serviceInstanceList: Service.list(params), serviceInstanceTotal: Service.count()]
+	    // Converting the data to JSON
+
+	    DataResource dataResource = new DataResource()
+	    
+	    dataResource.id = 1
+	    dataResource.published = true
+	    dataResource.provider = "The provider 123"
+	    dataResource.format = "format 123"
+	    dataResource.protocol = "protocol 123"
+	    dataResource.type = "type 123"
+	    dataResource.title = "title 123"
+	    dataResource.dataFormat = "dataFormat 123"
+	    dataResource.dataType = "data type 123"
+	    dataResource.namingAuthority = "naming authority 123"
+	    dataResource.summary = "summary 123"
+	    dataResource.publisherInstitution = "publisher institution 123"
+	    dataResource.publisherName = "publisher name 123"
+	    dataResource.publisherEmail = "publisher email 123"
+	    dataResource.publisherWebsite = "publisher website 123"
+	    dataResource.creatorInstitution = "creator institution 123"
+	    dataResource.creatorName = "creator name 123"
+	    dataResource.creatorEmail = "creator email 123"
+	    dataResource.openDAP = "open dap 123"
+	    dataResource.wcs = "wcs 123"
+	    dataResource.ncml = "ncml 123"
+	    dataResource.uddc = "uddc 123"
+	    dataResource.iso = "iso 123"
+
+//	    render(contentType:"text/json") {
+//			dataResource
+//		}
+
+	    render dataResource as JSON
+
+//        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+//        [services:serviceList, serviceInstanceList: Service.list(params), serviceInstanceTotal: Service.count()]
     }
 
     def create = {
