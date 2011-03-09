@@ -11,7 +11,7 @@ public enum Status {
 	SUCCESS("success"),
 	FAIL("fail")
 
-	private final String value
+	private String value
 
 	Status(String value) {
 		this.value = value
@@ -22,7 +22,7 @@ public enum Status {
 	}
 
 	String getValue() {
-		value
+		this.value
 	}
 
 	static list() {
