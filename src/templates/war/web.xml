@@ -27,6 +27,16 @@
     </filter-mapping>
 
     <filter>
+        <filter-name>cilogonAuthenticationFilter</filter-name>
+        <filter-class>cilogon.AuthenticationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>cilogonAuthenticationFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>sitemesh</filter-name>
         <filter-class>org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter</filter-class>
     </filter>
@@ -117,7 +127,7 @@
 
 	<servlet-mapping>
 		<servlet-name>SuccessServlet</servlet-name>
-		<url-pattern>/success</url-pattern>
+		<url-pattern>/SuccessServlet</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
