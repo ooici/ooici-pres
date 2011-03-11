@@ -29,7 +29,7 @@
 
 	<script type="text/javascript">
 
-	var pgLayout, oTable;
+	var pgLayout, oTable, xhr;
 
 	function sizeCenterPane () {
 		var $Container	= $('#layoutContainer');
@@ -44,7 +44,39 @@
 		pgLayout.resizeAll();
 	}
 
+	window.onload = function() {
+
+		if (window.ActiveXObject) {
+			xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		else if (window.XMLHttpRequest) {
+			xhr = new XMLHttpRequest();
+		}
+		else {
+			throw new Error("Ajax is not supported by this browser");
+		}
+
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4) {
+				if (this.status >= 200 && this.status < 300) {
+					alert(this.responseText);
+//					document.getElementById('#example tbody')
+//							.innerHTML = this.responseText;
+				}
+			}
+		};
+
+////		xhr.send('a=1,b=2,c=3');
+//		xhr.open('GET', '/service/list');
+//		xhr.send('');
+	};
+
+
+	
+
+
 	$(document).ready(function() {
+
 
 		// first set a 'fixed height' on the container so it does not collapse...
 		var $Container = $('#layoutContainer')
@@ -63,6 +95,8 @@
 		
 		// Datatable settings
 		$('#example').dataTable({
+			"bProcessing": true,			
+			"sAjaxSource": 'services/list',
 			"aoColumns": [
 				/* Id */ {"bVisible": false},
 				/* Title */  null,
@@ -160,6 +194,13 @@
 		$('.ui-layout-east').hide();
 
 		$('input#radioAllPubRes').bind('click', function(event) {
+
+			$.getJSON(
+				'service/list',
+				function(response) {
+				}
+			);
+
 			$('.ui-layout-center').show();
 			$('.ui-layout-east').show();
 		});
