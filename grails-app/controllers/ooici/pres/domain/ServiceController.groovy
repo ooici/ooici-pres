@@ -76,30 +76,24 @@ class ServiceController {
 
 	    render(contentType:"text/json") {
 			aaData = [
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name']
+				['test id','Test Title 1 - This is a longer title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 2' ,'Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 3','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 4','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 5','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 6','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 7','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 8','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 9','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 10','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 11','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 12','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 13','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 14','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 15','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 16','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 17','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 18','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name']
 			]
 		}
 
