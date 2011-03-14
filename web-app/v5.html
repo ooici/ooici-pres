@@ -117,7 +117,40 @@
 		// Initialize the center pane datatable
 		oTable = $('#example').dataTable();
 
-		// Handles user click events within center pane datatable
+		/**
+		 * WF101
+		 *
+		 * Handles double click action on a row w/in the center pane's dataResource table.
+		 *
+		 * The result of this action should hide the dataResource table and display a comprehensive
+		 * summary view of the dataResource selected. 
+ 		 */
+		$("#example tbody").bind('dblclick', function(event) {
+			// Get the hidden column data for this row
+			var rowData = oTable.fnGetData(event.target.parentNode);
+
+			// Hides the data resource table
+//			$('.ui-layout-center').hide();
+
+//			$('#container').html(
+//				'<a href="http://www.google.com">back to data table</a>',
+//				'hi'
+//			);
+
+			$('#container').load(
+				'/html/fetchDataResourceDetails',
+				{title:rowData[1]}
+//			    function(response) {
+//				    $('container')html(response);
+//			    }
+			)
+		});
+ 
+		/**
+		 * WF 100
+		 *
+		 * Handles user click events within center pane datatable
+		 */
 		$("#example tbody").click(function(event) {
 
 			// Upon deselect of a row, turns that row's highlighting off
@@ -134,7 +167,7 @@
 			// Get the hidden column data for this row
 			var rowData = oTable.fnGetData(event.target.parentNode);
 
-			// Get the data source Id
+			// Get the data source Id from column 0
 			var dsId = rowData[0];
 
 			// Get dataSource title from the selected row
@@ -172,7 +205,7 @@
 			// Set dataSource access info panel content
 			$('div#rp_accessInfo').html(dsAccessInfo);
 
-			// Get dataSrouce Viewers Info from the selected row
+			// Get dataSource Viewers Info from the selected row
 			var dsViewersInfo = rowData[11];
 			// Set dataSource viewers info panel content
 			$('div#rp_viewersInfo').html(dsViewersInfo);
@@ -194,9 +227,9 @@
 
 		$('input#radioAllPubRes').bind('click', function(event) {
 
-			// When a guest clicks the All Published Resources radio button, we could optionally make the Ajax call here but
-			// then we'd have to figure out how to get the returned data resource content into the data table from here. Right now
-			// I'm just keeping this here just in case we might have to revert to this way of fetching data from the Grails service
+			// When a guest clicks the All Published Resources radio button (upper left panel), we could optionally make the Ajax call here but
+			// then we'd have to figure out how to get the returned dataResource content into the data table (center pane) from here. Right now
+			// I'm just keeping this here just in case we might have to revert to this Ajaxified way of fetching data from the Grails service
 			// layer.
 //			$.getJSON(
 //					'service/list',
