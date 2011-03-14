@@ -7,9 +7,9 @@
 </head>
 
 <body>
-<p>[Data Resource Name]</p>
+<p>${dataResourceTitle}</p>
 <p><strong>Summary</strong></p>
-<p>[Data Resource Title]</p>
+<p>[Meta Info]</p>
 <p><strong>Program:</strong> Nasa Earth Observing (EOS), NOAA Geostationary Operational Environmental Satellites (GOES), NOAA Polar Operational Environmental Satellites (POES)</p>
 <p><strong>Spacecraft:</strong> Aqua, NOAA GOES-10 and GOES-12, NOAA POES-17 and POES-18</p>
 <p><strong>Sensor:</strong> Moderate Resolution Imaging Spectroradiometer (MODIA) on Aqua, Advanced Very Hight Resolution Radiometer (AVHRR) on POES, Imager on GOES, Advanced Microwave Scanning Radiometer (AMSR-E) on Aqua</p>
