@@ -162,7 +162,10 @@
 			$(event.target.parentNode).addClass('row_selected').text();
 
 			// Expands right pane panels when row is selected. Also closes panels if already expanded.
-			$('#eastMultiOpenAccordion h3').trigger('click');
+			if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) {
+				$('#eastMultiOpenAccordion h3').trigger('click');
+			}
+
 
 			// Get the hidden column data for this row
 			var rowData = oTable.fnGetData(event.target.parentNode);
