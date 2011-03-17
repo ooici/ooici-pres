@@ -49,10 +49,12 @@ public class AuthenticationFilter implements Filter {
 		// See if our cookie exists.  If not, we'll delegate to CILogon
 		Cookie[] cookies = request.getCookies();
 		boolean found = false;
-		for (int i = 0; i < cookies.length; i++) {
-			if (cookies[i].getName().equals("IONCOREOOID")) {
-				found = true;
-				break;
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("IONCOREOOID")) {
+					found = true;
+					break;
+				}
 			}
 		}
 
