@@ -15,7 +15,7 @@
         <c:failureUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres-0.1/failure"/>
         <c:portalName>Sample Java delegation portal</c:portalName>
         <c:portalSkin/>
-        <c:successUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres-0.1/success"/>
+        <c:successUri rdf:resource="https://spasco.ucsd.edu:8443/ooici-pres-0.1/SuccessServlet"/>
       </rdf:Description>
     </b:hasPortalParameters>
   </rdf:Description>
