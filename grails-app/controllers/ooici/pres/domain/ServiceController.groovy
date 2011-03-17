@@ -63,34 +63,41 @@ class ServiceController {
 	    DataResource dataResource = new DataResource()
 	    
 	    dataResource.id = 1
-	    dataResource.published = true
+	    dataResource.title = "title 123"
 	    dataResource.provider = "The provider 123"
 	    dataResource.format = "format 123"
-	    dataResource.protocol = "protocol 123"
 	    dataResource.type = "type 123"
-	    dataResource.title = "title 123"
-	    dataResource.dataFormat = "dataFormat 123"
-	    dataResource.dataType = "data type 123"
-	    dataResource.namingAuthority = "naming authority 123"
 	    dataResource.summary = "summary 123"
-	    dataResource.publisherInstitution = "publisher institution 123"
 	    dataResource.publisherName = "publisher name 123"
-	    dataResource.publisherEmail = "publisher email 123"
-	    dataResource.publisherWebsite = "publisher website 123"
-	    dataResource.creatorInstitution = "creator institution 123"
 	    dataResource.creatorName = "creator name 123"
-	    dataResource.creatorEmail = "creator email 123"
-	    dataResource.openDAP = "open dap 123"
-	    dataResource.wcs = "wcs 123"
-	    dataResource.ncml = "ncml 123"
-	    dataResource.uddc = "uddc 123"
-	    dataResource.iso = "iso 123"
+	    
+	    def dataResourceList = []
+	    dataResourceList.add(dataResource)
 
-//	    render(contentType:"text/json") {
-//			dataResource
-//		}
+	    render(contentType:"text/json") {
+			aaData = [
+				['test id','Test Title 1 - This is a longer title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 2' ,'Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 3','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 4','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 5','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 6','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 7','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 8','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 9','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 10','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 11','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 12','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 13','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 14','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 15','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 16','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 17','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 18','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name']
+			]
+		}
 
-	    render dataResource as JSON
+//	    render dataResource as JSON
 
 //        params.max = Math.min(params.max ? params.int('max') : 10, 100)
 //        [services:serviceList, serviceInstanceList: Service.list(params), serviceInstanceTotal: Service.count()]
