@@ -92,7 +92,7 @@ grails.plugins.springsecurity.authority.className = 'ooici.pres.domain.Role'
 
 grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/home'
 
-grails.plugins.springsecurity.useBasicAuth = true
+grails.plugins.springsecurity.useBasicAuth = false
 grails.plugins.springsecurity.basic.realmName = "OOICI - LCA Demo"
 
 // For securing URLs
