@@ -5,6 +5,8 @@ import ion.resource.ResourceDO
 import com.rabbitmq.client.AMQP
 import grails.converters.JSON
 
+import ion.integration.ais.AppIntegrationService
+
 class ServiceController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -13,91 +15,57 @@ class ServiceController {
         redirect(action: "list", params: params)
     }
 
+	def BootstrapIONService
+	
     def list = {
 
-//	    String hostName = "localhost";
-//        int portNumber = AMQP.PROTOCOL.PORT;
-//        String exchange = "magnet.topic";
-//        String toName = "spasco.javaint";
-//        String fromName = "mysys.return";
+//        def ooid = session.getAttribute("IONCOREOOID");
 //
-//        // Messaging environment
-//        MsgBrokerAttachment ionAttach = new MsgBrokerAttachment(hostName, portNumber, exchange);
-//        ionAttach.attach();
+//        def requestJsonString = "{\"user_ooi_id\": \"3f27a744-2c3e-4d2a-a98c-050b246334a3\",\"minLatitude\": 32.87521,\"maxLatitude\": 32.97521,\"minLongitude\": -117.274609,\"maxLongitude\": -117.174609,\"minDepth\": 5.5,\"maxDepth\": 6.6,\"minTime\": 7.7,\"maxTime\": 8.8,\"identity\": \"fd204aa3-2faa-4d49-84ee-457094666b23\"}";
 //
-//        // Create return queue
-//        String queue = ionAttach.declareQueue(null);
-//        ionAttach.bindQueue(queue, fromName, null);
-//        ionAttach.attachConsumer(queue);
-//
-//	    ResourceDO res = new ResourceDO();
-//
-//		// Create and send request message
-//		IonMessage msgout = ionAttach.createMessage(fromName, toName, "list_all_services", res);
-//		ionAttach.sendMessage(msgout);
-//
-//	    // Receive response message
-//		IonMessage msgin = ionAttach.consumeMessage(queue);
-//
-//	    // create dataproduct list
-//		def serviceList = []
-//
-//	    // get the value content from the message
-//	    def value = msgin.getContent().get("value")
-//
-//	    // place value content into dataproduct domain model object
-//	    value.each{
-//
-//		    def service = new Service()
-//
-//		    service.name = "$it.name"
-//		    service.status = "$it.status"
-//
-//		    serviceList << service
-//	    }
-//
-//		ionAttach.ackMessage(msgin);
+//        def dataResourceList = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(requestJsonString, AppIntegrationService.RequestType.FIND_DATA_RESOURCES, ooid, "0");
 
-	    // Converting the data to JSON
+		// We will receive a list of objects that define name:value pairs
+		def sampleJsonResultString = "[{\"user_ooi_id\": \"3f27a744-2c3e-4d2a-a98c-050b246334a3\",\"data_resource_id\": \"fd204aa3-2faa-4d49-84ee-457094666b23\",\"title\": \"NDBC Sensor Observation Service data\",\"institution\": \"NOAA National Data Buoy Center (http://www.ndbc.noaa.gov/)\",\"source\": \"NDBC SOS\"}]"
 
-	    DataResource dataResource = new DataResource()
-	    
-	    dataResource.id = 1
-	    dataResource.title = "title 123"
-	    dataResource.provider = "The provider 123"
-	    dataResource.format = "format 123"
-	    dataResource.type = "type 123"
-	    dataResource.summary = "summary 123"
-	    dataResource.publisherName = "publisher name 123"
-	    dataResource.creatorName = "creator name 123"
-	    
-	    def dataResourceList = []
-	    dataResourceList.add(dataResource)
+//	    DataResource dataResource = new DataResource()
+//	    
+//	    dataResource.id = 1
+//	    dataResource.title = "title 123"
+//	    dataResource.provider = "The provider 123"
+//	    dataResource.format = "format 123"
+//	    dataResource.type = "type 123"
+//	    dataResource.summary = "summary 123"
+//	    dataResource.publisherName = "publisher name 123"
+//	    dataResource.creatorName = "creator name 123"
+//	    
+//	    def dataResourceList = []
+//	    dataResourceList.add(dataResource)
 
-	    render(contentType:"text/json") {
-			aaData = [
-				['test id','Test Title 1 - This is a longer title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 2' ,'Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 3','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 4','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 5','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 6','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 7','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 8','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 9','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 10','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 11','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 12','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 13','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 14','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 15','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 16','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 17','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-				['test id','Test Title 18','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name']
-			]
-		}
+//	    render(contentType:"text/json") {
+//			aaData = [
+//				['test id','Test Title XXX - This is a longer title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 2' ,'Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 3','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 4','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 5','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 6','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 7','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 8','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 9','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 10','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 11','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 12','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 13','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 14','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 15','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 16','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 17','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+//				['test id','Test Title 18','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name']
+//			]
+//		}
 
-//	    render dataResource as JSON
+//	    render dataResourceList as JSON
 
 //        params.max = Math.min(params.max ? params.int('max') : 10, 100)
 //        [services:serviceList, serviceInstanceList: Service.list(params), serviceInstanceTotal: Service.count()]
