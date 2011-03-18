@@ -114,7 +114,11 @@ class ServiceController {
     }
 
     def show = {
-        def serviceInstance = Service.get(params.id)
+
+		// We will receive an object that define name:value pairs
+		def sampleJsonResultString = "{\"data_resource_id\": \"fd204aa3-2faa-4d49-84ee-457094666b23\",\"data_resource_details\": \"Some detail data...\"}"
+
+		        def serviceInstance = Service.get(params.id)
         if (!serviceInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'service.label', default: 'Service'), params.id])}"
             redirect(action: "list")
