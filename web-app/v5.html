@@ -28,6 +28,8 @@
 	.ui-accordion .ui-accordion-content {
 		padding: 1em 2.2em;
 	}
+
+
 </style>
 
 <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
@@ -37,7 +39,7 @@
 
 <script type="text/javascript">
 
-	var pgLayout, oTable, xhr;
+	var pgLayout, oTable;
 
 	function sizeCenterPane() {
 		var $Container = $('#layoutContainer');
@@ -51,33 +53,6 @@
 		// resize panes to fit new container size
 		pgLayout.resizeAll();
 	}
-
-	window.onload = function() {
-
-		if (window.ActiveXObject) {
-			xhr = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		else if (window.XMLHttpRequest) {
-			xhr = new XMLHttpRequest();
-		}
-		else {
-			throw new Error("Ajax is not supported by this browser");
-		}
-
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4) {
-				if (this.status >= 200 && this.status < 300) {
-					alert(this.responseText);
-					//					document.getElementById('#example tbody')
-					//							.innerHTML = this.responseText;
-				}
-			}
-		};
-
-		////		xhr.send('a=1,b=2,c=3');
-		//		xhr.open('GET', '/service/list');
-		//		xhr.send('');
-	};
 
 	$(document).ready(function() {
 
@@ -94,28 +69,41 @@
 		});
 
 		// now resize the container to be a perfect fit
-		sizeCenterPane();
+	//	sizeCenterPane();
 
 		// Datatable settings
-		$('#example').dataTable({
+		oTable = $('#example').dataTable({
 			"bProcessing": true,
 			"sAjaxSource": 'service/list',
-			"aoColumns": [
-				/* Id */ {"bVisible": false},
-				/* Title */  null,
-				/* Provider */  null,
-				/* Format */ null,
-				/* Type */  null,
-				/* MetaInfo */ {"bVisible":false},
-				/* Publisher Info */ {"bVisible":false},
-				/* Creator Info */ {"bVisible":false}
-			],
-			"bJQueryUI": true,
-			"sPaginationType": "full_numbers"
+			/* "aoColumns": [
+				{"bVisible": false}, //Id
+				 null, //Title
+				 null, //Provider
+				 null, //Format
+				 null, //Type
+				 {"bVisible":false}, // MetaInfo
+				 {"bVisible":false}, //Publisher Info
+				 {"bVisible":false} //Creator Info
+			],*/
+      "bJQueryUI": true, 
+      "sPaginationType": "full_numbers"
 		});
 
 		// Initialize the center pane datatable
-		oTable = $('#example').dataTable();
+		//oTable = $('#example').dataTable();
+
+
+    $.getJSON("service/list", function(data){
+      var newdata = []
+      $.each(data, function(i, elem){
+        //newdata.push([elem.title, elem.institution, elem.source, ""]);
+        $('#example').dataTable().fnAddData([elem.title, elem.institution, elem.source, ""]);
+        console.log(elem);
+      });
+      console.log(newdata);
+    });
+
+
 
 		/**
 		 * WF101
@@ -125,7 +113,7 @@
 		 * The result of this action should hide the dataResource table and display a comprehensive
 		 * summary view of the dataResource selected. 
  		 */
-		$("#example tbody").bind('dblclick', function(event) {
+	/*	$("#example tbody").bind('dblclick', function(event) {
 			// Get the hidden column data for this row
 			var rowData = oTable.fnGetData(event.target.parentNode);
 
@@ -145,6 +133,7 @@
 //			    }
 			)
 		});
+ */
  
 		/**
 		 * WF 100
@@ -290,29 +279,28 @@
 				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
 					<thead>
 					<tr>
-						<th>Id</th>
 						<th width="50%">Title</th>
 						<th>Provider</th>
 						<th>Format</th>
 						<th>Type</th>
-						<th>MetaInfo</th>
+						<!--<th>MetaInfo</th>
 						<th>Publisher Info</th>
-						<th>Creator Info</th>
+						<th>Creator Info</th>-->
 					</tr>
 					</thead>
 					<tbody>
-					<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus nisi vitae tortor
+					 <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus nisi vitae tortor
 						adipiscing sit amet tempus
 						justo tincidunt. Nam varius congue ultricies. Phasellus sodales pellentesque congue. Nunc
 						posuere sollicitudin
 						tortor, quis dapibus risus faucibus sed.
-					</td>
+					</td> 
 					<tr class="gradeA">
 						<td>1</td>
 						<td>1 Argo Float Data from the PMEL DAPPER Server</td>
 						<td>NOAA, NCAR</td>
 						<td>NIDS</td>
-						<td class="center">GRID</td>
+						<!--<td class="center">GRID</td>
 						<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus nisi vitae tortor
 							adipiscing sit amet
 							tempus justo tincidunt. Nam varius congue ultricies. Phasellus sodales pellentesque congue.
@@ -330,10 +318,11 @@
 							tempus justo tincidunt. Nam varius congue ultricies. Phasellus sodales pellentesque congue.
 							Nunc posuere
 							sollicitudin tortor, quis dapibus risus faucibus sed.
-						</td>
+						</td>-->
 					</tr>
 					</tbody>
 				</table>
+
 			</div>
 			<div class="spacer"></div>
 		</div>
