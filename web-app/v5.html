@@ -37,7 +37,7 @@
 
 <script type="text/javascript">
 
-	var pgLayout, oTable, xhr;
+	var pgLayout, oTable;
 
 	function sizeCenterPane() {
 		var $Container = $('#layoutContainer');
@@ -51,33 +51,6 @@
 		// resize panes to fit new container size
 		pgLayout.resizeAll();
 	}
-
-	window.onload = function() {
-
-		if (window.ActiveXObject) {
-			xhr = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		else if (window.XMLHttpRequest) {
-			xhr = new XMLHttpRequest();
-		}
-		else {
-			throw new Error("Ajax is not supported by this browser");
-		}
-
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4) {
-				if (this.status >= 200 && this.status < 300) {
-					alert(this.responseText);
-					//					document.getElementById('#example tbody')
-					//							.innerHTML = this.responseText;
-				}
-			}
-		};
-
-		////		xhr.send('a=1,b=2,c=3');
-		//		xhr.open('GET', '/service/list');
-		//		xhr.send('');
-	};
 
 	$(document).ready(function() {
 
@@ -129,20 +102,9 @@
 			// Get the hidden column data for this row
 			var rowData = oTable.fnGetData(event.target.parentNode);
 
-			// Hides the data resource table
-//			$('.ui-layout-center').hide();
-
-//			$('#container').html(
-//				'<a href="http://www.google.com">back to data table</a>',
-//				'hi'
-//			);
-
 			$('#container').load(
 				'/html/fetchDataResourceDetails',
 				{title:rowData[1]}
-//			    function(response) {
-//				    $('container')html(response);
-//			    }
 			)
 		});
  
@@ -229,16 +191,6 @@
 		$('.ui-layout-east').hide();
 
 		$('input#radioAllPubRes').bind('click', function(event) {
-
-			// When a guest clicks the All Published Resources radio button (upper left panel), we could optionally make the Ajax call here but
-			// then we'd have to figure out how to get the returned dataResource content into the data table (center pane) from here. Right now
-			// I'm just keeping this here just in case we might have to revert to this Ajaxified way of fetching data from the Grails service
-			// layer.
-//			$.getJSON(
-//					'service/list',
-//					function(response) {
-//					}
-//					);
 
 			$('.ui-layout-center').show();
 			$('.ui-layout-east').show();
