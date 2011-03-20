@@ -26,7 +26,7 @@ class ServiceController {
 //        def dataResourceList = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(requestJsonString, AppIntegrationService.RequestType.FIND_DATA_RESOURCES, ooid, "0");
 
 		// We will receive a list of objects that define name:value pairs
-		def sampleJsonResultString = "[{\"user_ooi_id\": \"3f27a744-2c3e-4d2a-a98c-050b246334a3\",\"data_resource_id\": \"fd204aa3-2faa-4d49-84ee-457094666b23\",\"title\": \"NDBC Sensor Observation Service data\",\"institution\": \"NOAA National Data Buoy Center (http://www.ndbc.noaa.gov/)\",\"source\": \"NDBC SOS\"}]"
+//		def sampleJsonResultString = "[{\"user_ooi_id\": \"3f27a744-2c3e-4d2a-a98c-050b246334a3\",\"data_resource_id\": \"fd204aa3-2faa-4d49-84ee-457094666b23\",\"title\": \"NDBC Sensor Observation Service data\",\"institution\": \"NOAA National Data Buoy Center (http://www.ndbc.noaa.gov/)\",\"source\": \"NDBC SOS\"}]"
 
 //	    DataResource dataResource = new DataResource()
 //	    
@@ -42,28 +42,28 @@ class ServiceController {
 //	    def dataResourceList = []
 //	    dataResourceList.add(dataResource)
 
-//	    render(contentType:"text/json") {
-//			aaData = [
-//				['test id','Test Title XXX - This is a longer title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 2' ,'Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 3','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 4','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 5','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 6','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 7','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 8','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 9','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 10','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 11','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 12','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 13','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 14','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 15','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 16','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 17','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 18','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name']
-//			]
-//		}
+	    render(contentType:"text/json") {
+			aaData = [
+				['test id','Test Title XXX - This is a longer title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 2' ,'Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 3','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 4','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 5','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 6','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 7','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 8','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 9','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 10','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 11','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 12','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 13','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 14','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 15','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 16','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 17','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
+				['test id','Test Title 18','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name']
+			]
+		}
 
 //	    render dataResourceList as JSON
 
