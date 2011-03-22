@@ -265,12 +265,13 @@
 	CI UX Template
 </div>
 
-<div class="ui-layout-south ui-widget-content ui-state-error" style="display: none;"> South Pane</div>
+<div class="ui-layout-south ui-widget-content ui-state-error" style="display: none;">South Pane</div>
 
-<div class="ui-layout-center hidden" style="display: none;">
+<div class="ui-layout-center" style="display: none;">
 	<h3 class="ui-widget-header">Data Resources</h3>
 
-	<div id="dt_example">
+	<div class="ui-layout-content">
+		<div id="dt_example">
 		<div id="container">
 
 			<div class="demo_jui">
@@ -325,130 +326,138 @@
 			<div class="spacer"></div>
 		</div>
 	</div>
+	</div>
 
-
+	<h4 class="ui-widget-content ui-state-hover">Placeholder</h4>
+	
 </div>
 
 <div class="ui-layout-west" style="display: none;">
-	<div id="westMultiOpenAccordion">
-		<h3><a href="#">Resource Selector</a></h3>
 
-		<div style="padding-left: 10px; padding-right: 10px;">
-			<form action="">
-				<table>
-					<tr>
-						<td><input id="radioAllPubRes" name="group1" type="radio"/>
-						</td>
-						<td style="padding-right: 30px;">All Published Resources</td>
-						<td><input id="radioMySub" name="group1" type="radio"/></td>
-						<td>My Subscriptions</td>
-					</tr>
-					<tr>
-						<td><input id="radioMyPubRes" name="group1" type="radio"/>
-						</td>
-						<td>My Published Resources</td>
-						<td><input id="radioMyNotif" name="group1" type="radio"/>
-						</td>
-						<td>My Notifications</td>
-					</tr>
-					<tr>
-						<td><input id="radioRunEPU" name="group1" type="radio"/>
-						</td>
-						<td>Running EPUs</td>
-						<td><input id="radioRegUsers" name="group1" type="radio"/>
-						</td>
-						<td>Registered Users</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-		<h3><a href="#">Geospatial Extent</a></h3>
+	<div class="ui-layout-content">
+		<div id="westMultiOpenAccordion">
+			<h3><a href="#">Resource Selector</a></h3>
 
-		<div id="geospatialContainer">
-			<div class="boundingBoxRadios">
+			<div style="padding-left: 10px; padding-right: 10px;">
 				<form action="">
 					<table>
 						<tr>
-							<td><strong>Bounding Box:</strong></td>
-							<td><input name="group1" type="radio"/></td>
-							<td>All</td>
+							<td><input id="radioAllPubRes" name="group1" type="radio"/>
+							</td>
+							<td style="padding-right: 30px;">All Published Resources</td>
+							<td><input id="radioMySub" name="group1" type="radio"/></td>
+							<td>My Subscriptions</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><input name="group1" type="radio"/></td>
-							<td>Defined</td>
+							<td><input id="radioMyPubRes" name="group1" type="radio"/>
+							</td>
+							<td>My Published Resources</td>
+							<td><input id="radioMyNotif" name="group1" type="radio"/>
+							</td>
+							<td>My Notifications</td>
+						</tr>
+						<tr>
+							<td><input id="radioRunEPU" name="group1" type="radio"/>
+							</td>
+							<td>Running EPUs</td>
+							<td><input id="radioRegUsers" name="group1" type="radio"/>
+							</td>
+							<td>Registered Users</td>
 						</tr>
 					</table>
 				</form>
 			</div>
-			<div class="altitudeRadios">
+			<h3><a href="#">Geospatial Extent</a></h3>
+
+			<div id="geospatialContainer">
+				<div class="boundingBoxRadios">
+					<form action="">
+						<table>
+							<tr>
+								<td><strong>Bounding Box:</strong></td>
+								<td><input name="group1" type="radio"/></td>
+								<td>All</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input name="group1" type="radio"/></td>
+								<td>Defined</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="altitudeRadios">
+					<form action="">
+						<table>
+							<tr>
+								<td><strong>Altitude:</strong></td>
+								<td><input name="group1" type="radio"/></td>
+								<td>All</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input name="group1" type="radio"/></td>
+								<td>Defined</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="boundingBoxText">
+					Bounding Box<br/>
+					(Decimal Degrees)
+				</div>
+				<div class="boundingBoxControls">
+					<span class="Ntext">N</span>
+					<input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+					<span class="Stext">S</span>
+					<input class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+					<span class="Etext">E</span>
+					<input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+					<span class="Wtext">W</span>
+					<input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+					<span class="NSEWBackgroundBorder"></span>
+				</div>
+				<div class="altitudeControls">
+						<span class="altText">Altitude<br/>
+						(Feet MSL)</span>
+						<span class="altitudeUpper">Upper Bound:
+						<input class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+						</span>
+						<span class="altitudeLower">Lower Bound:
+						<input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+						</span>
+				</div>
+			</div>
+			<h3><a href="#">Temporal Extent</a></h3>
+
+			<div style="display: block; padding-left: 10px; padding-right: 10px;" class="temporalExtentContainer">
 				<form action="">
 					<table>
 						<tr>
-							<td><strong>Altitude:</strong></td>
-							<td><input name="group1" type="radio"/></td>
+							<td class="boldText">Time Range:</td>
+							<td><input id="TE_timeRange_all" name="group1" type="radio"/>
+							</td>
 							<td>All</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><input name="group1" type="radio"/></td>
+							<td><input id="TE_timeRange_defined" name="group1" type="radio"/></td>
 							<td>Defined</td>
 						</tr>
 					</table>
 				</form>
-			</div>
-			<div class="boundingBoxText">
-				Bounding Box<br/>
-				(Decimal Degrees)
-			</div>
-			<div class="boundingBoxControls">
-				<span class="Ntext">N</span>
-				<input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
-				<span class="Stext">S</span>
-				<input class="south textfield" name="south" type="text" size="5" maxlength="5"/>
-				<span class="Etext">E</span>
-				<input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
-				<span class="Wtext">W</span>
-				<input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
-				<span class="NSEWBackgroundBorder"></span>
-			</div>
-			<div class="altitudeControls">
-					<span class="altText">Altitude<br/>
-					(Feet MSL)</span>
-					<span class="altitudeUpper">Upper Bound:
-					<input class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
-					</span>
-					<span class="altitudeLower">Lower Bound:
-					<input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
-					</span>
-			</div>
-		</div>
-		<h3><a href="#">Temporal Extent</a></h3>
+				<span class="te-from boldText">From:</span>
+				<input class="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
+				<span class="te-to boldText">To:</span>
+				<input class="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
 
-		<div style="display: block; padding-left: 10px; padding-right: 10px;" class="temporalExtentContainer">
-			<form action="">
-				<table>
-					<tr>
-						<td class="boldText">Time Range:</td>
-						<td><input id="TE_timeRange_all" name="group1" type="radio"/>
-						</td>
-						<td>All</td>
-						<td><input id="TE_timeRange_defined" name="group1" type="radio"/></td>
-						<td>Defined</td>
-					</tr>
-				</table>
-			</form>
-			<span class="te-from boldText">From:</span>
-			<input class="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
-			<span class="te-to boldText">To:</span>
-			<input class="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
-
-			<div class="te-footer-text">
-				ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
-				Example: 2010-11-15T09:00:00
+				<div class="te-footer-text">
+					ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
+					Example: 2010-11-15T09:00:00
+				</div>
 			</div>
 		</div>
 	</div>
+
+	<h4 class="ui-widget-content ui-state-hover">Placeholder</h4>
+
 </div>
 
 <div class="ui-layout-east" style="display: none;">
@@ -487,7 +496,7 @@
 		</div>
 	</div>
 
-	<h4 class="ui-widget-content ui-state-hover">Get Notification Get Download</h4>
+	<h4 class="ui-widget-content ui-state-hover">Placeholder</h4>
 </div>
 
 </body>
