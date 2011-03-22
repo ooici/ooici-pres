@@ -18,7 +18,6 @@ body {
 }
 /* (scrolling) content-div inside pane allows for fixed header(s) and/or footer(s) */
 .ui-layout-content {
-	padding:	10px;
 	position:	relative; /* contain floated or positioned elements */
 	overflow:	auto; /* add scrolling to content-div */
 }
