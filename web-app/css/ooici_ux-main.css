@@ -1,0 +1,15 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: 0.75em;
+}
+.hidden {
+  display: none;
+}
+#dt_example {
+  position: relative;
+  overflow: hidden;
+}
+.ui-accordion .ui-accordion-content {
+  padding: 1em 2.2em;
+}
+

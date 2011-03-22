@@ -1,266 +1,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>OOICI UX Template</title>
 
-<title>OOICI UX Template</title>
+  <link rel="stylesheet" type="text/css" href="css/ciux-default.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="css/cupertino/jquery-ui-1.8.9.custom.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-page.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-table-jui.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="css/ooici_ux-main.css"/>
 
-<link rel="stylesheet" type="text/css" href="css/ciux-default.css"/>
-<link rel="stylesheet" type="text/css" media="screen" href="css/cupertino/jquery-ui-1.8.9.custom.css"/>
-<link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-page.css"/>
-<link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-table-jui.css"/>
+  <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+  <script src="js/jquery.layout.min.js" type="text/javascript"></script>
+  <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+  <script src="js/jquery.multi-open-accordion.js" type="text/javascript"></script>
+  <script src="js/underscore-min.js" type="text/javascript"></script>
+  <script src="js/backbone-min.js" type="text/javascript"></script>
 
-<style type="text/css">
-	.hidden {
-		display: none;
-	}
-
-	#dt_example {
-		position: relative;
-		overflow: hidden;
-	}
-
-	body {
-		font-family: Arial, sans-serif;
-		font-size: 0.75em;
-	}
-
-	.ui-accordion .ui-accordion-content {
-		padding: 1em 2.2em;
-	}
-
-
-</style>
-
-<script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
-<script src="js/jquery.layout.min.js" type="text/javascript"></script>
-<script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="js/jquery.multi-open-accordion.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-
-	var pgLayout, oTable;
-
-	function sizeCenterPane() {
-		var $Container = $('#layoutContainer');
-		var $Pane = $('.ui-layout-center');
-		var $Content = $('#dt_example');
-		var outerHeight = $Pane.outerHeight();
-		// use a Layout utility to calc total height of padding+borders (also handles IE6)
-		var panePadding = outerHeight - pgLayout.cssHeight($Pane, outerHeight);
-		// update the container height - *just* tall enough to accommodate #Content without scrolling
-		$Container.height($Pane.position().top + $Content.outerHeight() + panePadding);
-		// resize panes to fit new container size
-		pgLayout.resizeAll();
-	}
-
-	$(document).ready(function() {
-
-		// first set a 'fixed height' on the container so it does not collapse...
-		var $Container = $('#layoutContainer')
-		$Container.height($(window).height() - $Container.offset().top);
-
-		// NOW create the layout
-		pgLayout = $('#layoutContainer').layout({
-			resizerClass: 'ui-state-default',
-			north__size: 60,
-			west__size: 350,
-			east__size: 350
-		});
-
-		// now resize the container to be a perfect fit
-	//	sizeCenterPane();
-
-		// Datatable settings
-		oTable = $('#example').dataTable({
-			"bProcessing": true,
-			"sAjaxSource": 'service/list',
-			/* "aoColumns": [
-				{"bVisible": false}, //Id
-				 null, //Title
-				 null, //Provider
-				 null, //Format
-				 null, //Type
-				 {"bVisible":false}, // MetaInfo
-				 {"bVisible":false}, //Publisher Info
-				 {"bVisible":false} //Creator Info
-			],*/
-      "bJQueryUI": true, 
-      "sPaginationType": "full_numbers"
-		});
-
-		// Initialize the center pane datatable
-		//oTable = $('#example').dataTable();
-
-
-    $.getJSON("service/list", function(data){
-      var newdata = []
-      $.each(data, function(i, elem){
-        //newdata.push([elem.title, elem.institution, elem.source, ""]);
-        $('#example').dataTable().fnAddData([elem.title, elem.institution, elem.source, ""]);
-        console.log(elem);
-      });
-      console.log(newdata);
-    });
-
-
-
-		/**
-		 * WF101
-		 *
-		 * Handles double click action on a row w/in the center pane's dataResource table.
-		 *
-		 * The result of this action should hide the dataResource table and display a comprehensive
-		 * summary view of the dataResource selected. 
- 		 */
-	/*	$("#example tbody").bind('dblclick', function(event) {
-			// Get the hidden column data for this row
-			var rowData = oTable.fnGetData(event.target.parentNode);
-
-			// Hides the data resource table
-//			$('.ui-layout-center').hide();
-
-//			$('#container').html(
-//				'<a href="http://www.google.com">back to data table</a>',
-//				'hi'
-//			);
-
-			$('#container').load(
-				'/html/fetchDataResourceDetails',
-				{title:rowData[1]}
-//			    function(response) {
-//				    $('container')html(response);
-//			    }
-			)
-		});
- */
- 
-		/**
-		 * WF 100
-		 *
-		 * Handles user click events within center pane datatable
-		 */
-		$("#example tbody").click(function(event) {
-
-			// Upon deselect of a row, turns that row's highlighting off
-			$(oTable.fnSettings().aoData).each(function () {
-				$(this.nTr).removeClass('row_selected');
-			});
-
-			// Highlights selected row
-			$(event.target.parentNode).addClass('row_selected').text();
-
-			// Expands right pane panels when row is selected. Also closes panels if already expanded.
-			if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) {
-				$('#eastMultiOpenAccordion h3').trigger('click');
-			}
-
-
-			// Get the hidden column data for this row
-			var rowData = oTable.fnGetData(event.target.parentNode);
-
-			// Get the data source Id from column 0
-			var dsId = rowData[0];
-
-			// Get dataSource title from the selected row
-			var dsTitle = rowData[1];
-			// Set dataSource title panel content
-			$('a#rp_dsTitle').html(dsTitle);
-
-			// Get dataSource MetaInfo from the selected row
-			var dsMeta = rowData[5];
-			// Set dataSource MetaInfo panel content
-			$('div#rp_dsMetaInfo').html(dsMeta);
-
-			// Get dataSource Publisher Info from the selected row
-			var dsPubInfo = rowData[6];
-			// Set dataSource Publisher info content
-			$('div#rp_publisherInfo').html(dsPubInfo);
-
-			// Get dataSource Creator info from the selected row
-			var dsCreatorInfo = rowData[7];
-			// Set dataSource Creator info content
-			$('div#rp_creatorInfo').html(dsCreatorInfo);
-
-			// Get dataSource Documentation Info from the selected row
-			var dsDocInfo = rowData[8];
-			// Set dataSource Documentation panel content
-			$('div#rp_docInfo').html(dsDocInfo);
-
-			// Get dataSource Variables Info from the selected row
-			var dsVarInfo = rowData[9];
-			// Set dataSource variables panel content
-			$('div#rp_variablesInfo').html(dsVarInfo);
-
-			// Get dataSource Access Info from the selected row
-			var dsAccessInfo = rowData[10];
-			// Set dataSource access info panel content
-			$('div#rp_accessInfo').html(dsAccessInfo);
-
-			// Get dataSource Viewers Info from the selected row
-			var dsViewersInfo = rowData[11];
-			// Set dataSource viewers info panel content
-			$('div#rp_viewersInfo').html(dsViewersInfo);
-
-		});
-
-		$('#eastMultiOpenAccordion').multiAccordion();
-		$('#westMultiOpenAccordion').multiAccordion();
-
-		// auto open Resource Selector panel
-		$('#westMultiOpenAccordion h3:eq(0)').trigger('click');
-		// auto open Geospatial Extent panel
-		$('#westMultiOpenAccordion h3:eq(1)').trigger('click');
-		// auto open Temporal Extent panel
-		$('#westMultiOpenAccordion h3:eq(2)').trigger('click');
-
-		$('.ui-layout-center').hide();
-		$('.ui-layout-east').hide();
-
-		$('input#radioAllPubRes').bind('click', function(event) {
-
-			// When a guest clicks the All Published Resources radio button (upper left panel), we could optionally make the Ajax call here but
-			// then we'd have to figure out how to get the returned dataResource content into the data table (center pane) from here. Right now
-			// I'm just keeping this here just in case we might have to revert to this Ajaxified way of fetching data from the Grails service
-			// layer.
-//			$.getJSON(
-//					'service/list',
-//					function(response) {
-//					}
-//					);
-
-			$('.ui-layout-center').show();
-			$('.ui-layout-east').show();
-		});
-
-		$('input#radioMySub').bind('click', function(event) {
-			$('.ui-layout-center').hide();
-			$('.ui-layout-east').hide();
-		});
-
-		$('input#radioMyPubRes').bind('click', function(event) {
-			$('.ui-layout-center').hide();
-			$('.ui-layout-east').hide();
-		});
-
-		$('input#radioMyNotif').bind('click', function(event) {
-			$('.ui-layout-center').hide();
-			$('.ui-layout-east').hide();
-		});
-
-		$('input#radioRunEPU').bind('click', function(event) {
-			$('.ui-layout-center').hide();
-			$('.ui-layout-east').hide();
-		});
-
-		$('input#radioRegUsers').bind('click', function(event) {
-			$('.ui-layout-center').hide();
-			$('.ui-layout-east').hide();
-		});
-
-	});
-
-</script>
+  <script src="js/ooici_ux-main.js" type="text/javascript"></script>
+  <script type="text/javascript">
+	$(function() {
+    var ooiux = new OOIUX({"el":"#layoutContainer"});
+  });
+  </script>
 
 </head>
 <body>
@@ -337,25 +99,25 @@
 			<form action="">
 				<table>
 					<tr>
-						<td><input id="radioAllPubRes" name="group1" type="radio"/>
+						<td><input id="radioAllPubRes" class="controlradios" name="group1" type="radio"/>
 						</td>
 						<td style="padding-right: 30px;">All Published Resources</td>
-						<td><input id="radioMySub" name="group1" type="radio"/></td>
+						<td><input id="radioMySub" class="controlradios" name="group1" type="radio"/></td>
 						<td>My Subscriptions</td>
 					</tr>
 					<tr>
-						<td><input id="radioMyPubRes" name="group1" type="radio"/>
+						<td><input id="radioMyPubRes" class="controlradios" name="group1" type="radio"/>
 						</td>
 						<td>My Published Resources</td>
-						<td><input id="radioMyNotif" name="group1" type="radio"/>
+						<td><input id="radioMyNotif" class="controlradios" name="group1" type="radio"/>
 						</td>
 						<td>My Notifications</td>
 					</tr>
 					<tr>
-						<td><input id="radioRunEPU" name="group1" type="radio"/>
+						<td><input id="radioRunEPU" class="controlradios" name="group1" type="radio"/>
 						</td>
 						<td>Running EPUs</td>
-						<td><input id="radioRegUsers" name="group1" type="radio"/>
+						<td><input id="radioRegUsers" class="controlradios" name="group1" type="radio"/>
 						</td>
 						<td>Registered Users</td>
 					</tr>
