@@ -8,9 +8,9 @@ var OOIUX = Backbone.View.extend({
     initialize: function() {
         this.layout = this.layout_init();
         this.datatable = this.datatable_init();
-        this.populate_table(this.datatable);
         this.wf_100(this.datatable);
         this.wf_101(this.datatable);
+        this.wf_104(this.datatable);
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
     },
 
@@ -38,43 +38,23 @@ var OOIUX = Backbone.View.extend({
     //oTable = $('#example').dataTable();
     },
 
-    populate_table: function(datatable){
-        //XXX this will be generalized a lot.
-        datatable.fnClearTable();//XXX
-        $.getJSON("service/list", function(data){
-            $.each(data, function(i, elem){
-                datatable.fnAddData([elem.title, elem.institution, elem.source, "-"]);
-                //console.log(elem);
-            });
+    populate_table: function(url, datatable){
+        datatable.fnClearTable();
+        $.getJSON(url, function(data){
+            if (url == "service/list"){
+                $.each(data, function(i, elem){
+                    datatable.fnAddData([elem.title, elem.institution, elem.source, "type"]);
+                });
+            } 
+            if (url == "service/notifications"){
+                $.each(data, function(i, elem){
+                    datatable.fnAddData([elem.title, elem.institution, elem.created, "details"]);
+                });
+            } 
+
         });
     },
 
-
-    wf_101: function(datatable){
-       /**
-        * WF101
-        *
-        * Handles double click action on a row w/in the center pane's dataResource table.
-        *
-        * The result of this action should hide the dataResource table and display a comprehensive
-        * summary view of the dataResource selected. 
-        */
-        $("#example tbody").bind('dblclick', function(event) {
-            // Get the hidden column data for this row
-            var rowData = datatable.fnGetData(event.target.parentNode);
-            alert("Showing Datatable details...");
-            // Hides the data resource table
-            //$('.ui-layout-center').hide();
-            //$('#container').html(
-            //'<a href="http://www.google.com">back to data table</a>',
-            //'hi'
-            //);
-            /*    $('#container').load('/html/fetchDataResourceDetails', {title:rowData[1]}
-                    function(response) { $('container')html(response); }
-                )
-            */
-        });
-    },
 
     wf_100: function(datatable){
         /**
@@ -82,6 +62,36 @@ var OOIUX = Backbone.View.extend({
          *
          * Handles user click events within center pane datatable
         */
+
+        $('#eastMultiOpenAccordion').multiAccordion();
+        $('#westMultiOpenAccordion').multiAccordion();
+
+        // auto open Resource Selector panel
+        $('#westMultiOpenAccordion h3:eq(0)').trigger('click');
+        // auto open Geospatial Extent panel
+        $('#westMultiOpenAccordion h3:eq(1)').trigger('click');
+        // auto open Temporal Extent panel
+        $('#westMultiOpenAccordion h3:eq(2)').trigger('click');
+
+        $('.ui-layout-center').hide();
+        $('.ui-layout-east').hide();
+
+        self = this;
+        $('#radioAllPubRes').bind('click', function(event) {
+            $("#container h1").text("Data Resources");
+            $(".notification_settings").hide();
+            if ($("#rp_dsMetaInfo").text() == ""){
+                $("div.data_sources").hide();
+            } else {
+                $(".data_sources").show();
+            }
+            $("table#example thead tr:first").find("th:eq(0)").text("Resource Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Format").end().find("th:eq(3)").text("Type");
+            self.populate_table("service/list", datatable);
+            $('.ui-layout-center').show();
+            $('.ui-layout-east').show();
+        });
+
+
         $("#example tbody").click(function(event) {
         // Upon deselect of a row, turns that row's highlighting off
 
@@ -144,27 +154,50 @@ var OOIUX = Backbone.View.extend({
             var dsViewersInfo = rowData[11] || "DataSource Viewers Info" + " #"+nth_elem;
             // Set dataSource viewers info panel content
             $('div#rp_viewersInfo').html(dsViewersInfo);
+            $(".notification_settings").hide();
 
         });
 
-        $('#eastMultiOpenAccordion').multiAccordion();
-        $('#westMultiOpenAccordion').multiAccordion();
 
-        // auto open Resource Selector panel
-        $('#westMultiOpenAccordion h3:eq(0)').trigger('click');
-        // auto open Geospatial Extent panel
-        $('#westMultiOpenAccordion h3:eq(1)').trigger('click');
-        // auto open Temporal Extent panel
-        $('#westMultiOpenAccordion h3:eq(2)').trigger('click');
+   },
 
-        $('.ui-layout-center').hide();
-        $('.ui-layout-east').hide();
-
-        $('input.controlradios').bind('click', function(event) {
-            $('.ui-layout-center').show();
-            $('.ui-layout-east').show();
+    wf_101: function(datatable){
+       /**
+        * WF101
+        *
+        * Handles double click action on a row w/in the center pane's dataResource table.
+        *
+        * The result of this action should hide the dataResource table and display a comprehensive
+        * summary view of the dataResource selected. 
+        */
+        $("#example tbody").bind('dblclick', function(event) {
+            // Get the hidden column data for this row
+            var rowData = datatable.fnGetData(event.target.parentNode);
+            alert("Showing Datatable details...");
         });
+    },
 
-   }
+    wf_104: function(datatable){
+       /**
+        * WF104
+        *
+        * User subscriptions.
+        *
+        */
+        self = this;
+        $("#radioMySub").bind('click', function(event) {
+            $("#container h1").text("Notification Settings");
+            $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
+            $(".notification_settings").show();
+            $(".data_sources").hide();
+            $("table#example thead tr:first").find("th:eq(0)").text("Notification Resource Title").end().find("th:eq(1)").text("Source").end().find("th:eq(2)").text("Notification Initiated").end().find("th:eq(3)").text("Details");
+            //var rowData = datatable.fnGetData(event.target.parentNode);
+            self.populate_table("service/notifications", datatable);
+            //alert("radioMySub");
+        });
+    },
+
+
+
 
 });

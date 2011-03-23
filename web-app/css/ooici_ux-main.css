@@ -13,3 +13,7 @@ body {
   padding: 1em 2.2em;
 }
 
+
+.notification_settings {
+  display:none;
+}

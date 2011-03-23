@@ -94,7 +94,6 @@
 <div class="ui-layout-west hidden">
 	<div id="westMultiOpenAccordion">
 		<h3><a href="#">Resource Selector</a></h3>
-
 		<div style="padding-left: 10px; padding-right: 10px;">
 			<form action="">
 				<table>
@@ -215,35 +214,55 @@
 
 <div class="ui-layout-east hidden">
 	<div id="eastMultiOpenAccordion">
-		<h3><a id="rp_dsTitle" href="#">Data Source Title</a></h3>
+		<h3 class="data_sources"><a id="rp_dsTitle" href="#">Data Source Title</a></h3>
 
-		<div id="rp_dsMetaInfo">
-		</div>
-		<h3><a href="#">Publisher Information</a></h3>
+		<div class="data_sources" id="rp_dsMetaInfo"></div>
+		<h3 class="data_sources"><a href="#">Publisher Information</a></h3>
 
-		<div id="rp_publisherInfo">
-		</div>
-		<h3><a href="#">Creator Information</a></h3>
+		<div class="data_sources" id="rp_publisherInfo"> </div>
+		<h3 class="data_sources"><a href="#">Creator Information</a></h3>
 
-		<div id="rp_creatorInfo">
-		</div>
-		<h3><a href="#">Documentation</a></h3>
+		<div class="data_sources" id="rp_creatorInfo"> </div>
+		<h3 class="data_sources"><a href="#">Documentation</a></h3>
 
-		<div id="rp_docInfo">
-		</div>
-		<h3><a href="#">Variables</a></h3>
+		<div class="data_sources" id="rp_docInfo"> </div>
+		<h3 class="data_sources"><a href="#">Variables</a></h3>
 
-		<div id="rp_variablesInfo">
-		</div>
-		<h3><a href="#">Access</a></h3>
+		<div class="data_sources" id="rp_variablesInfo"> </div>
+		<h3 class="data_sources"><a href="#">Access</a></h3>
 
-		<div id="rp_accessInfo">
-		</div>
-		<h3><a href="#">Viewers</a></h3>
+		<div class="data_sources" id="rp_accessInfo"> </div>
+		<h3 class="data_sources"><a href="#">Viewers</a></h3>
 
-		<div id="rp_viewersInfo">
+		<div class="data_sources" id="rp_viewersInfo"> </div>
+
+  <h3 class="notification_settings"><a href="#">Notification Settings</a></h3>
+		<div class="notification_settings" style="padding-left: 10px; padding-right: 10px;">
+			<form action="">
+        <p>Notification Triggers</p>
+				<table>
+					<thead>
+					<tr>
+						<th width="50%">Send notifications when:</th>
+          </tr>
+          </thead>
+					<tr>
+						<td><input id="updateWhenAvailable" class="_controlradios" name="group1" type="radio"/></td>
+						<td style="padding-right: 30px;">Update When Available</td>
+					</tr>
+					<tr>
+						<td><input id="metadataHasChanged" class="_controlradios" name="group1" type="radio"/> </td>
+						<td>Metadata has changed</td>
+					</tr>
+					<tr>
+						<td><input id="datasourceIsOffline" class="_controlradios" name="group1" type="radio"/></td>
+						<td>Datasource is offline</td>
+					</tr>
+				</table>
+			</form>
 		</div>
 	</div>
+
 </div>
 
 </div>
