@@ -19,56 +19,19 @@ class ServiceController {
 	
     def list = {
 
-//        def ooid = session.getAttribute("IONCOREOOID");
-//
-//        def requestJsonString = "{\"user_ooi_id\": \"3f27a744-2c3e-4d2a-a98c-050b246334a3\",\"minLatitude\": 32.87521,\"maxLatitude\": 32.97521,\"minLongitude\": -117.274609,\"maxLongitude\": -117.174609,\"minDepth\": 5.5,\"maxDepth\": 6.6,\"minTime\": 7.7,\"maxTime\": 8.8,\"identity\": \"fd204aa3-2faa-4d49-84ee-457094666b23\"}";
-//
-//        def dataResourceList = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(requestJsonString, AppIntegrationService.RequestType.FIND_DATA_RESOURCES, ooid, "0");
+        def ooid = session.getAttribute("IONCOREOOID");
 
-		// We will receive a list of objects that define name:value pairs
-		def sampleJsonResultString = "[{\"user_ooi_id\": \"3f27a744-2c3e-4d2a-a98c-050b246334a3\",\"data_resource_id\": \"fd204aa3-2faa-4d49-84ee-457094666b23\",\"title\": \"NDBC Sensor Observation Service data\",\"institution\": \"NOAA National Data Buoy Center (http://www.ndbc.noaa.gov/)\",\"source\": \"NDBC SOS\"}]"
+		def requestJsonString = "{\"user_ooi_id\": \"" + ooid + "\",\"minLatitude\": 32.87521,\"maxLatitude\": 32.97521,\"minLongitude\": -117.274609,\"maxLongitude\": -117.174609,\"minVertical\": 5.5,\"maxVertical\": 6.6,\"posVertical\": \"7.7\",\"minTime\": 8.8,\"maxTime\": 9.9,\"identity\": \"\"}";
+        def dataResourceList = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(requestJsonString, AppIntegrationService.RequestType.FIND_DATA_RESOURCES, ooid, "0");
 
-//	    DataResource dataResource = new DataResource()
-//	    
-//	    dataResource.id = 1
-//	    dataResource.title = "title 123"
-//	    dataResource.provider = "The provider 123"
-//	    dataResource.format = "format 123"
-//	    dataResource.type = "type 123"
-//	    dataResource.summary = "summary 123"
-//	    dataResource.publisherName = "publisher name 123"
-//	    dataResource.creatorName = "creator name 123"
-//	    
-//	    def dataResourceList = []
-//	    dataResourceList.add(dataResource)
+		if (BootstrapIONService.appIntegrationService.getStatus() != 200) {
+			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
+			// TODO handle error message
+		}
 
-//	    render(contentType:"text/json") {
-//			aaData = [
-//				['test id','Test Title XXX - This is a longer title','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 2' ,'Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 3','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 4','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 5','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 6','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 7','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 8','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 9','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 10','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 11','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 12','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 13','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 14','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 15','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 16','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 17','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name'],
-//				['test id','Test Title 18','Test provider','Test format','Test type','test summary','test publisher Name','tset creator Name']
-//			]
-//		}
+		def jsonArray = JSON.parse(dataResourceList)
 
-//	    render dataResourceList as JSON
-
-//        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-//        [services:serviceList, serviceInstanceList: Service.list(params), serviceInstanceTotal: Service.count()]
+		render jsonArray as JSON
     }
 
     def create = {
