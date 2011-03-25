@@ -8,6 +8,7 @@ import ion.resource.InstrumentRDO
 import com.rabbitmq.client.AMQP
 import ion.core.messaging.MsgBrokerClient
 import ion.integration.ais.AppIntegrationService
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class BootstrapIONService  {
 
@@ -18,10 +19,11 @@ class BootstrapIONService  {
 
 	def bootstrap() {
 
-        String hostName = "amoeba.ucsd.edu"
-        int portNumber = AMQP.PROTOCOL.PORT
-        String exchange = "magnet.topic"
-        String sysName = "spasco"
+	def config = ConfigurationHolder.config
+	String hostName = config.ioncore.host
+	int portNumber = Integer.parseInt(config.ioncore.amqpport)
+	String exchange = config.ioncore.exchange
+	String sysName = config.ioncore.sysname
 
     	println "\nSTEP: Process and Message Broker Client Setup"
 
