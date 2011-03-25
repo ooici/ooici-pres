@@ -12,34 +12,32 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class BootstrapIONService  {
 
-    static transactional = false
+	static transactional = false
 	public static BaseProcess baseProcess
 	public static MsgBrokerClient ionClient
-	public AppIntegrationService appIntegrationService
+	public static AppIntegrationService appIntegrationService
 
 	def bootstrap() {
 
-	def config = ConfigurationHolder.config
-	String hostName = config.ioncore.host
-	int portNumber = Integer.parseInt(config.ioncore.amqpport)
-	String exchange = config.ioncore.exchange
-	String sysName = config.ioncore.sysname
+		def config = ConfigurationHolder.config
+		String hostName = config.ioncore.host
+		int portNumber = Integer.parseInt(config.ioncore.amqpport)
+		String exchange = config.ioncore.exchange
+		String sysName = config.ioncore.sysname
 
-    	println "\nSTEP: Process and Message Broker Client Setup"
-
-    	// DataObject handling
-        DataObjectManager.registerDOType(InstrumentRDO.class)
-        DataObjectManager.registerDOType(DataProductRDO.class)
-        DataObjectManager.registerDOType(ServiceRDO.class)
+		// DataObject handling
+		DataObjectManager.registerDOType(InstrumentRDO.class)
+		DataObjectManager.registerDOType(DataProductRDO.class)
+		DataObjectManager.registerDOType(ServiceRDO.class)
 
 		// Messaging environment
-        ionClient = new MsgBrokerClient(hostName, portNumber, exchange)
-        ionClient.attach()
+		ionClient = new MsgBrokerClient(hostName, portNumber, exchange)
+		ionClient.attach()
 
 		baseProcess = new BaseProcess(ionClient)
 		baseProcess.spawn()
 
-		appIntegrationService = new AppIntegrationService(sysName, baseProcess)		
+		appIntegrationService = new AppIntegrationService(sysName, baseProcess)
 	}
 
 }
