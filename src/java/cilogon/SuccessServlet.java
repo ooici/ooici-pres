@@ -1,10 +1,12 @@
 package cilogon;
 
+import groovy.util.ConfigObject;
 import ion.integration.ais.AppIntegrationService;
 
 import java.io.PrintWriter;
 import java.net.URI;
 import java.security.cert.X509Certificate;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -17,6 +19,7 @@ import ooici.pres.BootstrapIONService;
 import org.cilogon.portal.CILogonService;
 import org.cilogon.portal.util.PortalCredentials;
 import org.cilogon.util.SecurityUtil;
+import org.codehaus.groovy.grails.commons.ConfigurationHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,10 +73,8 @@ public class SuccessServlet extends PortalAbstractServlet {
         	
     		String request = "{\"certificate\": \"" + certificateString + "\",";
     		request += "\"rsa_private_key\": \"" + privateKeyString + "\"}";
-
-        	String SYSNAME = System.getProperty("ioncore.sysname","Tom");
-        	AppIntegrationService ais = new AppIntegrationService(SYSNAME, BootstrapIONService.baseProcess);
-        	String result = ais.sendReceiveUIRequest(request, AppIntegrationService.RequestType.REGISTER_USER, "ANONYMOUS", "0");
+    		
+        	String result = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(request, AppIntegrationService.RequestType.REGISTER_USER, "ANONYMOUS", "0");
 
         	if (result != null && result.length() > 0 && result.startsWith(OOID_PREFIX)) {
         		// Extract OOID string from Json result
