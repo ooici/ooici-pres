@@ -3,10 +3,8 @@ import grails.plugins.springsecurity.SecurityConfigType
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
+ grails.config.locations = [ "classpath:ioncore-config.properties",
+                             "file:${userHome}/.grails/ioncore-config.properties" ]
 
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
