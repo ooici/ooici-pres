@@ -1,14 +1,10 @@
 package cilogon;
 
-import ion.core.messaging.IonMessage;
-import ion.core.messaging.MessagingName;
 import ion.integration.ais.AppIntegrationService;
 
 import java.io.PrintWriter;
+import java.net.URI;
 import java.security.cert.X509Certificate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -16,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.ooici.integration.ais.registerUser.RegisterUser.RegisterIonUser;
 import ooici.pres.BootstrapIONService;
 
 import org.cilogon.portal.CILogonService;
@@ -27,13 +22,11 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
-import com.google.protobuf.JsonFormat;
-
 /**
  * <p>Created by Jeff Gaynor<br>
  * on Jul 31, 2010 at  3:29:09 PM
  * 
- * Update by TomLennan March 2011
+ * Update by Tom Lennan March 2011
  * 
  * On successful return from CILogon, this servlet will call into ION Core to
  * register the user credentials with the Identity Registry.  The Registry will
@@ -48,7 +41,6 @@ public class SuccessServlet extends PortalAbstractServlet {
     	
         httpServletResponse.setContentType("text/html");
         PrintWriter pw = httpServletResponse.getWriter();
-        String y;
 
         String identifier = clearCookie(httpServletRequest, httpServletResponse);
         if (identifier == null) {
@@ -67,7 +59,6 @@ public class SuccessServlet extends PortalAbstractServlet {
         	// Authenticate user with ION
         	// Unfortunately, the strings returned from the util need a bit of massaging
         	// to make them valid Json to pass to ION
-        	String str = certificate.toString();
         	String certificateString = getSecurityUtil().toPEM(certificate);
         	certificateString = certificateString.substring(0, certificateString.lastIndexOf("\n"));
         	certificateString = certificateString.replace("\r", "");
@@ -88,11 +79,7 @@ public class SuccessServlet extends PortalAbstractServlet {
         		// Extract OOID string from Json result
         		String ooid = result.substring(OOID_PREFIX.length() + 1, result.length() - 2);
 
-        		HttpSession session = httpServletRequest.getSession();
-
-        		if (session == null) {
-        			session = httpServletRequest.getSession(true);
-        		}
+        		HttpSession session = httpServletRequest.getSession(true);
         		session.setAttribute("IONCOREOOID", ooid);
 
         		// Set cookie with max age equal to certificate expiration time
@@ -107,45 +94,50 @@ public class SuccessServlet extends PortalAbstractServlet {
         				ooid, new GrantedAuthority[] { new GrantedAuthorityImpl("ROLE_ADMIN") });
         		token.setAuthenticated(true);
         		SecurityContextHolder.getContext().setAuthentication(token);
+        		
+        		// Redirect to originating URL
+	        	URI redirectUri = new URI(httpServletRequest.getContextPath() + session.getAttribute("IONCOREORIGINIATINGURL"));
+	        	httpServletResponse.sendRedirect(redirectUri.toString());
 
-        		/* Put the key and certificate in the result, but allow them to be initially hidden. */
-        		y = "<html>\n" +
-        		"<style type=\"text/css\">\n" +
-        		".hidden { display: none; }\n" +
-        		".unhidden { display: block; }\n" +
-        		"</style>\n" +
-        		"<script type=\"text/javascript\">\n" +
-        		"function unhide(divID) {\n" +
-        		"    var item = document.getElementById(divID);\n" +
-        		"    if (item) {\n" +
-        		"        item.className=(item.className=='hidden')?'unhidden':'hidden';\n" +
-        		"    }\n" +
-        		"}\n" +
-        		"</script>\n" +
-        		"<body>\n" +
-        		"<h1>Success!</h1>\n" +
-        		"<p>You have successfully requested a certificate from the service.</p>\n" +
-        		"<h1>Identity Service OOID</h1>" +
-        		"<p>" + ooid + "</p>" + 
-        		"<ul>\n" +
-        		"    <li><a href=\"javascript:unhide('showCert');\">Show/Hide certificate</a></li>\n" +
-        		"    <div id=\"showCert\" class=\"unhidden\">\n" +
-        		"        <p><pre>" + getSecurityUtil().toPEM(credential.getX509Certificate()) + "</pre>\n" +
-        		"    </div>\n" +
-        		"    <li><a href=\"javascript:unhide('showKey');\">Show/Hide private key</a></li>\n" +
-        		"    <div id=\"showKey\" class=\"hidden\">\n" +
-        		"        <p><pre>" + getSecurityUtil().toPEM(credential.getPrivateKey()) + "</pre>\n" +
-        		"    </div>\n" +
-        		"\n" +
-        		"</ul>\n" +
-        		"<form name=\"input\" action=" + httpServletRequest.getContextPath() + "/ method=\"get\">\n" +
-        		"   <input type=\"submit\" value=\"Return to portal\" />\n" +
-        		"</form>" +
-        		"</body>\n" +
-        		"</html>";
+//
+//        		/* Put the key and certificate in the result, but allow them to be initially hidden. */
+//        		y = "<html>\n" +
+//        		"<style type=\"text/css\">\n" +
+//        		".hidden { display: none; }\n" +
+//        		".unhidden { display: block; }\n" +
+//        		"</style>\n" +
+//        		"<script type=\"text/javascript\">\n" +
+//        		"function unhide(divID) {\n" +
+//        		"    var item = document.getElementById(divID);\n" +
+//        		"    if (item) {\n" +
+//        		"        item.className=(item.className=='hidden')?'unhidden':'hidden';\n" +
+//        		"    }\n" +
+//        		"}\n" +
+//        		"</script>\n" +
+//        		"<body>\n" +
+//        		"<h1>Success!</h1>\n" +
+//        		"<p>You have successfully requested a certificate from the service.</p>\n" +
+//        		"<h1>Identity Service OOID</h1>" +
+//        		"<p>" + ooid + "</p>" + 
+//        		"<ul>\n" +
+//        		"    <li><a href=\"javascript:unhide('showCert');\">Show/Hide certificate</a></li>\n" +
+//        		"    <div id=\"showCert\" class=\"unhidden\">\n" +
+//        		"        <p><pre>" + getSecurityUtil().toPEM(credential.getX509Certificate()) + "</pre>\n" +
+//        		"    </div>\n" +
+//        		"    <li><a href=\"javascript:unhide('showKey');\">Show/Hide private key</a></li>\n" +
+//        		"    <div id=\"showKey\" class=\"hidden\">\n" +
+//        		"        <p><pre>" + getSecurityUtil().toPEM(credential.getPrivateKey()) + "</pre>\n" +
+//        		"    </div>\n" +
+//        		"\n" +
+//        		"</ul>\n" +
+//        		"<form name=\"input\" action=" + httpServletRequest.getContextPath() + "/ method=\"get\">\n" +
+//        		"   <input type=\"submit\" value=\"Return to portal\" />\n" +
+//        		"</form>" +
+//        		"</body>\n" +
+//        		"</html>";
         	}
         	else {
-            	y = "<html>\n" +
+            	String y = "<html>\n" +
             	"<style type=\"text/css\">\n" +
             	".hidden { display: none; }\n" +
             	".unhidden { display: block; }\n" +
@@ -179,11 +171,14 @@ public class SuccessServlet extends PortalAbstractServlet {
             	"</form>" +
             	"</body>\n" +
             	"</html>";
+
+                pw.println(y);
+                pw.flush();
         	}
         }
         else {
         	// Report certificate time issue
-        	y = "<html>\n" +
+        	String y = "<html>\n" +
         	"<style type=\"text/css\">\n" +
         	".hidden { display: none; }\n" +
         	".unhidden { display: block; }\n" +
@@ -216,9 +211,9 @@ public class SuccessServlet extends PortalAbstractServlet {
         	"</body>\n" +
         	"</html>";
 
+        	pw.println(y);
+            pw.flush();
         }
-        pw.println(y);
-        pw.flush();
     }
 
   public SecurityUtil getSecurityUtil() {
