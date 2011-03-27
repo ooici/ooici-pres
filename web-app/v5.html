@@ -64,12 +64,10 @@
 
 	<script type="text/javascript">
 
-		var myLayout, $westAccordion, $eastAccordion; // init global vars
+		var myLayout; // init global vars
 
 		function resizeWidgets() {
-			//myLayout.resizeAll();
-			$westAccordion.accordion("resize");
-			$eastAccordion.accordion("resize");
+			myLayout.resizeAll();
 		};
 
 		$(document).ready(function() {
@@ -85,7 +83,6 @@
 			// so call resizeAll to 'correct' any header/footer heights affected
 			// NOTE: this is only necessary because we are changing CSS *AFTER LOADING* using themeSwitcher
 			setTimeout(resizeWidgets, 1000);
-			/* allow time for browser to re-render with new theme */
 
 			// Datatable settings
 			$('#example').dataTable({
