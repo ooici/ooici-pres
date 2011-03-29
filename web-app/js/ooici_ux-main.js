@@ -11,6 +11,7 @@ var OOIUX = Backbone.View.extend({
         this.wf_100(this.datatable);
         this.wf_101(this.datatable);
         this.wf_104(this.datatable);
+        this.geospatial_container();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
     },
 
@@ -53,6 +54,18 @@ var OOIUX = Backbone.View.extend({
             } 
 
         });
+    },
+
+
+    geospatial_container: function(){
+        /* MOCK OUT of geospatial_container widget */
+        var geospatial_container_data = function(){
+            var data = {"user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":32.87521,"maxLatitude":32.97521,"minLongitude":-117.274609,"maxLongitude":-117.174609,"minVertical":5.5,"maxVertical":6.6,"posVertical": "7.7","minTime":8.8,"maxTime": 9.9,"identity":""};
+            $.getJSON("service/geospatial", data, function(resp){
+                alert("geospatial_container resp: "+resp);
+            });
+        };
+        $("#geospatialContainer").click(geospatial_container_data);
     },
 
 
