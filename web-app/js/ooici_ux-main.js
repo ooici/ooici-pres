@@ -59,7 +59,7 @@ var OOIUX = Backbone.View.extend({
 
     datatable_init: function(){
         var oTable = $('#example').dataTable({
-            "aaData":[[null, null, null, null]],
+            "aaData":[[null, null, null, null, null]],
             "bJQueryUI": true, 
             "sPaginationType": "full_numbers"
         });
@@ -73,12 +73,12 @@ var OOIUX = Backbone.View.extend({
         $.getJSON(url, function(data){
             if (url == "service/list"){
                 $.each(data, function(i, elem){
-                    datatable.fnAddData([elem.title, elem.institution, elem.source, "type"]);
+                    datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
                 });
             } 
             if (url == "service/notifications"){
                 $.each(data, function(i, elem){
-                    datatable.fnAddData([elem.title, elem.institution, elem.created, "details"]);
+                    datatable.fnAddData(["[]", elem.title, elem.institution, elem.created, "Details"]);
                 });
             } 
 
@@ -129,14 +129,14 @@ var OOIUX = Backbone.View.extend({
             } else {
                 $(".data_sources").show();
             }
-            $("table#example thead tr:first").find("th:eq(0)").text("Resource Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Format").end().find("th:eq(3)").text("Type");
+            $("table#example thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
             self.populate_table("service/list", datatable);
             $('.ui-layout-center').show();
             $('.ui-layout-east').show();
         });
 
 
-        $("#example tbody").click(function(event) {
+        $("#example tbody").unbind("click").click(function(event) {
         // Upon deselect of a row, turns that row's highlighting off
 
             //console.log($(this).target.index());
@@ -214,30 +214,28 @@ var OOIUX = Backbone.View.extend({
         * The result of this action should hide the dataResource table and display a comprehensive
         * summary view of the dataResource selected. 
         */
-        $("#example tbody").bind('dblclick', function(event) {
+        $("#example tbody").bind('dblclick', function(evt) {
             // Get the hidden column data for this row
-            var rowData = datatable.fnGetData(event.target.parentNode);
+            var rowData = datatable.fnGetData(evt.target.parentNode);
             alert("Showing Datatable details...");
         });
     },
 
     wf_104: function(datatable){
-       /**
-        * WF104
-        *
-        * User subscriptions.
-        *
-        */
+        /* WF104 - User subscriptions */
         self = this;
-        $("#radioMySub").bind('click', function(event) {
+        $("#radioMySub").bind('click', function(evt) {
             $("#container h1").text("Notification Settings");
             $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
-            $(".notification_settings").show();
             $(".data_sources").hide();
-            $("table#example thead tr:first").find("th:eq(0)").text("Notification Resource Title").end().find("th:eq(1)").text("Source").end().find("th:eq(2)").text("Notification Initiated").end().find("th:eq(3)").text("Details");
+            $("table#example thead tr:first").find("th:eq(0)").css("width","1px").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
             //var rowData = datatable.fnGetData(event.target.parentNode);
             self.populate_table("service/notifications", datatable);
             //alert("radioMySub");
+        });
+        $("#example tbody").unbind("click").bind('click', function(evt){
+            var nth_elem = $(evt.target).parent().index()+1;
+            alert("mysub elem: "+nth_elem);
         });
     },
 

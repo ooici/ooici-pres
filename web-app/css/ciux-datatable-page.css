@@ -81,6 +81,10 @@
 	color: #4E6CA3;
 }
 
+#datatable table th {
+  text-align:left;
+}
+
 .css_right {
 	float: right;
 }
