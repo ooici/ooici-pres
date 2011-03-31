@@ -1,13 +1,51 @@
 body {
-  font-family: Arial, sans-serif;
-  font-size: 0.75em;
+    font-family: Arial, sans-serif;
+    font-size: 0.75em;
+    margin:0px;
+    padding:0px;
+}
+.ui-layout-north {
+    overflow:hidden;
+    background-color:#15151F;
+}
+#branding {
+    width:75%;
+	background: url("../images/logo.png") no-repeat 0px -4px #15151F;
+    position:relative;
+    top:-5px;
+}
+#branding h1 {
+    margin:0px 0px 0px 115px;
+    padding:0px;
+    color:#CECECD;
+}
+#branding h2 {
+    margin:0px 0px 0px 115px;
+    padding:0px;
+    color:#4992C8;
+}
+#userbar {
+    float:right;
+    position:relative;
+    top:-25px;
+}
+#userbar a {
+    display:inline;
+    color:#CECECD;
+    text-decoration:none;
+    padding:2px 4px;
+}
+#userbar a:hover {
+    text-decoration:underline;
+}
+
+
+.bold {
+  font-weight:bold;
+  color:#362B36 !important;
 }
 .hidden {
   display: none;
-}
-#dt_example {
-  position: relative;
-  overflow: hidden;
 }
 .ui-accordion .ui-accordion-content {
   padding: 1em 2.2em;
@@ -16,4 +54,21 @@ body {
 
 .notification_settings {
   display:none;
+}
+
+#resouce_selector_view {
+  text-align:center;
+  position:relative;
+  top:-4px;
+}
+#resouce_selector_view span {
+  color:#bbb;
+}
+#resouce_selector_view_spacer {
+  padding:0px 4px;
+  color:#000;
+}
+#view_existing_tab {
+}
+#register_new_tab {
 }

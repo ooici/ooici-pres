@@ -23,7 +23,8 @@ var OOIUX = Backbone.View.extend({
             resizerClass: 'ui-state-default',
             north__size: 60,
             west__size: 350,
-            east__size: 350
+            east__size: 350,
+            south__size: 60,
         });
         return pgLayout;
     },
