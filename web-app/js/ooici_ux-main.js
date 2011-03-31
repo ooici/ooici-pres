@@ -6,7 +6,10 @@ Workflow implementations for OOI UX.
 var OOIUX = Backbone.View.extend({
 
     initialize: function() {
-        this.layout = this.layout_init();
+        this.layout = this.layout_main_init();
+        this.layout_center_inner = this.layout_center_inner_init();
+        this.layout_west_inner = this.layout_west_inner_init();
+        this.layout_east_inner = this.layout_east_inner_init();
         this.datatable = this.datatable_init();
         this.wf_100(this.datatable);
         this.wf_101(this.datatable);
@@ -15,18 +18,43 @@ var OOIUX = Backbone.View.extend({
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
     },
 
-    layout_init: function(){
+    layout_main_init: function(){
         // first set a 'fixed height' on the container so it does not collapse...
         $(this.el).height($(window).height() - $(this.el).offset().top);
         // NOW create the layout
-        var pgLayout = $(this.el).layout({
+        var layout_main = $(this.el).layout({
             resizerClass: 'ui-state-default',
             north__size: 60,
             west__size: 350,
             east__size: 350,
-            south__size: 60,
         });
-        return pgLayout;
+        return layout_main;
+    },
+    layout_west_inner_init: function(){ 
+        var layout_west_inner = $("div.ui-layout-west").layout({
+            minSize: 50,
+            center__paneSelector:".west-center",
+            south__paneSelector: ".west-south",
+        });
+        return layout_west_inner;
+    },
+
+    layout_center_inner_init: function(){
+        var layout_center_inner = $("div.ui-layout-center").layout({
+            minSize: 50,
+            center__paneSelector:".center-center",
+            south__paneSelector: ".center-south",
+        });
+        return layout_center_inner;
+    },
+
+    layout_east_inner_init: function(){ 
+        var layout_east_inner = $("div.ui-layout-east").layout({
+            minSize: 50,
+            center__paneSelector:".east-center",
+            south__paneSelector: ".east-south",
+        });
+        return layout_east_inner;
     },
 
     datatable_init: function(){

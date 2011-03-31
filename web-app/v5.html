@@ -27,7 +27,7 @@
   </script>
 </head>
 <body>
-
+<div id="loading_message"><span class="msg">Loading...</span></div>
 <div id="layoutContainer">
 
   <div class="ui-layout-north">
@@ -42,202 +42,220 @@
     </div>
   </div><!-- end .ui-layout-north -->
 
-<div class="ui-layout-center hidden">
-	<div id="datatable">
-		<div id="container">
-			<h1>Data Resources</h1>
-				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
-					<thead><tr><th width="50%">Title</th> <th>Provider</th> <th>Format</th> <th>Type</th> </tr></thead>
-					<tbody></tbody>
-				</table>
-		</div>
-	</div>
-</div>
+  <div class="ui-layout-center hidden">
 
-<div class="ui-layout-west hidden">
-	<div id="westMultiOpenAccordion">
-		<h3><a href="#">Resource Selector</a></h3>
-		<div style="padding-left: 10px; padding-right: 10px;">
-      <div id="resouce_selector_view">  
-        <span id="view_existing_tab" class="bold">View Existing</span>
-        <span id="resouce_selector_view_spacer">|</span>  
-        <span id="register_new_tab">Register New</span>
+    <div class="center-center">
+      <div id="datatable">
+        <div id="container">
+          <h1>Data Resources</h1>
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+              <thead><tr><th width="50%">Title</th> <th>Provider</th> <th>Format</th> <th>Type</th> </tr></thead>
+              <tbody></tbody>
+            </table>
+        </div>
       </div>
-			<form action="">
-				<table>
-					<tr>
-						<td><input id="radioAllPubRes" class="controlradios" name="group1" type="radio"/></td>
-						<td style="padding-right: 30px;">All Registered Resources</td>
-						<td><input id="radioMyPubRes" class="controlradios" name="group1" type="radio"/></td>
-						<td>My Registered Resources</td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td><input id="radioMySub" class="controlradios" name="group1" type="radio"/></td>
-						<td>My Notification Settings</td>
-					</tr>
-				</table>
-			</form>
-		</div>
+     </div><!-- end .center-center -->
+    <div class="center-south">
+      <p style="text-align:center;color:#ddd">Center South</p>
+    </div><!-- end .center-south -->
 
-	<h3><a href="#">Administration Selector</a></h3>
-		<div style="padding-left: 10px; padding-right: 10px;">
-			<form action="">
-				<table>
-					<tr>
-						<td><input id="radioRunEPU" class="controlradios" name="group1" type="radio"/>
-						</td>
-						<td>Running EPUs</td>
-						<td><input id="radioRegUsers" class="controlradios" name="group1" type="radio"/>
-						</td>
-						<td>Registered Users</td>
-					</tr>
-				</table>
-			</form>
-		</div>
+  </div><!-- end .ui-layout-center -->
 
-		<h3><a href="#">Geospatial Extent</a></h3>
+  <div class="ui-layout-west hidden">
+   <div class="west-center">
+    <div id="westMultiOpenAccordion">
+      <h3><a href="#">Resource Selector</a></h3>
+      <div style="padding-left: 10px; padding-right: 10px;">
+        <div id="resouce_selector_view">  
+          <span id="view_existing_tab" class="bold">View Existing</span>
+          <span id="resouce_selector_view_spacer">|</span>  
+          <span id="register_new_tab">Register New</span>
+        </div>
+        <form action="">
+          <table>
+            <tr>
+              <td><input id="radioAllPubRes" class="controlradios" name="group1" type="radio"/></td>
+              <td style="padding-right: 30px;">All Registered Resources</td>
+              <td><input id="radioMyPubRes" class="controlradios" name="group1" type="radio"/></td>
+              <td>My Registered Resources</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><input id="radioMySub" class="controlradios" name="group1" type="radio"/></td>
+              <td>My Notification Settings</td>
+            </tr>
+          </table>
+        </form>
+      </div>
 
-		<div id="geospatialContainer">
-			<div class="boundingBoxRadios">
-				<form action="">
-					<table>
-						<tr>
-							<td><strong>Bounding Box:</strong></td>
-							<td><input name="group1" type="radio"/></td>
-							<td>All</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><input name="group1" type="radio"/></td>
-							<td>Defined</td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			<div class="altitudeRadios">
-				<form action="">
-					<table>
-						<tr>
-							<td><strong>Altitude:</strong></td>
-							<td><input name="group1" type="radio"/></td>
-							<td>All</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><input name="group1" type="radio"/></td>
-							<td>Defined</td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			<div class="boundingBoxText">
-				Bounding Box<br/>
-				(Decimal Degrees)
-			</div>
-			<div class="boundingBoxControls">
-				<span class="Ntext">N</span>
-				<input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
-				<span class="Stext">S</span>
-				<input class="south textfield" name="south" type="text" size="5" maxlength="5"/>
-				<span class="Etext">E</span>
-				<input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
-				<span class="Wtext">W</span>
-				<input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
-				<span class="NSEWBackgroundBorder"></span>
-			</div>
-			<div class="altitudeControls">
-					<span class="altText">Altitude<br/>
-					(Feet MSL)</span>
-					<span class="altitudeUpper">Upper Bound:
-					<input class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
-					</span>
-					<span class="altitudeLower">Lower Bound:
-					<input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
-					</span>
-			</div>
-		</div>
-		<h3><a href="#">Temporal Extent</a></h3>
-		<div style="display: block; padding-left: 10px; padding-right: 10px;" class="temporalExtentContainer">
-			<form action="">
-				<table>
-					<tr>
-						<td class="boldText">Time Range:</td>
-						<td><input id="TE_timeRange_all" name="group1" type="radio"/>
-						</td>
-						<td>All</td>
-						<td><input id="TE_timeRange_defined" name="group1" type="radio"/></td>
-						<td>Defined</td>
-					</tr>
-				</table>
-			</form>
-			<span class="te-from boldText">From:</span>
-			<input class="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
-			<span class="te-to boldText">To:</span>
-			<input class="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
-			<div class="te-footer-text">
-				ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
-				Example: 2010-11-15T09:00:00
-			</div>
-		</div>
+    <h3><a href="#">Administration Selector</a></h3>
+      <div style="padding-left: 10px; padding-right: 10px;">
+        <form action="">
+          <table>
+            <tr>
+              <td><input id="radioRunEPU" class="controlradios" name="group1" type="radio"/>
+              </td>
+              <td>Running EPUs</td>
+              <td><input id="radioRegUsers" class="controlradios" name="group1" type="radio"/>
+              </td>
+              <td>Registered Users</td>
+            </tr>
+          </table>
+        </form>
+      </div>
 
-	</div>
-</div>
+      <h3><a href="#">Geospatial Extent</a></h3>
 
-<div class="ui-layout-east hidden">
-	<div id="eastMultiOpenAccordion">
-		<h3 class="data_sources"><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>
+      <div id="geospatialContainer">
+        <div class="boundingBoxRadios">
+          <form action="">
+            <table>
+              <tr>
+                <td><strong>Bounding Box:</strong></td>
+                <td><input name="group1" type="radio"/></td>
+                <td>All</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input name="group1" type="radio"/></td>
+                <td>Defined</td>
+              </tr>
+            </table>
+          </form>
+        </div>
+        <div class="altitudeRadios">
+          <form action="">
+            <table>
+              <tr>
+                <td><strong>Altitude:</strong></td>
+                <td><input name="group1" type="radio"/></td>
+                <td>All</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input name="group1" type="radio"/></td>
+                <td>Defined</td>
+              </tr>
+            </table>
+          </form>
+        </div>
+        <div class="boundingBoxText">
+          Bounding Box<br/>
+          (Decimal Degrees)
+        </div>
+        <div class="boundingBoxControls">
+          <span class="Ntext">N</span>
+          <input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+          <span class="Stext">S</span>
+          <input class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+          <span class="Etext">E</span>
+          <input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+          <span class="Wtext">W</span>
+          <input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+          <span class="NSEWBackgroundBorder"></span>
+        </div>
+        <div class="altitudeControls">
+            <span class="altText">Altitude<br/>
+            (Feet MSL)</span>
+            <span class="altitudeUpper">Upper Bound:
+            <input class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+            </span>
+            <span class="altitudeLower">Lower Bound:
+            <input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+            </span>
+        </div>
+      </div>
+      <h3><a href="#">Temporal Extent</a></h3>
+      <div style="display: block; padding-left: 10px; padding-right: 10px;" class="temporalExtentContainer">
+        <form action="">
+          <table>
+            <tr>
+              <td class="boldText">Time Range:</td>
+              <td><input id="TE_timeRange_all" name="group1" type="radio"/>
+              </td>
+              <td>All</td>
+              <td><input id="TE_timeRange_defined" name="group1" type="radio"/></td>
+              <td>Defined</td>
+            </tr>
+          </table>
+        </form>
+        <span class="te-from boldText">From:</span>
+        <input class="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
+        <span class="te-to boldText">To:</span>
+        <input class="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
+        <div class="te-footer-text">
+          ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
+          Example: 2010-11-15T09:00:00
+        </div>
+      </div>
+    </div>
+   </div><!-- end .west-center -->
+   <div class="west-south">
+      <p style="text-align:center;color:#ddd">West South</p>
+   </div><!-- end .west-south -->
 
-		<div class="data_sources" id="rp_dsMetaInfo"></div>
-		<h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
+ </div> <!-- end .ui-layout-west -->
 
-		<div class="data_sources" id="rp_publisherInfo"> </div>
-		<h3 class="data_sources"><a href="#">Original Source Description</a></h3>
+  <div class="ui-layout-east hidden">
+   <div class="east-center">
+    <div id="eastMultiOpenAccordion">
+      <h3 class="data_sources"><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>
 
-		<div class="data_sources" id="rp_creatorInfo"> </div>
-		<h3 class="data_sources"><a href="#">Original Source Contact Information</a></h3>
+      <div class="data_sources" id="rp_dsMetaInfo"></div>
+      <h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
 
-		<div class="data_sources" id="rp_docInfo"> </div>
-		<h3 class="data_sources"><a href="#">Geospatial Coverage</a></h3>
+      <div class="data_sources" id="rp_publisherInfo"> </div>
+      <h3 class="data_sources"><a href="#">Original Source Description</a></h3>
 
-		<div class="data_sources" id="rp_variablesInfo"> </div>
-		<h3 class="data_sources"><a href="#">Temporal Coverage</a></h3>
+      <div class="data_sources" id="rp_creatorInfo"> </div>
+      <h3 class="data_sources"><a href="#">Original Source Contact Information</a></h3>
 
-		<div class="data_sources" id="rp_accessInfo"></div>
-		<h3 class="data_sources"><a href="#">Variables</a></h3>
+      <div class="data_sources" id="rp_docInfo"> </div>
+      <h3 class="data_sources"><a href="#">Geospatial Coverage</a></h3>
 
-		<div class="data_sources" id="rp_references"></div>
-		<h3 class="data_sources"><a href="#">References</a></h3>
+      <div class="data_sources" id="rp_variablesInfo"> </div>
+      <h3 class="data_sources"><a href="#">Temporal Coverage</a></h3>
 
-  <h3 class="notification_settings"><a href="#">Notification Settings</a></h3>
-		<div class="notification_settings" style="padding-left: 10px; padding-right: 10px;">
-			<form action="">
-        <p>Notification Triggers</p>
-				<table>
-					<thead>
-					<tr>
-						<th width="50%">Send notifications when:</th>
-          </tr>
-          </thead>
-					<tr>
-						<td><input id="updateWhenAvailable" class="_controlradios" name="group1" type="radio"/></td>
-						<td style="padding-right: 30px;">Update When Available</td>
-					</tr>
-					<tr>
-						<td><input id="metadataHasChanged" class="_controlradios" name="group1" type="radio"/> </td>
-						<td>Metadata has changed</td>
-					</tr>
-					<tr>
-						<td><input id="datasourceIsOffline" class="_controlradios" name="group1" type="radio"/></td>
-						<td>Datasource is offline</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-	</div>
+      <div class="data_sources" id="rp_accessInfo"></div>
+      <h3 class="data_sources"><a href="#">Variables</a></h3>
 
-</div>
+      <div class="data_sources" id="rp_references"></div>
+      <h3 class="data_sources"><a href="#">References</a></h3>
+
+    <h3 class="notification_settings"><a href="#">Notification Settings</a></h3>
+      <div class="notification_settings" style="padding-left: 10px; padding-right: 10px;">
+        <form action="">
+          <p>Notification Triggers</p>
+          <table>
+            <thead>
+            <tr>
+              <th width="50%">Send notifications when:</th>
+            </tr>
+            </thead>
+            <tr>
+              <td><input id="updateWhenAvailable" class="_controlradios" name="group1" type="radio"/></td>
+              <td style="padding-right: 30px;">Update When Available</td>
+            </tr>
+            <tr>
+              <td><input id="metadataHasChanged" class="_controlradios" name="group1" type="radio"/> </td>
+              <td>Metadata has changed</td>
+            </tr>
+            <tr>
+              <td><input id="datasourceIsOffline" class="_controlradios" name="group1" type="radio"/></td>
+              <td>Datasource is offline</td>
+            </tr>
+          </table>
+        </form>
+      </div><!-- end #notification_settings -->
+    </div><!-- end #eastMultiOpenAccordion -->
+   </div><!-- end .east-center -->
+
+   <div class="east-south">
+      <p style="text-align:center;color:#ddd">East South</p>
+   </div><!-- end .east-south -->
+
+  </div><!-- end .ui-layout-east --> 
 
 </div>
 

@@ -8,6 +8,21 @@ body {
     overflow:hidden;
     background-color:#15151F;
 }
+#loading_message {
+    position:absolute;
+    margin:0 auto;
+    z-index:10;
+    width:100%;
+    text-align:center;
+    display:none;
+}
+#loading_message span {
+    background-color:#FFE900;
+    font-weight:bold;
+    padding:4px;
+    position:relative;
+    top:4px;
+}
 #branding {
     width:75%;
 	background: url("../images/logo.png") no-repeat 0px -4px #15151F;
