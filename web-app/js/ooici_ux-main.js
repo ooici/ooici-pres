@@ -10,10 +10,11 @@ var OOIUX = Backbone.View.extend({
         this.layout_center_inner = this.layout_center_inner_init();
         this.layout_west_inner = this.layout_west_inner_init();
         this.layout_east_inner = this.layout_east_inner_init();
-        this.datatable = this.datatable_init();
-        this.wf_100(this.datatable);
-        this.wf_101(this.datatable);
-        this.wf_104(this.datatable);
+        this.datatable_100 = this.datatable_init("#datatable_100", 5);
+        this.datatable_104 = this.datatable_init("#datatable_104", 5);
+        this.wf_100(this.datatable_100);
+        this.wf_101(this.datatable_100);
+        this.wf_104(this.datatable_104);
         this.geospatial_container();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
     },
@@ -57,9 +58,9 @@ var OOIUX = Backbone.View.extend({
         return layout_east_inner;
     },
 
-    datatable_init: function(){
-        var oTable = $('#example').dataTable({
-            "aaData":[[null, null, null, null, null]],
+    datatable_init: function(id, columns){
+        var oTable = $(id).dataTable({
+            "aaData":[_.map(_.range(columns), function(x){return null;})],
             "bJQueryUI": true, 
             "sPaginationType": "full_numbers"
         });

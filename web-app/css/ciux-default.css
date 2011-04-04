@@ -117,11 +117,16 @@ Geospatial Extent
 ----------------------------------------------- */
 
 #geospatialContainer {
-	height: 150px;
+	height:160px;
 	position: relative;
 	display: block;
 	padding-left: 10px;
 	padding-right: 10px;
+}
+
+#temporalExtent {
+	position: relative;
+	height:130px;
 }
 
 .geoIconDropdown {
@@ -139,7 +144,7 @@ div#icons {
 .boundingBoxText {
 	position:absolute;
 	top:45px;
-	left:0px;
+	left:20px;
 	font-weight:bold;
 	padding-left: 12px;
 }
@@ -160,8 +165,8 @@ div#icons {
 
 .boundingBoxControls {
 	position:absolute;
-	top:80px;
-	left:20px;
+	top:87px;
+	left:-10px;
 	/*background-color:#cccccc;*/
 	width:180px;
 	height: 85px;
@@ -245,8 +250,8 @@ div#icons {
 
 .altitudeControls {
 	position:absolute;
-	top:45px;
-	left:190px;
+	top:50px;
+	left:159px;
 	/*background-color:#cccccc;*/
 	width:130px;
 	height:120px;
