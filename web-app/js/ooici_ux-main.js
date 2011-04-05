@@ -81,6 +81,7 @@ var OOIUX = Backbone.View.extend({
                     datatable.fnAddData(["[]", elem.title, elem.institution, elem.created, "Details"]);
                 });
                 $("table#datatable_104 tbody tr td").css("width","25%"); //XXX
+                $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "5%")});
             } 
 
         });
@@ -120,11 +121,6 @@ var OOIUX = Backbone.View.extend({
             self.wf_100_presentation();
             $("h3.data_sources").show();
 
-            /*if ($("#rp_dsMetaInfo").text() == ""){
-                $("div.data_sources").hide();
-            } else {
-                $(".data_sources").show();
-            }*/
             $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
             self.populate_table("service/list", datatable);
             $('.ui-layout-center').show();
@@ -168,6 +164,7 @@ var OOIUX = Backbone.View.extend({
         $("#datatable_104_wrapper").hide();
         $("#container h1").text("Data Resources");
         $(".notification_settings").hide();
+        $("#save_notification_settings").hide(); //button
     },
 
     wf_101: function(datatable){
@@ -182,15 +179,27 @@ var OOIUX = Backbone.View.extend({
     wf_104: function(datatable){
         /* WF104 - User subscriptions */
         self = this;
+        $(".notification_settings input:radio").change(function(){
+            $("#save_notification_settings").attr("disabled", "");
+        });
+        $("#save_notification_settings").click(function(){
+            if ($("#save_notification_settings").attr("disabled") != "") return;
+            $.each($(".notification_settings input:checked"), function(i, e){
+                alert("Saving Notification Setting w/ id: '"+$(e).attr("id")+"'");
+            });
+        });
+
+        
         $("#radioMySub").bind('click', function(evt) {
             self.wf_104_presentation();
             $("#notification_settings").show();
 
-            $("table#datatable_104 thead tr:first").find("th:eq(0)").css("width","1px").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
+            $("table#datatable_104 thead tr:first").find("th:eq(0)").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
             self.populate_table("service/notifications", datatable);
         });
         $("#datatable_104 tbody").unbind("click").bind('click', function(evt){ //TODO: use 'delegate'.
             var nth_elem = $(evt.target).parent().index()+1;
+            $("#save_notification_settings").show(); //button
             $("#notification_details").html("Notification Triggers for: <b>#"+nth_elem+"</b> element.");
             if (!$(".notification_settings:nth(1)").is(":visible") ) $(".notification_settings").click();
         });

@@ -70,6 +70,9 @@ body {
 .notification_settings {
   display:none;
 }
+#save_notification_settings {
+  display:none;
+}
 
 #resouce_selector_view {
   text-align:center;
