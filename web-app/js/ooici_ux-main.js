@@ -17,6 +17,7 @@ var OOIUX = Backbone.View.extend({
         this.wf_104(this.datatable_104);
         this.geospatial_container();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
+        $("#datatable_104_wrapper").hide();  //XXX temporary default
     },
 
     layout_main_init: function(){
@@ -65,8 +66,6 @@ var OOIUX = Backbone.View.extend({
             "sPaginationType": "full_numbers"
         });
         return oTable;
-    // Initialize the center pane datatable
-    //oTable = $('#example').dataTable();
     },
 
     populate_table: function(url, datatable){
@@ -81,6 +80,7 @@ var OOIUX = Backbone.View.extend({
                 $.each(data, function(i, elem){
                     datatable.fnAddData(["[]", elem.title, elem.institution, elem.created, "Details"]);
                 });
+                $("table#datatable_104 tbody tr td").css("width","25%"); //XXX
             } 
 
         });
@@ -102,14 +102,8 @@ var OOIUX = Backbone.View.extend({
 
 
     wf_100: function(datatable){
-        /**
-         * WF 100
-         *
-         * Handles user click events within center pane datatable
-        */
-
-        $('#eastMultiOpenAccordion').multiAccordion();
-        $('#westMultiOpenAccordion').multiAccordion();
+        /* WF 100 - Handles user click events within center pane datatable */
+        $('#eastMultiOpenAccordion, #westMultiOpenAccordion').multiAccordion();
 
         // auto open Resource Selector panel
         $('#westMultiOpenAccordion h3:eq(0)').trigger('click');
@@ -123,32 +117,29 @@ var OOIUX = Backbone.View.extend({
 
         self = this;
         $('#radioAllPubRes').bind('click', function(event) {
-            $("#container h1").text("Data Resources");
-            $(".notification_settings").hide();
-            if ($("#rp_dsMetaInfo").text() == ""){
+            self.wf_100_presentation();
+            $("h3.data_sources").show();
+
+            /*if ($("#rp_dsMetaInfo").text() == ""){
                 $("div.data_sources").hide();
             } else {
                 $(".data_sources").show();
-            }
-            $("table#example thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
+            }*/
+            $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
             self.populate_table("service/list", datatable);
             $('.ui-layout-center').show();
             $('.ui-layout-east').show();
         });
 
 
-        $("#example tbody").unbind("click").click(function(event) {
-        // Upon deselect of a row, turns that row's highlighting off
-
-            //console.log($(this).target.index());
+        $("#datatable_100 tbody").unbind("click").click(function(event) {
             var nth_elem = $(event.target).parent().index()+1;
 
             $(datatable.fnSettings().aoData).each(function () {
                $(this.nTr).removeClass('row_selected');
             });
 
-            // Highlights selected row
-            $(event.target.parentNode).addClass('row_selected').text();
+            $(event.target.parentNode).addClass('row_selected').text(); // Highlights selected row
 
             // Expands right pane panels when row is selected. Also closes panels if already expanded.
             if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) {
@@ -157,65 +148,31 @@ var OOIUX = Backbone.View.extend({
             // Get the hidden column data for this row
             var rowData = datatable.fnGetData(event.target.parentNode);
 
-            // Get the data source Id from column 0
-            var dsId = rowData[0];
+            // Get the data source Id from column 0 var dsId = rowData[0];
+            $('a#rp_dsTitle').html(rowData[1]); // Get and set dataSource title
+            $('div#rp_dsMetaInfo').html(rowData[5] || "DataSource MetaInfo" + " #"+nth_elem);
+            $('div#rp_publisherInfo').html(rowData[6] || "DataSource Publisher Info" + " #"+nth_elem);
+            $('div#rp_creatorInfo').html(rowData[7] || "DataSource Creator Info" + " #"+nth_elem);
+            $('div#rp_docInfo').html(rowData[8] || "DataSource Documentation" + " #"+nth_elem);
+            $('div#rp_variablesInfo').html(rowData[9] || "DataSource Variables" + " #"+nth_elem);
+            $('div#rp_accessInfo').html(rowData[10] || "DataSource Access Info" + " #"+nth_elem);
+            $('div#rp_viewersInfo').html(rowData[11] || "DataSource Viewers Info" + " #"+nth_elem);
 
-            // Get dataSource title from the selected row
-            var dsTitle = rowData[1];
-            // Set dataSource title panel content
-            $('a#rp_dsTitle').html(dsTitle);
-
-            // Get dataSource MetaInfo from the selected row
-            var dsMeta = rowData[5] || "DataSource MetaInfo" + " #"+nth_elem;
-            // Set dataSource MetaInfo panel content
-            $('div#rp_dsMetaInfo').html(dsMeta);
-
-            // Get dataSource Publisher Info from the selected row
-            var dsPubInfo = rowData[6] || "DataSource Publisher Info" + " #"+nth_elem;
-            // Set dataSource Publisher info content
-            $('div#rp_publisherInfo').html(dsPubInfo);
-
-            // Get dataSource Creator info from the selected row
-            var dsCreatorInfo = rowData[7] || "DataSource Creator Info" + " #"+nth_elem;
-            // Set dataSource Creator info content
-            $('div#rp_creatorInfo').html(dsCreatorInfo);
-
-            // Get dataSource Documentation Info from the selected row
-            var dsDocInfo = rowData[8] || "DataSource Documentation" + " #"+nth_elem;
-            // Set dataSource Documentation panel content
-            $('div#rp_docInfo').html(dsDocInfo);
-
-            // Get dataSource Variables Info from the selected row
-            var dsVarInfo = rowData[9] || "DataSource Variables" + " #"+nth_elem;
-            // Set dataSource variables panel content
-            $('div#rp_variablesInfo').html(dsVarInfo);
-
-            // Get dataSource Access Info from the selected row
-            var dsAccessInfo = rowData[10] || "DataSource Access Info" + " #"+nth_elem;
-            // Set dataSource access info panel content
-            $('div#rp_accessInfo').html(dsAccessInfo);
-
-            // Get dataSource Viewers Info from the selected row
-            var dsViewersInfo = rowData[11] || "DataSource Viewers Info" + " #"+nth_elem;
-            // Set dataSource viewers info panel content
-            $('div#rp_viewersInfo').html(dsViewersInfo);
+            $(".data_sources").show();
             $(".notification_settings").hide();
-
         });
-
-
    },
 
+    wf_100_presentation: function(){
+        $("#datatable_100_wrapper").show();
+        $("#datatable_104_wrapper").hide();
+        $("#container h1").text("Data Resources");
+        $(".notification_settings").hide();
+    },
+
     wf_101: function(datatable){
-       /**
-        * WF101
-        *
-        * Handles double click action on a row w/in the center pane's dataResource table.
-        *
-        * The result of this action should hide the dataResource table and display a comprehensive
-        * summary view of the dataResource selected. 
-        */
-        $("#example tbody").bind('dblclick', function(evt) {
+       /* WF101 - Handles double click action on a row w/in the center pane's dataResource table.  */
+        $("#datatable_100 tbody").bind('dblclick', function(evt) {
             // Get the hidden column data for this row
             var rowData = datatable.fnGetData(evt.target.parentNode);
             alert("Showing Datatable details...");
@@ -226,21 +183,25 @@ var OOIUX = Backbone.View.extend({
         /* WF104 - User subscriptions */
         self = this;
         $("#radioMySub").bind('click', function(evt) {
-            $("#container h1").text("Notification Settings");
-            $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
-            $(".data_sources").hide();
-            $("table#example thead tr:first").find("th:eq(0)").css("width","1px").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
-            //var rowData = datatable.fnGetData(event.target.parentNode);
+            self.wf_104_presentation();
+            $("#notification_settings").show();
+
+            $("table#datatable_104 thead tr:first").find("th:eq(0)").css("width","1px").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
             self.populate_table("service/notifications", datatable);
-            //alert("radioMySub");
         });
-        $("#example tbody").unbind("click").bind('click', function(evt){
+        $("#datatable_104 tbody").unbind("click").bind('click', function(evt){ //TODO: use 'delegate'.
             var nth_elem = $(evt.target).parent().index()+1;
-            alert("mysub elem: "+nth_elem);
+            $("#notification_details").html("Notification Triggers for: <b>#"+nth_elem+"</b> element.");
+            if (!$(".notification_settings:nth(1)").is(":visible") ) $(".notification_settings").click();
         });
     },
-
-
+    wf_104_presentation: function(){
+        $("#datatable_104_wrapper").show();
+        $("#datatable_100_wrapper").hide();
+        $("#container h1").text("Notification Settings");
+        $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
+        $(".data_sources").hide();
+    },
 
 
 });
