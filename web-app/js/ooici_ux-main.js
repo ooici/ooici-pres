@@ -180,6 +180,7 @@ var OOIUX = Backbone.View.extend({
 
             $(".data_sources").show();
             $(".notification_settings").hide();
+            $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
         });
    },
 
@@ -190,6 +191,7 @@ var OOIUX = Backbone.View.extend({
         $(".notification_settings").hide();
         $("#save_notification_settings").hide(); //button
         $("#geospatial_selection_button").show();
+        $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
     },
 
     wf_101: function(datatable){
@@ -236,6 +238,7 @@ var OOIUX = Backbone.View.extend({
         $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
         $(".data_sources").hide();
         $("#geospatial_selection_button").hide();
+        $("#download_dataset_button, #setup_notifications").hide();
     },
 
 
