@@ -12,12 +12,15 @@ var OOIUX = Backbone.View.extend({
         this.layout_east_inner = this.layout_east_inner_init();
         this.datatable_100 = this.datatable_init("#datatable_100", 5);
         this.datatable_104 = this.datatable_init("#datatable_104", 5);
+        this.datatable_106 = this.datatable_init("#datatable_106", 5);
         this.wf_100(this.datatable_100);
         this.wf_101(this.datatable_100);
         this.wf_104(this.datatable_104);
+        this.wf_106(this.datatable_106);
         this.geospatial_container();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
         $("#datatable_104_wrapper").hide();  //XXX temporary default
+        $("#datatable_106_wrapper").hide();  //XXX temporary default
     },
 
     layout_main_init: function(){
@@ -71,10 +74,11 @@ var OOIUX = Backbone.View.extend({
     populate_table: function(url, datatable){
         datatable.fnClearTable();
         $.getJSON(url, function(data){
-            if (url == "service/list"){
+            if (url == "service/list" || url == "service/my_registered_resources"){
                 $.each(data, function(i, elem){
                     datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
                 });
+                $("table#datatable_106 tbody tr td").css("width","20%"); //XXX
             } 
             if (url == "service/notifications"){
                 $.each(data, function(i, elem){
@@ -187,7 +191,7 @@ var OOIUX = Backbone.View.extend({
     wf_100_presentation: function(){
         $("#datatable_100_wrapper").show();
         $("#datatable_104_wrapper").hide();
-        $("#container h1").text("Data Resources");
+        $("#container h1").text("All Registered Resources");
         $(".notification_settings").hide();
         $("#save_notification_settings").hide(); //button
         $("#geospatial_selection_button").show();
@@ -216,7 +220,6 @@ var OOIUX = Backbone.View.extend({
             });
         });
 
-        
         $("#radioMySub").bind('click', function(evt) {
             self.wf_104_presentation();
             $("#notification_settings").show();
@@ -234,6 +237,7 @@ var OOIUX = Backbone.View.extend({
     wf_104_presentation: function(){
         $("#datatable_104_wrapper").show();
         $("#datatable_100_wrapper").hide();
+        $("#datatable_106_wrapper").hide();
         $("#container h1").text("Notification Settings");
         $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
         $(".data_sources").hide();
@@ -241,5 +245,22 @@ var OOIUX = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").hide();
     },
 
+    wf_106: function(datatable){
+        $("#radioMyPubRes").bind('click', function(evt) {
+            self.wf_106_presentation();
+            //$("table#datatable_106 thead tr:first").find("th:eq(0)").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
+            self.populate_table("service/my_registered_resources", datatable);
+        });
+    },
+
+    wf_106_presentation: function(){
+        $("#datatable_106_wrapper").show();
+        $("#datatable_100_wrapper").hide();
+        $("#datatable_104_wrapper").hide();
+        $("#container h1").text("My Registered Resources");
+        $("#save_notification_settings").hide(); //button
+        $("#geospatial_selection_button").hide();
+        $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
+    }
 
 });

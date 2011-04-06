@@ -28,6 +28,8 @@ class Service(Resource):
     def getChild(self, name, request):
         if name == "list":
             return ServiceList()
+        if name == "my_registered_resources":
+            return ServiceList()
         if name == "notifications":
             return Notifications()
 
