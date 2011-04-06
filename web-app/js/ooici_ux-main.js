@@ -210,14 +210,16 @@ var OOIUX = Backbone.View.extend({
     wf_104: function(datatable){
         /* WF104 - User subscriptions */
         self = this;
-        $(".notification_settings input:radio").change(function(){
+        $(".notification_settings input:checkbox").change(function(){
             $("#save_notification_settings").removeAttr("disabled");
         });
         $("#save_notification_settings").click(function(){
             if ($("#save_notification_settings").attr("disabled") != "") return;
+            var settings_checked = "";
             $.each($(".notification_settings input:checked"), function(i, e){
-                alert("Saving Notification Setting w/ id: '"+$(e).attr("id")+"'");
+                settings_checked += $(e).attr("id") + ", ";
             });
+            alert("Saving Notification Setting w/ ids: '"+settings_checked+"'");
         });
 
         $("#radioMySub").bind('click', function(evt) {
