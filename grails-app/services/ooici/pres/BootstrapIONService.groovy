@@ -25,11 +25,6 @@ class BootstrapIONService  {
 		String exchange = config.ioncore.exchange
 		String sysName = config.ioncore.sysname
 
-		// DataObject handling
-		DataObjectManager.registerDOType(InstrumentRDO.class)
-		DataObjectManager.registerDOType(DataProductRDO.class)
-		DataObjectManager.registerDOType(ServiceRDO.class)
-
 		// Messaging environment
 		ionClient = new MsgBrokerClient(hostName, portNumber, exchange)
 		ionClient.attach()
@@ -38,6 +33,10 @@ class BootstrapIONService  {
 		baseProcess.spawn()
 
 		appIntegrationService = new AppIntegrationService(sysName, baseProcess)
+	}
+	
+	def destroy() {
+		appIntegrationService.dispose()
 	}
 
 }

@@ -2,8 +2,9 @@ class UrlMappings {
 
 	static mappings = {
 
-		"/"(controller:'login', action:'/auth')
-
+//		"/"(controller:'login', action:'/auth')
+//		"/"(controller:'userInfo', action:'/edit')
+		
 //		"/"(controller:'home', action:"/index")
 
 		"/$controller/$action?/$id?"{
