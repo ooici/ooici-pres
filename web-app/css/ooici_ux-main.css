@@ -73,6 +73,8 @@ body {
 #save_notification_settings {
   display:none;
 }
+#geospatial_selection_button {
+}
 
 #resouce_selector_view {
   text-align:center;

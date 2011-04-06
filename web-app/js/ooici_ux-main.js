@@ -116,7 +116,31 @@ var OOIUX = Backbone.View.extend({
         $('.ui-layout-center').hide();
         $('.ui-layout-east').hide();
 
+        $("#geospatialContainer .all").attr("checked", "checked");
+        $(".boundingBoxControls input").attr("disabled", "disabled");
+        $(".altitudeControls input").attr("disabled", "disabled");
+
         self = this;
+
+        $("#geospatialContainer .defined").click(function(){
+          var is_bounding = $(this).hasClass("bounding");
+          if (is_bounding){
+            $(".boundingBoxControls input").removeAttr("disabled");
+          } else {
+            $(".altitudeControls input").removeAttr("disabled");
+          }
+          $("#geospatial_selection_button").removeAttr("disabled");
+        });
+        $("#geospatialContainer .all").click(function(){
+          var is_bounding = $(this).hasClass("bounding");
+          if (is_bounding){
+            $(".boundingBoxControls input").attr("disabled", "disabled");
+          } else {
+            $(".altitudeControls input").attr("disabled", "disabled");
+          }
+          $("#geospatial_selection_button").removeAttr("disabled");
+        });
+
         $('#radioAllPubRes').bind('click', function(event) {
             self.wf_100_presentation();
             $("h3.data_sources").show();
@@ -165,6 +189,7 @@ var OOIUX = Backbone.View.extend({
         $("#container h1").text("Data Resources");
         $(".notification_settings").hide();
         $("#save_notification_settings").hide(); //button
+        $("#geospatial_selection_button").show();
     },
 
     wf_101: function(datatable){
@@ -180,7 +205,7 @@ var OOIUX = Backbone.View.extend({
         /* WF104 - User subscriptions */
         self = this;
         $(".notification_settings input:radio").change(function(){
-            $("#save_notification_settings").attr("disabled", "");
+            $("#save_notification_settings").removeAttr("disabled");
         });
         $("#save_notification_settings").click(function(){
             if ($("#save_notification_settings").attr("disabled") != "") return;
@@ -210,6 +235,7 @@ var OOIUX = Backbone.View.extend({
         $("#container h1").text("Notification Settings");
         $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
         $(".data_sources").hide();
+        $("#geospatial_selection_button").hide();
     },
 
 
