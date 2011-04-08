@@ -23,6 +23,15 @@ class Notifications(Resource):
         return json.dumps(self.DATA)
 
 
+class DownloadData(Resource):
+
+    def render_GET(self, request):
+        request.setHeader("Content-Disposition","attachment; filename=test_data.txt");
+        return (" - Test Data - " * 1000)
+
+
+
+
 class Service(Resource):
 
     def getChild(self, name, request):
@@ -32,6 +41,8 @@ class Service(Resource):
             return ServiceList()
         if name == "notifications":
             return Notifications()
+        if name == "createDownloadUrl":
+            return DownloadData()
 
 
 

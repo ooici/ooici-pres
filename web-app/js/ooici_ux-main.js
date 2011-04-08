@@ -200,6 +200,9 @@ var OOIUX = Backbone.View.extend({
 
     wf_101: function(datatable){
        /* WF101 - Handles double click action on a row w/in the center pane's dataResource table.  */
+        $("#download_dataset_button").click(function(){
+            document.location = "service/createDownloadUrl";
+        });
         $("#datatable_100 tbody").bind('dblclick', function(evt) {
             // Get the hidden column data for this row
             var rowData = datatable.fnGetData(evt.target.parentNode);
@@ -250,7 +253,6 @@ var OOIUX = Backbone.View.extend({
     wf_106: function(datatable){
         $("#radioMyPubRes").bind('click', function(evt) {
             self.wf_106_presentation();
-            //$("table#datatable_106 thead tr:first").find("th:eq(0)").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
             self.populate_table("service/my_registered_resources", datatable);
         });
     },
