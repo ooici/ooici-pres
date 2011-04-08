@@ -77,26 +77,38 @@
       <h3><a href="#">Resource Selector</a></h3>
       <div style="padding-left: 10px; padding-right: 10px;">
         <div id="resouce_selector_view">  
-          <span id="view_existing_tab" class="bold">View Existing</span>
+          <span id="view_existing_tab" class="resouce_selector_tab selected">View Existing</span>
           <span id="resouce_selector_view_spacer">|</span>  
-          <span id="register_new_tab">Register New</span>
+          <span id="register_new_tab" class="resouce_selector_tab">Register New</span>
         </div>
-        <form action="">
-          <table>
-            <tr>
-              <td><input id="radioAllPubRes" class="controlradios" name="group1" type="radio"/></td>
-              <td style="padding-right: 30px;">All Registered Resources</td>
-              <td><input id="radioMyPubRes" class="controlradios" name="group1" type="radio"/></td>
-              <td>My Registered Resources</td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td><input id="radioMySub" class="controlradios" name="group1" type="radio"/></td>
-              <td>My Notification Settings</td>
-            </tr>
-          </table>
-        </form>
+
+        <div id="view_existing">
+          <form action="">
+            <table>
+              <tr>
+                <td><input id="radioAllPubRes" class="controlradios" name="group1" type="radio"/></td>
+                <td style="padding-right: 30px;">All Registered Resources</td>
+                <td><input id="radioMyPubRes" class="controlradios" name="group1" type="radio"/></td>
+                <td>My Registered Resources</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input id="radioMySub" class="controlradios" name="group1" type="radio"/></td>
+                <td>My Notification Settings</td>
+              </tr>
+            </table>
+          </form>
+        </div>
+
+        <div id="register_new">
+            <table>
+              <tr><td>Source URL:&nbsp;<input size='27' type="text"/></td></tr>
+              <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button style="float:right;margin-left:2px">Look Up</button></td></tr>
+              <tr><td>Visualization URL:&nbsp;<input size='22' type="text"/></td></tr>
+            </table>
+        </div>
+
       </div>
 
     <h3><a href="#">Administration Selector</a></h3>

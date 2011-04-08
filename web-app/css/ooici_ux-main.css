@@ -54,11 +54,15 @@ body {
     text-decoration:underline;
 }
 
-
 .bold {
   font-weight:bold;
   color:#362B36 !important;
 }
+.selected {
+  font-weight:bold;
+  color:#362B36 !important;
+}
+
 .hidden {
   display: none;
 }
@@ -92,6 +96,12 @@ body {
 #view_existing_tab {
 }
 #register_new_tab {
+}
+.resouce_selector_tab {
+    cursor:pointer;
+}
+#register_new {
+  display:none;
 }
 
 

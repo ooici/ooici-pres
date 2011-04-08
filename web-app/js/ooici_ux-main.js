@@ -16,6 +16,7 @@ var OOIUX = Backbone.View.extend({
         this.wf_100(this.datatable_100);
         this.wf_101(this.datatable_100);
         this.wf_104(this.datatable_104);
+        this.wf_105();
         this.wf_106(this.datatable_106);
         this.geospatial_container();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
@@ -249,6 +250,28 @@ var OOIUX = Backbone.View.extend({
         $("#geospatial_selection_button").hide();
         $("#download_dataset_button, #setup_notifications").hide();
     },
+
+    wf_105: function(){
+        this.resource_selector();
+    },
+
+    resource_selector: function(){
+        $(".resouce_selector_tab").bind('click', function(evt) {
+            var id = $(this).attr("id");
+            $("#"+id).addClass("selected");
+            if (id == "view_existing_tab"){
+                $("#view_existing").show();
+                $("#register_new").hide();
+                $("#register_new_tab").removeClass("selected");
+            } else {
+                $("#register_new").show();
+                $("#view_existing").hide();
+                $("#view_existing_tab").removeClass("selected");
+            }
+        });
+
+    },
+
 
     wf_106: function(datatable){
         $("#radioMyPubRes").bind('click', function(evt) {
