@@ -35,6 +35,7 @@ topicHost = None
 topicSysname = None
 topicPort = None
 topicExchange = None
+debugMode = None
 def appConfig(local):
     global topicHost
     if topicHost is None:
@@ -45,7 +46,10 @@ def appConfig(local):
 
     global topicSysname
     if topicSysname is None:
-        topicSysname = prompt('Please enter topic sysname:', default='R1_UI_DEMO')
+        if local == True:
+            topicSysname = prompt('Please enter topic sysname:', default=os.getlogin())
+        else:
+            topicSysname = prompt('Please enter topic sysname:', default='R1_UI_DEMO')
 
     global topicPort
     if topicPort is None:
@@ -54,6 +58,12 @@ def appConfig(local):
     global topicExchange
     if topicExchange is None:
         topicExchange = prompt('Please enter topic exchange:', default='magnet.topic')
+
+    if debugMode is None:
+        if local:
+            debugMode = prompt('Please enter CILogon bypass authentication mode (force, url, disabled):', default='force')
+        else:
+            debugMode = prompt('Please enter CILogon bypass authentication mode (force, url, disabled):', default='disabled')
     
     # Perform value substitution in app config file
     if local == True:
@@ -65,6 +75,7 @@ def appConfig(local):
     appCfg = re.sub('HOSTNAME', topicHost, appCfg)
     appCfg = re.sub('SYSNAME', topicSysname, appCfg)
     appCfg = re.sub('PORT', topicPort, appCfg)
+    appCfg = re.sub('BYPASSAUTHENTICATIONMODE', debugMode, appCfg)
     o.write( re.sub('EXCHANGE', topicExchange, appCfg) )
     o.close()
 
@@ -77,21 +88,27 @@ def buildWebApp(local):
     os.system('grails war')
 
 sshUser = None
+def startWebApp(locan):
+    if local == True:
+        local('grails run-app')
+    else:
+        global webAppHost
+        if webAppHost is None:
+            webAppHost = prompt('Please enter fully qualified web application host name:', default='grails.oceanobservatories.org')
+        global sshUser
+        if sshUser is None:
+            sshUser = os.getlogin()
+            sshUser = prompt('Please enter your ssh login name:', default=sshUser)
+
+        local('ssh %s@%s -t sudo /etc/init.d/grails stop' % (sshUser, webAppHost))
+        local('ssh %s@%s -t rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, webAppName))
+        local('scp target/%s.war %s@%s:/opt/tomcat/webapps' % (webAppName, sshUser, webAppHost))
+        local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
+
 def deployRemote():
     buildWebApp(False)
-
-    global webAppHost
-    if webAppHost is None:
-        webAppHost = prompt('Please enter fully qualified web application host name:', default='grails.oceanobservatories.org')
-    global sshUser
-    if sshUser is None:
-        sshUser = os.getlogin()
-        sshUser = prompt('Please enter your ssh login name:', default=sshUser)
-
-    local('ssh %s@%s -t sudo /etc/init.d/grails stop' % (sshUser, webAppHost))
-    local('ssh %s@%s -t rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, webAppName))
-    local('scp target/%s.war %s@%s:/opt/tomcat/webapps' % (webAppName, sshUser, webAppHost))
-    local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
+    startWebApp(False)
 
 def deployLocal():
     buildWebApp(True)
+    startWebApp(True)
