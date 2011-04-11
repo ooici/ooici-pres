@@ -64,7 +64,7 @@ public class AuthenticationFilter implements Filter {
 		
 		String path = request.getServletPath();
 		if (testMode != TestMode.DISABLED) {
-			System.out.println("In AuthenticationFilter.doFilter.  Request Path: " + path);
+//			System.out.println("In AuthenticationFilter.doFilter.  Request Path: " + path);
 		}
 
 		// If the URL paths of any of the CILogon delegation servlets change,
@@ -76,7 +76,7 @@ public class AuthenticationFilter implements Filter {
 
 		switch(testMode) {
 		case FORCE:
-			System.out.println("In AuthenticationFilter.doFilter.  Forcing authentication");
+//			System.out.println("In AuthenticationFilter.doFilter.  Forcing authentication");
 			Cookie[] cookies = request.getCookies();
 			boolean ooiidFound = false;
 			boolean expiryFound = false;
@@ -100,7 +100,7 @@ public class AuthenticationFilter implements Filter {
 			// If URL based test mode authentication is enabled, check URL for trigger value
 			Map params = request.getParameterMap();
 			if (params.containsKey("Test")) {
-				System.out.println("In AuthenticationFilter.doFilter.  Setting authentication due to param match");
+//				System.out.println("In AuthenticationFilter.doFilter.  Setting authentication due to param match");
 				cookies = request.getCookies();
 				ooiidFound = false;
 				expiryFound = false;
