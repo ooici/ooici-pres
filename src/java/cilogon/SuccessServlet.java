@@ -211,6 +211,11 @@ public class SuccessServlet extends PortalAbstractServlet {
 //        		"</html>";
         	}
         	else {
+        		int status = BootstrapIONService.appIntegrationService.getStatus();
+        		String errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
+        		
+    			System.out.println("Error received on findResources\nRequest message: " + request + "\nStatus: " + status + "\nError message: " + errorMessage);
+        		
             	String y = "<html>\n" +
             	"<style type=\"text/css\">\n" +
             	".hidden { display: none; }\n" +
@@ -228,7 +233,8 @@ public class SuccessServlet extends PortalAbstractServlet {
             	"<h1>Failure!</h1>\n" +
             	"<p>You have successfully requested a certificate from the service.</p>\n" +
             	"<h1>But the attempt to register to the Identity Service failed.</h1>" +
-            	"<p>No result date was returned.</p>" + 
+            	"<p>Status Code: " + status + "</p>" + 
+            	"<p>Error Message: " + errorMessage + "</p>" + 
             	"<ul>\n" +
             	"    <li><a href=\"javascript:unhide('showCert');\">Show/Hide certificate</a></li>\n" +
             	"    <div id=\"showCert\" class=\"unhidden\">\n" +
