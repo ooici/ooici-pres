@@ -75,7 +75,7 @@ class ServiceController {
 		int status = BootstrapIONService.appIntegrationService.getStatus();
 		if (status != 200) {
 			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
-			System.out.println("Error message: " + errorMessage);
+			System.out.println("Error received on findDataResources\nRequest message: " + requestJsonString + "\nStatus: " + status + "\nError message: " + errorMessage);
 			// TODO report error message
 		}
 		else {
@@ -99,7 +99,7 @@ class ServiceController {
 		int status = BootstrapIONService.appIntegrationService.getStatus();
 		if (status != 200) {
 			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
-			System.out.println("Error message: " + errorMessage);
+			System.out.println("Error received on getDataResourceDetail\nRequest message: " + requestJsonString + "\nStatus: " + status + "\nError message: " + errorMessage);
 			// TODO report error message
 		}
 		else {
@@ -124,7 +124,7 @@ class ServiceController {
 		int status = BootstrapIONService.appIntegrationService.getStatus();
 		if (status != 200) {
 			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
-			System.out.println("Error message: " + errorMessage);
+			System.out.println("Error received on createDownloadURL\nRequest message: " + requestJsonString + "\nStatus: " + status + "\nError message: " + errorMessage);
 			// TODO report error message
 		}
 		else {
@@ -274,7 +274,7 @@ class ServiceController {
 		int status = BootstrapIONService.appIntegrationService.getStatus();
 		if (status != 200) {
 			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
-			System.out.println("Error message: " + errorMessage);
+			System.out.println("Error received on updateUserEmail\nRequest message: " + requestJsonString + "\nStatus: " + status + "\nError message: " + errorMessage);
 			// TODO report error message
 		}
 	}
@@ -294,7 +294,7 @@ class ServiceController {
 		int status = BootstrapIONService.appIntegrationService.getStatus();
 		if (status != 200) {
 			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
-			System.out.println("Error message: " + errorMessage);
+			System.out.println("Error received on updateUserDispatcherQueue\nRequest message: " + requestJsonString + "\nStatus: " + status + "\nError message: " + errorMessage);
 			// TODO report error message
 		}
 	}
@@ -314,7 +314,7 @@ class ServiceController {
 		int status = BootstrapIONService.appIntegrationService.getStatus();
 		if (status != 200) {
 			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
-			System.out.println("Error message: " + errorMessage);
+			System.out.println("Error received on findResources\nRequest message: " + requestJsonString + "\nStatus: " + status + "\nError message: " + errorMessage);
 			// TODO report error message
 		}
 		else {
@@ -339,7 +339,7 @@ class ServiceController {
 		int status = BootstrapIONService.appIntegrationService.getStatus();
 		if (status != 200) {
 			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
-			System.out.println("Error message: " + errorMessage);
+			System.out.println("Error received on getResourseDetail\nRequest message: " + requestJsonString + "\nStatus: " + status + "\nError message: " + errorMessage);
 			// TODO report error message
 		}
 		else {
