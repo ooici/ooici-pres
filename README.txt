@@ -8,24 +8,23 @@ This project represents the OOICI presentation framework.
 
 
 SETUP
-========
+=====
 
-1. Install Grails 1.3.3.
+1. Install Grails 1.3.7.
 - Grails can be downloaded from: http://grails.org/Download
 
-2. You must have a running RabbitMQ broker.
-- The OOICI-PRES bootstrap process makes a connection to a local Rabbitmq broker.
+2. You must have a running capability container listening to a topic on a RabbitMQ broker somewhere.
+- Take note of the topic host name, sysname, exchange name and AMQ port number.  You'll need this info during deployment.
 
-3. Within your local lcaarch project, run:
+3. You must have fabric installed to deploy.
+easy-install fabric
 
-twistd -n magnet -a sysname=spasco res/scripts/javalca.py
 
-- This step starts up the needed lcaarch services used by this project.
-- 'sysname' could be any name.
+Deploying
+=========
 
-4. Grails requires that you set the ion.username. Modify the grails-app/conf/Config.groovy file's
-ion.username value with your username. This username gets set within the LcademoService and CiService
-classes.
+To deploy to your local machine, run the following command from the root of the repository:
+ooici-pres> fab deployLocal
 
 
 Running
@@ -36,8 +35,6 @@ ooici-pres> grails run-app
 
 In a browser:
 Visit: http://localhost:8080/
-
-- You'll be prompted to login. The un/pwd is admin/admin
 
 
 CILOGON
@@ -52,17 +49,9 @@ src > java > cilogon > FailureServlet
 src > java > cilogon > PortalAbstractServlet
 src > java > cilogon > ReadyServlet
 src > java > cilogon > SuccessServlet
-src > java > cilogon > WelcomeServlet
 
 All CILogon JSPs:
 web-app > index.jsp
-web-app > setup.jsp
-web-app > setupBasic.jsp
-web-app > setupDone.jsp
-web-app > setupErrorPage.jsp
-web-app > setupFileStore.jsp
-web-app > setupPostresStore.jsp
-web-app > setupStorageAdmin.jsp
 
 web-app > WEB-INF > WEB-INF > cfg.rdf
 - The cfg.rdf file contains URL paths that should be changed according to the URL path scheme
