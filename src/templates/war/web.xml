@@ -170,7 +170,10 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>portalSecurity</web-resource-name>
-            <url-pattern>/*</url-pattern>
+            <url-pattern>/StartRequest</url-pattern>
+            <url-pattern>/ready</url-pattern>
+            <url-pattern>/SuccessServlet</url-pattern>
+            <url-pattern>/failure</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
