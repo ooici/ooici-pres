@@ -96,7 +96,7 @@ var OOIUX = Backbone.View.extend({
         /* MOCK OUT of geospatial_container widget */
         var geospatial_container_data = function(){
             var data = JSON.stringify({"user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":40.2216682434,"maxLatitude":40.2216682434,"minLongitude":-74.13,"maxLongitude":-73.50,"minVertical":20,"maxVertical":30,"posVertical":"down","minTime":"2010-07-26T00:02:00Z","maxTime": "2010-07-26T00:02:00Z","identity":""});
-            $.ajax({url:"service/geospatial", type:"POST", data:data, 
+            $.ajax({url:"service/findDataResources", type:"POST", data:data, 
                 success: function(resp){
                     alert("geospatial_container resp: "+resp);
                 }
