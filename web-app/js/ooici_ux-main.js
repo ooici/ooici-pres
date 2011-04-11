@@ -95,7 +95,7 @@ var OOIUX = Backbone.View.extend({
     geospatial_container: function(){
         /* MOCK OUT of geospatial_container widget */
         var geospatial_container_data = function(){
-            var data = JSON.stringify({"user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":32.87521,"maxLatitude":32.97521,"minLongitude":-117.274609,"maxLongitude":-117.174609,"minVertical":5.5,"maxVertical":6.6,"posVertical":"down","minTime":"8.8","maxTime": "9.9","identity":""});
+            var data = JSON.stringify({"user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":40.2216682434,"maxLatitude":40.2216682434,"minLongitude":-74.13,"maxLongitude":-73.50,"minVertical":20,"maxVertical":30,"posVertical":"down","minTime":"2010-07-26T00:02:00Z","maxTime": "2010-07-26T00:02:00Z","identity":""});
             $.ajax({url:"service/geospatial", type:"POST", data:data, 
                 success: function(resp){
                     alert("geospatial_container resp: "+resp);
@@ -150,7 +150,7 @@ var OOIUX = Backbone.View.extend({
             $("h3.data_sources").show();
 
             $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
-            self.populate_table("service/list", datatable);
+            self.populate_table("service/findDataResources", datatable);
             $('.ui-layout-center').show();
             $('.ui-layout-east').show();
         });
