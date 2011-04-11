@@ -6,6 +6,7 @@ from fabric.contrib.console import confirm
 import os
 import re
 import sys
+import time
 
 webAppHost = None
 webAppName = None 
@@ -36,17 +37,17 @@ topicSysname = None
 topicPort = None
 topicExchange = None
 debugMode = None
-def appConfig(local):
+def appConfig(localDeployment):
     global topicHost
     if topicHost is None:
-        if local == True:
+        if localDeployment:
             topicHost = prompt('Please enter fully qualified topic host name:', default='localhost')
         else:
             topicHost = prompt('Please enter fully qualified topic host name:', default='amoeba.ucsd.edu')
 
     global topicSysname
     if topicSysname is None:
-        if local == True:
+        if localDeployment:
             topicSysname = prompt('Please enter topic sysname:', default=os.getlogin())
         else:
             topicSysname = prompt('Please enter topic sysname:', default='R1_UI_DEMO')
@@ -59,14 +60,15 @@ def appConfig(local):
     if topicExchange is None:
         topicExchange = prompt('Please enter topic exchange:', default='magnet.topic')
 
+    global debugMode
     if debugMode is None:
-        if local:
+        if localDeployment:
             debugMode = prompt('Please enter CILogon bypass authentication mode (force, url, disabled):', default='force')
         else:
             debugMode = prompt('Please enter CILogon bypass authentication mode (force, url, disabled):', default='disabled')
     
     # Perform value substitution in app config file
-    if local == True:
+    if localDeployment:
         homeDir = os.environ['HOME']
         o = open('%s/.grails/ioncore-config.properties'% (homeDir), 'w')
     else:
@@ -79,17 +81,17 @@ def appConfig(local):
     o.write( re.sub('EXCHANGE', topicExchange, appCfg) )
     o.close()
 
-def buildWebApp(local):
-    if local == False:
+def buildWebApp(localDeployment):
+    if not localDeployment:
         ciLogonConfig()
-    appConfig(local)
+    appConfig(localDeployment)
 
     # Build and package app
     os.system('grails war')
 
 sshUser = None
-def startWebApp(locan):
-    if local == True:
+def startWebApp(localDeployment):
+    if localDeployment:
         local('grails run-app')
     else:
         global webAppHost
@@ -101,7 +103,9 @@ def startWebApp(locan):
             sshUser = prompt('Please enter your ssh login name:', default=sshUser)
 
         local('ssh %s@%s -t sudo /etc/init.d/grails stop' % (sshUser, webAppHost))
-        local('ssh %s@%s -t rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, webAppName))
+        print 'Waiting for application to fully stop'
+        time.sleep(10);
+        local('ssh %s@%s -t sudo rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, webAppName))
         local('scp target/%s.war %s@%s:/opt/tomcat/webapps' % (webAppName, sshUser, webAppHost))
         local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
 
