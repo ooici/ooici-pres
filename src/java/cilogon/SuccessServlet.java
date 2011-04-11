@@ -135,13 +135,14 @@ public class SuccessServlet extends PortalAbstractServlet {
                     return;
         		}
 
-        		session.setAttribute("IONCOREOOIID", ooi_id);
-                session.setAttribute("IONCOREEXPIRY", "" + expirationDateMS/1000);
-
         		// Set cookie with max age equal to certificate expiration time
         		int expiry = (int)((expirationDateMS - currentDateMS)/1000);
 
         		Cookie cookie = new Cookie("IONCOREOOIID", ooi_id);
+        		cookie.setMaxAge(expiry);
+        		httpServletResponse.addCookie(cookie);
+
+        		cookie = new Cookie("IONCOREEXPIRY", "" + expirationDateMS/1000);
         		cookie.setMaxAge(expiry);
         		httpServletResponse.addCookie(cookie);
 

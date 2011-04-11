@@ -1,5 +1,7 @@
 package ooici.pres.domain
 
+import javax.servlet.http.Cookie;
+
 import grails.converters.JSON
 import ion.integration.ais.AppIntegrationService;
 
@@ -8,45 +10,40 @@ class ServiceController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "findDataResources", params: params)
     }
 
 	def BootstrapIONService
-//	
-//    def list = {
-//		
-//		def ooi_id = session.getAttribute("IONCOREOOIID");
-//		def expiry = session.getAttribute("IONCOREEXPIRY");
-//		
-//		params.remove("action");
-//		params.remove("controller");
-//
-////		params.put("user_ooi_id", "3f27a744-2c3e-4d2a-a98c-050b246334a3");
-//		params.put("user_ooi_id", ooi_id);
-//		def requestJsonString = new JSON(params).toString()
-//
-////		def requestJsonString = "{\"user_ooi_id\": \"" + ooid + "\",\"minLatitude\": 32.87521,\"maxLatitude\": 32.97521,\"minLongitude\": -117.274609,\"maxLongitude\": -117.174609,\"minVertical\": 5.5,\"maxVertical\": 6.6,\"posVertical\": \"7.7\",\"minTime\": 8.8,\"maxTime\": 9.9,\"identity\": \"\"}";
-//        def dataResourceList = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(requestJsonString, AppIntegrationService.RequestType.FIND_DATA_RESOURCES, ooi_id, expiry);
-//
-//		def status = BootstrapIONService.appIntegrationService.getStatus();
-//		if (status != 200) {
-//			System.out.println("status: " + status);
-//			def errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
-//			System.out.println("errorMessage: " + errorMessage);
-//			// TODO handle error message
-//		}
-//
-//		def jsonArray = JSON.parse(dataResourceList)
-//
-//		render jsonArray as JSON
-//    }
+	def ooi_id = null
+	def expiry = null
+
+	def getOoiidAndExpiry = {
+		
+		Cookie[] cookies = request.getCookies();
+		boolean ooiidFound = false;
+		boolean expiryFound = false;
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("IONCOREOOIID")) {
+					ooi_id = cookies[i].getValue();
+					ooiidFound = true;
+				}
+				if (cookies[i].getName().equals("IONCOREEXPIRY")) {
+					expiry = cookies[i].getValue();
+					expiryFound = true;
+				}
+			}
+		}
+		if (!ooiidFound || !expiryFound) {
+			redirect(uri:"/");
+		}
+    }
 	
 	def findDataResources = {
 		
-		def ooi_id = session.getAttribute("IONCOREOOIID");
-		def expiry = session.getAttribute("IONCOREEXPIRY");
-		
-		System.out.println("params: " + params)
+		System.out.println("params: " + params);
+
+		getOoiidAndExpiry();			
 		
 		params.remove("action");
 		params.remove("controller");
@@ -89,14 +86,12 @@ class ServiceController {
 	}
 	
 	def getDataResourceDetail = {
-		
-		def ooi_id = session.getAttribute("IONCOREOOIID");
-		def expiry = session.getAttribute("IONCOREEXPIRY");
+
+		getOoiidAndExpiry();			
 		
 		params.remove("action");
 		params.remove("controller");
 		
-		params.put("user_ooi_id", ooi_id);
 		def requestJsonString = new JSON(params).toString()
 
 		def dataResourceDetails = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(requestJsonString, AppIntegrationService.RequestType.GET_DATA_RESOURCE_DETAIL, ooi_id, expiry);
@@ -115,9 +110,8 @@ class ServiceController {
 	}
 	
 	def createDownloadURL = {
-		
-		def ooi_id = session.getAttribute("IONCOREOOIID");
-		def expiry = session.getAttribute("IONCOREEXPIRY");
+
+		getOoiidAndExpiry();			
 		
 		params.remove("action");
 		params.remove("controller");
@@ -143,9 +137,8 @@ class ServiceController {
 // TODO
 //	
 //	def createSubscription = {
-//		
-//		def ooi_id = session.getAttribute("IONCOREOOIID");
-//		def expiry = session.getAttribute("IONCOREEXPIRY");
+//
+//		getOoiidAndExpiry();			
 //		
 //		params.remove("action");
 //		params.remove("controller");
@@ -170,9 +163,8 @@ class ServiceController {
 //TODO
 //	
 //	def findSubscription = {
-//		
-//		def ooi_id = session.getAttribute("IONCOREOOIID");
-//		def expiry = session.getAttribute("IONCOREEXPIRY");
+//
+//		getOoiidAndExpiry();			
 //		
 //		params.remove("action");
 //		params.remove("controller");
@@ -198,8 +190,7 @@ class ServiceController {
 //
 //	def deleteSubscription = {
 //
-//		def ooi_id = session.getAttribute("IONCOREOOIID");
-//		def expiry = session.getAttribute("IONCOREEXPIRY");
+//		getOoiidAndExpiry();			
 //
 //		params.remove("action");
 //		params.remove("controller");
@@ -223,9 +214,8 @@ class ServiceController {
 
 // TODO	
 //	def createDataResource = {
-//		
-//		def ooi_id = session.getAttribute("IONCOREOOIID");
-//		def expiry = session.getAttribute("IONCOREEXPIRY");
+//
+//		getOoiidAndExpiry();			
 //		
 //		params.remove("action");
 //		params.remove("controller");
@@ -250,9 +240,8 @@ class ServiceController {
 	
 // TODO
 //	def updateDataResource = {
-//		
-//		def ooi_id = session.getAttribute("IONCOREOOIID");
-//		def expiry = session.getAttribute("IONCOREEXPIRY");
+//
+//		getOoiidAndExpiry();			
 //		
 //		params.remove("action");
 //		params.remove("controller");
@@ -271,9 +260,8 @@ class ServiceController {
 //	}
 	
 	def updateUserEmail = {
-		
-		def ooi_id = session.getAttribute("IONCOREOOIID");
-		def expiry = session.getAttribute("IONCOREEXPIRY");
+
+		getOoiidAndExpiry();			
 		
 		params.remove("action");
 		params.remove("controller");
@@ -292,9 +280,8 @@ class ServiceController {
 	}
 	
 	def updateUserDispatcherQueue = {
-		
-		def ooi_id = session.getAttribute("IONCOREOOIID");
-		def expiry = session.getAttribute("IONCOREEXPIRY");
+
+		getOoiidAndExpiry();			
 		
 		params.remove("action");
 		params.remove("controller");
@@ -313,9 +300,8 @@ class ServiceController {
 	}
 	
 	def findResources = {
-		
-		def ooi_id = session.getAttribute("IONCOREOOIID");
-		def expiry = session.getAttribute("IONCOREEXPIRY");
+
+		getOoiidAndExpiry();			
 		
 		params.remove("action");
 		params.remove("controller");
@@ -339,9 +325,8 @@ class ServiceController {
 	}
 	
 	def getResourceDetail = {
-		
-		def ooi_id = session.getAttribute("IONCOREOOIID");
-		def expiry = session.getAttribute("IONCOREEXPIRY");
+
+		getOoiidAndExpiry();			
 		
 		params.remove("action");
 		params.remove("controller");
@@ -364,117 +349,4 @@ class ServiceController {
 		}
 	}
 
-//    def create = {
-//        def serviceInstance = new Service()
-//        serviceInstance.properties = params
-//        return [serviceInstance: serviceInstance]
-//    }
-//
-//    def save = {
-//
-//	    String hostName = "localhost";
-//        int portNumber = AMQP.PROTOCOL.PORT;
-//        String exchange = "magnet.topic";
-//        String toName = "spasco.javaint";
-//        String fromName = "mysys.return";
-//
-//        // Messaging environment
-//        MsgBrokerAttachment ionAttach = new MsgBrokerAttachment(hostName, portNumber, exchange);
-//        ionAttach.attach();
-//
-//        // Create return queue
-//        String queue = ionAttach.declareQueue(null);
-//        ionAttach.bindQueue(queue, fromName, null);
-//        ionAttach.attachConsumer(queue);
-//
-//		String msg = "{\"name\":\"" + params.name + "\", \"status\":\"" + params.status + "\"}";
-//
-//		IonMessage msgout = ionAttach.createMessage(fromName, toName, "register_service", msg);
-//		ionAttach.sendMessage(msgout);
-//
-//		// Receive response message
-//		IonMessage msgin = ionAttach.consumeMessage(queue);
-//		ionAttach.ackMessage(msgin);
-//
-//        def serviceInstance = new Service(params)
-//        if (serviceInstance.save(flush: true)) {
-//            flash.message = "${message(code: 'default.created.message', args: [message(code: 'service.label', default: 'Service'), serviceInstance.id])}"
-//            redirect(action: "show")
-//        }
-//        else {
-//            render(view: "create", model: [serviceInstance: serviceInstance])
-//        }
-//    }
-//
-//    def show = {
-//
-//		// We will receive an object that define name:value pairs
-//		def sampleJsonResultString = "{\"data_resource_id\": \"fd204aa3-2faa-4d49-84ee-457094666b23\",\"data_resource_details\": \"Some detail data...\"}"
-//
-//		        def serviceInstance = Service.get(params.id)
-//        if (!serviceInstance) {
-//            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'service.label', default: 'Service'), params.id])}"
-//            redirect(action: "list")
-//        }
-//        else {
-//            [serviceInstance: serviceInstance]
-//        }
-//    }
-//
-//    def edit = {
-//        def serviceInstance = Service.get(params.id)
-//        if (!serviceInstance) {
-//            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'service.label', default: 'Service'), params.id])}"
-//            redirect(action: "list")
-//        }
-//        else {
-//            return [serviceInstance: serviceInstance]
-//        }
-//    }
-//
-//    def update = {
-//        def serviceInstance = Service.get(params.id)
-//        if (serviceInstance) {
-//            if (params.version) {
-//                def version = params.version.toLong()
-//                if (serviceInstance.version > version) {
-//                    
-//                    serviceInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'service.label', default: 'Service')] as Object[], "Another user has updated this Service while you were editing")
-//                    render(view: "edit", model: [serviceInstance: serviceInstance])
-//                    return
-//                }
-//            }
-//            serviceInstance.properties = params
-//            if (!serviceInstance.hasErrors() && serviceInstance.save(flush: true)) {
-//                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'service.label', default: 'Service'), serviceInstance.id])}"
-//                redirect(action: "show", id: serviceInstance.id)
-//            }
-//            else {
-//                render(view: "edit", model: [serviceInstance: serviceInstance])
-//            }
-//        }
-//        else {
-//            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'service.label', default: 'Service'), params.id])}"
-//            redirect(action: "list")
-//        }
-//    }
-//
-//    def delete = {
-//        def serviceInstance = Service.get(params.id)
-//        if (serviceInstance) {
-//            try {
-//                serviceInstance.delete(flush: true)
-//                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'service.label', default: 'Service'), params.id])}"
-//                redirect(action: "list")
-//            }
-//            catch (org.springframework.dao.DataIntegrityViolationException e) {
-//                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'service.label', default: 'Service'), params.id])}"
-//                redirect(action: "show", id: params.id)
-//            }
-//        }
-//        else {
-//            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'service.label', default: 'Service'), params.id])}"
-//            redirect(action: "list")
-//        }
-//    }
 }
