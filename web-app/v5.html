@@ -104,7 +104,7 @@
         <div id="register_new">
             <table>
               <tr><td>Source URL:&nbsp;<input size='27' type="text"/></td></tr>
-              <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button style="float:right;margin-left:2px">Look Up</button></td></tr>
+              <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button disabled="disabled" style="float:right;margin-left:2px">Look Up</button></td></tr>
               <tr><td>Visualization URL:&nbsp;<input size='22' type="text"/></td></tr>
             </table>
         </div>
@@ -191,22 +191,25 @@
           <table>
             <tr>
               <td class="boldText">Time Range:</td>
-              <td><input id="TE_timeRange_all" name="group1" type="radio"/>
+              <td><input id="TE_timeRange_all" class="all" name="group1" type="radio"/>
               </td>
               <td>All</td>
-              <td><input id="TE_timeRange_defined" name="group1" type="radio"/></td>
+              <td><input id="TE_timeRange_defined" class="defined" name="group1" type="radio"/></td>
               <td>Defined</td>
             </tr>
           </table>
         </form>
+      <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
         <input class="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
-        <span class="te-to boldText">To:</span>
+        <br><br><span class="te-to boldText">To:</span>
         <input class="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
-        <div class="te-footer-text">
+        <div style="color:#aaa" class="te-footer-text">
           ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
           Example: 2010-11-15T09:00:00
         </div>
+      </div><!-- end .temporalExtentControls -->
+
       </div>
     </div>
    </div><!-- end .west-center -->

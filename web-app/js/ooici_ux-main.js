@@ -20,6 +20,7 @@ var OOIUX = Backbone.View.extend({
         this.wf_106(this.datatable_106);
         this.geospatial_container();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
+        $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
         $("#datatable_104_wrapper").hide();  //XXX temporary default
         $("#datatable_106_wrapper").hide();  //XXX temporary default
     },
@@ -75,13 +76,13 @@ var OOIUX = Backbone.View.extend({
     populate_table: function(url, datatable){
         datatable.fnClearTable();
         $.getJSON(url, function(data){
-            if (url == "service/list" || url == "service/my_registered_resources"){
+            if (url == "service/dataResources"){
                 $.each(data, function(i, elem){
                     datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
                 });
                 $("table#datatable_106 tbody tr td").css("width","20%"); //XXX
             } 
-            if (url == "service/notifications"){
+            if (url == "service/subscriptions"){
                 $.each(data, function(i, elem){
                     datatable.fnAddData(["[]", elem.title, elem.institution, elem.created, "Details"]);
                 });
@@ -122,6 +123,8 @@ var OOIUX = Backbone.View.extend({
         $('.ui-layout-east').hide();
 
         $("#geospatialContainer .all").attr("checked", "checked");
+        $("#temporalExtent .all").attr("checked", "checked");
+        $(".temporalExtentControls input").attr("disabled", "disabled");
         $(".boundingBoxControls input").attr("disabled", "disabled");
         $(".altitudeControls input").attr("disabled", "disabled");
 
@@ -146,12 +149,22 @@ var OOIUX = Backbone.View.extend({
           $("#geospatial_selection_button").removeAttr("disabled");
         });
 
+        $(".temporalExtentContainer input[type='radio']").click(function(){
+          var is_all = $(this).hasClass("all");
+          if (is_all){
+            $(".temporalExtentControls input").attr("disabled", "disabled");
+          } else {
+            $(".temporalExtentControls input").removeAttr("disabled");
+          }
+        });
+
+
         $('#radioAllPubRes').bind('click', function(event) {
             self.wf_100_presentation();
             $("h3.data_sources").show();
 
             $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
-            self.populate_table("service/list", datatable);
+            self.populate_table("service/dataResources", datatable);
             $('.ui-layout-center').show();
             $('.ui-layout-east').show();
         });
@@ -231,7 +244,7 @@ var OOIUX = Backbone.View.extend({
             $("#notification_settings").show();
 
             $("table#datatable_104 thead tr:first").find("th:eq(0)").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
-            self.populate_table("service/notifications", datatable);
+            self.populate_table("service/subscriptions", datatable);
         });
         $("#datatable_104 tbody").unbind("click").bind('click', function(evt){ //TODO: use 'delegate'.
             var nth_elem = $(evt.target).parent().index()+1;
@@ -276,7 +289,7 @@ var OOIUX = Backbone.View.extend({
     wf_106: function(datatable){
         $("#radioMyPubRes").bind('click', function(evt) {
             self.wf_106_presentation();
-            self.populate_table("service/my_registered_resources", datatable);
+            self.populate_table("service/dataResources", datatable);
         });
     },
 
@@ -287,6 +300,7 @@ var OOIUX = Backbone.View.extend({
         $("#container h1").text("My Registered Resources");
         $("#save_notification_settings").hide(); //button
         $("#geospatial_selection_button").hide();
+        $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
     }
 

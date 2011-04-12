@@ -32,14 +32,14 @@ class DownloadData(Resource):
 
 
 
+
+
 class Service(Resource):
 
     def getChild(self, name, request):
-        if name == "list":
+        if name == "dataResources":
             return ServiceList()
-        if name == "my_registered_resources":
-            return ServiceList()
-        if name == "notifications":
+        if name == "subscriptions":
             return Notifications()
         if name == "createDownloadUrl":
             return DownloadData()
