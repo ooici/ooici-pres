@@ -12,13 +12,14 @@ var OOIUX = Backbone.View.extend({
         this.layout_east_inner = this.layout_east_inner_init();
         this.datatable_100 = this.datatable_init("#datatable_100", 5);
         this.datatable_104 = this.datatable_init("#datatable_104", 5);
-        this.datatable_106 = this.datatable_init("#datatable_106", 5);
+        this.datatable_106 = this.datatable_init("#datatable_106", 6);
         this.wf_100(this.datatable_100);
         this.wf_101(this.datatable_100);
         this.wf_104(this.datatable_104);
         this.wf_105();
         this.wf_106(this.datatable_106);
         this.geospatial_container();
+        this.datatable_select_buttons();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
         $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
         $("#datatable_104_wrapper").hide();  //XXX temporary default
@@ -64,6 +65,26 @@ var OOIUX = Backbone.View.extend({
         return layout_east_inner;
     },
 
+    datatable_select_buttons: function(){
+      $(".select_button").click(function(){
+        var button_id = $(this).attr("id");
+        var datatable_id = $(".datatable:visible").attr("id"); 
+        switch (button_id) {
+          case "delete_selected":
+            var num_selected = $("#"+datatable_id+" input:checked").length;
+            if (num_selected == 0) return alert("Select items to delete them");
+            var answer = confirm("Delete "+$("#"+datatable_id+" input:checked").length + " selected items?");
+            return answer;
+          case "deselect_all":
+            return $("#"+datatable_id+" input:checkbox").attr("checked", "");
+          case "select_all":
+            return $("#"+datatable_id+" input:checkbox").attr("checked", "checked");
+          default:
+            return;
+        }
+      });
+    },
+
     datatable_init: function(id, columns){
         var oTable = $(id).dataTable({
             "aaData":[_.map(_.range(columns), function(x){return null;})],
@@ -77,19 +98,31 @@ var OOIUX = Backbone.View.extend({
         datatable.fnClearTable();
         $.getJSON(url, function(data){
             if (url == "service/dataResources"){
-                $.each(data, function(i, elem){
-                    datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
-                });
-                $("table#datatable_106 tbody tr td").css("width","20%"); //XXX
+                if (datatable.attr("id") == "datatable_106"){
+                    $.each(data, function(i, elem){
+                        var cb = "<input type='checkbox'/>";
+                        datatable.fnAddData([cb, elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                    });
+                    $("#datatable_select_buttons").show();
+                    $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX
+                    $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
+                } else {
+                    $("#datatable_select_buttons").hide();
+                    $.each(data, function(i, elem){
+                        datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                    });
+                    $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
+                }
             } 
             if (url == "service/subscriptions"){
+                var cb = "<input type='checkbox'/>";
                 $.each(data, function(i, elem){
-                    datatable.fnAddData(["[]", elem.title, elem.institution, elem.created, "Details"]);
+                    datatable.fnAddData([cb, elem.title, elem.institution, elem.created, "Details"]);
                 });
-                $("table#datatable_104 tbody tr td").css("width","25%"); //XXX
-                $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "5%")});
+                $("#datatable_select_buttons").show();
+                $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX 
+                $("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
             } 
-
         });
     },
 
@@ -205,6 +238,7 @@ var OOIUX = Backbone.View.extend({
     wf_100_presentation: function(){
         $("#datatable_100_wrapper").show();
         $("#datatable_104_wrapper").hide();
+        $("#datatable_106_wrapper").hide();
         $("#container h1").text("All Registered Resources");
         $(".notification_settings").hide();
         $("#save_notification_settings").hide(); //button

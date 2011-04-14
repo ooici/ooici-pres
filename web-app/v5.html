@@ -48,25 +48,29 @@
       <div id="datatable">
         <div id="container">
           <h1>Data Resources</h1>
-            <table id="datatable_100" cellpadding="0" cellspacing="0" border="0" class="display">
+            <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0" class="display">
               <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
               <tbody></tbody>
             </table>
 
-            <table id="datatable_104" cellpadding="0" cellspacing="0" border="0">
-              <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+            <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
+              <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
               <tbody></tbody>
             </table>
 
-            <table id="datatable_106" cellpadding="0" cellspacing="0" border="0">
-              <thead><tr><th width="50%">Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
-              <tbody></tbody>
+           <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
+           <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
+            <tbody></tbody>
             </table>
         </div>
       </div>
      </div><!-- end .center-center -->
     <div class="center-south">
-      <p style="text-align:center;color:#ddd">Center South</p>
+     <div id="datatable_select_buttons">
+      <span class="select_button" id="delete_selected">Delete Selected</span>
+      <span class="select_button" id="deselect_all">Deselect All</span>
+      <span class="select_button" id="select_all">Select All</span>
+     </div>
     </div><!-- end .center-south -->
 
   </div><!-- end .ui-layout-center -->
