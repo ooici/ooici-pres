@@ -116,5 +116,12 @@ body {
   border-radius: 3px;
   cursor:pointer;
 }
-
-
+#dispatcher_settings {
+  display:none;
+}
+.dispatcher_settings {
+  display:none;
+}
+#start_notifications {
+  display:none;
+}

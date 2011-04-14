@@ -20,6 +20,7 @@ var OOIUX = Backbone.View.extend({
         this.wf_106(this.datatable_106);
         this.geospatial_container();
         this.datatable_select_buttons();
+        this.setup_notifications();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
         $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
         $("#datatable_104_wrapper").hide();  //XXX temporary default
@@ -65,6 +66,15 @@ var OOIUX = Backbone.View.extend({
         return layout_east_inner;
     },
 
+    datatable_init: function(id, columns){
+        var oTable = $(id).dataTable({
+            "aaData":[_.map(_.range(columns), function(x){return null;})],
+            "bJQueryUI": true, 
+            "sPaginationType": "full_numbers"
+        });
+        return oTable;
+    },
+
     datatable_select_buttons: function(){
       $(".select_button").click(function(){
         var button_id = $(this).attr("id");
@@ -85,13 +95,15 @@ var OOIUX = Backbone.View.extend({
       });
     },
 
-    datatable_init: function(id, columns){
-        var oTable = $(id).dataTable({
-            "aaData":[_.map(_.range(columns), function(x){return null;})],
-            "bJQueryUI": true, 
-            "sPaginationType": "full_numbers"
-        });
-        return oTable;
+
+    setup_notifications: function(){
+      $("#setup_notifications").click(function(){
+        $(".notification_settings, .dispatcher_settings").trigger("click").trigger("click");  //XXX 
+        $("#start_notifications, #notification_settings, #dispatcher_settings").show();
+        $("#save_notification_settings, #download_dataset_button, #setup_notifications").hide();
+        $(".data_sources").hide();
+
+      });
     },
 
     populate_table: function(url, datatable){
@@ -230,7 +242,7 @@ var OOIUX = Backbone.View.extend({
             $('div#rp_viewersInfo').html(rowData[11] || "DataSource Viewers Info" + " #"+nth_elem);
 
             $(".data_sources").show();
-            $(".notification_settings").hide();
+            $(".notification_settings, .dispatcher_settings").hide();
             $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
         });
    },

@@ -245,9 +245,9 @@
 
       <div class="data_sources" id="rp_accessInfo"></div>
       <h3 class="data_sources"><a href="#">Variables</a></h3>
-
-      <div class="data_sources" id="rp_references"></div>
+      <div class="data_sources" id="rp_references">Variables</div>
       <h3 class="data_sources"><a href="#">References</a></h3>
+      <div class="data_sources" id="rp_references">References</div>
 
     <br>
     <h3 id="notification_settings" class="notification_settings"><a href="#">Notification Settings</a></h3>
@@ -275,6 +275,36 @@
           </table>
         </form>
       </div><!-- end #notification_settings -->
+
+    <h3 id="dispatcher_settings" class="dispatcher_settings"><a href="#">Dispatcher Settings</a></h3>
+      <div class="dispatcher_settings" style="padding-left: 10px; padding-right: 10px;">
+        <form action="">
+          <p  style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Notification Triggers</p>
+          <table>
+            <thead>
+            <tr>
+              <th width="50%">Send notifications when:</th>
+            </tr>
+            </thead>
+            <tr>
+              <td><input id="dispatcher_updateWhenAvailable" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td style="padding-right: 30px;">Update When Available</td>
+            </tr>
+            <tr>
+              <td><input id="dispatcher_metadataHasChanged" class="_controlradios" name="group1" type="checkbox"/> </td>
+              <td>Metadata has changed</td>
+            </tr>
+            <tr>
+              <td><input id="dispatcher_datasourceIsOffline" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td>Datasource is offline</td>
+            </tr>
+          </table>
+          <p style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Dispatcher Script</p>
+          Dispatcher Script Path: <input type="file"/></
+        </form>
+      </div><!-- end #dispatcher_settings -->
+
+
     </div><!-- end #eastMultiOpenAccordion -->
    </div><!-- end .east-center -->
 
@@ -282,6 +312,7 @@
       <button id="save_notification_settings" disabled="disabled">Save Notification Settings</button>
       <button id="download_dataset_button" disabled="disabled">Download</button>
       <button id="setup_notifications" disabled="disabled">Setup Notifications</button>
+      <button id="start_notifications">Start Notifications</button>
    </div><!-- end .east-south -->
 
   </div><!-- end .ui-layout-east --> 
