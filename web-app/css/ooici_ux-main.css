@@ -17,7 +17,7 @@ body {
     display:none;
 }
 #loading_message span {
-    background-color:#FFE900;
+    background-color:#FFF15F;
     font-weight:bold;
     padding:4px;
     position:relative;

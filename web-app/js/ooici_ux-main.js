@@ -75,6 +75,15 @@ var OOIUX = Backbone.View.extend({
         return oTable;
     },
 
+    loading_dialog: function(msg){
+        var elem = $("#loading_message");
+        if (typeof msg == "undefined"){
+            elem.fadeOut("slow");
+        } else {
+            elem.show().find(".msg").text(msg);
+        }
+    },
+
     datatable_select_buttons: function(){
       $(".select_button").click(function(){
         var button_id = $(this).attr("id");
@@ -242,13 +251,15 @@ var OOIUX = Backbone.View.extend({
 
 
         $("#datatable_100 tbody").unbind("click").click(function(event) {
+            self.loading_dialog("Loading dataset details...");
             var td_target = $(event.target);
             if (td_target.text() == "Details"){
                 $("#datatable_details_scroll").show();
                 $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
-                $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123", "details":true}, 
+                $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123"}, 
                     success: function(resp){
                         $("#datatable_details_container").html(resp.data);
+                        self.loading_dialog();
                     }
                 });
                 $("#datatable_details_scroll").bind("click", function(){
@@ -256,34 +267,37 @@ var OOIUX = Backbone.View.extend({
                 });
                 return;
             }
-            var nth_elem = $(event.target).parent().index()+1;
 
-            $(datatable.fnSettings().aoData).each(function () {
-               $(this.nTr).removeClass('row_selected');
+        
+            $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123"}, 
+                success: function(resp){
+                    var data = resp.dataResourceSummary[0];
+
+                    $(datatable.fnSettings().aoData).each(function () {
+                       $(this.nTr).removeClass('row_selected');
+                    });
+
+                    $(event.target.parentNode).addClass('row_selected').text(); // Highlights selected row
+                    // Expands right pane panels when row is selected. Also closes panels if already expanded.
+                    if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
+                    // Get the hidden column data for this row
+                    var rowData = datatable.fnGetData(event.target.parentNode);
+                    // Get the data source Id from column 0 var dsId = rowData[0];
+                    var nth_elem = $(event.target).parent().index()+1;
+                    $('a#rp_dsTitle').html(data.institution); // Get and set dataSource title
+                    $('div#rp_dsMetaInfo').html(data.title); //rowData[5] || "DataSource MetaInfo" + " #"+nth_elem);
+                    $('div#rp_publisherInfo').html(data.institution); //rowData[6] || "DataSource Publisher Info" + " #"+nth_elem);
+                    $('div#rp_creatorInfo').html(data.source);//rowData[7] || "DataSource Creator Info" + " #"+nth_elem);
+                    $('div#rp_docInfo').html(data.source);
+                    $('div#rp_variablesInfo').html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+                    $('div#rp_accessInfo').html(rowData[10] || "Access Info" + " #"+nth_elem);
+                    $('div#rp_viewersInfo').html(rowData[11] || " Viewers Info" + " #"+nth_elem);
+                    $(".data_sources").show();
+                    $(".notification_settings, .dispatcher_settings").hide();
+                    $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+                    self.loading_dialog();
+                }
             });
-
-            $(event.target.parentNode).addClass('row_selected').text(); // Highlights selected row
-
-            // Expands right pane panels when row is selected. Also closes panels if already expanded.
-            if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) {
-                $('#eastMultiOpenAccordion h3').trigger('click');
-            }
-            // Get the hidden column data for this row
-            var rowData = datatable.fnGetData(event.target.parentNode);
-
-            // Get the data source Id from column 0 var dsId = rowData[0];
-            $('a#rp_dsTitle').html(rowData[1]); // Get and set dataSource title
-            $('div#rp_dsMetaInfo').html(rowData[5] || "DataSource MetaInfo" + " #"+nth_elem);
-            $('div#rp_publisherInfo').html(rowData[6] || "DataSource Publisher Info" + " #"+nth_elem);
-            $('div#rp_creatorInfo').html(rowData[7] || "DataSource Creator Info" + " #"+nth_elem);
-            $('div#rp_docInfo').html(rowData[8] || "DataSource Documentation" + " #"+nth_elem);
-            $('div#rp_variablesInfo').html(rowData[9] || "DataSource Variables" + " #"+nth_elem);
-            $('div#rp_accessInfo').html(rowData[10] || "DataSource Access Info" + " #"+nth_elem);
-            $('div#rp_viewersInfo').html(rowData[11] || "DataSource Viewers Info" + " #"+nth_elem);
-
-            $(".data_sources").show();
-            $(".notification_settings, .dispatcher_settings").hide();
-            $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
         });
    },
 
