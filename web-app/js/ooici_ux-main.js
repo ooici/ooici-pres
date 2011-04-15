@@ -111,7 +111,7 @@ var OOIUX = Backbone.View.extend({
                 setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
-                alert("service/subscriptions called"); //XXX --error-- err: "+error);
+                alert("/service/subscriptions called"); //XXX --error-- err: "+error);
                 setTimeout(function(){document.location="/";}, 100);
             }
         });
@@ -121,41 +121,47 @@ var OOIUX = Backbone.View.extend({
 
     populate_table: function(url, datatable){
         datatable.fnClearTable();
-        $.getJSON(url, function(data){
-            if (url == "service/dataResources"){
-                if (datatable.attr("id") == "datatable_106"){
+        var datatable_id = datatable.attr("id");
+        var action = "find";
+        if (datatable_id == "datatable_106") action = "findByUser";
+        $.ajax({url:url, type:"GET", data:{action:action}, dataType:"json", 
+            success: function(data){
+                if (url == "service/dataResource"){
+                    if (datatable_id == "datatable_106"){
+                        $.each(data, function(i, elem){
+                            var cb = "<input type='checkbox'/>";
+                            datatable.fnAddData([cb, elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                        });
+                        $("#datatable_select_buttons").show();
+                        $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX
+                        $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
+                    } else {
+                        $("#datatable_select_buttons").hide();
+                        $.each(data, function(i, elem){
+                            datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                        });
+                        $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
+                    }
+                } 
+                if (url == "service/subscriptions"){
+                    var cb = "<input type='checkbox'/>";
                     $.each(data, function(i, elem){
-                        var cb = "<input type='checkbox'/>";
-                        datatable.fnAddData([cb, elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                        datatable.fnAddData([cb, elem.title, elem.institution, elem.created, "Details"]);
                     });
                     $("#datatable_select_buttons").show();
-                    $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX
-                    $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
-                } else {
-                    $("#datatable_select_buttons").hide();
-                    $.each(data, function(i, elem){
-                        datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
-                    });
-                    $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
-                }
-            } 
-            if (url == "service/subscriptions"){
-                var cb = "<input type='checkbox'/>";
-                $.each(data, function(i, elem){
-                    datatable.fnAddData([cb, elem.title, elem.institution, elem.created, "Details"]);
-                });
-                $("#datatable_select_buttons").show();
-                $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX 
-                $("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
-            } 
+                    $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX 
+                    $("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
+                } 
+            } //end 'success: function...'.
         });
     },
 
     geospatial_container: function(){
         /* MOCK OUT of geospatial_container widget */
         var geospatial_container_data = function(){
-            var data = JSON.stringify({"user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":32.87521,"maxLatitude":32.97521,"minLongitude":-117.274609,"maxLongitude":-117.174609,"minVertical":5.5,"maxVertical":6.6,"posVertical":7.7,"minTime":8.8,"maxTime": 9.9,"identity":""});
-            $.ajax({url:"service/dataResources", type:"GET", data:data, 
+            var action = "detail";
+            var data = JSON.stringify({"action":action, "user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":32.87521,"maxLatitude":32.97521,"minLongitude":-117.274609,"maxLongitude":-117.174609,"minVertical":5.5,"maxVertical":6.6,"posVertical":7.7,"minTime":8.8,"maxTime": 9.9,"identity":""});
+            $.ajax({url:"service/dataResource", type:"GET", data:data, 
                 success: function(resp){
                     alert("geospatial_container resp: "+resp);
                 }
@@ -229,7 +235,7 @@ var OOIUX = Backbone.View.extend({
             $("h3.data_sources").show();
 
             $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
-            self.populate_table("service/dataResources", datatable);
+            self.populate_table("service/dataResource", datatable);
             $('.ui-layout-center').show();
             $('.ui-layout-east').show();
         });
@@ -240,9 +246,9 @@ var OOIUX = Backbone.View.extend({
             if (td_target.text() == "Details"){
                 $("#datatable_details_scroll").show();
                 $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
-                $.ajax({url:"service/dataResourceDetail", type:"GET", data:{"dataId":"abc123", "details":true}, 
+                $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123", "details":true}, 
                     success: function(resp){
-                        $("#datatable_details_container").html(resp);
+                        $("#datatable_details_container").html(resp.data);
                     }
                 });
                 $("#datatable_details_scroll").bind("click", function(){
@@ -364,7 +370,7 @@ var OOIUX = Backbone.View.extend({
     wf_106: function(datatable){
         $("#radioMyPubRes").bind('click', function(evt) {
             self.wf_106_presentation();
-            self.populate_table("service/dataResources", datatable);
+            self.populate_table("service/dataResource", datatable);
         });
     },
 
