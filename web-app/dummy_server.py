@@ -22,6 +22,9 @@ class Notifications(Resource):
     def render_GET(self, request):
         return json.dumps(self.DATA)
 
+    def render_POST(self, request):
+        return "ok"
+
 
 class DownloadData(Resource):
 

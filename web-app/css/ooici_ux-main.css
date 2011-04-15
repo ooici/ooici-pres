@@ -125,3 +125,18 @@ body {
 #start_notifications {
   display:none;
 }
+#datatable_details_scroll {
+  float:right;
+  position:relative;
+  top:-31px;
+  left:-4px;
+  font-size:130%;
+  padding:2px 3px;
+}
+#datatable_details_scroll span {
+  margin:0px 2px;
+  background-color:#eee;
+}
+#datatable_details_scroll .arrow {
+  font-weight:bold;
+}

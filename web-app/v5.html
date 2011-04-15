@@ -48,6 +48,7 @@
       <div id="datatable">
         <div id="container">
           <h1>Data Resources</h1>
+            <div style="display:none" id="datatable_details_scroll"><span class="arrow">←</span><span>Return to List</span><span class="arrow">→</span></div>
             <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0" class="display">
               <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
               <tbody></tbody>
@@ -62,6 +63,10 @@
            <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
             <tbody></tbody>
             </table>
+
+        <div id="datatable_details_container"> 
+        </div><!-- end #datatable_details_containe" -->
+
         </div>
       </div>
      </div><!-- end .center-center -->
@@ -300,7 +305,7 @@
             </tr>
           </table>
           <p style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Dispatcher Script</p>
-          Dispatcher Script Path: <input type="file"/></
+          Dispatcher Script Path: <input type="file"/>
         </form>
       </div><!-- end #dispatcher_settings -->
 

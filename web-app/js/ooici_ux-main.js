@@ -95,15 +95,28 @@ var OOIUX = Backbone.View.extend({
       });
     },
 
-
     setup_notifications: function(){
-      $("#setup_notifications").click(function(){
+      $("#setup_notifications").bind("click", function(){
         $(".notification_settings, .dispatcher_settings").trigger("click").trigger("click");  //XXX 
         $("#start_notifications, #notification_settings, #dispatcher_settings").show();
         $("#save_notification_settings, #download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
-
       });
+
+     $("#start_notifications").bind("click", function(){
+        //TODO loop over inputs
+        $.ajax({url:"service/subscriptions", type:"POST", data:{"action":"create", "data":"abc123"}, 
+            success: function(resp){
+                alert("/service/subscriptions called");//XXX: "+resp);
+                setTimeout(function(){document.location="/";}, 100);
+            },
+            error: function(jqXHR, textStatus, error){
+                alert("service/subscriptions called"); //XXX --error-- err: "+error);
+                setTimeout(function(){document.location="/";}, 100);
+            }
+        });
+
+     });
     },
 
     populate_table: function(url, datatable){
@@ -138,12 +151,11 @@ var OOIUX = Backbone.View.extend({
         });
     },
 
-
     geospatial_container: function(){
         /* MOCK OUT of geospatial_container widget */
         var geospatial_container_data = function(){
             var data = JSON.stringify({"user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":32.87521,"maxLatitude":32.97521,"minLongitude":-117.274609,"maxLongitude":-117.174609,"minVertical":5.5,"maxVertical":6.6,"posVertical":7.7,"minTime":8.8,"maxTime": 9.9,"identity":""});
-            $.ajax({url:"service/geospatial", type:"POST", data:data, 
+            $.ajax({url:"service/dataResources", type:"GET", data:data, 
                 success: function(resp){
                     alert("geospatial_container resp: "+resp);
                 }
@@ -152,6 +164,14 @@ var OOIUX = Backbone.View.extend({
         $("#geospatialContainer").click(geospatial_container_data);
     },
 
+
+    datatable_details: function(){
+        $(".datatable tbody").bind('dblclick', function(evt) {
+            // Get the hidden column data for this row
+            var rowData = datatable.fnGetData(evt.target.parentNode);
+            alert("Showing Datatable details...");
+        });
+    },
 
     wf_100: function(datatable){
         /* WF 100 - Handles user click events within center pane datatable */
@@ -216,6 +236,20 @@ var OOIUX = Backbone.View.extend({
 
 
         $("#datatable_100 tbody").unbind("click").click(function(event) {
+            var td_target = $(event.target);
+            if (td_target.text() == "Details"){
+                $("#datatable_details_scroll").show();
+                $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+                $.ajax({url:"service/dataResourceDetail", type:"GET", data:{"dataId":"abc123", "details":true}, 
+                    success: function(resp){
+                        $("#datatable_details_container").html(resp);
+                    }
+                });
+                $("#datatable_details_scroll").bind("click", function(){
+                    document.location="/";
+                });
+                return;
+            }
             var nth_elem = $(event.target).parent().index()+1;
 
             $(datatable.fnSettings().aoData).each(function () {
@@ -262,11 +296,6 @@ var OOIUX = Backbone.View.extend({
        /* WF101 - Handles double click action on a row w/in the center pane's dataResource table.  */
         $("#download_dataset_button").click(function(){
             document.location = "service/createDownloadUrl";
-        });
-        $("#datatable_100 tbody").bind('dblclick', function(evt) {
-            // Get the hidden column data for this row
-            var rowData = datatable.fnGetData(evt.target.parentNode);
-            alert("Showing Datatable details...");
         });
     },
 
