@@ -17,7 +17,7 @@ body {
     display:none;
 }
 #loading_message span {
-    background-color:#FFE900;
+    background-color:#FFF15F;
     font-weight:bold;
     padding:4px;
     position:relative;
@@ -54,11 +54,15 @@ body {
     text-decoration:underline;
 }
 
-
 .bold {
   font-weight:bold;
   color:#362B36 !important;
 }
+.selected {
+  font-weight:bold;
+  color:#362B36 !important;
+}
+
 .hidden {
   display: none;
 }
@@ -87,10 +91,54 @@ body {
 #resouce_selector_view_spacer {
   padding:0px 4px;
   color:#000;
+  font-weight:bold;
 }
 #view_existing_tab {
 }
 #register_new_tab {
 }
-
-
+.resouce_selector_tab {
+    cursor:pointer;
+}
+#register_new {
+  display:none;
+}
+#register_resource_button {
+  display:none;
+}
+#datatable_select_buttons {
+  display:none;
+}
+.select_button {
+  float:right;
+  border: 1px solid #ccc;
+  background-color:#eee;
+  padding:2px 4px;
+  margin:8px 10px 10px 0px;
+  border-radius: 3px;
+  cursor:pointer;
+}
+#dispatcher_settings {
+  display:none;
+}
+.dispatcher_settings {
+  display:none;
+}
+#start_notifications {
+  display:none;
+}
+#datatable_details_scroll {
+  float:right;
+  position:relative;
+  top:-31px;
+  left:-4px;
+  font-size:130%;
+  padding:2px 3px;
+}
+#datatable_details_scroll span {
+  margin:0px 2px;
+  background-color:#eee;
+}
+#datatable_details_scroll .arrow {
+  font-weight:bold;
+}

@@ -12,13 +12,18 @@ var OOIUX = Backbone.View.extend({
         this.layout_east_inner = this.layout_east_inner_init();
         this.datatable_100 = this.datatable_init("#datatable_100", 5);
         this.datatable_104 = this.datatable_init("#datatable_104", 5);
-        this.datatable_106 = this.datatable_init("#datatable_106", 5);
+        this.datatable_106 = this.datatable_init("#datatable_106", 6);
         this.wf_100(this.datatable_100);
         this.wf_101(this.datatable_100);
         this.wf_104(this.datatable_104);
+        this.wf_105();
         this.wf_106(this.datatable_106);
         this.geospatial_container();
+        this.datatable_select_buttons();
+        this.setup_notifications();
+        this.register_resource();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
+        $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
         $("#datatable_104_wrapper").hide();  //XXX temporary default
         $("#datatable_106_wrapper").hide();  //XXX temporary default
     },
@@ -71,40 +76,154 @@ var OOIUX = Backbone.View.extend({
         return oTable;
     },
 
+    loading_dialog: function(msg){
+        var elem = $("#loading_message");
+        if (typeof msg == "undefined"){
+            elem.fadeOut("slow");
+        } else {
+            elem.show().find(".msg").text(msg);
+        }
+    },
+
+    datatable_select_buttons: function(){
+      self = this;
+      $(".select_button").click(function(){
+        var button_id = $(this).attr("id");
+        var datatable_id = $(".datatable:visible").attr("id"); 
+        switch (button_id) {
+          case "delete_selected":
+            var num_selected = $("#"+datatable_id+" input:checked").length;
+            if (num_selected == 0) return alert("Select items to delete them");
+            var answer = confirm("Delete "+num_selected + " selected items?");
+            if (answer){ 
+                self.loading_dialog("Deleting "+num_selected+" items...");
+                var dataset_ids = [111, 222, 333]; //TODO
+                return $.ajax({url:"service/dataResource", type:"POST", data:{"action":"delete", "dataset_ids":dataset_ids}, 
+                    success: function(resp){
+                        self.loading_dialog();
+                        document.location = "/"; //XXX
+                    }
+                });
+            } else {
+                return;
+            }
+          case "deselect_all":
+            return $("#"+datatable_id+" input:checkbox").attr("checked", "");
+          case "select_all":
+            return $("#"+datatable_id+" input:checkbox").attr("checked", "checked");
+          default:
+            return;
+        }
+      });
+    },
+
+    setup_notifications: function(){
+      $("#setup_notifications").bind("click", function(){
+        $(".notification_settings, .dispatcher_settings").trigger("click").trigger("click");  //XXX 
+        $("#start_notifications, #notification_settings, #dispatcher_settings").show();
+        $("#save_notification_settings, #download_dataset_button, #setup_notifications").hide();
+        $(".data_sources").hide();
+      });
+
+     $("#start_notifications").bind("click", function(){
+        //TODO loop over inputs
+        $.ajax({url:"service/subscriptions", type:"POST", data:{"action":"create", "data":"abc123"}, 
+            success: function(resp){
+                alert("/service/subscriptions called");//XXX: "+resp);
+                setTimeout(function(){document.location="/";}, 100);
+            },
+            error: function(jqXHR, textStatus, error){
+                alert("/service/subscriptions called"); //XXX --error-- err: "+error);
+                setTimeout(function(){document.location="/";}, 100);
+            }
+        });
+
+     });
+    },
+
     populate_table: function(url, datatable){
         datatable.fnClearTable();
-        $.getJSON(url, function(data){
-            if (url == "service/findDataResources" || url == "service/my_registered_resources"){
-                $.each(data, function(i, elem){
-                    datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
-                });
-                $("table#datatable_106 tbody tr td").css("width","20%"); //XXX
-            } 
-            if (url == "service/notifications"){
-                $.each(data, function(i, elem){
-                    datatable.fnAddData(["[]", elem.title, elem.institution, elem.created, "Details"]);
-                });
-                $("table#datatable_104 tbody tr td").css("width","25%"); //XXX
-                $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "5%")});
-            } 
-
+        var datatable_id = datatable.attr("id");
+        var action = "find";
+        if (datatable_id == "datatable_106") action = "findByUser";
+        $.ajax({url:url, type:"GET", data:{action:action}, dataType:"json", 
+            success: function(data){
+                if (url == "service/dataResource"){
+                    if (datatable_id == "datatable_106"){
+                        $.each(data, function(i, elem){
+                            var cb = "<input type='checkbox'/>";
+                            datatable.fnAddData([cb, elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                        });
+                        $("#datatable_select_buttons").show();
+                        $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX
+                        $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
+                    } else {
+                        $("#datatable_select_buttons").hide();
+                        $.each(data, function(i, elem){
+                            datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                        });
+                        $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
+                    }
+                } 
+                if (url == "service/subscriptions"){
+                    var cb = "<input type='checkbox'/>";
+                    $.each(data, function(i, elem){
+                        datatable.fnAddData([cb, elem.title, elem.institution, elem.created, "Details"]);
+                    });
+                    $("#datatable_select_buttons").show();
+                    $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX 
+                    $("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
+                } 
+            } //end 'success: function...'.
         });
     },
 
-
     geospatial_container: function(){
         /* MOCK OUT of geospatial_container widget */
+        self = this;
         var geospatial_container_data = function(){
-            var data = JSON.stringify({"user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":40.2216682434,"maxLatitude":40.2216682434,"minLongitude":-74.13,"maxLongitude":-73.50,"minVertical":20,"maxVertical":30,"posVertical":"down","minTime":"2010-07-26T00:02:00Z","maxTime": "2010-07-26T00:02:00Z","identity":""});
-            $.ajax({url:"service/findDataResources", type:"POST", data:data, 
+            var action = "detail";
+            var user_ooi_id = "3f27a744-2c3e-4d2a-a98c-050b246334a3"; //XXX
+            var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
+            var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(), minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
+            var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val(), posVertical=7.7; //XXX
+            var data = {"action":action, "user_ooi_id":user_ooi_id,"minLatitude":minLatitude,"maxLatitude":maxLatitude,"minLongitude":minLongitude,"maxLongitude":maxLongitude,"minVertical":minVertical,"maxVertical":maxVertical,"posVertical":posVertical,"minTime":minTime,"maxTime":maxTime,"identity":""};//*JSON.stringify(*/ );
+            self.loading_dialog("Loading datatable...");
+            $.ajax({url:"service/dataResource", type:"GET", dataType:"json", data:data, 
                 success: function(resp){
-                    alert("geospatial_container resp: "+resp);
+                    self.datatable_100.fnClearTable();
+                    $.each(resp, function(i, elem){
+                        self.datatable_100.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                    });
+                    $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
+                    self.loading_dialog();
                 }
             });
         };
-        $("#geospatialContainer").click(geospatial_container_data);
+        $("#geospatial_selection_button").click(geospatial_container_data);
     },
 
+    register_resource: function(){
+      var self = this;
+      $("#register_resource_button").click(function(){
+          self.loading_dialog("Registering resource...");
+          var data = {"action":"create", "source_url":"http://example.edu"};
+          $.ajax({url:"service/dataResource", type:"POST", data:data, 
+              success: function(resp){
+                  self.loading_dialog();
+                  window.location.reload(); //XXX
+              }
+          });
+      });
+    },
+
+    datatable_details: function(){
+        $(".datatable tbody").bind('dblclick', function(evt) {
+            // Get the hidden column data for this row
+            var rowData = datatable.fnGetData(evt.target.parentNode);
+            alert("Showing Datatable details...");
+        });
+    },
 
     wf_100: function(datatable){
         /* WF 100 - Handles user click events within center pane datatable */
@@ -121,6 +240,8 @@ var OOIUX = Backbone.View.extend({
         $('.ui-layout-east').hide();
 
         $("#geospatialContainer .all").attr("checked", "checked");
+        $("#temporalExtent .all").attr("checked", "checked");
+        $(".temporalExtentControls input").attr("disabled", "disabled");
         $(".boundingBoxControls input").attr("disabled", "disabled");
         $(".altitudeControls input").attr("disabled", "disabled");
 
@@ -145,52 +266,83 @@ var OOIUX = Backbone.View.extend({
           $("#geospatial_selection_button").removeAttr("disabled");
         });
 
+        $(".temporalExtentContainer input[type='radio']").click(function(){
+          var is_all = $(this).hasClass("all");
+          if (is_all){
+            $(".temporalExtentControls input").attr("disabled", "disabled");
+          } else {
+            $(".temporalExtentControls input").removeAttr("disabled");
+          }
+        });
+
+
         $('#radioAllPubRes').bind('click', function(event) {
             self.wf_100_presentation();
             $("h3.data_sources").show();
 
             $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
-            self.populate_table("service/findDataResources", datatable);
+            self.populate_table("service/dataResource", datatable);
             $('.ui-layout-center').show();
             $('.ui-layout-east').show();
         });
 
 
         $("#datatable_100 tbody").unbind("click").click(function(event) {
-            var nth_elem = $(event.target).parent().index()+1;
-
-            $(datatable.fnSettings().aoData).each(function () {
-               $(this.nTr).removeClass('row_selected');
-            });
-
-            $(event.target.parentNode).addClass('row_selected').text(); // Highlights selected row
-
-            // Expands right pane panels when row is selected. Also closes panels if already expanded.
-            if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) {
-                $('#eastMultiOpenAccordion h3').trigger('click');
+            self.loading_dialog("Loading dataset details...");
+            var td_target = $(event.target);
+            if (td_target.text() == "Details"){
+                $("#datatable_details_scroll").show();
+                $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+                $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123"}, 
+                    success: function(resp){
+                        $("#datatable_details_container").html(resp.data).show();
+                        self.loading_dialog();
+                    }
+                });
+                $("#datatable_details_scroll").bind("click", function(){
+                    document.location="/";
+                });
+                //return;
             }
-            // Get the hidden column data for this row
-            var rowData = datatable.fnGetData(event.target.parentNode);
 
-            // Get the data source Id from column 0 var dsId = rowData[0];
-            $('a#rp_dsTitle').html(rowData[1]); // Get and set dataSource title
-            $('div#rp_dsMetaInfo').html(rowData[5] || "DataSource MetaInfo" + " #"+nth_elem);
-            $('div#rp_publisherInfo').html(rowData[6] || "DataSource Publisher Info" + " #"+nth_elem);
-            $('div#rp_creatorInfo').html(rowData[7] || "DataSource Creator Info" + " #"+nth_elem);
-            $('div#rp_docInfo').html(rowData[8] || "DataSource Documentation" + " #"+nth_elem);
-            $('div#rp_variablesInfo').html(rowData[9] || "DataSource Variables" + " #"+nth_elem);
-            $('div#rp_accessInfo').html(rowData[10] || "DataSource Access Info" + " #"+nth_elem);
-            $('div#rp_viewersInfo').html(rowData[11] || "DataSource Viewers Info" + " #"+nth_elem);
+        
+            $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123"}, 
+                success: function(resp){
+                    var data = resp.dataResourceSummary[0];
 
-            $(".data_sources").show();
-            $(".notification_settings").hide();
-            $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+                    $(datatable.fnSettings().aoData).each(function () {
+                       $(this.nTr).removeClass('row_selected');
+                    });
+
+                    $(event.target.parentNode).addClass('row_selected').text(); // Highlights selected row
+                    // Expands right pane panels when row is selected. Also closes panels if already expanded.
+                    if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
+                    // Get the hidden column data for this row
+                    var rowData = datatable.fnGetData(event.target.parentNode);
+                    // Get the data source Id from column 0 var dsId = rowData[0];
+                    var nth_elem = $(event.target).parent().index()+1;
+                    $('a#rp_dsTitle').html(data.institution); // Get and set dataSource title
+                    $('div#rp_dsMetaInfo').html(data.title); //rowData[5] || "DataSource MetaInfo" + " #"+nth_elem);
+                    $('div#rp_publisherInfo').html(data.institution); //rowData[6] || "DataSource Publisher Info" + " #"+nth_elem);
+                    $('div#rp_creatorInfo').html(data.source);//rowData[7] || "DataSource Creator Info" + " #"+nth_elem);
+                    $('div#rp_docInfo').html(data.source);
+                    $('div#rp_variablesInfo').html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+                    $('div#rp_accessInfo').html(rowData[10] || "Access Info" + " #"+nth_elem);
+                    $('div#rp_viewersInfo').html(rowData[11] || " Viewers Info" + " #"+nth_elem);
+                    $(".data_sources").show();
+                    $(".notification_settings, .dispatcher_settings").hide();
+                    $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+                    self.loading_dialog();
+                }
+            });
         });
    },
 
     wf_100_presentation: function(){
         $("#datatable_100_wrapper").show();
         $("#datatable_104_wrapper").hide();
+        $("#datatable_106_wrapper").hide();
+        $("#datatable_details_container").hide();
         $("#container h1").text("All Registered Resources");
         $(".notification_settings").hide();
         $("#save_notification_settings").hide(); //button
@@ -200,10 +352,8 @@ var OOIUX = Backbone.View.extend({
 
     wf_101: function(datatable){
        /* WF101 - Handles double click action on a row w/in the center pane's dataResource table.  */
-        $("#datatable_100 tbody").bind('dblclick', function(evt) {
-            // Get the hidden column data for this row
-            var rowData = datatable.fnGetData(evt.target.parentNode);
-            alert("Showing Datatable details...");
+        $("#download_dataset_button").click(function(){
+            document.location = "service/createDownloadUrl";
         });
     },
 
@@ -215,11 +365,18 @@ var OOIUX = Backbone.View.extend({
         });
         $("#save_notification_settings").click(function(){
             if ($("#save_notification_settings").attr("disabled") != "") return;
-            var settings_checked = "";
+            var settings_checked = [];
             $.each($(".notification_settings input:checked"), function(i, e){
-                settings_checked += $(e).attr("id") + ", ";
+                settings_checked.push($(e).attr("id"));
             });
-            alert("Saving Notification Setting w/ ids: '"+settings_checked+"'");
+            self.loading_dialog("Saving notification setting...");
+            var data = {"action":"update", "settings":settings_checked};
+              $.ajax({url:"service/subscriptions", type:"POST", data:data, 
+                  success: function(resp){
+                      self.loading_dialog();
+                      return setTimeout(function(){window.location.reload();}, 800); //XXX
+                  }
+              });
         });
 
         $("#radioMySub").bind('click', function(evt) {
@@ -227,7 +384,7 @@ var OOIUX = Backbone.View.extend({
             $("#notification_settings").show();
 
             $("table#datatable_104 thead tr:first").find("th:eq(0)").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
-            self.populate_table("service/notifications", datatable);
+            self.populate_table("service/subscriptions", datatable);
         });
         $("#datatable_104 tbody").unbind("click").bind('click', function(evt){ //TODO: use 'delegate'.
             var nth_elem = $(evt.target).parent().index()+1;
@@ -240,6 +397,8 @@ var OOIUX = Backbone.View.extend({
         $("#datatable_104_wrapper").show();
         $("#datatable_100_wrapper").hide();
         $("#datatable_106_wrapper").hide();
+        $(".notification_settings").hide();
+        $("#datatable_details_container").hide();
         $("#container h1").text("Notification Settings");
         $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
         $(".data_sources").hide();
@@ -247,11 +406,32 @@ var OOIUX = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").hide();
     },
 
+    wf_105: function(){
+        this.resource_selector();
+    },
+
+    resource_selector: function(){
+        $(".resouce_selector_tab").bind('click', function(evt) {
+            var id = $(this).attr("id");
+            $("#"+id).addClass("selected");
+            if (id == "view_existing_tab"){
+                $("#geospatial_selection_button, #view_existing, .view_existing").show();
+                $("#register_new, #register_resource_button").hide();
+                $("#register_new_tab").removeClass("selected");
+            } else {
+                $("#register_new, #register_resource_button").show();
+                $("#geospatial_selection_button, #view_existing, .view_existing").hide();
+                $("#view_existing_tab").removeClass("selected");
+            }
+        });
+
+    },
+
+
     wf_106: function(datatable){
         $("#radioMyPubRes").bind('click', function(evt) {
             self.wf_106_presentation();
-            //$("table#datatable_106 thead tr:first").find("th:eq(0)").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
-            self.populate_table("service/my_registered_resources", datatable);
+            self.populate_table("service/dataResource", datatable);
         });
     },
 
@@ -259,9 +439,12 @@ var OOIUX = Backbone.View.extend({
         $("#datatable_106_wrapper").show();
         $("#datatable_100_wrapper").hide();
         $("#datatable_104_wrapper").hide();
+        $(".notification_settings").hide();
+        $("#datatable_details_container").hide();
         $("#container h1").text("My Registered Resources");
         $("#save_notification_settings").hide(); //button
         $("#geospatial_selection_button").hide();
+        $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
     }
 
