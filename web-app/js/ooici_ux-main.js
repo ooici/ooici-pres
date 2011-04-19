@@ -85,6 +85,7 @@ var OOIUX = Backbone.View.extend({
     },
 
     datatable_select_buttons: function(){
+      self = this;
       $(".select_button").click(function(){
         var button_id = $(this).attr("id");
         var datatable_id = $(".datatable:visible").attr("id"); 
@@ -92,8 +93,19 @@ var OOIUX = Backbone.View.extend({
           case "delete_selected":
             var num_selected = $("#"+datatable_id+" input:checked").length;
             if (num_selected == 0) return alert("Select items to delete them");
-            var answer = confirm("Delete "+$("#"+datatable_id+" input:checked").length + " selected items?");
-            return answer;
+            var answer = confirm("Delete "+num_selected + " selected items?");
+            if (answer){ 
+                self.loading_dialog("Deleting "+num_selected+" items...");
+                var dataset_ids = [111, 222, 333]; //TODO
+                return $.ajax({url:"service/dataResource", type:"POST", data:{"action":"delete", "dataset_ids":dataset_ids}, 
+                    success: function(resp){
+                        self.loading_dialog();
+                        document.location = "/"; //XXX
+                    }
+                });
+            } else {
+                return;
+            }
           case "deselect_all":
             return $("#"+datatable_id+" input:checkbox").attr("checked", "");
           case "select_all":
