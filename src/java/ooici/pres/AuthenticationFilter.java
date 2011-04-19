@@ -57,6 +57,7 @@ public class AuthenticationFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)res;
+		HttpSession session = request.getSession(true);
 
 		if (!initialized) {
 			initialize();
@@ -77,19 +78,21 @@ public class AuthenticationFilter implements Filter {
 		switch(testMode) {
 		case FORCE:
 //			System.out.println("In AuthenticationFilter.doFilter.  Forcing authentication");
-			Cookie[] cookies = request.getCookies();
-			boolean ooiidFound = false;
-			boolean expiryFound = false;
-			if (cookies != null) {
-				for (int i = 0; i < cookies.length; i++) {
-					if (cookies[i].getName().equals("IONCOREOOIID")) {
-						ooiidFound = true;
-					}
-					if (cookies[i].getName().equals("IONCOREEXPIRY")) {
-						expiryFound = true;
-					}
-				}
-			}
+			boolean ooiidFound = session.getAttribute("IONCOREOOIID") != null;
+			boolean expiryFound = session.getAttribute("IONCOREEXPIRY") != null;
+//			Cookie[] cookies = request.getCookies();
+//			boolean ooiidFound = false;
+//			boolean expiryFound = false;
+//			if (cookies != null) {
+//				for (int i = 0; i < cookies.length; i++) {
+//					if (cookies[i].getName().equals("IONCOREOOIID")) {
+//						ooiidFound = true;
+//					}
+//					if (cookies[i].getName().equals("IONCOREEXPIRY")) {
+//						expiryFound = true;
+//					}
+//				}
+//			}
 			if (!ooiidFound || !expiryFound) {
 				testModeAuthenticate(request, response);
 			}
@@ -101,19 +104,21 @@ public class AuthenticationFilter implements Filter {
 			Map params = request.getParameterMap();
 			if (params.containsKey("Test")) {
 //				System.out.println("In AuthenticationFilter.doFilter.  Setting authentication due to param match");
-				cookies = request.getCookies();
-				ooiidFound = false;
-				expiryFound = false;
-				if (cookies != null) {
-					for (int i = 0; i < cookies.length; i++) {
-						if (cookies[i].getName().equals("IONCOREOOIID")) {
-							ooiidFound = true;
-						}
-						if (cookies[i].getName().equals("IONCOREEXPIRY")) {
-							expiryFound = true;
-						}
-					}
-				}
+				ooiidFound = session.getAttribute("IONCOREOOIID") != null;
+				expiryFound = session.getAttribute("IONCOREEXPIRY") != null;
+//				cookies = request.getCookies();
+//				ooiidFound = false;
+//				expiryFound = false;
+//				if (cookies != null) {
+//					for (int i = 0; i < cookies.length; i++) {
+//						if (cookies[i].getName().equals("IONCOREOOIID")) {
+//							ooiidFound = true;
+//						}
+//						if (cookies[i].getName().equals("IONCOREEXPIRY")) {
+//							expiryFound = true;
+//						}
+//					}
+//				}
 				if (!ooiidFound || !expiryFound) {
 					testModeAuthenticate(request, response);
 
@@ -134,23 +139,24 @@ public class AuthenticationFilter implements Filter {
 			// If URL requires authentication
 			if ((urlMatches(path, userauthorityfilterurls)) || (urlMatches(path, adminauthorityfilterurls))) {
 				// See if our cookie exists.  If not, we'll delegate to CILogon
-				cookies = request.getCookies();
-				ooiidFound = false;
-				expiryFound = false;
-				if (cookies != null) {
-					for (int i = 0; i < cookies.length; i++) {
-						if (cookies[i].getName().equals("IONCOREOOIID")) {
-							ooiidFound = true;
-						}
-						if (cookies[i].getName().equals("IONCOREEXPIRY")) {
-							expiryFound = true;
-						}
-					}
-				}
+				ooiidFound = session.getAttribute("IONCOREOOIID") != null;
+				expiryFound = session.getAttribute("IONCOREEXPIRY") != null;
+//				cookies = request.getCookies();
+//				ooiidFound = false;
+//				expiryFound = false;
+//				if (cookies != null) {
+//					for (int i = 0; i < cookies.length; i++) {
+//						if (cookies[i].getName().equals("IONCOREOOIID")) {
+//							ooiidFound = true;
+//						}
+//						if (cookies[i].getName().equals("IONCOREEXPIRY")) {
+//							expiryFound = true;
+//						}
+//					}
+//				}
 				if (!ooiidFound || !expiryFound) {
 					try {
 						// Stash the originating URL
-						HttpSession session = request.getSession();
 						session.setAttribute("IONCOREORIGINIATINGURL", path);
 
 						URI redirectUri = new URI(request.getContextPath() + cilogonstarturl);
@@ -250,6 +256,9 @@ public class AuthenticationFilter implements Filter {
 		cookie = new Cookie("IONCOREEXPIRY", "" + (currentDateMS/1000 + expiry));
 		cookie.setMaxAge(expiry);
 		response.addCookie(cookie);
+
+		session.setAttribute("IONCOREOOIID", ooi_id);
+		session.setAttribute("IONCOREEXPIRY", "" + (currentDateMS/1000 + expiry));
 
 		// Programmatically add credential for principal (OOI_ID)
 		String authorityRole = "ROLE_USER";
