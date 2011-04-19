@@ -1,7 +1,7 @@
-ioncore.sysname=R1_UI_DEMO
-ioncore.host=amoeba.ucsd.edu
-ioncore.amqpport=5672
-ioncore.exchange=magnet.topic
+ioncore.sysname=SYSNAME
+ioncore.host=HOSTNAME
+ioncore.amqpport=PORT
+ioncore.exchange=EXCHANGE
 
 ioncore.cilogonstarturl=/StartRequest
 ioncore.cilogonignoreurls=/StartRequest /ready /SuccessServlet
@@ -24,7 +24,7 @@ ioncore.adminauthorityfilterurls=
 # ioncore.testmode.expiry=<seconds>
 # ioncore.testmode.authorityrole=<not defined|user|admin>
 #
-ioncore.testmode=url
+ioncore.testmode=BYPASSAUTHENTICATIONMODE
 ioncore.testmode.ooiid=3f27a744-2c3e-4d2a-a98c-050b246334a3
 ioncore.testmode.expiry=120
 ioncore.testmode.authorityrole=admin

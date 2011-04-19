@@ -8,71 +8,88 @@ This project represents the OOICI presentation framework.
 
 
 SETUP
-========
+=====
 
-1. Install Grails 1.3.3.
+1. Install Grails 1.3.7.
 - Grails can be downloaded from: http://grails.org/Download
+> sudo mv ~/Downloads/grails-1.3.7 /usr/share
+> cd /usr/share
+> sudo chown -R root:wheel grails-1.3.7/
+> sudo chmod 0755 grails-1.3.7/bin/*
+> ln -s grails-1.3.7 grails
 
-2. You must have a running RabbitMQ broker.
-- The OOICI-PRES bootstrap process makes a connection to a local Rabbitmq broker.
+Add the following to your .profile:
+export GRAILS_HOME=/usr/share/grails
+export PATH=$GRAILS_HOME/bin:$PATH
 
-3. Within your local lcaarch project, run:
+2. Install fabric (used by deploy script).
+> easy-install fabric
 
-twistd -n magnet -a sysname=spasco res/scripts/javalca.py
 
-- This step starts up the needed lcaarch services used by this project.
-- 'sysname' could be any name.
+Starting the Capability Container
+=================================
 
-4. Grails requires that you set the ion.username. Modify the grails-app/conf/Config.groovy file's
-ion.username value with your username. This username gets set within the LcademoService and CiService
-classes.
+You must have a running capability container for the UI to connect to.  The deployment
+script makes the following assumptions on defaults, but you can override any of these
+during deployment.
+
+topic host: localhost
+topic port: 5672
+sysname: username
+exchange name: magnet.topic
+
+ioncore-python> bin/twistd -n cc res/deploy/r1deploy.rel
+
+
+Deploying
+=========
+
+To deploy and run the web application on your local machine, run the following command
+from the root of the repository:
+ooici-pres> fab deployLocal
 
 
 Running
 ========
 
-To start the app:
+To start the web application without re-deploying:
 ooici-pres> grails run-app
 
 In a browser:
 Visit: http://localhost:8080/
 
-- You'll be prompted to login. The un/pwd is admin/admin
+
+Configuration
+=============
+
+There are two critical configuration files involved in running the web appliction.
+The first is the ioncore-config.properties file.  This file can be found at
+~/.grails in a local deployment.  In a remote deployment, the file is located at
+$CATALINA_HOME/webapps/<this app's name>/WEB-INF/classes. This configuration file
+retains the capability container information as well as authentication override
+control.  See below for more information on authentication.
+
+The second configuration file of interest is the CILogon config file.  This file
+is used to redirect CILogon back to the appropriate servlet url:port.  This file is
+located at $CATALINA_HOME/webapps/<this app's name>/WEB-INF/cfg.rdf.
+
+Both these files are automatically configured as part of the deployment process. However,
+you can subsequently make manual changes.  If you alter any information in these
+configuration files, you must restart the web application for the changes to be applied.
+
+A Note About Authentication
+===========================
+
+The web application utilizes CILogon for authentication.  However, configuring your machine
+to enable CILogon is a minor pain. As a result, the default authentication mode when running
+locally is to inhibit CILogon and fake the granting of a CILogon certificate.
 
 
-CILOGON
-========
-CILogon authentication currently takes advantage of the sample CILogon portal project servlets
-and JSPs implemented by the CILogon team.  These objects have been integrated into the Grails project
-as part of the move towards a more seamless logon process.
+CILogon Server Machine Setup
+============================
 
-All CILogon Servlets:
-src > java > cilogon > ConfigConstants
-src > java > cilogon > FailureServlet
-src > java > cilogon > PortalAbstractServlet
-src > java > cilogon > ReadyServlet
-src > java > cilogon > SuccessServlet
-src > java > cilogon > WelcomeServlet
-
-All CILogon JSPs:
-web-app > index.jsp
-web-app > setup.jsp
-web-app > setupBasic.jsp
-web-app > setupDone.jsp
-web-app > setupErrorPage.jsp
-web-app > setupFileStore.jsp
-web-app > setupPostresStore.jsp
-web-app > setupStorageAdmin.jsp
-
-web-app > WEB-INF > WEB-INF > cfg.rdf
-- The cfg.rdf file contains URL paths that should be changed according to the URL path scheme
-of the deployed runtime environment. The URL paths are currently set for use on machine 'spasco'.
-
-
-CILogon Pre-requisites
-======================
-To run the Grails application on your server machine and offer CILogon authentication, the following
-pre-requisites must be satisfied:
+To run the Grails application on your server machine and offer CILogon authentication to clients,
+the following pre-requisites must be satisfied:
 
 - Your server machine must have a static IP address.
 - You must contact the CILogon organization to acquire a CILogon server certificate.
@@ -94,54 +111,6 @@ pre-requisites must be satisfied:
               clientAuth="false" sslProtocol="TLS" />
 
   Alter the keystoreFile and keystorePass values as appropriate for your server machine.
-
-Running CILogon
-===============
-1. Deploy the Grails war file to Tomcat on the server machine.
-   For example, copy ooici-pres-0.1.war to $CATALINA_HOME/webapps
-2. Alter the $CATALINA_HOME/webapps/ooici-pres-0.1/WEB-INF/cfg.rdf file to reference
-   your server machine's name (ie. search/replace occurrences of 'spasco')
-3. Start Tomcat on the server machine.
-   $CATALINA_HOME/bin/startup.sh
-4. Start the identity service and the services it depends on:
-
-twistd --pidfile=ps1 -n cc -a sysname=spasco ion/services/coi/datastore/DataStoreService
-twistd --pidfile=ps2 -n cc -a sysname=spasco ion/services/coi/resource_registry_beta/resource_registry/ResourceRegistryService
-twistd --pidfile=ps3 -n cc -a sysname=spasco ion/services/coi/identity_registry/IdentityRegistryService
-
-5. Point a web browser at
-   https://<yourservermachinename>:8443/ooici-pres-o.1/WelcomeServlet
-   and follow the web page instructions to run through the CILogon certificate authentication
-   process. You should end up with https://cilogon.org/delegate/ page reporting success.  Follow
-   the "Return to Sample Java delegation portal" link at the bottom of the success page.  This
-   will run the SuccessServlet on the server machine.  This servlet will access the ion identity
-   service to register the user credential and public key.  The resulting OOID returned from the
-   ion identity service as well as the X.509 certificate and public key content with be displayed
-   in the browser.
-
-
-DEVELOPMENT MADE EASY WITHOUT CILOGON:
-======================================
-CILOGON requires much setup. If you're working on the UX templates and would rather bypass
-CILOGON setup altogether, there's an easy way to deactivate it so you can streamline development w/out CILOGON.
-
-Here's how:
-1. Change ooici-pres/src/java/templates/web.xml
-
-To:
-
-ooici-pres/src/java/templates/web.xml.orig
-
-Don't commit this change. ;)
-
-2. Now, you can start Grails (grails run-app) and work away seeing changes made to grails files reflected immediately w/in the browser.
-
-Start Grails as usual: grails run-app
-
-View it w/in the browser without the CILOGON required dependencies.
-
-For example:
-http://localhost:8080/test.html
 
 
 HELP

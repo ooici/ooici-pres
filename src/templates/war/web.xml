@@ -27,12 +27,12 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>cilogonAuthenticationFilter</filter-name>
-        <filter-class>cilogon.AuthenticationFilter</filter-class>
+        <filter-name>ooiciAuthenticationFilter</filter-name>
+        <filter-class>ooici.pres.AuthenticationFilter</filter-class>
     </filter>
 
     <filter-mapping>
-      <filter-name>cilogonAuthenticationFilter</filter-name>
+      <filter-name>ooiciAuthenticationFilter</filter-name>
       <url-pattern>/*</url-pattern>
     </filter-mapping>
 
@@ -86,11 +86,6 @@
     </servlet>
 
 	<servlet>
-		<servlet-name>WelcomeServlet</servlet-name>
-		<servlet-class>cilogon.WelcomeServlet</servlet-class>
-	</servlet>
-
-	<servlet>
 		<servlet-name>ReadyServlet</servlet-name>
 		<servlet-class>cilogon.ReadyServlet</servlet-class>
 	</servlet>
@@ -114,11 +109,6 @@
         <servlet-name>gsp</servlet-name>
         <url-pattern>*.gsp</url-pattern>
     </servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>WelcomeServlet</servlet-name>
-		<url-pattern>/WelcomeServlet</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>ReadyServlet</servlet-name>
@@ -180,7 +170,10 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>portalSecurity</web-resource-name>
-            <url-pattern>/*</url-pattern>
+            <url-pattern>/StartRequest</url-pattern>
+            <url-pattern>/ready</url-pattern>
+            <url-pattern>/SuccessServlet</url-pattern>
+            <url-pattern>/failure</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>

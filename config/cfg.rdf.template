@@ -11,11 +11,11 @@
     <b:hasPortalParameters>
       <rdf:Description rdf:about="ncsa:cilogon.org,2010:1629d933aae29c7797d9a17e46baec4c">
         <rdf:type rdf:resource="ncsa:cilogon.org,2010:/1.0/configuration/portal/"/>
-        <c:callbackUri rdf:resource="https://grails.oceanobservatories.org:8443/ooici-pres-0.1/ready"/>
-        <c:failureUri rdf:resource="https://grails.oceanobservatories.org:8443/ooici-pres-0.1/failure"/>
+        <c:callbackUri rdf:resource="https://HOSTNAME:PORT/APPNAME/ready"/>
+        <c:failureUri rdf:resource="https://HOSTNAME:PORT/APPNAME/failure"/>
         <c:portalName>OOI CILogon Portal</c:portalName>
         <c:portalSkin>OOI</c:portalSkin>
-        <c:successUri rdf:resource="https://grails.oceanobservatories.org:8443/ooici-pres-0.1/SuccessServlet"/>
+        <c:successUri rdf:resource="https://HOSTNAME:PORT/APPNAME/SuccessServlet"/>
       </rdf:Description>
     </b:hasPortalParameters>
   </rdf:Description>

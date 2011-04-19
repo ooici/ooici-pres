@@ -295,7 +295,7 @@ var OOIUX = Backbone.View.extend({
                 $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
                 $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123"}, 
                     success: function(resp){
-                        $("#datatable_details_container").html(resp.data);
+                        $("#datatable_details_container").html(resp.data).show();
                         self.loading_dialog();
                     }
                 });
@@ -342,6 +342,7 @@ var OOIUX = Backbone.View.extend({
         $("#datatable_100_wrapper").show();
         $("#datatable_104_wrapper").hide();
         $("#datatable_106_wrapper").hide();
+        $("#datatable_details_container").hide();
         $("#container h1").text("All Registered Resources");
         $(".notification_settings").hide();
         $("#save_notification_settings").hide(); //button
@@ -396,6 +397,8 @@ var OOIUX = Backbone.View.extend({
         $("#datatable_104_wrapper").show();
         $("#datatable_100_wrapper").hide();
         $("#datatable_106_wrapper").hide();
+        $(".notification_settings").hide();
+        $("#datatable_details_container").hide();
         $("#container h1").text("Notification Settings");
         $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
         $(".data_sources").hide();
@@ -436,6 +439,8 @@ var OOIUX = Backbone.View.extend({
         $("#datatable_106_wrapper").show();
         $("#datatable_100_wrapper").hide();
         $("#datatable_104_wrapper").hide();
+        $(".notification_settings").hide();
+        $("#datatable_details_container").hide();
         $("#container h1").text("My Registered Resources");
         $("#save_notification_settings").hide(); //button
         $("#geospatial_selection_button").hide();
