@@ -21,6 +21,7 @@ var OOIUX = Backbone.View.extend({
         this.geospatial_container();
         this.datatable_select_buttons();
         this.setup_notifications();
+        this.register_resource();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
         $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
         $("#datatable_104_wrapper").hide();  //XXX temporary default
@@ -202,6 +203,19 @@ var OOIUX = Backbone.View.extend({
         $("#geospatial_selection_button").click(geospatial_container_data);
     },
 
+    register_resource: function(){
+      var self = this;
+      $("#register_resource_button").click(function(){
+          self.loading_dialog("Registering resource...");
+          var data = {"action":"create", "source_url":"http://example.edu"};
+          $.ajax({url:"service/dataResource", type:"POST", data:data, 
+              success: function(resp){
+                  self.loading_dialog();
+                  window.location.reload(); //XXX
+              }
+          });
+      });
+    },
 
     datatable_details: function(){
         $(".datatable tbody").bind('dblclick', function(evt) {
@@ -391,12 +405,12 @@ var OOIUX = Backbone.View.extend({
             var id = $(this).attr("id");
             $("#"+id).addClass("selected");
             if (id == "view_existing_tab"){
-                $("#view_existing").show();
-                $("#register_new").hide();
+                $("#geospatial_selection_button, #view_existing, .view_existing").show();
+                $("#register_new, #register_resource_button").hide();
                 $("#register_new_tab").removeClass("selected");
             } else {
-                $("#register_new").show();
-                $("#view_existing").hide();
+                $("#register_new, #register_resource_button").show();
+                $("#geospatial_selection_button, #view_existing, .view_existing").hide();
                 $("#view_existing_tab").removeClass("selected");
             }
         });

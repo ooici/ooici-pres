@@ -103,7 +103,9 @@ body {
 #register_new {
   display:none;
 }
-
+#register_resource_button {
+  display:none;
+}
 #datatable_select_buttons {
   display:none;
 }
