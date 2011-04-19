@@ -174,23 +174,23 @@
         <div class="boundingBoxText"> Bounding Box<br/> (Decimal Degrees) </div>
         <div class="boundingBoxControls">
           <span class="Ntext">N</span>
-          <input class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_north" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
           <span class="Stext">S</span>
-          <input class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_south" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
           <span class="Etext">E</span>
-          <input class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_east" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
           <span class="Wtext">W</span>
-          <input class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_west" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
           <span class="NSEWBackgroundBorder"></span>
         </div>
         <div class="altitudeControls">
             <span class="altText">Altitude<br/>
             (Feet MSL)</span>
             <span class="altitudeUpper">Upper Bound:
-            <input class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+            <input  id="ge_altitude_ub" class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
             </span>
             <span class="altitudeLower">Lower Bound:
-            <input class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+            <input id="ge_altitude_lb" class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
             </span>
         </div>
       </div>
@@ -210,9 +210,9 @@
         </form>
       <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
-        <input class="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
+        <input id="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
         <br><br><span class="te-to boldText">To:</span>
-        <input class="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
+        <input id="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
         <div style="color:#aaa" class="te-footer-text">
           ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
           Example: 2010-11-15T09:00:00

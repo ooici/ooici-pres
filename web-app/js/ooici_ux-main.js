@@ -167,16 +167,27 @@ var OOIUX = Backbone.View.extend({
 
     geospatial_container: function(){
         /* MOCK OUT of geospatial_container widget */
+        self = this;
         var geospatial_container_data = function(){
             var action = "detail";
-            var data = JSON.stringify({"action":action, "user_ooi_id":"3f27a744-2c3e-4d2a-a98c-050b246334a3","minLatitude":32.87521,"maxLatitude":32.97521,"minLongitude":-117.274609,"maxLongitude":-117.174609,"minVertical":5.5,"maxVertical":6.6,"posVertical":7.7,"minTime":8.8,"maxTime": 9.9,"identity":""});
-            $.ajax({url:"service/dataResource", type:"GET", data:data, 
+            var user_ooi_id = "3f27a744-2c3e-4d2a-a98c-050b246334a3"; //XXX
+            var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
+            var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(), minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
+            var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val(), posVertical=7.7; //XXX
+            var data = {"action":action, "user_ooi_id":user_ooi_id,"minLatitude":minLatitude,"maxLatitude":maxLatitude,"minLongitude":minLongitude,"maxLongitude":maxLongitude,"minVertical":minVertical,"maxVertical":maxVertical,"posVertical":posVertical,"minTime":minTime,"maxTime":maxTime,"identity":""};//*JSON.stringify(*/ );
+            self.loading_dialog("Loading datatable...");
+            $.ajax({url:"service/dataResource", type:"GET", dataType:"json", data:data, 
                 success: function(resp){
-                    alert("geospatial_container resp: "+resp);
+                    self.datatable_100.fnClearTable();
+                    $.each(resp, function(i, elem){
+                        self.datatable_100.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                    });
+                    $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
+                    self.loading_dialog();
                 }
             });
         };
-        $("#geospatialContainer").click(geospatial_container_data);
+        $("#geospatial_selection_button").click(geospatial_container_data);
     },
 
 
@@ -265,7 +276,7 @@ var OOIUX = Backbone.View.extend({
                 $("#datatable_details_scroll").bind("click", function(){
                     document.location="/";
                 });
-                return;
+                //return;
             }
 
         
