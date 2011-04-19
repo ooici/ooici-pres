@@ -364,11 +364,18 @@ var OOIUX = Backbone.View.extend({
         });
         $("#save_notification_settings").click(function(){
             if ($("#save_notification_settings").attr("disabled") != "") return;
-            var settings_checked = "";
+            var settings_checked = [];
             $.each($(".notification_settings input:checked"), function(i, e){
-                settings_checked += $(e).attr("id") + ", ";
+                settings_checked.push($(e).attr("id"));
             });
-            alert("Saving Notification Setting w/ ids: '"+settings_checked+"'");
+            self.loading_dialog("Saving notification setting...");
+            var data = {"action":"update", "settings":settings_checked};
+              $.ajax({url:"service/subscriptions", type:"POST", data:data, 
+                  success: function(resp){
+                      self.loading_dialog();
+                      return setTimeout(function(){window.location.reload();}, 800); //XXX
+                  }
+              });
         });
 
         $("#radioMySub").bind('click', function(evt) {
