@@ -1,7 +1,7 @@
 package cilogon;
 
 import grails.converters.JSON;
-import ion.integration.ais.AppIntegrationService;
+import ion.integration.ais.AppIntegrationService.RequestType;
 
 import java.io.PrintWriter;
 import java.net.URI;
@@ -77,7 +77,7 @@ public class SuccessServlet extends PortalAbstractServlet {
     		String request = "{\"certificate\": \"" + certificateString + "\",";
     		request += "\"rsa_private_key\": \"" + privateKeyString + "\"}";
     		
-        	String result = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(request, AppIntegrationService.RequestType.REGISTER_USER, "ANONYMOUS", "0");
+        	String result = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(request, RequestType.REGISTER_USER, "ANONYMOUS", "0");
 
         	if (result != null && result.length() > 0) {
         		HttpSession session = httpServletRequest.getSession(true);
