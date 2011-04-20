@@ -240,7 +240,7 @@ public class AuthenticationFilter implements Filter {
 		// Set cookie with max age equal to certificate expiration time
 		Cookie cookie = new Cookie("IONCOREOOIID", ooi_id);
 
-		int expiry = 60;
+		int expiry = 43200;
 		if (expiryStr != null) {
 			try {
 				expiry = new Integer(expiryStr);
