@@ -98,7 +98,7 @@ var OOIUX = Backbone.View.extend({
             if (answer){ 
                 self.loading_dialog("Deleting "+num_selected+" items...");
                 var dataset_ids = [111, 222, 333]; //TODO
-                return $.ajax({url:"service/dataResource", type:"POST", data:{"action":"delete", "dataset_ids":dataset_ids}, 
+                return $.ajax({url:"dataResource", type:"POST", data:{"action":"delete", "dataset_ids":dataset_ids}, 
                     success: function(resp){
                         self.loading_dialog();
                         document.location = "/"; //XXX
@@ -148,7 +148,7 @@ var OOIUX = Backbone.View.extend({
         if (datatable_id == "datatable_106") action = "findByUser";
         $.ajax({url:url, type:"GET", data:{action:action}, dataType:"json", 
             success: function(data){
-                if (url == "service/dataResource"){
+                if (url == "dataResource"){
                     if (datatable_id == "datatable_106"){
                         $.each(data, function(i, elem){
                             var cb = "<input type='checkbox'/>";
@@ -159,13 +159,13 @@ var OOIUX = Backbone.View.extend({
                         $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
                     } else {
                         $("#datatable_select_buttons").hide();
-                        $.each(data, function(i, elem){
+                        $.each(data.dataResourceSummary, function(i, elem){
                             datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
                         });
                         $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
                     }
                 } 
-                if (url == "service/subscriptions"){
+                if (url == "subscription"){
                     var cb = "<input type='checkbox'/>";
                     $.each(data, function(i, elem){
                         datatable.fnAddData([cb, elem.title, elem.institution, elem.created, "Details"]);
@@ -182,14 +182,23 @@ var OOIUX = Backbone.View.extend({
         /* MOCK OUT of geospatial_container widget */
         self = this;
         var geospatial_container_data = function(){
-            var action = "detail";
-            var user_ooi_id = "3f27a744-2c3e-4d2a-a98c-050b246334a3"; //XXX
+            var action = "find";
             var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
             var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(), minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
-            var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val(), posVertical=7.7; //XXX
-            var data = {"action":action, "user_ooi_id":user_ooi_id,"minLatitude":minLatitude,"maxLatitude":maxLatitude,"minLongitude":minLongitude,"maxLongitude":maxLongitude,"minVertical":minVertical,"maxVertical":maxVertical,"posVertical":posVertical,"minTime":minTime,"maxTime":maxTime,"identity":""};//*JSON.stringify(*/ );
+            var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val(), posVertical="down"; //XXX
+            var data = {};
+            data.action = action;
+            if (minLatitude) data.minLatitude = minLatitude;
+            if (maxLatitude) data.maxLatitude = maxLatitude;
+            if (minLongitude) data.minLongitude = minLongitude;
+            if (maxLongitude) data.maxLongitude = maxLongitude;
+            if (minVertical) data.minVertical= minVertical;
+            if (maxVertical) data.maxVertical = maxVertical;
+            if (posVertical) data.posVertical = posVertical;
+            if (minTime) data.minTime = minTime;
+            if (maxTime) data.maxTime = maxTime
             self.loading_dialog("Loading datatable...");
-            $.ajax({url:"service/dataResource", type:"GET", dataType:"json", data:data, 
+            $.ajax({url:"dataResource", type:"GET", dataType:"json", data:data, 
                 success: function(resp){
                     self.datatable_100.fnClearTable();
                     $.each(resp, function(i, elem){
@@ -208,7 +217,7 @@ var OOIUX = Backbone.View.extend({
       $("#register_resource_button").click(function(){
           self.loading_dialog("Registering resource...");
           var data = {"action":"create", "source_url":"http://example.edu"};
-          $.ajax({url:"service/dataResource", type:"POST", data:data, 
+          $.ajax({url:"dataResource", type:"POST", data:data, 
               success: function(resp){
                   self.loading_dialog();
                   window.location.reload(); //XXX
@@ -281,7 +290,7 @@ var OOIUX = Backbone.View.extend({
             $("h3.data_sources").show();
 
             $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered");
-            self.populate_table("service/dataResource", datatable);
+            self.populate_table("dataResource", datatable);
             $('.ui-layout-center').show();
             $('.ui-layout-east').show();
         });
@@ -293,7 +302,7 @@ var OOIUX = Backbone.View.extend({
             if (td_target.text() == "Details"){
                 $("#datatable_details_scroll").show();
                 $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
-                $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123"}, 
+                $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":"abc123"}, 
                     success: function(resp){
                         $("#datatable_details_container").html(resp.data).show();
                         self.loading_dialog();
@@ -306,7 +315,7 @@ var OOIUX = Backbone.View.extend({
             }
 
         
-            $.ajax({url:"service/dataResourceDetail", type:"GET", dataType:"json", data:{"dataId":"abc123"}, 
+            $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":"abc123"}, 
                 success: function(resp){
                     var data = resp.dataResourceSummary[0];
 
@@ -371,7 +380,7 @@ var OOIUX = Backbone.View.extend({
             });
             self.loading_dialog("Saving notification setting...");
             var data = {"action":"update", "settings":settings_checked};
-              $.ajax({url:"service/subscriptions", type:"POST", data:data, 
+              $.ajax({url:"subscription", type:"POST", data:data, 
                   success: function(resp){
                       self.loading_dialog();
                       return setTimeout(function(){window.location.reload();}, 800); //XXX
@@ -384,7 +393,7 @@ var OOIUX = Backbone.View.extend({
             $("#notification_settings").show();
 
             $("table#datatable_104 thead tr:first").find("th:eq(0)").text("").end().find("th:eq(1)").text("Resource Title").find("th:eq(2)").text("Source").end().end().find("th:eq(3)").text("Notification Initiated").end().find("th:eq(4)").text("Details");
-            self.populate_table("service/subscriptions", datatable);
+            self.populate_table("subscription", datatable);
         });
         $("#datatable_104 tbody").unbind("click").bind('click', function(evt){ //TODO: use 'delegate'.
             var nth_elem = $(evt.target).parent().index()+1;
@@ -431,7 +440,7 @@ var OOIUX = Backbone.View.extend({
     wf_106: function(datatable){
         $("#radioMyPubRes").bind('click', function(evt) {
             self.wf_106_presentation();
-            self.populate_table("service/dataResource", datatable);
+            self.populate_table("dataResource", datatable);
         });
     },
 
