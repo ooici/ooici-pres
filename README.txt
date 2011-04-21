@@ -38,6 +38,12 @@ topic port: 5672
 sysname: username
 exchange name: magnet.topic
 
+Make the Grails directory
+=========================
+mkdir ~/.grails
+
+Deploy and run it
+=================
 ioncore-python> bin/twistd -n cc res/deploy/r1deploy.rel
 
 
