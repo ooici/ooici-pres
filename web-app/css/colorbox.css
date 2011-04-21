@@ -13,6 +13,19 @@
   color:#000;
   padding-top:2px;
 }
+.colorbox_checkbox {
+  border:1px solid #797979;
+  background-color:#fff;
+  height:12px; 
+  width:12px;
+}
+.colorbox_textinput {
+  border:1px solid #797979;
+  border-radius:3px;
+  background-color:#fff;
+  height:20px; 
+  width:400px;
+}
 
 
 /*
@@ -39,7 +52,7 @@
 #colorbox{}
     #cboxContent{margin-top:32px; overflow:visible;}
         #cboxError{padding:50px; border:1px solid #ccc;}
-        #cboxLoadedContent{background:#ccc; padding:1px;}
+        #cboxLoadedContent{background:#ccc; padding:1px;overflow:hidden}
         #cboxLoadingGraphic{background:url(images/colorbox/loading.gif) no-repeat center center;}
         #cboxLoadingOverlay{background:#000;}
         #cboxTitle{position:absolute; top:-22px; left:0; color:#000;}

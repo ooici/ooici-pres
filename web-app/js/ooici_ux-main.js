@@ -89,6 +89,9 @@ var OOIUX = Backbone.View.extend({
     modal_dialogs: function(){
         $("#registration_link").colorbox({inline:true, href:"#registration_dialog", transition:"none", opacity:0.7});
         $(".modal_close").live("click", function(e){$.fn.colorbox.close();e.preventDefault();});
+        if (document.location.search.search("action=register") != -1){
+          $.fn.colorbox({inline:true, href:"#registration_complete_dialog", transition:"none", opacity:0.7});
+        }
     },
 
     datatable_select_buttons: function(){
