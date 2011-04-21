@@ -22,6 +22,7 @@ var OOIUX = Backbone.View.extend({
         this.datatable_select_buttons();
         this.setup_notifications();
         this.register_resource();
+        this.modal_dialogs();
         $("#radioAllPubRes").trigger("click"); //XXX temporary default
         $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
         $("#datatable_104_wrapper").hide();  //XXX temporary default
@@ -85,7 +86,7 @@ var OOIUX = Backbone.View.extend({
         }
     },
 
-    modal_buttons: function(){
+    modal_dialogs: function(){
         $("#registration_link").colorbox({inline:true, href:"#registration_dialog", transition:"none", opacity:0.7});
         $(".modal_close").live("click", function(e){$.fn.colorbox.close();e.preventDefault();});
     },
