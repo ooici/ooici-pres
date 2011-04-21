@@ -85,6 +85,11 @@ var OOIUX = Backbone.View.extend({
         }
     },
 
+    modal_buttons: function(){
+        $("#registration_link").colorbox({inline:true, href:"#registration_dialog", transition:"none", opacity:0.7});
+        $(".modal_close").live("click", function(e){$.fn.colorbox.close();e.preventDefault();});
+    },
+
     datatable_select_buttons: function(){
       self = this;
       $(".select_button").click(function(){
