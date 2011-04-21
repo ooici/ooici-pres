@@ -23,6 +23,7 @@
   <script src="js/ooici_ux-main.js" type="text/javascript"></script>
   <script type="text/javascript">
 	$(function() {
+	var OOI_ROLES = "<%= OOI_ROLES %>";
     var ooiux = new OOIUX({"el":"#layoutContainer"});
   });
   </script>
@@ -37,7 +38,7 @@
       <h1>Integrated Observatory Network</h1>
     </div>
     <div id="userbar">
-      <a href="#">Logout</a>
+      <a href="logout">Logout</a>
       <a id="registration_link" href="#">Register</a>
       <a href="#">Account Settings</a>
       <a href="#">Help</a>
