@@ -327,7 +327,7 @@ var OOIUX = Backbone.View.extend({
         
             $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
                 success: function(resp){
-                    var data = resp.dataResourceSummary[0];
+                    var data = resp.dataResourceSummary;
 
                     $(datatable.fnSettings().aoData).each(function () {
                        $(this.nTr).removeClass('row_selected');
