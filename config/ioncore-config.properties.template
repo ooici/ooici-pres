@@ -8,6 +8,8 @@ ioncore.cilogonignoreurls=/StartRequest /ready /SuccessServlet
 
 ioncore.registerurl=/Register
 
+ioncore.mainurl=/Dashboard
+
 ioncore.userauthorityfilterurls=/*
 
 ioncore.adminauthorityfilterurls=
@@ -26,5 +28,5 @@ ioncore.adminauthorityfilterurls=
 #
 ioncore.testmode=BYPASSAUTHENTICATIONMODE
 ioncore.testmode.ooiid=3f27a744-2c3e-4d2a-a98c-050b246334a3
-ioncore.testmode.expiry=120
+ioncore.testmode.expiry=43200
 ioncore.testmode.authorityrole=admin
