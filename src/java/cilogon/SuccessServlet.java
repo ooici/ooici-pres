@@ -40,10 +40,8 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
  * core that this user has been authenticated.
  */
 public class SuccessServlet extends PortalAbstractServlet {
-    protected void doIt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Throwable {
-    	String OOI_ID_KEY = "ooi_id";
-    	String USER_IS_ADMIN_KEY = "user_is_admin";
-    	String USER_ALREADY_REGISTERED_KEY = "user_already_registered";
+
+	protected void doIt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Throwable {
     	
         httpServletResponse.setContentType("text/html");
         PrintWriter pw = httpServletResponse.getWriter();
@@ -84,15 +82,21 @@ public class SuccessServlet extends PortalAbstractServlet {
 
     			String ooi_id = "";
     			boolean userIsAdmin;
+    			boolean userIsEarlyAdopter;
+    			boolean userIsDataProvider;
+    			boolean userIsMarineOperator;
     			boolean userIsAlreadyRegistered;
 
         		try {
         			// Extract values from Json result
         			JSONObject valueMap = (JSONObject)JSON.parse(result);
 
-        			ooi_id = (String)valueMap.get(OOI_ID_KEY);
-        			userIsAdmin = (Boolean)valueMap.get(USER_IS_ADMIN_KEY);
-        			userIsAlreadyRegistered = (Boolean)valueMap.get(USER_ALREADY_REGISTERED_KEY);
+        			ooi_id = (String)valueMap.get(BootstrapIONService.OOI_ID_KEY);
+        			userIsAdmin = (Boolean)valueMap.get(BootstrapIONService.USER_IS_ADMIN_KEY);
+        			userIsEarlyAdopter = (Boolean)valueMap.get(BootstrapIONService.USER_IS_EARY_ADOPTER_KEY);
+        			userIsDataProvider = (Boolean)valueMap.get(BootstrapIONService.USER_IS_DATA_PROVIDER_KEY);
+        			userIsMarineOperator = (Boolean)valueMap.get(BootstrapIONService.USER_IS_MARINE_OPERATOR_KEY);
+        			userIsAlreadyRegistered = (Boolean)valueMap.get(BootstrapIONService.USER_ALREADY_REGISTERED_KEY);
         		}
         		catch (Exception e) {
                 	String y = "<html>\n" +
@@ -141,40 +145,72 @@ public class SuccessServlet extends PortalAbstractServlet {
         		session.setAttribute("IONCOREOOIID", ooi_id);
         		session.setAttribute("IONCOREEXPIRY", "" + expirationDateMS/1000);
         		
-        		Cookie cookie = new Cookie("IONCOREOOIID", ooi_id);
-        		cookie.setMaxAge(expiry);
-        		httpServletResponse.addCookie(cookie);
-
-        		cookie = new Cookie("IONCOREEXPIRY", "" + expirationDateMS/1000);
-        		cookie.setMaxAge(expiry);
-        		httpServletResponse.addCookie(cookie);
+//        		Cookie cookie = new Cookie("IONCOREOOIID", ooi_id);
+//        		cookie.setMaxAge(expiry);
+//        		httpServletResponse.addCookie(cookie);
+//
+//        		cookie = new Cookie("IONCOREEXPIRY", "" + expirationDateMS/1000);
+//        		cookie.setMaxAge(expiry);
+//        		httpServletResponse.addCookie(cookie);
 
         		// Programmatically add credential for principal (OOI_ID)
         		String authorityRole = "ROLE_USER";
         		if (userIsAdmin) {
         			authorityRole = "ROLE_ADMIN";
+            		session.setAttribute("ROLE_ADMIN", true);
         		}
+        		else {
+            		session.setAttribute("ROLE_ADMIN", false);
+        		}
+
+        		if (userIsEarlyAdopter) {
+            		session.setAttribute("EARLY_ADOPTER", true);
+        		}
+        		else {
+            		session.setAttribute("EARLY_ADOPTER", false);
+        		}
+
+        		if (userIsDataProvider) {
+            		session.setAttribute("DATA_PROVIDER", true);
+        		}
+        		else {
+            		session.setAttribute("DATA_PROVIDER", false);
+        		}
+
+        		if (userIsMarineOperator) {
+            		session.setAttribute("MARINE_OPERATOR", true);
+        		}
+        		else {
+            		session.setAttribute("MARINE_OPERATOR", false);
+        		}
+
         		PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
         				ooi_id, new GrantedAuthority[] { new GrantedAuthorityImpl(authorityRole) });
         		token.setAuthenticated(true);
         		SecurityContextHolder.getContext().setAuthentication(token);
         		
-        		// Determine where to redirect based on whether user was previously registered
-        		if (userIsAlreadyRegistered) {
-        			// Redirect to origninal URL that started the CILogon process
-        			URI redirectUri = new URI(httpServletRequest.getContextPath() + session.getAttribute("IONCOREORIGINIATINGURL"));
-        			httpServletResponse.sendRedirect(redirectUri.toString());
+    			Map map = ConfigurationHolder.getConfig().flatten();
+        		String mainUrl = (String)map.get("ioncore.mainurl");
+        			
+        		if (mainUrl == null) {
+        			mainUrl = "/main";
         		}
-        		else {
-        			// Redirect to "registration" page
-        			Map map = ConfigurationHolder.getConfig().flatten();
-        			String registerUrl = (String)map.get("ioncore.registerurl");
-
-        			// TODO enable redirect to registration URL
-//        			URI redirectUri = new URI(httpServletRequest.getContextPath() + registerUrl);
-        			URI redirectUri = new URI(httpServletRequest.getContextPath() + session.getAttribute("IONCOREORIGINIATINGURL"));
-        			httpServletResponse.sendRedirect(redirectUri.toString());
+            	if (!userIsAlreadyRegistered) {
+            		mainUrl = mainUrl + "?register";
         		}
+        			
+        		URI redirectUri = new URI(httpServletRequest.getContextPath() + mainUrl);
+        		httpServletResponse.sendRedirect(redirectUri.toString());
+//
+//        		String output = "<html>\n" +
+//        		"<head>\n" +
+//        		"	<script type=\"text/javascript\">\n" +
+//        		"		OOI_ROLE=[\"admin\"; \"early adopter\"];\n" +
+//        		"	</script>\n" +
+//        		"</head>\n" +
+//        		"<body>\n" +
+//        		"</body>\n" +
+//        		"</html>";
 
 //
 //        		/* Put the key and certificate in the result, but allow them to be initially hidden. */
