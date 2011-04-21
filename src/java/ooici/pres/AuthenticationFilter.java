@@ -201,19 +201,28 @@ public class AuthenticationFilter implements Filter {
 		Map map = ConfigurationHolder.getConfig().flatten();
 
 		String prop = (String)map.get("ioncore.cilogonignoreurls");
-		cilogonignoreurls = prop.split(" ");
+		if (prop != null) {
+			cilogonignoreurls = prop.split(" ");
+		}
 
 		cilogonstarturl = (String)map.get("ioncore.cilogonstarturl");
+		if (cilogonstarturl == null) {
+			cilogonstarturl = "/StartRequest";
+		}
 
 		prop = (String)map.get("ioncore.userauthorityfilterurls");
-		userauthorityfilterurls = prop.split(" ");
+		if (prop != null) {
+			userauthorityfilterurls = prop.split(" ");
+		}
 
 		prop = (String)map.get("ioncore.adminauthorityfilterurls");
-		adminauthorityfilterurls = prop.split(" ");
+		if (prop != null) {
+			adminauthorityfilterurls = prop.split(" ");
+		}
 
 		String testmodeStr = (String)map.get("ioncore.testmode");
 
-		if (testmodeStr != null && testmodeStr.equalsIgnoreCase("force") || testmodeStr.equalsIgnoreCase("url")) {
+		if (testmodeStr != null && (testmodeStr.equalsIgnoreCase("force") || testmodeStr.equalsIgnoreCase("url"))) {
 			if (testmodeStr.equalsIgnoreCase("force")) {
 				testMode = TestMode.FORCE;
 			}
