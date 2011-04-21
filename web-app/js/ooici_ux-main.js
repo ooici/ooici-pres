@@ -150,9 +150,10 @@ var OOIUX = Backbone.View.extend({
             success: function(data){
                 if (url == "dataResource"){
                     if (datatable_id == "datatable_106"){
-                        $.each(data, function(i, elem){
+                        $.each(data.dataResourceSummary, function(i, elem){
                             var cb = "<input type='checkbox'/>";
                             datatable.fnAddData([cb, elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                            $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id); //XXX use Backbone for this
                         });
                         $("#datatable_select_buttons").show();
                         $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX
@@ -161,14 +162,16 @@ var OOIUX = Backbone.View.extend({
                         $("#datatable_select_buttons").hide();
                         $.each(data.dataResourceSummary, function(i, elem){
                             datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                            $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id); //XXX use Backbone for this
                         });
                         $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
                     }
                 } 
                 if (url == "subscription"){
                     var cb = "<input type='checkbox'/>";
-                    $.each(data, function(i, elem){
+                    $.each(data.dataResourceSummary, function(i, elem){
                         datatable.fnAddData([cb, elem.title, elem.institution, elem.created, "Details"]);
+                        $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id); //XXX use Backbone for this
                     });
                     $("#datatable_select_buttons").show();
                     $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX 
@@ -299,10 +302,12 @@ var OOIUX = Backbone.View.extend({
         $("#datatable_100 tbody").unbind("click").click(function(event) {
             self.loading_dialog("Loading dataset details...");
             var td_target = $(event.target);
+            var data_resource_id = td_target.parent().attr("id");
+
             if (td_target.text() == "Details"){
                 $("#datatable_details_scroll").show();
                 $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
-                $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":"abc123"}, 
+                $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
                     success: function(resp){
                         $("#datatable_details_container").html(resp.data).show();
                         self.loading_dialog();
@@ -311,11 +316,10 @@ var OOIUX = Backbone.View.extend({
                 $("#datatable_details_scroll").bind("click", function(){
                     document.location="/";
                 });
-                //return;
+                //return; //XXX
             }
-
         
-            $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":"abc123"}, 
+            $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
                 success: function(resp){
                     var data = resp.dataResourceSummary[0];
 
