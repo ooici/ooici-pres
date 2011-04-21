@@ -6,7 +6,6 @@ import ion.integration.ais.AppIntegrationService.RequestType;
 
 abstract class BaseController {
 
-
 	def BootstrapIONService
 
 	def ooi_id = session.getAttribute("IONCOREOOIID") == null ? "ANONYMOUS" : session.getAttribute("IONCOREOOIID");

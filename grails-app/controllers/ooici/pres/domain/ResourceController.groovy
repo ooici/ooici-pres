@@ -13,7 +13,7 @@ class ResourceController extends BaseController {
 		sendReceive(RequestType.GET_RESOURCE_TYPES)
 	}
 	
-	def resourceType = {
+	def ofType = {
 		
 		preProcessRequest(true);
 
