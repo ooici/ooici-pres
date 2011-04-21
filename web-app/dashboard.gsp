@@ -40,7 +40,7 @@
     <div id="userbar">
       <a href="logout">Logout</a>
       <a id="registration_link" href="#">Register</a>
-      <a href="#">Account Settings</a>
+      <a id="account_settings_link" href="#">Account Settings</a>
       <a href="#">Help</a>
     </div>
   </div><!-- end .ui-layout-north -->
@@ -353,7 +353,7 @@
 
 
 
-<div id="registration_complete_dialog" style="width:640px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000;overflow:hidden">
+<div id="account_settings" style="width:640px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000;overflow:hidden">
     <!--Header-->
     <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">ION Account Settings</div>
     <!--Body-->
@@ -415,7 +415,7 @@
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tbody><tr>
           <td>&nbsp;</td>
-          <td width="100px"><a href="#" class="colorbox_button blue-button-inactive">Cancel</a></td>
+          <td width="100px"><a href="#" class="modal_close colorbox_button blue-button-inactive">Cancel</a></td>
           <td width="10px">&nbsp;</td>
           <td width="100px"><a href="#" class="colorbox_button blue-button-inactive-focus">Done</a></td>
         </tr>

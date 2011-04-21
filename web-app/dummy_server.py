@@ -5,7 +5,7 @@ from twisted.internet import reactor
 
 import json
 
-ROOTPAGE = "v5.html"
+ROOTPAGE = "dashboard.gsp"
 
 
 class Notifications(Resource):
