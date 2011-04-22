@@ -9,7 +9,6 @@ import java.security.cert.X509Certificate;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -40,6 +39,20 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
  * core that this user has been authenticated.
  */
 public class SuccessServlet extends PortalAbstractServlet {
+	// Constants
+	final String OOI_ID_KEY = "IONCOREOOIID";
+	final String EXPIRY_KEY = "IONCOREEXPIRY";
+	final String USER_ID_KEY = "ooi_id";
+	final String USER_IS_ADMIN_KEY = "user_is_admin";
+	final String USER_IS_EARY_ADOPTER_KEY = "user_is_early_adopter";
+	final String USER_IS_DATA_PROVIDER_KEY = "user_is_data_provider";
+	final String USER_IS_MARINE_OPERATOR_KEY = "user_is_marine_operator";
+	final String USER_ALREADY_REGISTERED_KEY = "user_already_registered";
+
+	final String ADMIN_ROLE = "ADMIN";
+	final String EARY_ADOPTER_ROLE = "EARLY_ADOPTER";
+	final String DATA_PROVIDER_ROLE = "DATA_PROVIDER";
+	final String MARINE_OPERATOR_ROLE = "MARINE_OPERATOR";
 
 	protected void doIt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Throwable {
     	
@@ -81,107 +94,69 @@ public class SuccessServlet extends PortalAbstractServlet {
         		HttpSession session = httpServletRequest.getSession(true);
 
     			String ooi_id = "";
-    			boolean userIsAdmin;
-    			boolean userIsEarlyAdopter;
-    			boolean userIsDataProvider;
-    			boolean userIsMarineOperator;
-    			boolean userIsAlreadyRegistered;
+    			boolean userIsAdmin = false;
+    			boolean userIsEarlyAdopter = false;
+    			boolean userIsDataProvider = false;
+    			boolean userIsMarineOperator = false;
+    			boolean userIsAlreadyRegistered = false;
 
         		try {
         			// Extract values from Json result
         			JSONObject valueMap = (JSONObject)JSON.parse(result);
 
-        			ooi_id = (String)valueMap.get(BootstrapIONService.OOI_ID_KEY);
-        			userIsAdmin = (Boolean)valueMap.get(BootstrapIONService.USER_IS_ADMIN_KEY);
-        			userIsEarlyAdopter = (Boolean)valueMap.get(BootstrapIONService.USER_IS_EARY_ADOPTER_KEY);
-        			userIsDataProvider = (Boolean)valueMap.get(BootstrapIONService.USER_IS_DATA_PROVIDER_KEY);
-        			userIsMarineOperator = (Boolean)valueMap.get(BootstrapIONService.USER_IS_MARINE_OPERATOR_KEY);
-        			userIsAlreadyRegistered = (Boolean)valueMap.get(BootstrapIONService.USER_ALREADY_REGISTERED_KEY);
+        			ooi_id = (String)valueMap.get(USER_ID_KEY);
+        			userIsAdmin = (Boolean)valueMap.get(USER_IS_ADMIN_KEY);
+        			userIsEarlyAdopter = (Boolean)valueMap.get(USER_IS_EARY_ADOPTER_KEY);
+        			userIsDataProvider = (Boolean)valueMap.get(USER_IS_DATA_PROVIDER_KEY);
+        			userIsMarineOperator = (Boolean)valueMap.get(USER_IS_MARINE_OPERATOR_KEY);
+        			userIsAlreadyRegistered = (Boolean)valueMap.get(USER_ALREADY_REGISTERED_KEY);
         		}
         		catch (Exception e) {
-                	String y = "<html>\n" +
-                	"<style type=\"text/css\">\n" +
-                	".hidden { display: none; }\n" +
-                	".unhidden { display: block; }\n" +
-                	"</style>\n" +
-                	"<script type=\"text/javascript\">\n" +
-                	"function unhide(divID) {\n" +
-                	"    var item = document.getElementById(divID);\n" +
-                	"    if (item) {\n" +
-                	"        item.className=(item.className=='hidden')?'unhidden':'hidden';\n" +
-                	"    }\n" +
-                	"}\n" +
-                	"</script>\n" +
-                	"<body>\n" +
-                	"<h1>Failure!</h1>\n" +
-                	"<p>You have successfully requested a certificate from the service.</p>\n" +
-                	"<h1>But the attempt to register to the Identity Service failed</h1>" +
-                	"<p>" + result + "</p>" + 
-                	"<ul>\n" +
-                	"    <li><a href=\"javascript:unhide('showCert');\">Show/Hide certificate</a></li>\n" +
-                	"    <div id=\"showCert\" class=\"unhidden\">\n" +
-                	"        <p><pre>" + getSecurityUtil().toPEM(credential.getX509Certificate()) + "</pre>\n" +
-                	"    </div>\n" +
-                	"    <li><a href=\"javascript:unhide('showKey');\">Show/Hide private key</a></li>\n" +
-                	"    <div id=\"showKey\" class=\"hidden\">\n" +
-                	"        <p><pre>" + getSecurityUtil().toPEM(credential.getPrivateKey()) + "</pre>\n" +
-                	"    </div>\n" +
-                	"\n" +
-                	"</ul>\n" +
-                	"<form name=\"input\" action=" + httpServletRequest.getContextPath() + "/ method=\"get\">\n" +
-                	"   <input type=\"submit\" value=\"Return to portal\" />\n" +
-                	"</form>" +
-                	"</body>\n" +
-                	"</html>";
-
-                    pw.println(y);
-                    pw.flush();
-                    return;
+        			System.out.println("Exception extracting ooi id or user roles from user registration response");
         		}
 
-        		// Set cookie with max age equal to certificate expiration time
-        		int expiry = (int)((expirationDateMS - currentDateMS)/1000);
+        		if (ooi_id.length() != 0) {
+        			int expiry = (int)((expirationDateMS - currentDateMS)/1000);
 
-        		session.setAttribute("IONCOREOOIID", ooi_id);
-        		session.setAttribute("IONCOREEXPIRY", "" + expirationDateMS/1000);
-        		
-//        		Cookie cookie = new Cookie("IONCOREOOIID", ooi_id);
-//        		cookie.setMaxAge(expiry);
-//        		httpServletResponse.addCookie(cookie);
-//
-//        		cookie = new Cookie("IONCOREEXPIRY", "" + expirationDateMS/1000);
-//        		cookie.setMaxAge(expiry);
-//        		httpServletResponse.addCookie(cookie);
+        			session.setAttribute(OOI_ID_KEY, ooi_id);
+        			session.setAttribute(EXPIRY_KEY, "" + expirationDateMS/1000);
+        		}
 
-        		// Programmatically add credential for principal (OOI_ID)
         		String authorityRole = "ROLE_USER";
         		if (userIsAdmin) {
         			authorityRole = "ROLE_ADMIN";
-            		session.setAttribute("ROLE_ADMIN", true);
+            		session.setAttribute(USER_IS_ADMIN_KEY, true);
         		}
         		else {
-            		session.setAttribute("ROLE_ADMIN", false);
+            		session.setAttribute(USER_IS_ADMIN_KEY, false);
         		}
 
         		if (userIsEarlyAdopter) {
-            		session.setAttribute("EARLY_ADOPTER", true);
+            		session.setAttribute(USER_IS_EARY_ADOPTER_KEY, true);
         		}
         		else {
-            		session.setAttribute("EARLY_ADOPTER", false);
+            		session.setAttribute(USER_IS_EARY_ADOPTER_KEY, false);
         		}
 
         		if (userIsDataProvider) {
-            		session.setAttribute("DATA_PROVIDER", true);
+            		session.setAttribute(DATA_PROVIDER_ROLE, true);
         		}
         		else {
-            		session.setAttribute("DATA_PROVIDER", false);
+            		session.setAttribute(DATA_PROVIDER_ROLE, false);
         		}
 
         		if (userIsMarineOperator) {
-            		session.setAttribute("MARINE_OPERATOR", true);
+            		session.setAttribute(MARINE_OPERATOR_ROLE, true);
         		}
         		else {
-            		session.setAttribute("MARINE_OPERATOR", false);
+            		session.setAttribute(MARINE_OPERATOR_ROLE, false);
+        		}
+
+        		if (userIsAlreadyRegistered) {
+            		session.setAttribute(USER_ALREADY_REGISTERED_KEY, true);
+        		}
+        		else {
+            		session.setAttribute(USER_ALREADY_REGISTERED_KEY, false);
         		}
 
         		PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
@@ -195,143 +170,25 @@ public class SuccessServlet extends PortalAbstractServlet {
         		if (mainUrl == null) {
         			mainUrl = "/main";
         		}
-            	if (!userIsAlreadyRegistered) {
-            		mainUrl = mainUrl + "?register";
-        		}
         			
         		URI redirectUri = new URI(httpServletRequest.getContextPath() + mainUrl);
         		httpServletResponse.sendRedirect(redirectUri.toString());
-//
-//        		String output = "<html>\n" +
-//        		"<head>\n" +
-//        		"	<script type=\"text/javascript\">\n" +
-//        		"		OOI_ROLE=[\"admin\"; \"early adopter\"];\n" +
-//        		"	</script>\n" +
-//        		"</head>\n" +
-//        		"<body>\n" +
-//        		"</body>\n" +
-//        		"</html>";
-
-//
-//        		/* Put the key and certificate in the result, but allow them to be initially hidden. */
-//        		y = "<html>\n" +
-//        		"<style type=\"text/css\">\n" +
-//        		".hidden { display: none; }\n" +
-//        		".unhidden { display: block; }\n" +
-//        		"</style>\n" +
-//        		"<script type=\"text/javascript\">\n" +
-//        		"function unhide(divID) {\n" +
-//        		"    var item = document.getElementById(divID);\n" +
-//        		"    if (item) {\n" +
-//        		"        item.className=(item.className=='hidden')?'unhidden':'hidden';\n" +
-//        		"    }\n" +
-//        		"}\n" +
-//        		"</script>\n" +
-//        		"<body>\n" +
-//        		"<h1>Success!</h1>\n" +
-//        		"<p>You have successfully requested a certificate from the service.</p>\n" +
-//        		"<h1>Identity Service OOI_ID</h1>" +
-//        		"<p>" + ooid + "</p>" + 
-//        		"<ul>\n" +
-//        		"    <li><a href=\"javascript:unhide('showCert');\">Show/Hide certificate</a></li>\n" +
-//        		"    <div id=\"showCert\" class=\"unhidden\">\n" +
-//        		"        <p><pre>" + getSecurityUtil().toPEM(credential.getX509Certificate()) + "</pre>\n" +
-//        		"    </div>\n" +
-//        		"    <li><a href=\"javascript:unhide('showKey');\">Show/Hide private key</a></li>\n" +
-//        		"    <div id=\"showKey\" class=\"hidden\">\n" +
-//        		"        <p><pre>" + getSecurityUtil().toPEM(credential.getPrivateKey()) + "</pre>\n" +
-//        		"    </div>\n" +
-//        		"\n" +
-//        		"</ul>\n" +
-//        		"<form name=\"input\" action=" + httpServletRequest.getContextPath() + "/ method=\"get\">\n" +
-//        		"   <input type=\"submit\" value=\"Return to portal\" />\n" +
-//        		"</form>" +
-//        		"</body>\n" +
-//        		"</html>";
         	}
         	else {
         		int status = BootstrapIONService.appIntegrationService.getStatus();
         		String errorMessage = BootstrapIONService.appIntegrationService.getErrorMessage();
         		
     			System.out.println("Error received on findResources\nRequest message: " + request + "\nStatus: " + status + "\nError message: " + errorMessage);
-        		
-            	String y = "<html>\n" +
-            	"<style type=\"text/css\">\n" +
-            	".hidden { display: none; }\n" +
-            	".unhidden { display: block; }\n" +
-            	"</style>\n" +
-            	"<script type=\"text/javascript\">\n" +
-            	"function unhide(divID) {\n" +
-            	"    var item = document.getElementById(divID);\n" +
-            	"    if (item) {\n" +
-            	"        item.className=(item.className=='hidden')?'unhidden':'hidden';\n" +
-            	"    }\n" +
-            	"}\n" +
-            	"</script>\n" +
-            	"<body>\n" +
-            	"<h1>Failure!</h1>\n" +
-            	"<p>You have successfully requested a certificate from the service.</p>\n" +
-            	"<h1>But the attempt to register to the Identity Service failed.</h1>" +
-            	"<p>Status Code: " + status + "</p>" + 
-            	"<p>Error Message: " + errorMessage + "</p>" + 
-            	"<ul>\n" +
-            	"    <li><a href=\"javascript:unhide('showCert');\">Show/Hide certificate</a></li>\n" +
-            	"    <div id=\"showCert\" class=\"unhidden\">\n" +
-            	"        <p><pre>" + getSecurityUtil().toPEM(credential.getX509Certificate()) + "</pre>\n" +
-            	"    </div>\n" +
-            	"    <li><a href=\"javascript:unhide('showKey');\">Show/Hide private key</a></li>\n" +
-            	"    <div id=\"showKey\" class=\"hidden\">\n" +
-            	"        <p><pre>" + getSecurityUtil().toPEM(credential.getPrivateKey()) + "</pre>\n" +
-            	"    </div>\n" +
-            	"\n" +
-            	"</ul>\n" +
-            	"<form name=\"input\" action=" + httpServletRequest.getContextPath() + "/ method=\"get\">\n" +
-            	"   <input type=\"submit\" value=\"Return to portal\" />\n" +
-            	"</form>" +
-            	"</body>\n" +
-            	"</html>";
 
-                pw.println(y);
-                pw.flush();
+    			URI redirectUri = new URI(httpServletRequest.getContextPath());
+        		httpServletResponse.sendRedirect(redirectUri.toString());
         	}
         }
         else {
-        	// Report certificate time issue
-        	String y = "<html>\n" +
-        	"<style type=\"text/css\">\n" +
-        	".hidden { display: none; }\n" +
-        	".unhidden { display: block; }\n" +
-        	"</style>\n" +
-        	"<script type=\"text/javascript\">\n" +
-        	"function unhide(divID) {\n" +
-        	"    var item = document.getElementById(divID);\n" +
-        	"    if (item) {\n" +
-        	"        item.className=(item.className=='hidden')?'unhidden':'hidden';\n" +
-        	"    }\n" +
-        	"}\n" +
-        	"</script>\n" +
-        	"<body>\n" +
-        	"<h1>Failure!</h1>\n" +
-        	"<p>Current time is outside range of certificate not before time or not after time.</p>\n" +
-        	"<ul>\n" +
-        	"    <li><a href=\"javascript:unhide('showCert');\">Show/Hide certificate</a></li>\n" +
-        	"    <div id=\"showCert\" class=\"unhidden\">\n" +
-        	"        <p><pre>" + getSecurityUtil().toPEM(credential.getX509Certificate()) + "</pre>\n" +
-        	"    </div>\n" +
-        	"    <li><a href=\"javascript:unhide('showKey');\">Show/Hide private key</a></li>\n" +
-        	"    <div id=\"showKey\" class=\"hidden\">\n" +
-        	"        <p><pre>" + getSecurityUtil().toPEM(credential.getPrivateKey()) + "</pre>\n" +
-        	"    </div>\n" +
-        	"\n" +
-        	"</ul>\n" +
-        	"<form name=\"input\" action=" + httpServletRequest.getContextPath() + "/ method=\"get\">\n" +
-        	"   <input type=\"submit\" value=\"Return to portal\" />\n" +
-        	"</form>" +
-        	"</body>\n" +
-        	"</html>";
+        	System.out.println("Received certificate has invalid time value");
 
-        	pw.println(y);
-            pw.flush();
+    		URI redirectUri = new URI(httpServletRequest.getContextPath());
+    		httpServletResponse.sendRedirect(redirectUri.toString());
         }
     }
 
