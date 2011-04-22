@@ -10,7 +10,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,15 +24,19 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
  * Servlet filter facilitating the redirection to the CILogon authentication
  * flow. For any URL not within the CILogon flow, a comparison is made to
  * see if it is a protected URL.  If so, this filter checks for existence of
- * the special IONCOREOOIID cookie.  This cookie is created as the result of a
- * successful authentication via CILogon.  The cookie contains the OOI_ID returned
- * from the ION Core Identity Repository service.  The expiry of the cookie was
- * set to the expiry on the X.509 certificate.
- * 
+ * the special IONCOREOOIID session attribute.  This attribute is created on
+ * successful authentication via CILogon.  The attribute contains the OOI_ID returned
+ * from the ION Core Identity Repository service.  The expiry of the certificate
+ * is also stored in the session.
+ *  
  * @author tomlennan
  *
  */
 public class AuthenticationFilter implements Filter {
+	// Constants
+	final String OOI_ID_KEY = "IONCOREOOIID";
+	final String EXPIRY_KEY = "IONCOREEXPIRY";
+
 	private boolean initialized = false;
 	private String[] cilogonignoreurls;
 	private String cilogonstarturl;
@@ -65,7 +68,6 @@ public class AuthenticationFilter implements Filter {
 		
 		String path = request.getServletPath();
 		if (testMode != TestMode.DISABLED) {
-//			System.out.println("In AuthenticationFilter.doFilter.  Request Path: " + path);
 		}
 
 		// If the URL paths of any of the CILogon delegation servlets change,
@@ -77,22 +79,9 @@ public class AuthenticationFilter implements Filter {
 
 		switch(testMode) {
 		case FORCE:
-//			System.out.println("In AuthenticationFilter.doFilter.  Forcing authentication");
-			boolean ooiidFound = session.getAttribute("IONCOREOOIID") != null;
-			boolean expiryFound = session.getAttribute("IONCOREEXPIRY") != null;
-//			Cookie[] cookies = request.getCookies();
-//			boolean ooiidFound = false;
-//			boolean expiryFound = false;
-//			if (cookies != null) {
-//				for (int i = 0; i < cookies.length; i++) {
-//					if (cookies[i].getName().equals("IONCOREOOIID")) {
-//						ooiidFound = true;
-//					}
-//					if (cookies[i].getName().equals("IONCOREEXPIRY")) {
-//						expiryFound = true;
-//					}
-//				}
-//			}
+			boolean ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
+			boolean expiryFound = session.getAttribute(EXPIRY_KEY) != null;
+
 			if (!ooiidFound || !expiryFound) {
 				testModeAuthenticate(request, response);
 			}
@@ -102,23 +91,11 @@ public class AuthenticationFilter implements Filter {
 		case URL:
 			// If URL based test mode authentication is enabled, check URL for trigger value
 			Map params = request.getParameterMap();
+			
 			if (params.containsKey("Test")) {
-//				System.out.println("In AuthenticationFilter.doFilter.  Setting authentication due to param match");
-				ooiidFound = session.getAttribute("IONCOREOOIID") != null;
-				expiryFound = session.getAttribute("IONCOREEXPIRY") != null;
-//				cookies = request.getCookies();
-//				ooiidFound = false;
-//				expiryFound = false;
-//				if (cookies != null) {
-//					for (int i = 0; i < cookies.length; i++) {
-//						if (cookies[i].getName().equals("IONCOREOOIID")) {
-//							ooiidFound = true;
-//						}
-//						if (cookies[i].getName().equals("IONCOREEXPIRY")) {
-//							expiryFound = true;
-//						}
-//					}
-//				}
+				ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
+				expiryFound = session.getAttribute(EXPIRY_KEY) != null;
+				
 				if (!ooiidFound || !expiryFound) {
 					testModeAuthenticate(request, response);
 
@@ -139,21 +116,9 @@ public class AuthenticationFilter implements Filter {
 			// If URL requires authentication
 			if ((urlMatches(path, userauthorityfilterurls)) || (urlMatches(path, adminauthorityfilterurls))) {
 				// See if our cookie exists.  If not, we'll delegate to CILogon
-				ooiidFound = session.getAttribute("IONCOREOOIID") != null;
-				expiryFound = session.getAttribute("IONCOREEXPIRY") != null;
-//				cookies = request.getCookies();
-//				ooiidFound = false;
-//				expiryFound = false;
-//				if (cookies != null) {
-//					for (int i = 0; i < cookies.length; i++) {
-//						if (cookies[i].getName().equals("IONCOREOOIID")) {
-//							ooiidFound = true;
-//						}
-//						if (cookies[i].getName().equals("IONCOREEXPIRY")) {
-//							expiryFound = true;
-//						}
-//					}
-//				}
+				ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
+				expiryFound = session.getAttribute(EXPIRY_KEY) != null;
+				
 				if (!ooiidFound || !expiryFound) {
 					try {
 						// Stash the originating URL
@@ -246,9 +211,6 @@ public class AuthenticationFilter implements Filter {
 	private void testModeAuthenticate(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
 
-		// Set cookie with max age equal to certificate expiration time
-		Cookie cookie = new Cookie("IONCOREOOIID", ooi_id);
-
 		int expiry = 43200;
 		if (expiryStr != null) {
 			try {
@@ -258,16 +220,11 @@ public class AuthenticationFilter implements Filter {
 				// ignore
 			}
 		}
-		cookie.setMaxAge(expiry);
-		response.addCookie(cookie);
 
 		long currentDateMS = System.currentTimeMillis();
-		cookie = new Cookie("IONCOREEXPIRY", "" + (currentDateMS/1000 + expiry));
-		cookie.setMaxAge(expiry);
-		response.addCookie(cookie);
 
-		session.setAttribute("IONCOREOOIID", ooi_id);
-		session.setAttribute("IONCOREEXPIRY", "" + (currentDateMS/1000 + expiry));
+		session.setAttribute(OOI_ID_KEY, ooi_id);
+		session.setAttribute(EXPIRY_KEY, "" + (currentDateMS/1000 + expiry));
 
 		// Programmatically add credential for principal (OOI_ID)
 		String authorityRole = "ROLE_USER";
