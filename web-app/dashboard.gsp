@@ -41,7 +41,7 @@
       <a href="logout">Logout</a>
       <a id="registration_link" href="#">Register</a>
       <a id="account_settings_link" href="#">Account Settings</a>
-      <a href="#">Help</a>
+      <a href="static/IONHelpContent.pdf">Help</a>
     </div>
   </div><!-- end .ui-layout-north -->
 
