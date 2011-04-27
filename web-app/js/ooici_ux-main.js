@@ -214,7 +214,7 @@ var OOIUX = Backbone.View.extend({
             $.ajax({url:"dataResource", type:"GET", dataType:"json", data:data, 
                 success: function(resp){
                     self.datatable_100.fnClearTable();
-                    $.each(resp, function(i, elem){
+                    $.each(resp.dataResourceSummary, function(i, elem){
                         self.datatable_100.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
                     });
                     $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
@@ -319,7 +319,10 @@ var OOIUX = Backbone.View.extend({
                 $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
                 $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
                     success: function(resp){
-                        $("#datatable_details_container").html(resp.data).show();
+                        var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
+                        html += "<br><br>"+JSON.stringify(resp.source);
+                        html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
+                        $("#datatable_details_container").html(html).show();
                         self.loading_dialog();
                     }
                 });
@@ -342,16 +345,16 @@ var OOIUX = Backbone.View.extend({
                     if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
                     // Get the hidden column data for this row
                     var rowData = datatable.fnGetData(event.target.parentNode);
-                    // Get the data source Id from column 0 var dsId = rowData[0];
                     var nth_elem = $(event.target).parent().index()+1;
                     $('a#rp_dsTitle').html(data.institution); // Get and set dataSource title
-                    $('div#rp_dsMetaInfo').html(data.title); //rowData[5] || "DataSource MetaInfo" + " #"+nth_elem);
-                    $('div#rp_publisherInfo').html(data.institution); //rowData[6] || "DataSource Publisher Info" + " #"+nth_elem);
-                    $('div#rp_creatorInfo').html(data.source);//rowData[7] || "DataSource Creator Info" + " #"+nth_elem);
-                    $('div#rp_docInfo').html(data.source);
-                    $('div#rp_variablesInfo').html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-                    $('div#rp_accessInfo').html(rowData[10] || "Access Info" + " #"+nth_elem);
-                    $('div#rp_viewersInfo').html(rowData[11] || " Viewers Info" + " #"+nth_elem);
+                    $("#ds_title").html(data.title);
+                    $("#ds_publisher_contact").html(data.institution);
+                    $("#ds_source").html(data.source);
+                    $("#ds_source_contact").html(data.source);
+                    $("#ds_variables").html(JSON.stringify(resp.variable));
+                    $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max);
+                    $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+                    $("#ds_references").html(data.references);
                     $(".data_sources").show();
                     $(".notification_settings, .dispatcher_settings").hide();
                     $("#download_dataset_button, #setup_notifications").removeAttr("disabled");

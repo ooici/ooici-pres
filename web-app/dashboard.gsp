@@ -235,27 +235,28 @@
    <div class="east-center">
     <div id="eastMultiOpenAccordion">
       <h3 class="data_sources "><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>
+      <div class="data_sources" id="ds_title"></div>
 
-      <div class="data_sources" id="rp_dsMetaInfo"></div>
       <h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
+      <div class="data_sources" id="ds_publisher_contact"> </div>
 
-      <div class="data_sources" id="rp_publisherInfo"> </div>
       <h3 class="data_sources"><a href="#">Original Source Description</a></h3>
+      <div class="data_sources" id="ds_source"></div>
 
-      <div class="data_sources" id="rp_creatorInfo"> </div>
       <h3 class="data_sources"><a href="#">Original Source Contact Information</a></h3>
+      <div class="data_sources" id="ds_source_contact"></div>
 
-      <div class="data_sources" id="rp_docInfo"> </div>
       <h3 class="data_sources"><a href="#">Geospatial Coverage</a></h3>
+      <div class="data_sources" id="ds_geospatial_coverage"></div>
 
-      <div class="data_sources" id="rp_variablesInfo"> </div>
       <h3 class="data_sources"><a href="#">Temporal Coverage</a></h3>
+      <div class="data_sources" id="ds_temporal_coverage"></div>
 
-      <div class="data_sources" id="rp_accessInfo"></div>
       <h3 class="data_sources"><a href="#">Variables</a></h3>
-      <div class="data_sources" id="rp_references">Variables</div>
+      <div class="data_sources" id="ds_variables">Variables</div>
+
       <h3 class="data_sources"><a href="#">References</a></h3>
-      <div class="data_sources" id="rp_references">References</div>
+      <div class="data_sources" id="ds_references">References</div>
 
     <br>
     <h3 id="notification_settings" class="notification_settings"><a href="#">Notification Settings</a></h3>
