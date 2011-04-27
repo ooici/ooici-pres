@@ -51,7 +51,7 @@
       <div id="datatable">
         <div id="container">
           <h1>Data Resources</h1>
-            <div style="display:none" id="datatable_details_scroll"><span class="arrow">←</span><span>Return to List</span><span class="arrow">→</span></div>
+            <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll">←</span><span id="dataset_return_button">Return to List</span><span id="dataset_scroll_right" class="arrow dataset_scroll">→</span></div>
             <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0" class="display">
               <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
               <tbody></tbody>
@@ -274,10 +274,6 @@
               <td style="padding-right: 30px;">Update When Available</td>
             </tr>
             <tr>
-              <td><input id="metadataHasChanged" class="_controlradios" name="group1" type="checkbox"/> </td>
-              <td>Metadata has changed</td>
-            </tr>
-            <tr>
               <td><input id="datasourceIsOffline" class="_controlradios" name="group1" type="checkbox"/></td>
               <td>Datasource is offline</td>
             </tr>
@@ -298,10 +294,6 @@
             <tr>
               <td><input id="dispatcher_updateWhenAvailable" class="_controlradios" name="group1" type="checkbox"/></td>
               <td style="padding-right: 30px;">Update When Available</td>
-            </tr>
-            <tr>
-              <td><input id="dispatcher_metadataHasChanged" class="_controlradios" name="group1" type="checkbox"/> </td>
-              <td>Metadata has changed</td>
             </tr>
             <tr>
               <td><input id="dispatcher_datasourceIsOffline" class="_controlradios" name="group1" type="checkbox"/></td>

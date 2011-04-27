@@ -18,6 +18,8 @@ var OOIUX = Backbone.View.extend({
         this.wf_104(this.datatable_104);
         this.wf_105();
         this.wf_106(this.datatable_106);
+        this.dataset_return();
+        this.dataset_scroll();
         this.geospatial_container();
         this.datatable_select_buttons();
         this.setup_notifications();
@@ -310,11 +312,11 @@ var OOIUX = Backbone.View.extend({
 
         $("#datatable_100 tbody").click(function(evt) {
             var td_target = $(evt.target);
+            $("#dataset_return_button").addClass("dataset_100");
             self.dataset_details(datatable, td_target, self);
 
         });
     },
-
 
     dataset_details: function(datatable, td_target, self){
         self.loading_dialog("Loading dataset details...");
@@ -325,9 +327,6 @@ var OOIUX = Backbone.View.extend({
             $.ajax({url:"dataResource", type:"GET", dataType:"json", 
                 data:{"action":"detail", "data_resource_id":data_resource_id}, 
                 success: function(resp){self.dataset_focus_details(resp, self)}
-            });
-            $("#datatable_details_scroll").bind("click", function(){
-                document.location="/";
             });
             //return; //XXX
         }
@@ -454,7 +453,6 @@ var OOIUX = Backbone.View.extend({
                 $("#view_existing_tab").removeClass("selected");
             }
         });
-
     },
 
 
@@ -484,6 +482,32 @@ var OOIUX = Backbone.View.extend({
         $("#geospatial_selection_button").hide();
         $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
+    },
+
+    dataset_return: function(){
+        /* go back to dataset listing, coming from a specific dataset details view.*/
+        $("#dataset_return_button").click(function(){
+            $("#datatable_details_container, #datatable_details_scroll").hide();
+            if ($(this).hasClass("dataset_100")){ //XXX remove state stored in the DOM 
+                $("#datatable_100_wrapper").show();
+            } else {
+                $("#datatable_106_wrapper").show();
+            }
+        });
+    },
+
+    dataset_scroll: function(){
+        /* scroll through dataset details */
+        $(".dataset_scroll").click(function(){
+            var scroll_id = $(this).attr("id");
+            if (scroll_id == "dataset_scroll_left"){ //XXX remove state stored in the DOM 
+                var count = 1;
+                alert("scroll left");
+            } else {
+                alert("scroll right");
+                var count = 2;
+            }
+        });
     }
 
 });

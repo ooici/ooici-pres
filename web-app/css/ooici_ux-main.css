@@ -134,6 +134,7 @@ body {
   left:-4px;
   font-size:130%;
   padding:2px 3px;
+  cursor:pointer;
 }
 #datatable_details_scroll span {
   margin:0px 2px;
