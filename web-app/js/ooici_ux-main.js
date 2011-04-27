@@ -96,7 +96,7 @@ var OOIUX = Backbone.View.extend({
     },
 
     datatable_select_buttons: function(){
-      self = this;
+      var self = this;
       $(".select_button").click(function(){
         var button_id = $(this).attr("id");
         var datatable_id = $(".datatable:visible").attr("id"); 
@@ -298,7 +298,7 @@ var OOIUX = Backbone.View.extend({
         });
 
 
-        $('#radioAllPubRes').bind('click', function(event) {
+        $('#radioAllPubRes').bind('click', function(evt) {
             self.wf_100_presentation();
             $("h3.data_sources").show();
 
@@ -308,61 +308,65 @@ var OOIUX = Backbone.View.extend({
             $('.ui-layout-east').show();
         });
 
+        $("#datatable_100 tbody").click(function(evt) {
+            var td_target = $(evt.target);
+            self.dataset_details(datatable, td_target, self);
 
-        $("#datatable_100 tbody").unbind("click").click(function(event) {
-            self.loading_dialog("Loading dataset details...");
-            var td_target = $(event.target);
-            var data_resource_id = td_target.parent().attr("id");
-
-            if (td_target.text() == "Details"){
-                $("#datatable_details_scroll").show();
-                $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
-                $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
-                    success: function(resp){
-                        var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
-                        html += "<br><br>"+JSON.stringify(resp.source);
-                        html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
-                        $("#datatable_details_container").html(html).show();
-                        self.loading_dialog();
-                    }
-                });
-                $("#datatable_details_scroll").bind("click", function(){
-                    document.location="/";
-                });
-                //return; //XXX
-            }
-        
-            $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
-                success: function(resp){
-                    var data = resp.dataResourceSummary;
-
-                    $(datatable.fnSettings().aoData).each(function () {
-                       $(this.nTr).removeClass('row_selected');
-                    });
-
-                    $(event.target.parentNode).addClass('row_selected').text(); // Highlights selected row
-                    // Expands right pane panels when row is selected. Also closes panels if already expanded.
-                    if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
-                    // Get the hidden column data for this row
-                    var rowData = datatable.fnGetData(event.target.parentNode);
-                    var nth_elem = $(event.target).parent().index()+1;
-                    $('a#rp_dsTitle').html(data.institution); // Get and set dataSource title
-                    $("#ds_title").html(data.title);
-                    $("#ds_publisher_contact").html(data.institution);
-                    $("#ds_source").html(data.source);
-                    $("#ds_source_contact").html(data.source);
-                    $("#ds_variables").html(JSON.stringify(resp.variable));
-                    $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max);
-                    $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-                    $("#ds_references").html(data.references);
-                    $(".data_sources").show();
-                    $(".notification_settings, .dispatcher_settings").hide();
-                    $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
-                    self.loading_dialog();
-                }
-            });
         });
-   },
+    },
+
+
+    dataset_details: function(datatable, td_target, self){
+        self.loading_dialog("Loading dataset details...");
+        var data_resource_id = td_target.parent().attr("id");
+        if (td_target.text() == "Details"){
+            $("#datatable_details_scroll").show();
+            $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+            $.ajax({url:"dataResource", type:"GET", dataType:"json", 
+                data:{"action":"detail", "data_resource_id":data_resource_id}, 
+                success: function(resp){self.dataset_focus_details(resp, self)}
+            });
+            $("#datatable_details_scroll").bind("click", function(){
+                document.location="/";
+            });
+            //return; //XXX
+        }
+    
+        $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
+            success: function(resp){self.dataset_sidebar(resp, datatable, self)}
+        });
+    },
+
+    dataset_sidebar: function(resp, datatable, self){
+        var data = resp.dataResourceSummary;
+        $(datatable.fnSettings().aoData).each(function () {
+           $(this.nTr).removeClass('row_selected');
+        });
+        // Expands right pane panels when row is selected. Also closes panels if already expanded.
+        if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
+        $('a#rp_dsTitle').html(data.institution);
+        $("#ds_title").html(data.title);
+        $("#ds_publisher_contact").html(data.institution);
+        $("#ds_source").html(data.source);
+        $("#ds_source_contact").html(data.source);
+        $("#ds_variables").html(JSON.stringify(resp.variable));
+        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max);
+        $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+        $("#ds_references").html(data.references);
+        $(".data_sources").show();
+        $(".notification_settings, .dispatcher_settings").hide();
+        $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+        self.loading_dialog();
+    },
+
+    dataset_focus_details: function(resp, self){
+        var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
+        html += "<br><br>"+JSON.stringify(resp.source);
+        html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
+        $("#datatable_details_container").html(html).show();
+        self.loading_dialog();
+    },
+
 
     wf_100_presentation: function(){
         $("#datatable_100_wrapper").show();
@@ -455,10 +459,18 @@ var OOIUX = Backbone.View.extend({
 
 
     wf_106: function(datatable){
+        var self = this;
+
         $("#radioMyPubRes").bind('click', function(evt) {
             self.wf_106_presentation();
             self.populate_table("dataResource", datatable);
         });
+
+       $("#datatable_106 tbody").click(function(evt) {
+            var td_target = $(evt.target);
+            self.dataset_details(datatable, td_target, self);
+       });
+
     },
 
     wf_106_presentation: function(){
