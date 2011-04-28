@@ -301,7 +301,7 @@
             </tr>
           </table>
           <p style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Dispatcher Script</p>
-          Dispatcher Script Path: <input type="file"/>
+          Dispatcher Script Path: <input id="dispatcher_script_path" type="file"/>
         </form>
       </div><!-- end #dispatcher_settings -->
 
