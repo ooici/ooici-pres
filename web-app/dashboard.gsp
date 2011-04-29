@@ -16,15 +16,21 @@
   <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
   <script src="js/jquery.colorbox.min.js" type="text/javascript"></script>
   <script src="js/jquery.multi-open-accordion.js" type="text/javascript"></script>
+  <script src="js/jquery.tmpl.min.js" type="text/javascript"></script>
   <script src="js/json2.js" type="text/javascript"></script>
   <script src="js/underscore-min.js" type="text/javascript"></script>
   <script src="js/backbone-min.js" type="text/javascript"></script>
 
   <script src="js/ooici_ux-main.js" type="text/javascript"></script>
+  <script src="js/ooici_ux.js" type="text/javascript"></script>
+  <script src="js/ooici_ux-models.js" type="text/javascript"></script>
+  <script src="js/ooici_ux-views.js" type="text/javascript"></script>
+  <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
 	$(function() {
 	var OOI_ROLES = "<%= OOI_ROLES %>";
     var ooiux = new OOIUX({"el":"#layoutContainer"});
+    //var ooi = OOI.init();
   });
   </script>
 </head>
@@ -49,13 +55,8 @@
 
     <div class="center-center">
       <div id="datatable">
-        <div id="container">
           <h1>Data Resources</h1>
             <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll">←</span><span id="dataset_return_button">Return to List</span><span id="dataset_scroll_right" class="arrow dataset_scroll">→</span></div>
-            <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0" class="display">
-              <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
-              <tbody></tbody>
-            </table>
 
             <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
               <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
@@ -66,12 +67,9 @@
            <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
             <tbody></tbody>
             </table>
+        <div id="datatable_details_container"></div>
+      </div><!-- end #datatable -->
 
-        <div id="datatable_details_container"> 
-        </div><!-- end #datatable_details_containe" -->
-
-        </div>
-      </div>
      </div><!-- end .center-center -->
     <div class="center-south">
      <div id="datatable_select_buttons">
@@ -420,6 +418,34 @@
 </div><!-- end #modal_dialogs -->
 
 
+
+<!-- begin jquery-templates -->
+
+
+<script id="datatable100-tmpl" type="text/x-jquery-tmpl">
+  <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0" class="display">
+   <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+    <tbody></tbody>
+  </table>
+</script>
+
+<script id="datatable104-tmpl" type="text/x-jquery-tmpl">
+   <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
+      <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+      <tbody></tbody>
+   </table>
+</script>
+
+
+<script id="datatable106-tmpl" type="text/x-jquery-tmpl">
+   <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
+        <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
+        <tbody></tbody>
+   </table>
+</script>
+
+
+<!-- end jquery-templates -->
 
 
 </body>
