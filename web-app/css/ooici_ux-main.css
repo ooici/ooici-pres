@@ -143,3 +143,8 @@ body {
 #datatable_details_scroll .arrow {
   font-weight:bold;
 }
+#loading_account_settings {
+    position:relative;
+    top:275px;
+    text-align:center;
+}
