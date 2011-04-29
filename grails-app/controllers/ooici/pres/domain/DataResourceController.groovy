@@ -23,10 +23,6 @@ class DataResourceController extends BaseController {
 		if (params.get("maxVirtical") != null)
 			params.put("maxVirtical",params.float("maxVirtical"));
 
-		if (ooi_id != null && !ooi_id.equals("ANONYMOUS")) {
-			params.put("user_ooi_id", ooi_id);
-		}
-
 		sendReceive(RequestType.FIND_DATA_RESOURCES);
 	}
 	
