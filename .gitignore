@@ -5,5 +5,7 @@
 .settings
 *.iml
 *.class
+*.pyc
+bin
 out
 target
