@@ -5,8 +5,10 @@ import ion.integration.ais.AppIntegrationService;
 import ion.integration.ais.AppIntegrationService.RequestType;
 
 class UserProfileController extends BaseController {
+	
+	def defaultAction = "get"
 
-	def find = {
+	def get = {
 		
 		preProcessRequest(true);
 		
