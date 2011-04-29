@@ -90,12 +90,37 @@ var OOIUX = Backbone.View.extend({
 
     modal_dialogs: function(){
         $("#registration_link").colorbox({inline:true, href:"#registration_dialog", transition:"none", opacity:0.7});
-        $("#account_settings_link").colorbox({inline:true, href:"#account_settings", transition:"none", opacity:0.7});
+        $("#account_settings_link").colorbox({inline:true, onOpen:this.account_settings, href:"#account_settings", transition:"none", opacity:0.7});
         $(".modal_close").live("click", function(e){$.fn.colorbox.close();e.preventDefault();});
         if (document.location.search.search("action=register") != -1){
           $.fn.colorbox({inline:true, href:"#account_settings", transition:"none", opacity:0.7});
         }
+
+        $("#account_settings_done").click(function(){
+            var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
+            var data = {"action":"update", "name":name, "institution":institution, "email":email, "mobilephone":mobilephone, "twitter":twitter, "system_change":system_change, "project_update":project_update, "ocean_leadership_news":ocean_leadership_news, "ooi_participate":ooi_participate};
+            $("#account_settings_done").text("Saving...");    
+            $.ajax({url:"userProfile", type:"POST", data:data,
+                success: function(resp){
+                    $("#account_settings_done").text("Done");    
+                    $(".modal_close").trigger("click");
+                }
+            });
+        });
     },
+
+    account_settings: function(){
+        //TODO clear out modal form data
+        $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
+        $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
+        $.ajax({url:"userProfile", type:"GET",
+            success: function(resp){
+                $("#loading_account_settings").remove();
+                $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
+            }
+        });
+    },
+
 
     datatable_select_buttons: function(){
       var self = this;
@@ -359,7 +384,6 @@ var OOIUX = Backbone.View.extend({
         });
         // Expands right pane panels when row is selected. Also closes panels if already expanded.
         if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
-        $('a#rp_dsTitle').html(data.institution);
         $("#ds_title").html(data.title);
         $("#ds_publisher_contact").html(data.institution);
         $("#ds_source").html(data.source);
