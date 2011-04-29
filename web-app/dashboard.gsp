@@ -235,10 +235,36 @@
    <div class="east-center">
     <div id="eastMultiOpenAccordion">
       <h3 class="data_sources "><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>
-      <div class="data_sources" id="ds_title"></div>
+      <div class="data_sources registered_resource_editable">
+        <div id="ds_title"></div><br>
+        Title: <input id="resource_registration_title" name="resource_registration_title" type="text" size="28" maxlength="28"/><br><br>
+        <span style="position:relative;top:-32px">Description:</span><textarea style="width:167px" id="resource_registration_description"></textarea>
+      </div>
 
       <h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
-      <div class="data_sources" id="ds_publisher_contact"> </div>
+      <div class="data_sources registered_registration_contact_editable">
+        <div id="ds_publisher_contact"></div><br>
+        <div id="registered_registration_contact_name"><strong>Contact Name:</strong> <span class="val">...contact.name...</span></div>
+        <div id="registered_registration_contact_email"><strong>Contact Email:</strong> <span class="val">...contact.email...</span></div>
+        <div id="registered_registration_institution"><strong>Institution:</strong> <span class="val">...institution...</span></div>
+        <div id="registered_registration_website"><strong>Website:</strong> <span class="val">....website....</span></div>
+      </div>
+
+      <h3 class="data_sources"><a href="#">Resources Availability Settings</a></h3>
+
+      <div class="data_sources registered_registration_availability_editable">
+        <div><input class="" name="" type="checkbox"/>Resource is private and available to me only</div>
+        <div><input class="" name="" type="checkbox"/>Resource is publically available</div>
+      </div>
+
+      <h3 class="data_sources"><a href="#">Resources Activation and Polling Settings</a></h3>
+      <div class="data_sources" id="registered_registration_activation_polling_editable">
+        <div><strong>Activation</strong></div>
+        <div><input class="" name="" type="checkbox"/>Activate Resource</div>
+        <div><input class="" name="" type="checkbox"/>Deactivate Resource</div>
+        <div><strong>Polling Interval</strong></div>
+        <div>Poll resource every: <input id="" name="" type="text" size="18" maxlength="18"/> DD:HH:MM</div>
+      </div>
 
       <h3 class="data_sources"><a href="#">Original Source Description</a></h3>
       <div class="data_sources" id="ds_source"></div>

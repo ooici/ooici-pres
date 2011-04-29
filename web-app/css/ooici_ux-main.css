@@ -67,9 +67,8 @@ body {
   display: none;
 }
 .ui-accordion .ui-accordion-content {
-  padding: 1em 2.2em;
+  padding: 12px;
 }
-
 
 .notification_settings {
   display:none;
