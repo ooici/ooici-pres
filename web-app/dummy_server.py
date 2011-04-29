@@ -19,6 +19,21 @@ class Notifications(Resource):
         return "ok"
 
 
+class UserProfile(Resource):
+
+    DATA = {"email_address": "user@example.edu", "profile": [{"name": "Institution","value": "SIO"}]}
+
+    def render_GET(self, request):
+        import time; time.sleep(0.8) #mock out real latency
+        return json.dumps(self.DATA)
+
+
+    def render_POST(self, request):
+        import time; time.sleep(0.8) #mock out real latency
+        return "ok"
+
+
+
 class DownloadData(Resource):
 
     def render_GET(self, request):
@@ -59,6 +74,7 @@ root.putChild("static", File("./static"))
 root.putChild("dataResource", DataResource())
 root.putChild("subscription", Notifications())
 root.putChild("createDownloadUrl", DownloadData())
+root.putChild("userProfile", UserProfile())
 factory = Site(root)
 reactor.listenTCP(8080, factory)
 reactor.run()
