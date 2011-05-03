@@ -10,9 +10,8 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     render: function() {
-        console.log("Workflow100 - render");
-        //this.datatable = this.controller.datatable_init("#datatable_100", 5);
-        $("#datatable").append($.tmpl("datatable100-tmpl", {}));
+        //console.log("Workflow100 - render");
+        $.fn.dataTableExt.sErrMode = "throw"; //XXX /*throw a*/ in 'js/jquery.dataTables.min.js'.
         this.datatable = this.controller.datatable_init("#datatable_100", 5);
         this.controller.populate_table("dataResource", this.datatable);
         this.presentation();

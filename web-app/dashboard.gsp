@@ -58,16 +58,7 @@
           <h1>Data Resources</h1>
             <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll">←</span><span id="dataset_return_button">Return to List</span><span id="dataset_scroll_right" class="arrow dataset_scroll">→</span></div>
 
-            <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
-              <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
-              <tbody></tbody>
-            </table>
-
-           <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
-           <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
-            <tbody></tbody>
-            </table>
-        <div id="datatable_details_container"></div>
+       <div id="datatable_details_container"></div>
       </div><!-- end #datatable -->
 
      </div><!-- end .center-center -->

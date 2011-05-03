@@ -14,12 +14,13 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
     main: function(){
         console.log("Controllers.main called");
+        $("#datatable").append($.tmpl("datatable100-tmpl", {}));
         this.workflow100.render();
     },
 
     datatable_init: function(id, columns){
         var oTable = $(id).dataTable({
-            "aaData":[_.map(_.range(columns), function(x){return null;})],
+            //"aaData":[_.map(_.range(columns), function(x){return null;})],
             "bJQueryUI": true, 
             "sPaginationType": "full_numbers"
         });
