@@ -147,3 +147,6 @@ body {
     top:275px;
     text-align:center;
 }
+#datatable_details_container {
+    line-height:300%;
+}

@@ -98,7 +98,7 @@ var OOIUX = Backbone.View.extend({
 
         $("#account_settings_done").click(function(){
             var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
-            var data = {"action":"update", "name":name, "institution":institution, "email":email, "mobilephone":mobilephone, "twitter":twitter, "system_change":system_change, "project_update":project_update, "ocean_leadership_news":ocean_leadership_news, "ooi_participate":ooi_participate};
+            var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile":{"mobilephone":mobilephone, "twitter":twitter}, "system_change":system_change, "project_update":project_update, "ocean_leadership_news":ocean_leadership_news, "ooi_participate":ooi_participate};
             $("#account_settings_done").text("Saving...");    
             $.ajax({url:"userProfile", type:"POST", data:data,
                 success: function(resp){
@@ -199,6 +199,7 @@ var OOIUX = Backbone.View.extend({
         var datatable_id = datatable.attr("id");
         var action = "find";
         if (datatable_id == "datatable_106") action = "findByUser";
+        self.loading_dialog("Loading datasets...");
         $.ajax({url:url, type:"GET", data:{action:action}, dataType:"json", 
             success: function(data){
                 if (url == "dataResource"){
@@ -230,6 +231,7 @@ var OOIUX = Backbone.View.extend({
                     $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX 
                     $("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
                 } 
+            self.loading_dialog();
             } //end 'success: function...'.
         });
     },
@@ -386,10 +388,11 @@ var OOIUX = Backbone.View.extend({
         if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
         $("#ds_title").html(data.title);
         $("#ds_publisher_contact").html(data.institution);
-        $("#ds_source").html(data.source);
+        var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
+        $("#ds_source").html(ds_source);
         $("#ds_source_contact").html(data.source);
         $("#ds_variables").html(JSON.stringify(resp.variable));
-        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max);
+        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
         $("#ds_references").html(data.references);
         $(".data_sources").show();
@@ -402,6 +405,7 @@ var OOIUX = Backbone.View.extend({
         var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
         html += "<br><br>"+JSON.stringify(resp.source);
         html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
+        html = html.replace(/,/g, "<br>").replace(/}/g, "").replace(/{/g, "").replace(/\[/g, "").replace(/\]/g, "");
         $("#datatable_details_container").html(html).show();
         self.loading_dialog();
     },
