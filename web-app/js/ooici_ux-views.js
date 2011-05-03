@@ -1,17 +1,43 @@
 
+OOI.Views.ResourceSelector = Backbone.View.extend({
+
+    events: {
+        "click .resource_selector":"switch_resource"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "switch_resource"); 
+        this.controller = this.options.controller;
+    },
+
+    switch_resource: function(e){
+        var resource = $(e.target).attr("id");
+        switch (resource) {
+            case "radioMyPubRes":
+                return console.log("-radioMyPubRes");
+            case "radioMySub":
+                return console.log("-radioMySub");
+            case "radioAllPubRes":
+                return console.log("-radioAllPubRes");
+            default:
+                return;
+        }
+    }
+});
+
+
 OOI.Views.Workflow100 = Backbone.View.extend({
     events: {
-        "click #radioAllPubRes":"render",
+        //"click #radioAllPubRes":"render",
     },
 
     initialize: function() {
         _.bindAll(this, "render"); 
         this.controller = this.options.controller;
+        $("#radioAllPubRes").trigger("click");
     },
 
     render: function() {
-        //console.log("Workflow100 - render");
-        $.fn.dataTableExt.sErrMode = "throw"; //XXX /*throw a*/ in 'js/jquery.dataTables.min.js'.
         this.datatable = this.controller.datatable_init("#datatable_100", 5);
         this.controller.populate_table("dataResource", this.datatable);
         this.presentation();
@@ -36,7 +62,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
 
 OOI.Views.Workflow104 = Backbone.View.extend({
     events: {
-        //"click #radioAllPubRes":"render",
+        //"click #radioMyPubRes":"render",
     },
 
     initialize: function() {
@@ -55,12 +81,14 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
 OOI.Views.Workflow106 = Backbone.View.extend({
     events: {
-        //"click #radioAllPubRes":"render",
+        //"click #radioMyPubRes":"datatable"
     },
 
     initialize: function() {
         _.bindAll(this, "render"); 
+        console.log("Workflow106 - initialize");
         this.controller = this.options.controller;
+        //$("#radioMyPubRes").click(function(){alert('hi')});
     },
 
     render: function() {
@@ -68,6 +96,10 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable").append($.tmpl("datatable106-tmpl", {}));
         this.controller.datatable_init("datatable_106", 6);
         return this;
+    }, 
+    
+    datatable: function(e) {
+        console.log("dt ", e);
     }
 });
 

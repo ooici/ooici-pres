@@ -9,14 +9,14 @@ var OOIUX = Backbone.View.extend({
 
         var ooi = OOI.init();
 
-        this.datatable_100 = this.datatable_init("#datatable_100", 5);
-        this.datatable_104 = this.datatable_init("#datatable_104", 5);
-        this.datatable_106 = this.datatable_init("#datatable_106", 6);
-        this.wf_100(this.datatable_100);
-        this.wf_101(this.datatable_100);
-        this.wf_104(this.datatable_104);
+        //this.datatable_100 = this.datatable_init("#datatable_100", 5);
+        //this.datatable_104 = this.datatable_init("#datatable_104", 5);
+        //this.datatable_106 = this.datatable_init("#datatable_106", 6);
+        //this.wf_100(this.datatable_100);
+        //this.wf_101(this.datatable_100);
+        //this.wf_104(this.datatable_104);
         this.wf_105();
-        this.wf_106(this.datatable_106);
+        //this.wf_106(this.datatable_106);
         this.dataset_return();
         this.dataset_scroll();
         this.geospatial_container();
@@ -24,10 +24,9 @@ var OOIUX = Backbone.View.extend({
         this.setup_notifications();
         this.register_resource();
         this.modal_dialogs();
-        $("#radioAllPubRes").trigger("click"); //XXX temporary default
         $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
-        $("#datatable_104_wrapper").hide();  //XXX temporary default
-        $("#datatable_106_wrapper").hide();  //XXX temporary default
+        //$("#datatable_104_wrapper").hide();  //XXX temporary default
+        //$("#datatable_106_wrapper").hide();  //XXX temporary default
     },
 
     datatable_init: function(id, columns){
@@ -423,10 +422,10 @@ var OOIUX = Backbone.View.extend({
     wf_106: function(datatable){
         var self = this;
 
-        $("#radioMyPubRes").bind('click', function(evt) {
+       /* $("#radioMyPubRes").bind('click', function(evt) {
             self.wf_106_presentation();
             self.populate_table("dataResource", datatable);
-        });
+        });*/
 
        $("#datatable_106 tbody").click(function(evt) {
             var td_target = $(evt.target);

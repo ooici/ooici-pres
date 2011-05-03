@@ -20,17 +20,14 @@
   <script src="js/json2.js" type="text/javascript"></script>
   <script src="js/underscore-min.js" type="text/javascript"></script>
   <script src="js/backbone-min.js" type="text/javascript"></script>
-
-  <script src="js/ooici_ux-main.js" type="text/javascript"></script>
   <script src="js/ooici_ux.js" type="text/javascript"></script>
   <script src="js/ooici_ux-models.js" type="text/javascript"></script>
   <script src="js/ooici_ux-views.js" type="text/javascript"></script>
   <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
-	$(function() {
+  $(function() {
 	var OOI_ROLES = "<%= OOI_ROLES %>";
-    var ooiux = new OOIUX({"el":"#layoutContainer"});
-    //var ooi = OOI.init();
+    OOI.init();
   });
   </script>
 </head>
@@ -87,15 +84,15 @@
           <form action="">
             <table>
               <tr>
-                <td><input id="radioAllPubRes" class="controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioAllPubRes" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td style="padding-right: 30px;">All Registered Resources</td>
-                <td><input id="radioMyPubRes" class="controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioMyPubRes" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td>My Registered Resources</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td><input id="radioMySub" class="controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioMySub" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td>My Notification Settings</td>
               </tr>
             </table>
