@@ -3,7 +3,16 @@ from twisted.web.static import File
 from twisted.web.resource import Resource
 from twisted.internet import reactor
 
-import json
+from twisted.application import service, internet
+from twisted.web import static, server
+from twisted.web.resource import Resource
+
+
+try:
+    import simplejson as json
+except ImportError:
+    import json
+
 
 ROOTPAGE = "dashboard.gsp"
 
@@ -44,7 +53,7 @@ class DownloadData(Resource):
 class DataResource(Resource):
 
 
-    dataResourceSummary = [{"title": "NDBC Sensor Observation Service data from \"http://sdf.ndbc.noaa.gov/sos/\"","data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E047F1", "institution": "NOAA\'s National Data Buoy Center (http://www.ndbc.noaa.gov/)","source": "NDBC SOS","references": "http://sdf.ndbc.noaa.gov/sos/","ion_time_coverage_start": "2008-08-01T00:50:00Z","ion_time_coverage_end": "2008-08-01T23:50:00Z","ion_geospatial_lat_min": -45.431,"ion_geospatial_lat_max": -45.431,"ion_geospatial_lon_min": 25.909,"ion_geospatial_lon_max": 25.909,"ion_geospatial_vertical_min": 0.2,"ion_geospatial_vertical_max": 0.0,"ion_geospatial_vertical_positive": "down"}, {"title": "NDBC Sensor Observation Service data from \"http://sdf.ndbc.noaa.gov/sos/\"","data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E047F1", "institution": "NOAA\'s National Data Buoy Center (http://www.ndbc.noaa.gov/)","source": "NDBC SOS","references": "http://sdf.ndbc.noaa.gov/sos/","ion_time_coverage_start": "2008-08-01T00:50:00Z","ion_time_coverage_end": "2008-08-01T23:50:00Z","ion_geospatial_lat_min": -45.431,"ion_geospatial_lat_max": -45.431,"ion_geospatial_lon_min": 25.909,"ion_geospatial_lon_max": 25.909,"ion_geospatial_vertical_min": 0.2,"ion_geospatial_vertical_max": 0.0,"ion_geospatial_vertical_positive": "down"}]
+    dataResourceSummary = [{"title": "NDBC Sensor Observation Service data from \"http://sdf.ndbc.noaa.gov/sos/\"","data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E047F1", "institution": "NOAA\'s National Data Buoy Center (http://www.ndbc.noaa.gov/)","source": "NDBC SOS","references": "http://sdf.ndbc.noaa.gov/sos/", "summary": "Near-real-time surface data from ASIMet system 2 on the seventh deployment of the WHOI HOT Station (WHOTS) observatory.", "ion_time_coverage_start": "2008-08-01T00:50:00Z","ion_time_coverage_end": "2008-08-01T23:50:00Z","ion_geospatial_lat_min": -45.431,"ion_geospatial_lat_max": -45.431,"ion_geospatial_lon_min": 25.909,"ion_geospatial_lon_max": 25.909,"ion_geospatial_vertical_min": 0.2,"ion_geospatial_vertical_max": 0.0,"ion_geospatial_vertical_positive": "down"}, {"title": "NDBC Sensor Observation Service data from \"http://sdf.ndbc.noaa.gov/sos/\"","data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E047F1", "institution": "NOAA\'s National Data Buoy Center (http://www.ndbc.noaa.gov/)","source": "NDBC SOS","references": "http://sdf.ndbc.noaa.gov/sos/","ion_time_coverage_start": "2008-08-01T00:50:00Z","ion_time_coverage_end": "2008-08-01T23:50:00Z","ion_geospatial_lat_min": -45.431,"ion_geospatial_lat_max": -45.431,"ion_geospatial_lon_min": 25.909,"ion_geospatial_lon_max": 25.909,"ion_geospatial_vertical_min": 0.2,"ion_geospatial_vertical_max": 0.0,"ion_geospatial_vertical_positive": "down"}]
 
     DATA = {
         "data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E047F1",
@@ -75,6 +84,11 @@ root.putChild("dataResource", DataResource())
 root.putChild("subscription", Notifications())
 root.putChild("createDownloadUrl", DownloadData())
 root.putChild("userProfile", UserProfile())
-factory = Site(root)
-reactor.listenTCP(8080, factory)
-reactor.run()
+#factory = Site(root)
+#reactor.listenTCP(8080, factory, interface="ux-clemesha.oceanobservatories.org")
+#reactor.run()
+
+application = service.Application("ux_dummmy_server")
+service = internet.TCPServer(8080, Site(root))
+service.setServiceParent(application)
+
