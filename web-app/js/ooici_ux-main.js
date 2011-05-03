@@ -113,7 +113,7 @@ var OOIUX = Backbone.View.extend({
         //TODO clear out modal form data
         $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
         $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
-        $.ajax({url:"userProfile", type:"GET",
+        $.ajax({url:"userProfile", type:"GET", data:{action:"get"},
             success: function(resp){
                 $("#loading_account_settings").remove();
                 $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
