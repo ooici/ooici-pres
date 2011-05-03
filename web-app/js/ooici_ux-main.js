@@ -113,10 +113,16 @@ var OOIUX = Backbone.View.extend({
         //TODO clear out modal form data
         $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
         $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
-        $.ajax({url:"userProfile", type:"GET",
+        $.ajax({url:"userProfile", type:"GET", dataType:"json",
             success: function(resp){
+                $("#account_name").val(resp.name);
+                $("#account_institution").val(resp.institution);
+                $("#account_email").val(resp.email_address);
                 $("#loading_account_settings").remove();
                 $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
+                $.each(resp.profile, function(i, v){
+                    $("#account_"+v.name).val(v.value);
+                });
             }
         });
     },
