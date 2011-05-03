@@ -3,7 +3,16 @@ from twisted.web.static import File
 from twisted.web.resource import Resource
 from twisted.internet import reactor
 
-import json
+from twisted.application import service, internet
+from twisted.web import static, server
+from twisted.web.resource import Resource
+
+
+try:
+    import simplejson as json
+except ImportError:
+    import json
+
 
 ROOTPAGE = "dashboard.gsp"
 
@@ -75,6 +84,11 @@ root.putChild("dataResource", DataResource())
 root.putChild("subscription", Notifications())
 root.putChild("createDownloadUrl", DownloadData())
 root.putChild("userProfile", UserProfile())
-factory = Site(root)
-reactor.listenTCP(8080, factory)
-reactor.run()
+#factory = Site(root)
+#reactor.listenTCP(8080, factory, interface="ux-clemesha.oceanobservatories.org")
+#reactor.run()
+
+application = service.Application("ux_dummmy_server")
+service = internet.TCPServer(8080, Site(root))
+service.setServiceParent(application)
+
