@@ -6,10 +6,10 @@ class LogoutController {
 	 * Index action. Zap the user id and expiry from the session
 	 */
 	def index = {
-		session.removeAttribute("IONCOREOOID");
-		session.removeAttribute("IONCOREEXPIRY");
+		session.removeAttribute("IONCOREOOID")
+		session.removeAttribute("IONCOREEXPIRY")
 
-		redirect(uri:"/");
+		redirect(uri:"/")
 	}
 	
 }

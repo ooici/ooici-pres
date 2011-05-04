@@ -8,32 +8,32 @@ class SubscriptionController extends BaseController {
 	
 	def find = {
 		
-		preProcessRequest(true);
+		preProcessRequest(true)
 		
-		params.put("user_ooi_id", ooi_id);
+		params.put("user_ooi_id", ooi_id)
 
 		sendReceive(RequestType.FIND_DATA_RESOURCE_SUBSCRIPTION)
 	}
 
 	def create = {
 		
-		preProcessRequest(true);
+		preProcessRequest(true)
 		
-		params.put("user_ooi_id", ooi_id);
+		params.put("subscriptionInfo[user_ooi_id]", ooi_id)
 
 		sendReceive(RequestType.CREATE_DATA_RESOURCE_SUBSCRIPTION)
 	}
 	
 	def update = {
 		
-		preProcessRequest(true);
+		preProcessRequest(true)
 
 		sendReceive(RequestType.UPDATE_DATA_RESOURCE_SUBSCRIPTION)
 	}
 	
 	def delete = {
 		
-		preProcessRequest(true);
+		preProcessRequest(true)
 
 		sendReceive(RequestType.DELETE_DATA_RESOURCE_SUBSCRIPTION)
 	}

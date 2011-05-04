@@ -97,8 +97,18 @@ var OOIUX = Backbone.View.extend({
         }
 
         $("#account_settings_done").click(function(){
-            var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
-            var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile":{"mobilephone":mobilephone, "twitter":twitter}, "system_change":system_change, "project_update":project_update, "ocean_leadership_news":ocean_leadership_news, "ooi_participate":ooi_participate};
+            var name = $("#account_name").val();
+            var institution = $("#account_institution").val();
+            var email = $("#account_email").val();
+            var mobilephone = $("#account_mobilephone").val();
+            var twitter = $("#account_twitter").val();
+            var system_change = $("#system_change").is(":checked") ? "true" : "false";
+            var project_update = $("#project_update").is(":checked") ? "true" : "false";
+            var ocean_leadership_news = $("#ocean_leadership_news").is(":checked") ? "true" : "false";
+            var ooi_participate = $("#ooi_participate").is(":checked") ? "true" : "false";
+            var profileData = [{"name": "mobilephone","value": mobilephone}, {"name": "twitter","value": twitter}, {"name": "system_change","value": system_change}, {"name": "project_update","value": project_update}, {"name": "ocean_leadership_news","value": ocean_leadership_news}, {"name": "ooi_participate","value": ooi_participate}];
+            var profileJson = JSON.stringify(profileData);
+            var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile": profileJson};
             $("#account_settings_done").text("Saving...");    
             $.ajax({url:"userProfile", type:"POST", data:data,
                 success: function(resp){
@@ -115,8 +125,14 @@ var OOIUX = Backbone.View.extend({
         $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
         $.ajax({url:"userProfile", type:"GET", data:{action:"get"},
             success: function(resp){
+                $("#account_name").val(resp.name);
+                $("#account_institution").val(resp.institution);
+                $("#account_email").val(resp.email_address);
                 $("#loading_account_settings").remove();
                 $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
+                $.each(resp.profile, function(i, v){
+                    $("#account_"+v.name).val(v.value);
+                });
             }
         });
     },

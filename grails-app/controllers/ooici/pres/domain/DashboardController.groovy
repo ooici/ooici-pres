@@ -7,7 +7,7 @@ class DashboardController {
 		// Constants
 		String OOI_ID_KEY = "IONCOREOOIID"
 		String EXPIRY_KEY = "IONCOREEXPIRY"
-		String USER_IS_ADMIN_KEY = "user_is_admin";
+		String USER_IS_ADMIN_KEY = "user_is_admin"
 		String USER_IS_EARY_ADOPTER_KEY = "user_is_early_adopter"
 		String USER_IS_DATA_PROVIDER_KEY = "user_is_data_provider"
 		String USER_IS_MARINE_OPERATOR_KEY = "user_is_marine_operator"
@@ -19,14 +19,14 @@ class DashboardController {
 		String DATA_PROVIDER_ROLE = "DATA_PROVIDER"
 		String MARINE_OPERATOR_ROLE = "MARINE_OPERATOR"
 	
-		String rolesString = "[";
+		String rolesString = "["
 
 		String ooi_id = session.getAttribute(OOI_ID_KEY)
-		boolean isSignedIn = false;
+		boolean isSignedIn = false
 		if (ooi_id == null || ooi_id.equals("")) {
 			// Force OOI ID to ANONYMOUS
-			session.setAttribute(OOI_ID_KEY, "ANONYMOUS");
-			session.setAttribute(EXPIRY_KEY, "0");
+			session.setAttribute(OOI_ID_KEY, "ANONYMOUS")
+			session.setAttribute(EXPIRY_KEY, "0")
 		}
 		else {
 			if (!ooi_id.equals("ANONYMOUS")) {

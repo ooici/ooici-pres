@@ -8,21 +8,21 @@ class ResourceController extends BaseController {
 
 	def types = {
 		
-		preProcessRequest(true);
+		preProcessRequest(true)
 
 		sendReceive(RequestType.GET_RESOURCE_TYPES)
 	}
 	
 	def ofType = {
 		
-		preProcessRequest(true);
+		preProcessRequest(true)
 
 		sendReceive(RequestType.GET_RESOURCES_OF_TYPE)
 	}
 	
 	def detail = {
 		
-		preProcessRequest(true);
+		preProcessRequest(true)
 
 		sendReceive(RequestType.GET_RESOURCE)
 	}

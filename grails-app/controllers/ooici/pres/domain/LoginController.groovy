@@ -10,11 +10,10 @@ class LoginController {
 	 * Default action; redirects to CILogon process.
 	 */
 	def index = {
-		def config = ConfigurationHolder.config;
-		Map map = ConfigurationHolder.getConfig().flatten();
+		Map map = ConfigurationHolder.getConfig().flatten()
 
-		def cilogonstarturl = (String)map.get("ioncore.cilogonstarturl");
+		def cilogonstarturl = (String)map.get("ioncore.cilogonstarturl")
 		
-		redirect(uri:cilogonstarturl);
+		redirect(uri:cilogonstarturl)
 	}
 }

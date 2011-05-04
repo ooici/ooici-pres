@@ -59,7 +59,7 @@ abstract class BaseController {
 	// Centralized convert/send/receive/convert/render handling	
 	def sendReceive(RequestType requestType) {
 		
-		System.out.println("Modified request params  for " + reqController + "." + reqAction + "before conversion: " + params)
+		System.out.println("Modified request params for " + reqController + "." + reqAction + " before conversion: " + params)
 
 		def requestString = new JSON(params).toString()
 		
@@ -71,6 +71,10 @@ abstract class BaseController {
 		if (status != 200) {
 			responseString = BootstrapIONService.appIntegrationService.getErrorMessage()
 			System.out.println("Error on request " + reqController + "." + reqAction)
+		}
+		
+		if (responseString == null) {
+			responseString = "{}"
 		}
 
 		System.out.println("Response string for " + reqController + "." + reqAction + ": " + responseString)

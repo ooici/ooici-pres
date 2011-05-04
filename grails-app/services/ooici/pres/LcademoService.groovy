@@ -15,16 +15,18 @@ class LcademoService {
 
 	def BootstrapIONService
 
-	def SYSNAME = System.getProperty("ioncore.sysname", ConfigurationHolder.config.ion.username);
+	def SYSNAME = System.getProperty("ioncore.sysname", ConfigurationHolder.config.ioncore.sysname);
 
     def List listAllInstruments() {
 
-	    MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_registry");
-
+//	    MessagingName instRegSvc = new MessagingName(SYSNAME, "instrument_registry");
+		MessagingName instRegSvc = new MessagingName(SYSNAME, "echo_service");
+		
 		// Create and send message
         ListAllQueryDO listall = new ListAllQueryDO(new InstrumentRDO());
-        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "find_instrument_instance", listall);
-
+//        IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "find_instrument_instance", listall);
+		IonMessage msgin = BootstrapIONService.baseProcess.rpcSend(instRegSvc, "echo", listall);
+		
 	    def instruments = []
 
         if (msgin.hasDataObject()) {
