@@ -23,38 +23,9 @@ var OOIUX = Backbone.View.extend({
         this.datatable_select_buttons();
         this.setup_notifications();
         this.register_resource();
-        this.modal_dialogs();
-        $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
-        //$("#datatable_104_wrapper").hide();  //XXX temporary default
-        //$("#datatable_106_wrapper").hide();  //XXX temporary default
     },
 
-    datatable_init: function(id, columns){
-        var oTable = $(id).dataTable({
-            "aaData":[_.map(_.range(columns), function(x){return null;})],
-            "bJQueryUI": true, 
-            "sPaginationType": "full_numbers"
-        });
-        return oTable;
-    },
-
-    loading_dialog: function(msg){
-        var elem = $("#loading_message");
-        if (typeof msg == "undefined"){
-            elem.fadeOut("slow");
-        } else {
-            elem.show().find(".msg").text(msg);
-        }
-    },
-
-    modal_dialogs: function(){
-        $("#registration_link").colorbox({inline:true, href:"#registration_dialog", transition:"none", opacity:0.7});
-        $("#account_settings_link").colorbox({inline:true, href:"#account_settings", transition:"none", opacity:0.7});
-        $(".modal_close").live("click", function(e){$.fn.colorbox.close();e.preventDefault();});
-        if (document.location.search.search("action=register") != -1){
-          $.fn.colorbox({inline:true, href:"#account_settings", transition:"none", opacity:0.7});
-        }
-    },
+    
 
     datatable_select_buttons: function(){
       var self = this;

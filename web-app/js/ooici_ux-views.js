@@ -50,6 +50,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     populate_table: function(){
+        this.controller.loading_dialog("Loading datasets...");
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
@@ -61,6 +62,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
                 $("table#datatable_100 tbody tr td").css("width", "30%");
+                self.controller.loading_dialog();
             }
         });
     },
@@ -101,6 +103,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     populate_table: function(){
+        this.controller.loading_dialog("Loading datasets...");
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
@@ -114,6 +117,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                 $("#datatable_select_buttons").show();
                 $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX 
                 $("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
+                self.controller.loading_dialog();
             }
         });
     },
@@ -133,6 +137,42 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
 
 });
+
+
+OOI.Views.Workflow105 = Backbone.View.extend({
+    /*
+        Register New Resource.
+    */
+    events: {
+        "click .resouce_selector_tab":"resource_selector"
+    },
+
+    initialize: function() { 
+        _.bindAll(this, "render"); 
+        this.controller = this.options.controller;
+    },
+
+    render: function() {
+        return this;
+    },
+
+    resource_selector: function(e){
+        var id = $(e.target).attr("id");
+        $("#"+id).addClass("selected");
+        if (id == "view_existing_tab"){
+            $("#geospatial_selection_button, #view_existing, .view_existing").show();
+            $("#register_new, #register_resource_button").hide();
+            $("#register_new_tab").removeClass("selected");
+        } else {
+            $("#register_new, #register_resource_button").show();
+            $("#geospatial_selection_button, #view_existing, .view_existing").hide();
+            $("#view_existing_tab").removeClass("selected");
+        }
+    }
+
+});
+
+
 
 
 OOI.Views.Workflow106 = Backbone.View.extend({
@@ -158,6 +198,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     }, 
     
     populate_table: function(){
+        this.controller.loading_dialog("Loading datasets...");
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
@@ -171,6 +212,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                 $("#datatable_select_buttons").show();
                 $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")});
                 $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "25%");
+                self.controller.loading_dialog();
             }
         });
     },
