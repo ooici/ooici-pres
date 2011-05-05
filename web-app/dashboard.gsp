@@ -52,7 +52,24 @@
 
     <div class="center-center">
       <div id="datatable">
-          <h1>Data Resources</h1>
+      <h1>Data Resources</h1>
+      <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0" class="display">
+       <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+        <tbody></tbody>
+      </table>
+
+       <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
+          <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+          <tbody></tbody>
+       </table>
+    </script>
+
+       <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
+            <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
+            <tbody></tbody>
+       </table>
+
+
             <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll">←</span><span id="dataset_return_button">Return to List</span><span id="dataset_scroll_right" class="arrow dataset_scroll">→</span></div>
 
        <div id="datatable_details_container"></div>
@@ -210,7 +227,7 @@
       </div>
     </div>
    </div><!-- end .west-center -->
-   <div class="west-south">
+   <div id="west_south" class="west-south">
       <button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>
       <button id="register_resource_button">Register Resource</button>
    </div><!-- end .west-south -->
@@ -408,30 +425,6 @@
 
 
 <!-- begin jquery-templates -->
-
-
-<script id="datatable100-tmpl" type="text/x-jquery-tmpl">
-  <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0" class="display">
-   <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
-    <tbody></tbody>
-  </table>
-</script>
-
-<script id="datatable104-tmpl" type="text/x-jquery-tmpl">
-   <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
-      <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
-      <tbody></tbody>
-   </table>
-</script>
-
-
-<script id="datatable106-tmpl" type="text/x-jquery-tmpl">
-   <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
-        <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
-        <tbody></tbody>
-   </table>
-</script>
-
 
 <!-- end jquery-templates -->
 

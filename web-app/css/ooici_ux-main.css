@@ -143,3 +143,6 @@ body {
 #datatable_details_scroll .arrow {
   font-weight:bold;
 }
+#datatable_details_container {
+    line-height:300%;
+}

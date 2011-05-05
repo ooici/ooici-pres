@@ -28,16 +28,15 @@ OOI.Views.ResourceSelector = Backbone.View.extend({
 
 OOI.Views.Workflow100 = Backbone.View.extend({
     /*
-        Worflow 100. All public resources handler.
+        All Resources.
     */
     events: {
-        //"click #radioAllPubRes":"render",
+        "click tbody tr":"show_detail"
     },
 
     initialize: function() {
-        _.bindAll(this, "render"); 
+        _.bindAll(this, "render", "show_detail", "show_all_detail"); 
         this.controller = this.options.controller;
-        $("#datatable").append($.tmpl("datatable100-tmpl", {}));
         this.datatable = this.controller.datatable_init("#datatable_100", 5);
         $("#radioAllPubRes").trigger("click");
     },
@@ -49,6 +48,59 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         return this;
     },
 
+    show_detail: function(e) {
+        var tr = $(e.target);
+        var data_resource_id = tr.parent().attr("id"); 
+        if (tr.text() == "Details"){
+            this.show_all_detail(data_resource_id);
+        }
+        self = this;
+        $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
+            success: function(resp){self.dataset_sidebar(resp, self)}
+        });
+    },
+
+    show_all_detail: function(data_resource_id) {
+        $("#datatable_details_scroll").show();
+        $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+        self = this;
+        $.ajax({url:"dataResource", type:"GET", dataType:"json", 
+            data:{"action":"detail", "data_resource_id":data_resource_id}, 
+            success: function(resp){
+                var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
+                html += "<br><br>"+JSON.stringify(resp.source);
+                html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
+                html = html.replace(/,/g, "<br>").replace(/}/g, "").replace(/{/g, "").replace(/\[/g, "").replace(/\]/g, "");
+                $("#datatable_details_container").html(html).show();
+                self.controller.loading_dialog();
+            }
+        });
+    },
+
+    dataset_sidebar: function(resp, self){
+        var data = resp.dataResourceSummary;
+        $(self.datatable.fnSettings().aoData).each(function () {
+           $(this.nTr).removeClass('row_selected');
+        });
+        // Expands right pane panels when row is selected. Also closes panels if already expanded.
+        if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
+        $('a#rp_dsTitle').html(data.institution);
+        $("#ds_title").html(data.title);
+        $("#ds_publisher_contact").html(data.institution);
+        var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
+        $("#ds_source").html(ds_source);
+        $("#ds_source").html(data.source);
+        $("#ds_source_contact").html(data.source);
+        $("#ds_variables").html(JSON.stringify(resp.variable));
+        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+        $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+        $("#ds_references").html(data.references);
+        $(".data_sources").show();
+        $(".notification_settings, .dispatcher_settings").hide();
+        $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+        self.controller.loading_dialog();
+    },
+
     populate_table: function(){
         this.controller.loading_dialog("Loading datasets...");
         this.datatable.fnClearTable();
@@ -57,10 +109,13 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $.ajax({url:"dataResource", type:"GET", data:{action:"find"}, dataType:"json",
             success: function(data){
                 $("#datatable_select_buttons").hide();
+                self.controller.resource_collection.remove_all();
                 $.each(data.dataResourceSummary, function(i, elem){
+                    self.controller.resource_collection.add(elem);
                     self.datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
+                c = self.controller.resource_collection;
                 $("table#datatable_100 tbody tr td").css("width", "30%");
                 self.controller.loading_dialog();
             }
@@ -92,7 +147,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "render"); 
         this.controller = this.options.controller;
-        $("#datatable").append($.tmpl("datatable104-tmpl", {}));
         this.datatable = this.controller.datatable_init("#datatable_104", 5);
     },
 
@@ -187,7 +241,6 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "render"); 
         this.controller = this.options.controller;
-        $("#datatable").append($.tmpl("datatable106-tmpl", {}));
         this.datatable = this.controller.datatable_init("#datatable_106", 6);
     },
 
@@ -233,6 +286,53 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 });
 
 
+OOI.Views.GeospatialContainer = Backbone.View.extend({
+    //TODO: incomplete functionality
+
+    events: {
+        "click #geospatial_selection_button":"render_geo"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "render_geo"); 
+        this.controller = this.options.controller;
+    },
+
+    render_geo:function(){
+        var action = "find";
+        var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
+        var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
+        var minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
+        var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val();
+        var posVertical="down"; //XXX
+        var data = {};
+        data.action = action;
+        if (minLatitude) data.minLatitude = minLatitude;
+        if (maxLatitude) data.maxLatitude = maxLatitude;
+        if (minLongitude) data.minLongitude = minLongitude;
+        if (maxLongitude) data.maxLongitude = maxLongitude;
+        if (minVertical) data.minVertical= minVertical;
+        if (maxVertical) data.maxVertical = maxVertical;
+        if (posVertical) data.posVertical = posVertical;
+        if (minTime) data.minTime = minTime;
+        if (maxTime) data.maxTime = maxTime
+        self = this;
+        self.controller.loading_dialog("Loading datatable...");
+        $.ajax({url:"dataResource", type:"GET", dataType:"json", data:data, 
+            success: function(resp){
+                self.datatable_100.fnClearTable(); //XXX
+                $.each(resp.dataResourceSummary, function(i, elem){
+                    self.datatable_100.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]); //XXX
+                });
+                $("table#datatable_100 tbody tr td").css("width", "30%");
+                self.controller.loading_dialog();
+            }
+        });
+        return this;
+    }
+
+});
+ 
 
 OOI.Views.Layout = Backbone.View.extend({
     events: {},
