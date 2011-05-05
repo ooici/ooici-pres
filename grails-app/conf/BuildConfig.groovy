@@ -14,18 +14,11 @@ grails.project.dependency.resolution = {
         grailsHome()
         grailsCentral()
 
-        // uncomment the below to enable remote dependency resolution
-        // from public Maven repositories
-//        mavenLocal()
-//        mavenCentral()
-//        mavenRepo "http://cilogon.svn.sourceforge.net/svnroot/cilogon/m2-repo/"
-//        mavenRepo "http://repository.codehaus.org"
-//        mavenRepo "http://download.java.net/maven/2/"
-//        mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://ooici.net"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
-        // runtime 'mysql:mysql-connector-java:5.1.5'
+		compile 'releases/maven/repo/net/ooici:ionproto:0.3.17-pl51',
+		        'releases/maven/repo/net/ooici:ioncore-java-0.2.5'
     }
 }
