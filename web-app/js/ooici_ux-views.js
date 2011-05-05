@@ -14,13 +14,15 @@ OOI.Views.ResourceSelector = Backbone.View.extend({
         var resource = $(e.target).attr("id");
         switch (resource) {
             case "radioAllPubRes":
-                return this.controller.workflow100.render();
+                return window.location.hash="";
             case "radioMySub":
-                return this.controller.workflow104.render();
+                //return this.controller.workflow104.render();
+                return window.location.hash="notifications";
             case "radioMyPubRes":
-                return this.controller.workflow106.render();
+                //return this.controller.workflow106.render();
+                return window.location.hash="registered";
             default:
-                return;
+                return window.location.hash="";
         }
     }
 });
@@ -164,7 +166,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $.ajax({url:"subscription", type:"GET", data:{action:"find"}, dataType:"json",
             success: function(data){
                 var cb = "<input type='checkbox'/>";
+                self.controller.my_notifications_collection.remove_all();
                 $.each(data.dataResourceSummary, function(i, elem){
+                    self.controller.my_notifications_collection.add(elem);
                     self.datatable.fnAddData([cb, elem.title, elem.institution, elem.created, "Details"]);
                     $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id); //XXX use Backbone for this
                 });
@@ -235,7 +239,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     */
 
     events: {
-        //"click #radioMyPubRes":"datatable"
+        "click tbody tr":"show_detail"
     },
 
     initialize: function() {
@@ -257,7 +261,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         var self = this;
         $.ajax({url:"dataResource", type:"GET", data:{action:"findByUser"}, dataType:"json",
             success: function(data){
+                self.controller.my_resources_collection.remove_all();
                 $.each(data.dataResourceSummary, function(i, elem){
+                    self.controller.my_resources_collection.add(elem);
                     var cb = "<input type='checkbox'/>";
                     self.datatable.fnAddData([cb, elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
@@ -268,6 +274,60 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                 self.controller.loading_dialog();
             }
         });
+    },
+
+    show_detail: function(e) {
+        var tr = $(e.target);
+        var data_resource_id = tr.parent().attr("id"); 
+        if (tr.text() == "Details"){
+            this.show_all_detail(data_resource_id);
+        }
+        self = this;
+        $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
+            success: function(resp){self.dataset_sidebar(resp, self)}
+        });
+    },
+
+
+    show_all_detail: function(data_resource_id) {
+        $("#datatable_details_scroll").show();
+        $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+        self = this;
+        $.ajax({url:"dataResource", type:"GET", dataType:"json", 
+            data:{"action":"detail", "data_resource_id":data_resource_id}, 
+            success: function(resp){
+                var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
+                html += "<br><br>"+JSON.stringify(resp.source);
+                html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
+                html = html.replace(/,/g, "<br>").replace(/}/g, "").replace(/{/g, "").replace(/\[/g, "").replace(/\]/g, "");
+                $("#datatable_details_container").html(html).show();
+                self.controller.loading_dialog();
+            }
+        });
+    },
+
+    dataset_sidebar: function(resp, self){
+        var data = resp.dataResourceSummary;
+        $(self.datatable.fnSettings().aoData).each(function () {
+           $(this.nTr).removeClass('row_selected');
+        });
+        // Expands right pane panels when row is selected. Also closes panels if already expanded.
+        if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
+        $('a#rp_dsTitle').html(data.institution);
+        $("#ds_title").html(data.title);
+        $("#ds_publisher_contact").html(data.institution);
+        var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
+        $("#ds_source").html(ds_source);
+        $("#ds_source").html(data.source);
+        $("#ds_source_contact").html(data.source);
+        $("#ds_variables").html(JSON.stringify(resp.variable));
+        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+        $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+        $("#ds_references").html(data.references);
+        $(".data_sources").show();
+        $(".notification_settings, .dispatcher_settings").hide();
+        $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+        self.controller.loading_dialog();
     },
 
     presentation: function(){

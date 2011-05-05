@@ -1,19 +1,25 @@
 OOI.Controllers.Dashboard = Backbone.Controller.extend({
+
     routes: {
-      "":"main",
-      //"wf100":"workflow100",
+      "":"all_registered_resources",
+      "/:nth_dataset":"all_registered_resources_details",
+      "notifications":"my_notification_settings",
+      "registered":"my_registered_resources",
+      "registered/:nth_dataset":"my_registered_resources_details"
     },
 
     initialize: function(options) {
-        _.bindAll(this, "main");
+        _.bindAll(this, "all_registered_resources", "all_registered_resources_details", "my_notification_settings", "my_registered_resources");
         this.layout = new OOI.Views.Layout({"el":"#layoutContainer"}); 
 
         this.resource_collection = new OOI.Collections.Resources();
+        this.my_resources_collection = new OOI.Collections.MyResources();
+        this.my_notifications_collection = new OOI.Collections.MyNotifications();
 
         this.workflow100 = new OOI.Views.Workflow100({el:"#datatable_100", controller:this}); 
-        this.workflow104 = new OOI.Views.Workflow104({el:"#datatable", controller:this}); 
+        this.workflow104 = new OOI.Views.Workflow104({el:"#datatable_104", controller:this}); 
         this.workflow105 = new OOI.Views.Workflow105({el:"#resource_selector_view", controller:this}); 
-        this.workflow106 = new OOI.Views.Workflow106({el:"#datatable", controller:this}); 
+        this.workflow106 = new OOI.Views.Workflow106({el:"#datatable_106", controller:this}); 
 
         this.resource_selector = new OOI.Views.ResourceSelector({el:"#view_existing", controller:this}); 
         this.geospatial_container = new OOI.Views.GeospatialContainer({"el":"#west_south", controller:this}); 
@@ -24,10 +30,32 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
     },
 
-    main: function(){
+    all_registered_resources: function(){
         this.workflow100.render();
-        //this.workflow104.render();
     },
+
+    all_registered_resources_details: function(nth_dataset){
+        console.log("all_registered_resources_details nth_dataset: "+nth_dataset);
+        var model = this.resource_collection.models[nth_dataset];
+        console.log(typeof(model));
+        if (typeof model === "undefined"){
+            return alert("No more datasets this direction");
+        }
+        console.log(model.get("data_resource_id"));
+    },
+
+    my_notification_settings: function(){
+        this.workflow104.render();
+    },
+
+    my_registered_resources: function(){
+        this.workflow106.render();
+    },
+
+    my_registered_resources_details: function(nth_dataset){
+        console.log("my_registered_resources_details nth_dataset: "+nth_dataset);
+    },
+
 
     datatable_init: function(id, columns){
         var oTable = $(id).dataTable({
