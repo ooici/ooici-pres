@@ -194,8 +194,16 @@ var OOIUX = Backbone.View.extend({
         if (email_alerts_filter == -1 && dispatcher_alerts_filter > -1) subscription_type = 1;
         if (email_alerts_filter > -1 && dispatcher_alerts_filter > -1) subscription_type = 2;
         
-        //TODO: dont send at all if any val is -1
+        //TODO: don't send at all if any val is -1
+        var data_src_id = 123;
+        var subscription_type = $("#subscription_type").val();
+        var email_alerts_filter = $("#email_alerts_filter").is(":checked");
+        var dispatcher_alerts_filter = $("#dispatcher_alerts_filter").is(":checked");
         var dispatcher_script_path = $("#dispatcher_script_path").val();
+        var subscriptionInfoData = {"data_src_id": data_src_id, "subscription_type": subscription_type, "email_alerts_filter": email_alerts_filter, "dispatcher_alerts_filter": dispatcher_alerts_filter, "dispatcher_script_path": dispatcher_script_path};
+        var subscriptionInfoJson = JSON.stringify(subscriptionInfoData);
+        var datasetMetadataJson = JSON.stringify({});
+        var data = {"action":"create", "subscriptionInfo": subscriptionInfoJson, "datasetMetadata": datasetMetadata};
         $.ajax({url:"subscription", type:"POST", data:{"action":"create", "data_src_id":data_src_id, "subscription_type":subscription_type,
             "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path}, 
             success: function(resp){
@@ -222,7 +230,7 @@ var OOIUX = Backbone.View.extend({
                     if (datatable_id == "datatable_106"){
                         $.each(data.dataResourceSummary, function(i, elem){
                             var cb = "<input type='checkbox'/>";
-                            datatable.fnAddData([cb, elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                            datatable.fnAddData([cb, elem.title, elem.institution, elem.source, elem.date_registered, "Details"]);
                             $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id); //XXX use Backbone for this
                         });
                         $("#datatable_select_buttons").show();
@@ -231,8 +239,8 @@ var OOIUX = Backbone.View.extend({
                     } else {
                         $("#datatable_select_buttons").hide();
                         $.each(data.dataResourceSummary, function(i, elem){
-                            datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
-                            $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id); //XXX use Backbone for this
+                            datatable.fnAddData([elem.datasetMetadata.title, elem.datasetMetadata.institution, elem.datasetMetadata.source, elem.date_registered, "Details"]);
+                            $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id); //XXX use Backbone for this
                         });
                         $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
                     }
@@ -276,7 +284,7 @@ var OOIUX = Backbone.View.extend({
                 success: function(resp){
                     self.datatable_100.fnClearTable();
                     $.each(resp.dataResourceSummary, function(i, elem){
-                        self.datatable_100.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                        self.datatable_100.fnAddData([elem.datasetMetadata.title, elem.datasetMetadata.institution, elem.datasetMetadata.source, elem.date_registered, "Details"]);
                     });
                     $("table#datatable_100 tbody tr td").css("width", "30%"); //XXX
                     self.loading_dialog();
