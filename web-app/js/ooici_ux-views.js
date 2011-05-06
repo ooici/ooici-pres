@@ -503,13 +503,65 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
 OOI.Views.AccountSettings = Backbone.View.extend({
 
     events: {
-        "click #dataset_scroll_left":"scroll_left",
+        "click #account_settings_done":"account_settings_done",
     },
 
     initialize: function() {
-        _.bindAll(this, ""); 
+        _.bindAll(this, "account_settings_done"); 
         this.controller = this.options.controller;
+        this.modal_dialogs();
+    },
+
+    modal_dialogs: function(){
+        $("#registration_link").colorbox({
+            inline:true, 
+            href:"#registration_dialog", 
+            transition:"none", 
+            opacity:0.7
+        });
+        $("#account_settings_link").colorbox({
+            inline:true, 
+            onOpen:this.account_settings, 
+            href:"#account_settings", 
+            transition:"none", 
+            opacity:0.7
+        });
+        $(".modal_close").live("click", function(e){$.fn.colorbox.close();e.preventDefault();});
+        if (document.location.search.search("action=register") != -1){
+          $.fn.colorbox({inline:true, href:"#account_settings", transition:"none", opacity:0.7});
+        }
+    },
+
+    account_settings_done: function(){
+        var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
+        var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile":{"mobilephone":mobilephone, "twitter":twitter}, "system_change":system_change, "project_update":project_update, "ocean_leadership_news":ocean_leadership_news, "ooi_participate":ooi_participate};
+        $("#account_settings_done").text("Saving...");
+        $.ajax({url:"userProfile", type:"POST", data:data,
+            success: function(resp){
+                $("#account_settings_done").text("Done");
+                $(".modal_close").trigger("click");
+            }
+        });
+    },
+
+    account_settings: function(){
+        //TODO clear out modal form data
+        $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
+        $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
+        $.ajax({url:"userProfile", type:"GET", dataType:"json",
+            success: function(resp){
+                $("#account_name").val(resp.name);
+                $("#account_institution").val(resp.institution);
+                $("#account_email").val(resp.email_address);
+                $("#loading_account_settings").remove();
+                $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
+                $.each(resp.profile, function(i, v){
+                    $("#account_"+v.name).val(v.value);
+                });
+            }
+        });
     }
+
 });
 
 

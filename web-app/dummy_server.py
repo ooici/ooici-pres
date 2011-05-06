@@ -26,6 +26,22 @@ class DownloadData(Resource):
         return (" - Test Data - " * 1000)
 
 
+class UserProfile(Resource):
+
+    DATA = {"name": "MyOOICI","institution":"OOICI","email_address":"myooici@gmail.com","profile":[{"name":"twitter", "value":"twitter.com/ooi"}, {"name":"mobilephone", "value":"555-555-5555"}]}
+
+    def render_GET(self, request):
+        import time; time.sleep(0.8) #mock out real latency
+        return json.dumps(self.DATA)
+
+
+    def render_POST(self, request):
+        import time; time.sleep(0.8) #mock out real latency
+        return "ok"
+
+
+
+
 class DataResource(Resource):
 
 
@@ -59,6 +75,7 @@ root.putChild("static", File("./static"))
 root.putChild("dataResource", DataResource())
 root.putChild("subscription", Notifications())
 root.putChild("createDownloadUrl", DownloadData())
+root.putChild("userProfile", UserProfile())
 factory = Site(root)
 reactor.listenTCP(8080, factory)
 reactor.run()

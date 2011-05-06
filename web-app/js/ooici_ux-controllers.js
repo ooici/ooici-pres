@@ -22,11 +22,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.workflow105 = new OOI.Views.Workflow105({el:"#resource_selector_view", controller:this}); 
         this.workflow106 = new OOI.Views.Workflow106({el:"#datatable_106", controller:this}); 
 
+        this.account_settings = new OOI.Views.AccountSettings({el:"#account_settings", controller:this});
         this.resource_selector = new OOI.Views.ResourceSelector({el:"#view_existing", controller:this}); 
         this.resource_details_scroll = new OOI.Views.ResourceDetailsScroll({el:"#datatable_details_scroll", controller:this}); 
         this.geospatial_container = new OOI.Views.GeospatialContainer({"el":"#west_south", controller:this}); 
 
-        this.modal_dialogs();
         this.datatable_select_buttons();
         this.setup_notifications();
     },
@@ -77,15 +77,6 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             elem.fadeOut("slow");
         } else {
             elem.show().find(".msg").text(msg);
-        }
-    },
-
-    modal_dialogs: function(){
-        $("#registration_link").colorbox({inline:true, href:"#registration_dialog", transition:"none", opacity:0.7});
-        $("#account_settings_link").colorbox({inline:true, href:"#account_settings", transition:"none", opacity:0.7});
-        $(".modal_close").live("click", function(e){$.fn.colorbox.close();e.preventDefault();});
-        if (document.location.search.search("action=register") != -1){
-          $.fn.colorbox({inline:true, href:"#account_settings", transition:"none", opacity:0.7});
         }
     },
 

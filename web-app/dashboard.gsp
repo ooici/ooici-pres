@@ -349,25 +349,25 @@
 
 
 
-<div id="account_settings" style="width:640px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000;overflow:hidden">
+<div id="account_settings" style="width:640px; height:606px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000;overflow:hidden">
     <!--Header-->
     <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">ION Account Settings</div>
     <!--Body-->
-    <div align="left" style=" background-color:#F4F4F6; width:590px; height:500px; padding:10px; padding-left:30px; padding-right:20px; border-left:1px solid #494949; border-right:1px solid #494949; border-bottom:1px solid #B9B9B9;">
+    <div id="account_settings_content" align="left" style=" background-color:#F4F4F6; width:590px; height:500px; padding:10px; padding-left:30px; padding-right:20px; border-left:1px solid #494949; border-right:1px solid #494949; border-bottom:1px solid #B9B9B9;">
       <p class="heading">ION Account Information</p>
       <p>You have established an ION Account with the following settings:</p>
       <table width="100%" cellspacing="0" cellpadding="5px" border="0" class="table-text">
         <tbody><tr>
           <td width="120px">Name:</td>
-          <td><input class="colorbox_textinput" type="text"/></td>
+          <td><input id="account_name" class="colorbox_textinput" type="text"/></td>
         </tr>
         <tr>
           <td>Institution:</td>
-          <td><input class="colorbox_textinput" type="text"/></td>
+          <td><input id="account_institution" class="colorbox_textinput" type="text"/></td>
         </tr>
         <tr>
           <td>Email:</td>
-          <td><input class="colorbox_textinput" type="text"/></td>
+          <td><input id="account_email" class="colorbox_textinput" type="text"/></td>
         </tr>
         <tr>
           <td>Identity provider:</td>
@@ -378,42 +378,42 @@
       <table width="100%" cellspacing="0" cellpadding="5px" border="0" class="table-text">
         <tbody><tr>
           <td width="120px">Mobile Phone:</td>
-          <td><input class="colorbox_textinput" type="text"/></td>
+          <td><input id="account_mobilephone" class="colorbox_textinput" type="text"/></td>
         </tr>
         <tr>
           <td>Twitter:</td>
-          <td><input class="colorbox_textinput" type="text"/></td>
+          <td><input id="account_twitter" class="colorbox_textinput" type="text"/></td>
         </tr>
       </tbody></table>
       <p class="heading">Optional Email Updates</p>
       <p>Send email when there is:</p>
       <table width="100%" cellspacing="0" cellpadding="3px" border="0" style="margin-left:132px; margin-bottom:10px" class="table-text">
         <tbody><tr>
-          <td width="10px"><input type="checkbox" class="colorbox_checkbox"/></td>
+          <td width="10px"><input id="system_change" type="checkbox" class="colorbox_checkbox"/></td>
           <td>OOI System change Information</td>
         </tr>
         <tr>
-          <td><input type="checkbox" class="colorbox_checkbox"/></td>
+          <td><input id="project_update" type="checkbox" class="colorbox_checkbox"/></td>
           <td>OOI Project Update</td>
         </tr>
         <tr>
-          <td><input type="checkbox" class="colorbox_checkbox"/></td>
+          <td><input id="ocean_leadership_news", type="checkbox" class="colorbox_checkbox"/></td>
           <td>Ocean Leadership News</td>
         </tr>
         <tr>
-          <td><input type="checkbox" class="colorbox_checkbox"/></td>
+          <td><input id="ooi_participate" type="checkbox" class="colorbox_checkbox"/></td>
           <td>Opportunity to participate in the OOI User Experience Improvement Program</td>
         </tr>
       </tbody></table>
       <p style="padding:0px;margin-bottom:10px;position:relative;top:-12px">You can change your optional selections at any time by <br>clicking Account Settings in the top right of the ION window.</p>
       </div>
-    <div align="left" style=" background-color:#FFF; width:590px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border-left:1px solid #494949;  border-right:1px solid #494949; border-bottom:1px solid #494949">
+    <div id="account_settings_bottom" align="left" style=" background-color:#FFF; width:590px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border-left:1px solid #494949; border-right:1px solid #494949; border-bottom:1px solid #494949">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tbody><tr>
           <td>&nbsp;</td>
           <td width="100px"><a href="#" class="modal_close colorbox_button blue-button-inactive">Cancel</a></td>
           <td width="10px">&nbsp;</td>
-          <td width="100px"><a href="#" class="colorbox_button blue-button-inactive-focus">Done</a></td>
+          <td width="100px"><a id="account_settings_done" href="#" class="colorbox_button blue-button-inactive-focus">Done</a></td>
         </tr>
       </tbody></table>
     </div>
