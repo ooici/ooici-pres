@@ -61,7 +61,6 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.workflow106.show_detail_all(data_resource_id);
     },
 
-
     datatable_init: function(id, columns){
         var oTable = $(id).dataTable({
             "aaData":[_.map(_.range(columns), function(x){return null;})],

@@ -90,7 +90,18 @@ OOI.Views.Notifications = Backbone.View.extend({
 
     start_notifications: function(){
         //TODO: btn is diabled if by default, and if nothing changed. IMPORTANT: handle no-op (nothing checked at all)
-        var data_src_id = "abc123"; //XXX $("#da"); TODO save data
+        var hash_args = document.location.hash.split("/");
+        if (hash_args[1] === ""){ //FIXME put in hash for 'details' (only 'all details hash works now
+             var nth_dataset = 0;
+        } else {
+            var nth_dataset = parseInt(hash_args[1]); 
+        }
+        if (hash_args[0].indexOf("registered") > 0){
+            var model = this.controller.my_resources_collection.models[nth_dataset];
+        } else {
+            var model = this.controller.resource_collection.models[nth_dataset];
+        }
+        var data_resource_id = model.get("data_resource_id");
         var subscription_type = -1, email_alerts_filter = -1, dispatcher_alerts_filter = -1;
         if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = 0;
         if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = 1;
@@ -106,11 +117,11 @@ OOI.Views.Notifications = Backbone.View.extend({
         
         //TODO: dont send at all if any val is -1
         var dispatcher_script_path = $("#dispatcher_script_path").val();
-        $.ajax({url:"subscription", type:"POST", data:{"action":"create", "data_src_id":data_src_id, "subscription_type":subscription_type,
+        $.ajax({url:"subscription", type:"POST", data:{"action":"create", "data_resource_id":data_resource_id, "subscription_type":subscription_type,
             "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path}, 
             success: function(resp){
                 alert("subscription saved");
-                setTimeout(function(){document.location="/";}, 100);
+                //setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
                 alert("subscription error");
