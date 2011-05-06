@@ -42,9 +42,9 @@
     </div>
     <div id="userbar">
       <a href="logout">Logout</a>
-      <a id="registration_link" href="#">Register</a>
-      <a id="account_settings_link" href="#">Account Settings</a>
-      <a href="static/IONHelpContent.pdf">Help</a>
+      <a id="registration_link" title="<%= HELP.P1097_SP278 %>" href="#">Register</a>
+      <a id="account_settings_link" title="<%= HELP.P1084_SP242 %>" href="#">Account Settings</a>
+      <a title="<%= HELP.P1084_SP243 %>" href="static/IONHelpContent.pdf">Help</a>
     </div>
   </div><!-- end .ui-layout-north -->
 
