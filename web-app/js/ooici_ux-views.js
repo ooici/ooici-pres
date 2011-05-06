@@ -16,10 +16,8 @@ OOI.Views.ResourceSelector = Backbone.View.extend({
             case "radioAllPubRes":
                 return window.location.hash="";
             case "radioMySub":
-                //return this.controller.workflow104.render();
                 return window.location.hash="notifications";
             case "radioMyPubRes":
-                //return this.controller.workflow106.render();
                 return window.location.hash="registered";
             default:
                 return window.location.hash="";
@@ -28,16 +26,56 @@ OOI.Views.ResourceSelector = Backbone.View.extend({
 });
 
 
+OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
+
+    events: {
+        "click #dataset_scroll_left":"scroll_left",
+        "click #dataset_scroll_right":"scroll_right",
+        "click #dataset_return_button":"return_to_dataset_listing",
+    },
+
+    initialize: function() {
+        _.bindAll(this, "scroll_left", "scroll_right", "return_to_dataset_listing"); 
+        this.controller = this.options.controller;
+    },
+
+    scroll_left: function(e){
+        var hash_args = document.location.hash.split("/");
+        var nth_elem = parseInt(hash_args[1]); 
+        if (nth_elem < 1){
+            return alert("No more datasets this direction");
+        } else {
+            var next_n = nth_elem - 1;
+            document.location.hash = hash_args[0]+"/"+next_n;
+        }
+    },
+
+    scroll_right: function(e){
+        var hash_args = document.location.hash.split("/");
+        var nth_elem = parseInt(hash_args[1]); 
+        var next_n = nth_elem + 1;
+        document.location.hash = hash_args[0]+"/"+next_n;
+    },
+
+    return_to_dataset_listing: function(e){
+        var return_hash = document.location.hash.split("/")[0];
+        document.location.hash = return_hash;
+    },
+});
+
+
+
+
 OOI.Views.Workflow100 = Backbone.View.extend({
     /*
         All Resources.
     */
     events: {
-        "click tbody tr":"show_detail"
+        "click tbody tr":"show_detail_clicked"
     },
 
     initialize: function() {
-        _.bindAll(this, "render", "show_detail", "show_all_detail"); 
+        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all"); 
         this.controller = this.options.controller;
         this.datatable = this.controller.datatable_init("#datatable_100", 5);
         $("#radioAllPubRes").trigger("click");
@@ -50,19 +88,33 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         return this;
     },
 
-    show_detail: function(e) {
+    show_detail_clicked: function(e) {
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
         if (tr.text() == "Details"){
-            this.show_all_detail(data_resource_id);
+            this.show_detail_all(data_resource_id);
+            var nth_elem = $(e.target).parent().index();
+            if (window.location.hash === ""){
+                window.location.hash += "#/"+nth_elem;
+            } else {
+                window.location.hash += "/"+nth_elem;
+            }
+        } else {
+            this.show_detail(data_resource_id);
         }
+    },
+
+    show_detail: function(data_resource_id){
         self = this;
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
-            success: function(resp){self.dataset_sidebar(resp, self)}
+            success: function(resp){
+                self.dataset_sidebar(resp, self)
+            }
         });
     },
 
-    show_all_detail: function(data_resource_id) {
+    show_detail_all: function(data_resource_id) {
+        this.show_detail(data_resource_id);
         $("#datatable_details_scroll").show();
         $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
         self = this;
@@ -130,6 +182,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
         $(".notification_settings").hide();
+        $("#datatable_details_scroll").hide();
         $("#save_notification_settings").hide(); //button
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
@@ -186,6 +239,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $("#datatable_106_wrapper").hide();
         $(".notification_settings").hide();
         $("#datatable_details_container").hide();
+        $("#datatable_details_scroll").hide();
         $("#datatable h1").text("Notification Settings");
         $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
         $(".data_sources").hide();
@@ -239,11 +293,11 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     */
 
     events: {
-        "click tbody tr":"show_detail"
+        "click tbody tr":"show_detail_clicked"
     },
 
     initialize: function() {
-        _.bindAll(this, "render"); 
+        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all"); 
         this.controller = this.options.controller;
         this.datatable = this.controller.datatable_init("#datatable_106", 6);
     },
@@ -276,20 +330,29 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         });
     },
 
-    show_detail: function(e) {
+    show_detail_clicked: function(e) {
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
         if (tr.text() == "Details"){
-            this.show_all_detail(data_resource_id);
+            this.show_detail_all(data_resource_id);
+            var nth_elem = $(e.target).parent().index();
+            window.location.hash += "/"+nth_elem;
+        } else {
+            this.show_detail(data_resource_id);
         }
+    },
+
+    show_detail: function(data_resource_id){
         self = this;
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
-            success: function(resp){self.dataset_sidebar(resp, self)}
+            success: function(resp){
+                self.dataset_sidebar(resp, self)
+            }
         });
     },
 
-
-    show_all_detail: function(data_resource_id) {
+    show_detail_all: function(data_resource_id) {
+        this.show_detail(data_resource_id);
         $("#datatable_details_scroll").show();
         $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
         self = this;
@@ -335,6 +398,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_100_wrapper").hide();
         $("#datatable_104_wrapper").hide();
         $(".notification_settings").hide();
+        $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("My Registered Resources");
         $("#save_notification_settings").hide(); //button

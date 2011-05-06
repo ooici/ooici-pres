@@ -10,6 +10,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
     initialize: function(options) {
         _.bindAll(this, "all_registered_resources", "all_registered_resources_details", "my_notification_settings", "my_registered_resources");
+
         this.layout = new OOI.Views.Layout({"el":"#layoutContainer"}); 
 
         this.resource_collection = new OOI.Collections.Resources();
@@ -22,6 +23,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.workflow106 = new OOI.Views.Workflow106({el:"#datatable_106", controller:this}); 
 
         this.resource_selector = new OOI.Views.ResourceSelector({el:"#view_existing", controller:this}); 
+        this.resource_details_scroll = new OOI.Views.ResourceDetailsScroll({el:"#datatable_details_scroll", controller:this}); 
         this.geospatial_container = new OOI.Views.GeospatialContainer({"el":"#west_south", controller:this}); 
 
         this.modal_dialogs();
@@ -35,13 +37,12 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     all_registered_resources_details: function(nth_dataset){
-        console.log("all_registered_resources_details nth_dataset: "+nth_dataset);
         var model = this.resource_collection.models[nth_dataset];
-        console.log(typeof(model));
         if (typeof model === "undefined"){
             return alert("No more datasets this direction");
         }
-        console.log(model.get("data_resource_id"));
+        var data_resource_id = model.get("data_resource_id");
+        this.workflow100.show_detail_all(data_resource_id);
     },
 
     my_notification_settings: function(){
@@ -53,7 +54,12 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     my_registered_resources_details: function(nth_dataset){
-        console.log("my_registered_resources_details nth_dataset: "+nth_dataset);
+        var model = this.my_resources_collection.models[nth_dataset];
+        if (typeof model === "undefined"){
+            return alert("No more datasets this direction");
+        }
+        var data_resource_id = model.get("data_resource_id");
+        this.workflow106.show_detail_all(data_resource_id);
     },
 
 
