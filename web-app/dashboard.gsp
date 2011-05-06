@@ -234,7 +234,7 @@
 
  </div> <!-- end .ui-layout-west -->
 
-  <div class="ui-layout-east hidden">
+  <div id="east_sidebar" class="ui-layout-east hidden">
    <div class="east-center">
     <div id="eastMultiOpenAccordion">
       <h3 class="data_sources "><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>

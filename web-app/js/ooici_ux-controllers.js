@@ -22,13 +22,13 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.workflow105 = new OOI.Views.Workflow105({el:"#resource_selector_view", controller:this}); 
         this.workflow106 = new OOI.Views.Workflow106({el:"#datatable_106", controller:this}); 
 
+        this.notifications = new OOI.Views.Notifications({el:"#east_sidebar", controller:this});
         this.account_settings = new OOI.Views.AccountSettings({el:"#account_settings", controller:this});
         this.resource_selector = new OOI.Views.ResourceSelector({el:"#view_existing", controller:this}); 
         this.resource_details_scroll = new OOI.Views.ResourceDetailsScroll({el:"#datatable_details_scroll", controller:this}); 
         this.geospatial_container = new OOI.Views.GeospatialContainer({"el":"#west_south", controller:this}); 
 
         this.datatable_select_buttons();
-        this.setup_notifications();
     },
 
     all_registered_resources: function(){
@@ -110,15 +110,6 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
           default:
             return;
         }
-      });
-    },
-
-    setup_notifications: function(){
-      $("#setup_notifications").bind("click", function(){
-        $(".notification_settings, .dispatcher_settings").trigger("click").trigger("click");  //XXX 
-        $("#start_notifications, #notification_settings, #dispatcher_settings").show();
-        $("#save_notification_settings, #download_dataset_button, #setup_notifications").hide();
-        $(".data_sources").hide();
       });
     }
 

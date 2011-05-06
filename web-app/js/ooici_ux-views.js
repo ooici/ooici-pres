@@ -67,6 +67,59 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
 
 
 
+OOI.Views.Notifications = Backbone.View.extend({
+    /*
+        Setup and Handle Notifications create/update/save/.
+    */
+    events: {
+        "click #setup_notifications":"setup_notifications",
+        "click #start_notifications":"start_notifications"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "setup_notifications"); 
+        this.controller = this.options.controller;
+    },
+
+    setup_notifications: function(){
+        $(".notification_settings, .dispatcher_settings").trigger("click").trigger("click");  //XXX 
+        $("#start_notifications, #notification_settings, #dispatcher_settings").show();
+        $("#save_notification_settings, #download_dataset_button, #setup_notifications").hide();
+        $(".data_sources").hide();
+    },
+
+    start_notifications: function(){
+        //TODO: btn is diabled if by default, and if nothing changed. IMPORTANT: handle no-op (nothing checked at all)
+        var data_src_id = "abc123"; //XXX $("#da"); TODO save data
+        var subscription_type = -1, email_alerts_filter = -1, dispatcher_alerts_filter = -1;
+        if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = 0;
+        if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = 1;
+        if ($("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = 2;
+
+        if ($("#dispatcher_updateWhenAvailable").is(":checked") && !$("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = 0;
+        if (!$("#dispatcher_updateWhenAvailable").is(":checked") && $("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = 1;
+        if ($("#dispatcher_updateWhenAvailable").is(":checked") && $("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = 2;
+
+        if (email_alerts_filter > -1 && dispatcher_alerts_filter == -1) subscription_type = 0;
+        if (email_alerts_filter == -1 && dispatcher_alerts_filter > -1) subscription_type = 1;
+        if (email_alerts_filter > -1 && dispatcher_alerts_filter > -1) subscription_type = 2;
+        
+        //TODO: dont send at all if any val is -1
+        var dispatcher_script_path = $("#dispatcher_script_path").val();
+        $.ajax({url:"subscription", type:"POST", data:{"action":"create", "data_src_id":data_src_id, "subscription_type":subscription_type,
+            "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path}, 
+            success: function(resp){
+                alert("subscription saved");
+                setTimeout(function(){document.location="/";}, 100);
+            },
+            error: function(jqXHR, textStatus, error){
+                alert("subscription error");
+            }
+        });
+    }
+
+});
+
 
 
 OOI.Views.Workflow100 = Backbone.View.extend({
