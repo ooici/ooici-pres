@@ -3,6 +3,8 @@ ioncore.host=HOSTNAME
 ioncore.amqpport=PORT
 ioncore.exchange=EXCHANGE
 
+ioncore.helpfile=help/help_text.csv
+
 ioncore.cilogonstarturl=/StartRequest
 ioncore.cilogonignoreurls=/StartRequest /ready /SuccessServlet
 

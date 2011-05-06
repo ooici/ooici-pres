@@ -1,6 +1,11 @@
 package ooici.pres.domain
 
+import ooici.pres.BootstrapIONService
+import grails.converters.JSON
+
 class DashboardController {
+	
+	def BootstrapIONService
 
 	def index = {
 
@@ -68,7 +73,7 @@ class DashboardController {
 			rolesString += MARINE_OPERATOR_ROLE
 		}
 		rolesString += "]"
-
-		render(view:"show",model:[OOI_ROLES: rolesString])
+		
+		render(view:"show",model:[OOI_ROLES: rolesString, HELP: BootstrapIONService.helpStrings])
 	}
 }

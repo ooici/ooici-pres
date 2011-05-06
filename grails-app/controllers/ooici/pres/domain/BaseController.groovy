@@ -1,9 +1,9 @@
 package ooici.pres.domain
 
-import ooici.pres.BootstrapIONService;
+import ooici.pres.BootstrapIONService
 import grails.converters.JSON
-import ion.integration.ais.AppIntegrationService;
-import ion.integration.ais.AppIntegrationService.RequestType;
+import ion.integration.ais.AppIntegrationService
+import ion.integration.ais.AppIntegrationService.RequestType
 
 /**
  * Helper class for actual request controllers.  Centralizes
@@ -63,7 +63,7 @@ abstract class BaseController {
 
 		def requestString = new JSON(params).toString()
 		
-		System.out.println("Request string for " + reqController + "." + reqAction + ": " + requestString)
+		System.out.println("Request string for " + reqController + "." + reqAction + " for user <" + ooi_id + ">: " + requestString)
 
 		String responseString = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(requestString, requestType, ooi_id, expiry)
 
