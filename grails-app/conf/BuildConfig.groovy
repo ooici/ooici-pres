@@ -14,11 +14,11 @@ grails.project.dependency.resolution = {
         grailsHome()
         grailsCentral()
 
-        mavenRepo "http://ooici.net"
+        mavenRepo "http://ooici.net/releases/maven/repo"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		compile 'releases/maven/repo/net/ooici:ionproto:0.3.17-pl51',
-		        'releases/maven/repo/net/ooici:ioncore-java-0.2.5'
+		compile 'net.ooici:ionproto:0.3.17-pl51',
+		        'net.ooici:ioncore-java:0.2.6-dev'
     }
 }
