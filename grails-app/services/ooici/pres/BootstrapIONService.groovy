@@ -20,6 +20,8 @@ class BootstrapIONService  {
 		int portNumber = Integer.parseInt(config.ioncore.amqpport)
 		String exchange = config.ioncore.exchange
 		String sysName = config.ioncore.sysname
+		
+		System.out.println("Starting msg broker client.  Connecting to " + hostName + ":" + portNumber + ":" + exchange + ":" + sysName)
 
 		// Messaging environment
 		ionClient = new MsgBrokerClient(hostName, portNumber, exchange)
