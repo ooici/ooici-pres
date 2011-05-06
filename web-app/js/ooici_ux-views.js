@@ -158,8 +158,10 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     show_detail_clicked: function(e) {
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
+        console.log("-show_detail_all-");
         if (tr.text() == "Details"){
-            this.show_detail_all(data_resource_id);
+            console.log("-show_detail_all - Details");
+            //this.show_detail_all(data_resource_id);
             var nth_elem = $(e.target).parent().index();
             if (window.location.hash === ""){
                 window.location.hash += "#/"+nth_elem;
@@ -205,13 +207,14 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         });
         // Expands right pane panels when row is selected. Also closes panels if already expanded.
         if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
-        $('a#rp_dsTitle').html(data.institution);
-        $("#ds_title").html(data.title);
-        $("#ds_publisher_contact").html(data.institution);
+        var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description;
+        $("#ds_title").html(ds_title);
+        var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
+        $("#ds_publisher_contact").html(ds_publisher_contact);
         var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
         $("#ds_source").html(ds_source);
-        $("#ds_source").html(data.source);
-        $("#ds_source_contact").html(data.source);
+        var ds_source_contact = "<b>Contact Name:</b>"+"--missing--"+"<br><b>Contact Email:</b>"+"--missing--"+"<br><b>Contact Institution:</b>"+data.institution;
+        $("#ds_source_contact").html(ds_source_contact);
         $("#ds_variables").html(JSON.stringify(resp.variable));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);

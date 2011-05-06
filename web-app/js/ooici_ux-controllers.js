@@ -40,7 +40,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         if (typeof model === "undefined"){
             return alert("No more datasets this direction");
         }
-        var data_resource_id = model.get("data_resource_id");
+        var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
         this.workflow100.show_detail_all(data_resource_id);
     },
 
