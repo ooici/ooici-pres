@@ -423,12 +423,6 @@
 </div><!-- end #modal_dialogs -->
 
 
-
-<!-- begin jquery-templates -->
-
-<!-- end jquery-templates -->
-
-
 </body>
 
 </html>

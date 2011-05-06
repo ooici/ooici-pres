@@ -29,7 +29,6 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.modal_dialogs();
         this.datatable_select_buttons();
         this.setup_notifications();
-        $("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
     },
 
     all_registered_resources: function(){

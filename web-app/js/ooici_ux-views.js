@@ -66,6 +66,9 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
 
 
 
+
+
+
 OOI.Views.Workflow100 = Backbone.View.extend({
     /*
         All Resources.
@@ -414,12 +417,15 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
     //TODO: incomplete functionality
 
     events: {
-        "click #geospatial_selection_button":"render_geo"
+        //TODO: "click #geospatial_selection_button":"render_geo"
     },
 
     initialize: function() {
-        _.bindAll(this, "render_geo"); 
+        _.bindAll(this, "render_geo", "init_bounding"); 
         this.controller = this.options.controller;
+        this.init_geo();
+        this.init_bounding();
+        //$("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
     },
 
     render_geo:function(){
@@ -453,9 +459,60 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             }
         });
         return this;
+    },
+
+    init_geo:function(){
+        $("#geospatial_selection_button").click(this.render_geo);
+    },
+
+    init_bounding:function(){
+        $("#geospatialContainer .defined").click(function(){
+          var is_bounding = $(this).hasClass("bounding");
+          if (is_bounding){
+            $(".boundingBoxControls input").removeAttr("disabled");
+          } else {
+            $(".altitudeControls input").removeAttr("disabled");
+          }
+          $("#geospatial_selection_button").removeAttr("disabled");
+        });
+        $("#geospatialContainer .all").click(function(){
+          var is_bounding = $(this).hasClass("bounding");
+          if (is_bounding){
+            $(".boundingBoxControls input").attr("disabled", "disabled");
+          } else {
+            $(".altitudeControls input").attr("disabled", "disabled");
+          }
+          $("#geospatial_selection_button").removeAttr("disabled");
+        });
+
+        $(".temporalExtentContainer input[type='radio']").click(function(){
+          var is_all = $(this).hasClass("all");
+          if (is_all){
+            $(".temporalExtentControls input").attr("disabled", "disabled");
+          } else {
+            $(".temporalExtentControls input").removeAttr("disabled");
+          }
+        });
     }
 
+
 });
+
+
+
+OOI.Views.AccountSettings = Backbone.View.extend({
+
+    events: {
+        "click #dataset_scroll_left":"scroll_left",
+    },
+
+    initialize: function() {
+        _.bindAll(this, ""); 
+        this.controller = this.options.controller;
+    }
+});
+
+
  
 
 OOI.Views.Layout = Backbone.View.extend({
