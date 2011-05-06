@@ -144,7 +144,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all"); 
         this.controller = this.options.controller;
-        this.datatable = this.controller.datatable_init("#datatable_100", 5);
+        this.datatable = this.controller.datatable_init("#datatable_100", 6);
         $("#radioAllPubRes").trigger("click");
     },
 
@@ -233,8 +233,10 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                 self.controller.resource_collection.remove_all();
                 $.each(data.dataResourceSummary, function(i, elem){
                     self.controller.resource_collection.add(elem);
-                    self.datatable.fnAddData([elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
-                    $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
+                    var new_date = new Date(elem.date_registered);
+                    var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
+                    self.datatable.fnAddData([elem.datasetMetadata.title, elem.notificationSet, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, "Details"]);
+                    $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
                 c = self.controller.resource_collection;
                 $("table#datatable_100 tbody tr td").css("width", "30%");
@@ -254,7 +256,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
         $("h3.data_sources").show();
-        $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Provider").end().find("th:eq(2)").text("Type").end().find("th:eq(3)").text("Date Registered"); //TODO: put logic into template
+        $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notif. Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
     }
 });
 

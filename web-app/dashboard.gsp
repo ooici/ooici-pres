@@ -54,7 +54,7 @@
       <div id="datatable">
       <h1>Data Resources</h1>
       <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0">
-       <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+       <thead><tr><th width="50%">Title</th><th>notificationSet</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
         <tbody></tbody>
       </table>
 
