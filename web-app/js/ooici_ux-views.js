@@ -371,7 +371,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all"); 
         this.controller = this.options.controller;
-        this.datatable = this.controller.datatable_init("#datatable_106", 6);
+        this.datatable = this.controller.datatable_init("#datatable_106", 7);
     },
 
     render: function() {
@@ -388,10 +388,12 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $.ajax({url:"dataResource", type:"GET", data:{action:"findByUser"}, dataType:"json",
             success: function(data){
                 self.controller.my_resources_collection.remove_all();
-                $.each(data.dataResourceSummary, function(i, elem){
+                $.each(data.datasetByOwnerMetadata, function(i, elem){
                     self.controller.my_resources_collection.add(elem);
                     var cb = "<input type='checkbox'/>";
-                    self.datatable.fnAddData([cb, elem.title, elem.institution, elem.source, "Date Registered", "Details"]);
+                    var new_date = new Date(elem.date_registered);
+                    var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
+                    self.datatable.fnAddData([cb, elem.activation_state, "Public", elem.ion_title, elem.title, pretty_date, "Details"]);
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
                 $("#datatable_select_buttons").show();
@@ -448,12 +450,15 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         });
         // Expands right pane panels when row is selected. Also closes panels if already expanded.
         if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
-        $('a#rp_dsTitle').html(data.institution);
-        $("#ds_title").html(data.title);
-        $("#ds_publisher_contact").html(data.institution);
+        /*
+        TODO: get "details" model, not "all details" model.
+        var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data.data_resource_id);
+        console.log(my_resource_model);
+        */
+        var ds_title_forms = "Title: <input id='resource_registration_title' value='"+resp.source.ion_title+"' name='resource_registration_title' type='text' size='28' maxlength='28'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+resp.source.ion_description+"</textarea>"; 
+        $("#ds_title").html(ds_title_forms);
         var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
         $("#ds_source").html(ds_source);
-        $("#ds_source").html(data.source);
         $("#ds_source_contact").html(data.source);
         $("#ds_variables").html(JSON.stringify(resp.variable));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
