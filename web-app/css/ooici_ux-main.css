@@ -54,6 +54,10 @@ body {
     text-decoration:underline;
 }
 
+table.datatable tr {
+    cursor:pointer;
+}
+
 .bold {
   font-weight:bold;
   color:#362B36 !important;
@@ -79,15 +83,15 @@ body {
 #geospatial_selection_button {
 }
 
-#resouce_selector_view {
+#resource_selector_view {
   text-align:center;
   position:relative;
   top:-4px;
 }
-#resouce_selector_view span {
+#resource_selector_view span {
   color:#bbb;
 }
-#resouce_selector_view_spacer {
+#resource_selector_view_spacer {
   padding:0px 4px;
   color:#000;
   font-weight:bold;
