@@ -16,15 +16,18 @@
   <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
   <script src="js/jquery.colorbox.min.js" type="text/javascript"></script>
   <script src="js/jquery.multi-open-accordion.js" type="text/javascript"></script>
+  <script src="js/jquery.tmpl.min.js" type="text/javascript"></script>
   <script src="js/json2.js" type="text/javascript"></script>
   <script src="js/underscore-min.js" type="text/javascript"></script>
   <script src="js/backbone-min.js" type="text/javascript"></script>
-
-  <script src="js/ooici_ux-main.js" type="text/javascript"></script>
+  <script src="js/ooici_ux.js" type="text/javascript"></script>
+  <script src="js/ooici_ux-models.js" type="text/javascript"></script>
+  <script src="js/ooici_ux-views.js" type="text/javascript"></script>
+  <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
-	$(function() {
+  $(function() {
 	var OOI_ROLES = "<%= OOI_ROLES %>";
-    var ooiux = new OOIUX({"el":"#layoutContainer"});
+    OOI.init();
   });
   </script>
 </head>
@@ -49,29 +52,29 @@
 
     <div class="center-center">
       <div id="datatable">
-        <div id="container">
-          <h1>Data Resources</h1>
-            <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll">←</span><span id="dataset_return_button">Return to List</span><span id="dataset_scroll_right" class="arrow dataset_scroll">→</span></div>
-            <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0" class="display">
-              <thead><tr><th width="50%">Title</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
-              <tbody></tbody>
-            </table>
+      <h1>Data Resources</h1>
+      <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0">
+       <thead><tr><th width="50%">Title</th><th>notificationSet</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+        <tbody></tbody>
+      </table>
 
-            <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
-              <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
-              <tbody></tbody>
-            </table>
+       <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
+          <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+          <tbody></tbody>
+       </table>
+    </script>
 
-           <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
-           <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
+       <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
+            <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
             <tbody></tbody>
-            </table>
+       </table>
 
-        <div id="datatable_details_container"> 
-        </div><!-- end #datatable_details_containe" -->
 
-        </div>
-      </div>
+            <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll">←</span><span id="dataset_return_button">Return to List</span><span id="dataset_scroll_right" class="arrow dataset_scroll">→</span></div>
+
+       <div id="datatable_details_container"></div>
+      </div><!-- end #datatable -->
+
      </div><!-- end .center-center -->
     <div class="center-south">
      <div id="datatable_select_buttons">
@@ -88,25 +91,25 @@
     <div id="westMultiOpenAccordion">
       <h3><a href="#">Resource Selector</a></h3>
       <div style="padding-left: 10px; padding-right: 10px;">
-        <div id="resouce_selector_view" title="<%= HELP.P1000_SP6 %>">  
-          <span id="view_existing_tab" class="resouce_selector_tab selected">View Existing</span>
+        <div id="resouce_selector_view">  
+          <span id="view_existing_tab" title="<%= HELP.P1000_SP6 %>" class="resouce_selector_tab selected">View Existing</span>
           <span id="resouce_selector_view_spacer">|</span>  
-          <span id="register_new_tab" class="resouce_selector_tab">Register New</span>
+          <span id="register_new_tab" title="<%= HELP.P1000_SP7 %>" title="<%= HELP.P1000_SP7 %>" class="resouce_selector_tab">Register New</span>
         </div>
 
         <div id="view_existing">
           <form action="">
             <table>
               <tr>
-                <td><input id="radioAllPubRes" class="controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td style="padding-right: 30px;">All Registered Resources</td>
-                <td><input id="radioMyPubRes" class="controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td>My Registered Resources</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td><input id="radioMySub" class="controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioMySub" title="<%= HELP.P1000_SP10 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td>My Notification Settings</td>
               </tr>
             </table>
@@ -128,10 +131,10 @@
         <form action="">
           <table>
             <tr>
-              <td><input id="radioRunEPU" class="controlradios" name="group1" type="radio"/>
+              <td><input id="radioRunEPU" title="<%= HELP.P1028_SP127 %>" class="controlradios" name="group1" type="radio"/>
               </td>
               <td>Running EPUs</td>
-              <td><input id="radioRegUsers" class="controlradios" name="group1" type="radio"/>
+              <td><input id="radioRegUsers" title="<%= HELP.P1028_SP126 %>" class="controlradios" name="group1" type="radio"/>
               </td>
               <td>Registered Users</td>
             </tr>
@@ -146,12 +149,12 @@
             <table>
               <tr>
                 <td><strong>Bounding Box:</strong></td>
-                <td><input class="all bounding" name="group1" type="radio"/></td>
+                <td><input title="<%= HELP.P1001_SP19 %>" class="all bounding" name="group1" type="radio"/></td>
                 <td>All</td>
               </tr>
               <tr>
                 <td></td>
-                <td><input class="defined bounding" name="group1" type="radio"/></td>
+                <td><input title="<%= HELP.P1001_SP20 %>" class="defined bounding" name="group1" type="radio"/></td>
                 <td>Defined</td>
               </tr>
             </table>
@@ -162,12 +165,12 @@
             <table>
               <tr>
                 <td><strong>Altitude:</strong></td>
-                <td><input class="all altitude" name="group1" type="radio"/></td>
+                <td><input title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/></td>
                 <td>All</td>
               </tr>
               <tr>
                 <td></td>
-                <td><input class="defined altitude" name="group1" type="radio"/></td>
+                <td><input title="<%= HELP.P1001_SP22 %>" class="defined altitude" name="group1" type="radio"/></td>
                 <td>Defined</td>
               </tr>
             </table>
@@ -176,23 +179,23 @@
         <div class="boundingBoxText"> Bounding Box<br/> (Decimal Degrees) </div>
         <div class="boundingBoxControls">
           <span class="Ntext">N</span>
-          <input id="ge_bb_north" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
           <span class="Stext">S</span>
-          <input id="ge_bb_south" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_south" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
           <span class="Etext">E</span>
-          <input id="ge_bb_east" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_east" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
           <span class="Wtext">W</span>
-          <input id="ge_bb_west" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_west" title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
           <span class="NSEWBackgroundBorder"></span>
         </div>
         <div class="altitudeControls">
             <span class="altText">Altitude<br/>
             (Feet MSL)</span>
             <span class="altitudeUpper">Upper Bound:
-            <input  id="ge_altitude_ub" class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
             </span>
             <span class="altitudeLower">Lower Bound:
-            <input id="ge_altitude_lb" class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
             </span>
         </div>
       </div>
@@ -202,17 +205,17 @@
           <table>
             <tr>
               <td class="boldText">Time Range:</td>
-              <td><input id="TE_timeRange_all" class="all" name="group1" type="radio"/>
+              <td><input id="TE_timeRange_all" title="<%= HELP.P1003_SP35 %>" class="all" name="group1" type="radio"/>
               </td>
               <td>All</td>
-              <td><input id="TE_timeRange_defined" class="defined" name="group1" type="radio"/></td>
+              <td><input id="TE_timeRange_defined" title="<%= HELP.P1003_SP36 %>" class="defined" name="group1" type="radio"/></td>
               <td>Defined</td>
             </tr>
           </table>
         </form>
       <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
-        <input id="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
+        <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="15" maxlength="15"/>
         <br><br><span class="te-to boldText">To:</span>
         <input id="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
         <div style="color:#aaa" class="te-footer-text">
@@ -224,14 +227,14 @@
       </div>
     </div>
    </div><!-- end .west-center -->
-   <div class="west-south">
+   <div id="west_south" class="west-south">
       <button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>
       <button id="register_resource_button">Register Resource</button>
    </div><!-- end .west-south -->
 
  </div> <!-- end .ui-layout-west -->
 
-  <div class="ui-layout-east hidden">
+  <div id="east_sidebar" class="ui-layout-east hidden">
    <div class="east-center">
     <div id="eastMultiOpenAccordion">
       <h3 class="data_sources "><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>
@@ -430,7 +433,7 @@
       </tbody></table>
       <p style="padding:0px;margin-bottom:10px;position:relative;top:-12px">You can change your optional selections at any time by <br>clicking Account Settings in the top right of the ION window.</p>
       </div>
-    <div id="account_settings_bottom" align="left" style=" background-color:#FFF; width:590px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border-left:1px solid #494949;  border-right:1px solid #494949; border-bottom:1px solid #494949">
+    <div id="account_settings_bottom" align="left" style=" background-color:#FFF; width:590px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border-left:1px solid #494949; border-right:1px solid #494949; border-bottom:1px solid #494949">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tbody><tr>
           <td>&nbsp;</td>
@@ -444,8 +447,6 @@
 
 
 </div><!-- end #modal_dialogs -->
-
-
 
 
 </body>
