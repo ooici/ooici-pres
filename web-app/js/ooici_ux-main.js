@@ -230,7 +230,7 @@ var OOIUX = Backbone.View.extend({
                     if (datatable_id == "datatable_106"){
                         $.each(data.dataResourceSummary, function(i, elem){
                             var cb = "<input type='checkbox'/>";
-                            datatable.fnAddData([cb, elem.title, elem.institution, elem.source, elem.date_registered, "Details"]);
+                            datatable.fnAddData([cb, elem.datasetByOwnerMetadata.title, elem.datasetByOwnerMetadata.institution, elem.datasetByOwnerMetadata.source, elem.datasetByOwnerMetadata.date_registered, "Details"]);
                             $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id); //XXX use Backbone for this
                         });
                         $("#datatable_select_buttons").show();
