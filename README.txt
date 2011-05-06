@@ -23,7 +23,7 @@ export GRAILS_HOME=/usr/share/grails
 export PATH=$GRAILS_HOME/bin:$PATH
 
 2. Install fabric (used by deploy script).
-> easy-install fabric
+> easy_install fabric
 
 
 Starting the Capability Container
