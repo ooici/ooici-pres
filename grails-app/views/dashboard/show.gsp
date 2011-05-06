@@ -65,7 +65,7 @@
     </script>
 
        <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
-            <thead><tr><th>&nbsp;</th><th>Status</th><th>Resource Title</th><th>Source</th><th>Publication Date</th><th>Avaibility</th></tr></thead>
+            <thead><tr><th>&nbsp;</th><th>Active</th><th>Avail.</th><th>My Registration Title</th><th>Original Source Title</th><th>Publication Date</th><th>Details</th></tr></thead>
             <tbody></tbody>
        </table>
 
@@ -240,8 +240,6 @@
       <h3 class="data_sources "><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>
       <div class="data_sources registered_resource_editable">
         <div id="ds_title"></div><br>
-        Title: <input id="resource_registration_title" name="resource_registration_title" type="text" size="28" maxlength="28"/><br><br>
-        <span style="position:relative;top:-32px">Description:</span><textarea style="width:167px" id="resource_registration_description"></textarea>
       </div>
 
       <h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
@@ -256,8 +254,8 @@
       <h3 class="data_sources"><a href="#">Resources Availability Settings</a></h3>
 
       <div class="data_sources registered_registration_availability_editable">
-        <div><input class="" name="" type="checkbox"/>Resource is private and available to me only</div>
-        <div><input class="" name="" type="checkbox"/>Resource is publically available</div>
+        <div><input name="availability_radio" type="radio"/>Resource is private and available to me only</div>
+        <div><input name="availability_radio" type="radio"/>Resource is publically available</div>
       </div>
 
       <h3 class="data_sources"><a href="#">Resources Activation and Polling Settings</a></h3>
