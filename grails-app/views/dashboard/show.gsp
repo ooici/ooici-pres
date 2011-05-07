@@ -42,9 +42,9 @@
     </div>
     <div id="userbar">
       <a href="logout">Logout</a>
-      <a id="registration_link" href="#">Register</a>
-      <a id="account_settings_link" href="#">Account Settings</a>
-      <a href="static/IONHelpContent.pdf">Help</a>
+      <a id="registration_link" title="<%= HELP.P1097_SP278 %>" href="#">Register</a>
+      <a id="account_settings_link" title="<%= HELP.P1084_SP242 %>" href="#">Account Settings</a>
+      <a title="<%= HELP.P1084_SP243 %>" href="static/IONHelpContent.pdf">Help</a>
     </div>
   </div><!-- end .ui-layout-north -->
 
@@ -91,25 +91,25 @@
     <div id="westMultiOpenAccordion">
       <h3><a href="#">Resource Selector</a></h3>
       <div style="padding-left: 10px; padding-right: 10px;">
-        <div id="resource_selector_view">  
-          <span id="view_existing_tab" class="resouce_selector_tab selected">View Existing</span>
+        <div id="resouce_selector_view">  
+          <span id="view_existing_tab" title="<%= HELP.P1000_SP6 %>" class="resouce_selector_tab selected">View Existing</span>
           <span id="resouce_selector_view_spacer">|</span>  
-          <span id="register_new_tab" class="resouce_selector_tab">Register New</span>
+          <span id="register_new_tab" title="<%= HELP.P1000_SP7 %>" title="<%= HELP.P1000_SP7 %>" class="resouce_selector_tab">Register New</span>
         </div>
 
         <div id="view_existing">
           <form action="">
             <table>
               <tr>
-                <td><input id="radioAllPubRes" class="resource_selector controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td style="padding-right: 30px;">All Registered Resources</td>
-                <td><input id="radioMyPubRes" class="resource_selector controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td>My Registered Resources</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td><input id="radioMySub" class="resource_selector controlradios" name="group1" type="radio"/></td>
+                <td><input id="radioMySub" title="<%= HELP.P1000_SP10 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td>My Notification Settings</td>
               </tr>
             </table>
@@ -131,10 +131,10 @@
         <form action="">
           <table>
             <tr>
-              <td><input id="radioRunEPU" class="controlradios" name="group1" type="radio"/>
+              <td><input id="radioRunEPU" title="<%= HELP.P1028_SP127 %>" class="controlradios" name="group1" type="radio"/>
               </td>
               <td>Running EPUs</td>
-              <td><input id="radioRegUsers" class="controlradios" name="group1" type="radio"/>
+              <td><input id="radioRegUsers" title="<%= HELP.P1028_SP126 %>" class="controlradios" name="group1" type="radio"/>
               </td>
               <td>Registered Users</td>
             </tr>
@@ -149,12 +149,12 @@
             <table>
               <tr>
                 <td><strong>Bounding Box:</strong></td>
-                <td><input class="all bounding" name="group1" type="radio"/></td>
+                <td><input title="<%= HELP.P1001_SP19 %>" class="all bounding" name="group1" type="radio"/></td>
                 <td>All</td>
               </tr>
               <tr>
                 <td></td>
-                <td><input class="defined bounding" name="group1" type="radio"/></td>
+                <td><input title="<%= HELP.P1001_SP20 %>" class="defined bounding" name="group1" type="radio"/></td>
                 <td>Defined</td>
               </tr>
             </table>
@@ -165,12 +165,12 @@
             <table>
               <tr>
                 <td><strong>Altitude:</strong></td>
-                <td><input class="all altitude" name="group1" type="radio"/></td>
+                <td><input title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/></td>
                 <td>All</td>
               </tr>
               <tr>
                 <td></td>
-                <td><input class="defined altitude" name="group1" type="radio"/></td>
+                <td><input title="<%= HELP.P1001_SP22 %>" class="defined altitude" name="group1" type="radio"/></td>
                 <td>Defined</td>
               </tr>
             </table>
@@ -179,23 +179,23 @@
         <div class="boundingBoxText"> Bounding Box<br/> (Decimal Degrees) </div>
         <div class="boundingBoxControls">
           <span class="Ntext">N</span>
-          <input id="ge_bb_north" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
           <span class="Stext">S</span>
-          <input id="ge_bb_south" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_south" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
           <span class="Etext">E</span>
-          <input id="ge_bb_east" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_east" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
           <span class="Wtext">W</span>
-          <input id="ge_bb_west" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_west" title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
           <span class="NSEWBackgroundBorder"></span>
         </div>
         <div class="altitudeControls">
             <span class="altText">Altitude<br/>
             (Feet MSL)</span>
             <span class="altitudeUpper">Upper Bound:
-            <input  id="ge_altitude_ub" class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
             </span>
             <span class="altitudeLower">Lower Bound:
-            <input id="ge_altitude_lb" class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
             </span>
         </div>
       </div>
@@ -205,17 +205,17 @@
           <table>
             <tr>
               <td class="boldText">Time Range:</td>
-              <td><input id="TE_timeRange_all" class="all" name="group1" type="radio"/>
+              <td><input id="TE_timeRange_all" title="<%= HELP.P1003_SP35 %>" class="all" name="group1" type="radio"/>
               </td>
               <td>All</td>
-              <td><input id="TE_timeRange_defined" class="defined" name="group1" type="radio"/></td>
+              <td><input id="TE_timeRange_defined" title="<%= HELP.P1003_SP36 %>" class="defined" name="group1" type="radio"/></td>
               <td>Defined</td>
             </tr>
           </table>
         </form>
       <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
-        <input id="te_from_input" name="te_from_input" type="text" size="15" maxlength="15"/>
+        <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="15" maxlength="15"/>
         <br><br><span class="te-to boldText">To:</span>
         <input id="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
         <div style="color:#aaa" class="te-footer-text">
