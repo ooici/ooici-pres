@@ -158,9 +158,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     show_detail_clicked: function(e) {
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
-        console.log("-show_detail_all-");
         if (tr.text() == "Details"){
-            console.log("-show_detail_all - Details");
             //this.show_detail_all(data_resource_id);
             var nth_elem = $(e.target).parent().index();
             if (window.location.hash === ""){

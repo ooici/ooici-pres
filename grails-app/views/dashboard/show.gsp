@@ -245,10 +245,6 @@
       <h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
       <div class="data_sources registered_registration_contact_editable">
         <div id="ds_publisher_contact"></div><br>
-        <div id="registered_registration_contact_name"><strong>Contact Name:</strong> <span class="val">...contact.name...</span></div>
-        <div id="registered_registration_contact_email"><strong>Contact Email:</strong> <span class="val">...contact.email...</span></div>
-        <div id="registered_registration_institution"><strong>Institution:</strong> <span class="val">...institution...</span></div>
-        <div id="registered_registration_website"><strong>Website:</strong> <span class="val">....website....</span></div>
       </div>
 
       <h3 class="data_sources"><a href="#">Resources Availability Settings</a></h3>
