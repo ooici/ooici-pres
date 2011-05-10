@@ -38,10 +38,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     all_registered_resources_details: function(nth_dataset){
         var model = this.resource_collection.models[nth_dataset];
         if (typeof model === "undefined"){
-            return alert("No more datasets this direction");
+            window.location.hash = "#/0";
+        } else {
+            var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
+            this.workflow100.show_detail(data_resource_id);
         }
-        var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
-        this.workflow100.show_detail_all(data_resource_id);
     },
 
     my_notification_settings: function(){
@@ -55,10 +56,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     my_registered_resources_details: function(nth_dataset){
         var model = this.my_resources_collection.models[nth_dataset];
         if (typeof model === "undefined"){
-            return alert("No more datasets this direction");
+            window.location.hash = "#registered/0";
+        } else {
+            var data_resource_id = model.get("data_resource_id");
+            this.workflow106.show_detail(data_resource_id);
         }
-        var data_resource_id = model.get("data_resource_id");
-        this.workflow106.show_detail_all(data_resource_id);
     },
 
     datatable_init: function(id, columns){
