@@ -98,7 +98,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 return $.ajax({url:"dataResource", type:"POST", data:{"action":"delete", "dataset_ids":dataset_ids}, 
                     success: function(resp){
                         self.loading_dialog();
-                        document.location = "/"; //XXX
+                        //TODO: Refresh Table
+                        //document.location = "/"; //XXX
                     }
                 });
             } else {

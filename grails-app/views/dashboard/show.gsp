@@ -256,7 +256,7 @@
       <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Polling Settings</a></h3>
       <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
         <div><strong>Polling Interval</strong></div>
-        <div><input name="polling_radio" type="radio"/>Poll resource every: <input id="" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
+        <div><input name="polling_radio" type="radio"/>Poll resource every: <input id="polling_time" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
         <div><input name="polling_radio" type="radio"/>Do not poll the resource</div>
       </div>
 

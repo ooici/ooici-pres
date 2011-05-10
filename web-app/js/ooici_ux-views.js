@@ -202,7 +202,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
            $(this.nTr).removeClass('row_selected');
         });
         // Expands right pane panels when row is selected. Also closes panels if already expanded.
-        if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
+        if(!$("h3.data_sources").hasClass("ui-state-active")){
+             $('h3.data_sources').trigger('click');
+        }
         var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description;
         $("#ds_title").html(ds_title);
         var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
@@ -218,6 +220,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+        $(".my_resources_sidebar").hide();
         self.controller.loading_dialog();
     },
 
@@ -245,6 +248,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     presentation: function(){
+        if ($("h3.data_sources:first").hasClass("ui-state-active")){
+            $(".data_sources").trigger("click");
+        }
         $("#datatable_100_wrapper").show();
         $("#datatable_104_wrapper, #datatable_106_wrapper").hide();
         $("#datatable_details_container").hide();
@@ -391,7 +397,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                     var cb = "<input type='checkbox'/>";
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    self.datatable.fnAddData([cb, elem.activation_state, "Public", elem.ion_title, elem.title, pretty_date, "Details"]);
+                    var active = "Off";
+                    if (elem.update_interval_seconds !== 0) active = "On";
+                    self.datatable.fnAddData([cb, active, elem.activation_state, elem.ion_title, elem.title, pretty_date, "Details"]);
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
                 $("#datatable_select_buttons").show();
@@ -424,7 +432,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);
-                self.dataset_sidebar(resp, self);
+                self.dataset_sidebar(resp, data_resource_id, self);
             }
         });
     },
@@ -437,18 +445,29 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
-    dataset_sidebar: function(resp, self){
+    dataset_sidebar: function(resp, data_resource_id, self){
         var data = resp.dataResourceSummary;
         $(self.datatable.fnSettings().aoData).each(function () {
            $(this.nTr).removeClass('row_selected');
         });
-        // Expands right pane panels when row is selected. Also closes panels if already expanded.
-        if(!$('#eastMultiOpenAccordion h3').hasClass('ui-state-active ui-corner-top')) $('#eastMultiOpenAccordion h3').trigger('click');
-        /*
-        TODO: get "details" model, not "all details" model.
-        var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data.data_resource_id);
-        console.log(my_resource_model);
-        */
+        if(!$("h3.data_sources").hasClass("ui-state-active")){
+             $('h3.data_sources').trigger('click');
+        }
+        c = self.controller.my_resources_collection;
+        var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data_resource_id);
+        var activation_state = my_resource_model.get("activation_state");
+        var update_interval_seconds = my_resource_model.get("update_interval_seconds");
+        console.log(activation_state, update_interval_seconds);
+        var active_check_elem_num = (activation_state == "Private") ? 0 : 1;
+        $("input[name='availability_radio']").eq(active_check_elem_num).attr("checked", "checked");
+        var update_interval_seconds_num = (update_interval_seconds > 0) ? 0 : 1;
+        $("input[name='polling_radio']").eq(update_interval_seconds_num).attr("checked", "checked");
+        var update_interval_seconds_pretty = "00:00:0" + (update_interval_seconds / 60); //TODO: make work for all vals
+        if (update_interval_seconds > 0 ) {
+            $("#polling_time").val(update_interval_seconds_pretty);
+        } else {
+            $("#polling_time").val("");
+        }
         var ds_title_forms = "Title: <input id='resource_registration_title' value='"+resp.source.ion_title+"' name='resource_registration_title' type='text' size='28' maxlength='28'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+resp.source.ion_description+"</textarea>"; 
         $("#ds_title").html(ds_title_forms);
         var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
@@ -467,6 +486,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     presentation: function(){
+        if ($("h3.data_sources:first").hasClass("ui-state-active")){
+            $(".data_sources").trigger("click");
+        }
         $("#datatable_106_wrapper").show();
         $("#datatable_100_wrapper").hide();
         $("#datatable_104_wrapper").hide();
