@@ -73,7 +73,9 @@ class DashboardController {
 			rolesString += MARINE_OPERATOR_ROLE
 		}
 		rolesString += "]"
-		
-		render(view:"show",model:[OOI_ROLES: rolesString, HELP: BootstrapIONService.helpStrings])
+
+		String isRegisteredString = isRegistered ? "True" : "False"
+			
+		render(view:"show",model:[OOI_ROLES: rolesString, REGISTERED: isRegisteredString, HELP: BootstrapIONService.helpStrings])
 	}
 }

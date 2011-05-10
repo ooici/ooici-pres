@@ -27,6 +27,7 @@
   <script type="text/javascript">
   $(function() {
 	var OOI_ROLES = "<%= OOI_ROLES %>";
+	var REGISTERED = "<%= REGISTERED %>";
     OOI.init();
   });
   </script>
