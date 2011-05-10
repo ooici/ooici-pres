@@ -46,7 +46,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     my_notification_settings: function(){
-        this.workflow104.render();
+        //this.workflow104.render();
+        this.notifications.render();
     },
 
     my_registered_resources: function(){

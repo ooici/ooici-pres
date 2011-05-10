@@ -80,13 +80,20 @@ OOI.Views.Notifications = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "setup_notifications"); 
         this.controller = this.options.controller;
+        //this.setup_notifications();
+    },
+
+    render: function() {
+        //this.populate_table();
+        this.presentation();
+        return this;
     },
 
     setup_notifications: function(){
-        $(".notification_settings, .dispatcher_settings").trigger("click").trigger("click");  //XXX 
+        //$(".notification_settings, .dispatcher_settings").trigger("click").trigger("click");  //XXX 
         $("#start_notifications, #notification_settings, #dispatcher_settings").show();
-        $("#save_notification_settings, #download_dataset_button, #setup_notifications").hide();
-        $(".data_sources").hide();
+        //$("#save_notification_settings, #download_dataset_button, #setup_notifications").hide();
+        //$(".data_sources").hide();
     },
 
     start_notifications: function(){
@@ -128,6 +135,11 @@ OOI.Views.Notifications = Backbone.View.extend({
                 alert("subscription error");
             }
         });
+    },
+
+    presentation: function(){
+        $("#notification_settings, #dispatcher_settings").show()
+
     }
 
 });
@@ -293,17 +305,19 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var self = this;
         $.ajax({url:"subscription", type:"GET", data:{action:"find"}, dataType:"json",
             success: function(data){
-                console.log("104 populate_table success");
                 var cb = "<input type='checkbox'/>";
                 self.controller.my_notifications_collection.remove_all();
-                $.each(data.dataResourceSummary, function(i, elem){
-                    self.controller.my_notifications_collection.add(elem);
-                    self.datatable.fnAddData([cb, elem.title, elem.institution, elem.created, "Details"]);
-                    $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id); //XXX use Backbone for this
+                $.each(data.subscriptionListResults, function(i, elem){
+                    self.controller.my_notifications_collection.add(elem.datasetMetadata);
+                    var new_date = new Date(elem.subscriptionInfo.date_registered);
+                    var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
+                    self.datatable.fnAddData([cb, elem.datasetMetadata.title, elem.datasetMetadata.source, pretty_date, "Details"]);
+                    $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
                 $("#datatable_select_buttons").show();
-                $.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")}); //XXX 
-                $("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%"); //XXX
+                //$.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")});
+                //$("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%");
+                $("table#datatable_104 tbody tr").find("td:not(:first)").css("width", "25%");
                 self.controller.loading_dialog();
             }
         });

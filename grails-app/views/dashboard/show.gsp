@@ -59,7 +59,7 @@
       </table>
 
        <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+          <thead><tr><th>&nbsp;</th><th>Resource Title</th><th>Source</th><th>Notification Initiated</th><th>Details</th> </tr></thead>
           <tbody></tbody>
        </table>
     </script>
@@ -285,9 +285,7 @@
           <p id="notification_details"></p>
           <table>
             <thead>
-            <tr>
-              <th width="50%">Send notifications when:</th>
-            </tr>
+            <tr><th width="50%">Send notifications when:</th></tr>
             </thead>
             <tr>
               <td><input id="updateWhenAvailable" class="_controlradios" name="group1" type="checkbox"/></td>

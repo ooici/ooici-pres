@@ -19,7 +19,7 @@ ROOTPAGE = "../grails-app/views/dashboard/show.gsp"
 
 class Notifications(Resource):
 
-    DATA = {"dataResourceSummary":[{"user_ooi_id": "3f27a544-2c3e-4d2a-a98c-050b246334a3","data_resource_id": "fd241aa5-2faa-4d39-84ee-457094666b23","title": "NDBC Sensor Observation Service data from \"http://sdf.ndbc.noaa.gov/sos/\"","institution": "NOAA\'s National Data Buoy Center (http://www.ndbc.noaa.gov/)","source": "NDBC SOS", "created":"10-1-2010 23:00Z"},{"user_ooi_id": "3f23a444-2c3e-4d2a-a98c-050b246334a3","data_resource_id": "fd204aa3-2faa-1d41-84ee-457094666b23","title": "NDBC Sensor Observation Service data from \"http://sdf.ndbc.noaa.gov/sos/\"","institution": "NOAA\'s National Data Buoy Center (http://www.ndbc.noaa.gov/)","source": "NDBC SOS", "created":"10-1-2010 23:00Z"},{"user_ooi_id": "3f27a742-2c3e-4d2a-a98c-050b246334a3","data_resource_id": "1d104aa3-2faa-4d49-84ee-457094666b23","title": "NDBC Sensor Observation Service data from \"http://sdf.ndbc.noaa.gov/sos/\"","institution": "NOAA\'s National Data Buoy Center (http://www.ndbc.noaa.gov/)","source": "NDBC SOS", "created":"10-1-2010 23:00Z"}]}
+    DATA = {"subscriptionListResults": [{"subscriptionInfo": {"user_ooi_id": "A7B44115-34BC-4553-B51E-1D87617F12E0","data_src_id": "3319A67F-81F3-424F-8E69-4F28C4E04801","subscription_type": "EMAIL","email_alerts_filter": "UPDATES","dispatcher_alerts_filter": "UPDATES","dispatcher_script_path": "path","date_registered": 1304724473336},"datasetMetadata": {"user_ooi_id": "A7B44115-34BC-4553-B51E-1D87617F12E0","data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04801","title": "path","institution": "HYCOM","source": "HYCOM archive file","references": "","conventions": "","summary": "","comment": "","ion_time_coverage_start": "2011-04-11T00:00:00Z","ion_time_coverage_end": "2011-04-11T00:00:00Z","ion_geospatial_lat_min": 32.0284996033,"ion_geospatial_lat_max": 44.0166015625,"ion_geospatial_lon_min": -81.0400390625,"ion_geospatial_lon_max": -65.0400390625,"ion_geospatial_vertical_min": 1.0,"ion_geospatial_vertical_max": 32.0,"ion_geospatial_vertical_positive": "down","download_url": "http://localhost:8081/thredds/dodsC/scanData/3319A67F-81F3-424F-8E69-4F28C4E04801.ncml"}}]}
 
 
   
@@ -27,7 +27,7 @@ class Notifications(Resource):
         return json.dumps(self.DATA)
 
     def render_POST(self, request):
-        return "ok"
+        return json.dumps({"success": true})
 
 
 class UserProfile(Resource):
@@ -41,7 +41,7 @@ class UserProfile(Resource):
 
     def render_POST(self, request):
         import time; time.sleep(0.8) #mock out real latency
-        return "ok"
+        return json.dumps({"success": true})
 
 
 
@@ -50,21 +50,6 @@ class DownloadData(Resource):
     def render_GET(self, request):
         request.setHeader("Content-Disposition","attachment; filename=test_data.txt");
         return (" - Test Data - " * 1000)
-
-
-class UserProfile(Resource):
-
-    DATA = {"name": "MyOOICI","institution":"OOICI","email_address":"myooici@gmail.com","profile":[{"name":"twitter", "value":"twitter.com/ooi"}, {"name":"mobilephone", "value":"555-555-5555"}]}
-
-    def render_GET(self, request):
-        import time; time.sleep(0.8) #mock out real latency
-        return json.dumps(self.DATA)
-
-
-    def render_POST(self, request):
-        import time; time.sleep(0.8) #mock out real latency
-        return "ok"
-
 
 
 
@@ -96,7 +81,7 @@ class DataResource(Resource):
             return json.dumps(self.DATA)
 
     def render_POST(self, request):
-        return "ok"
+        return json.dumps({"success": true})
 
 
 root = Resource()
