@@ -247,20 +247,17 @@
         <div id="ds_publisher_contact"></div><br>
       </div>
 
-      <h3 class="data_sources"><a href="#">Resources Availability Settings</a></h3>
-
-      <div class="data_sources registered_registration_availability_editable">
+      <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Availability Settings</a></h3>
+      <div class="data_sources registered_registration_availability_editable my_resources_sidebar">
         <div><input name="availability_radio" type="radio"/>Resource is private and available to me only</div>
         <div><input name="availability_radio" type="radio"/>Resource is publically available</div>
       </div>
 
-      <h3 class="data_sources"><a href="#">Resources Activation and Polling Settings</a></h3>
-      <div class="data_sources" id="registered_registration_activation_polling_editable">
-        <div><strong>Activation</strong></div>
-        <div><input class="" name="" type="checkbox"/>Activate Resource</div>
-        <div><input class="" name="" type="checkbox"/>Deactivate Resource</div>
+      <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Polling Settings</a></h3>
+      <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
         <div><strong>Polling Interval</strong></div>
-        <div>Poll resource every: <input id="" name="" type="text" size="18" maxlength="18"/> DD:HH:MM</div>
+        <div><input name="polling_radio" type="radio"/>Poll resource every: <input id="" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
+        <div><input name="polling_radio" type="radio"/>Do not poll the resource</div>
       </div>
 
       <h3 class="data_sources"><a href="#">Original Source Description</a></h3>

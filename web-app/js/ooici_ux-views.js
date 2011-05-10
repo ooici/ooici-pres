@@ -209,7 +209,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#ds_publisher_contact").html(ds_publisher_contact);
         var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
         $("#ds_source").html(ds_source);
-        var ds_source_contact = "<b>Contact Name:</b>"+"--missing--"+"<br><b>Contact Email:</b>"+"--missing--"+"<br><b>Contact Institution:</b>"+data.institution;
+        var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
         $("#ds_source_contact").html(ds_source_contact);
         $("#ds_variables").html(JSON.stringify(resp.variable));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
@@ -256,6 +256,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
         $("h3.data_sources").show();
         $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notif. Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
+        $(".my_resources_sidebar").hide();
     }
 });
 
@@ -452,6 +453,8 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#ds_title").html(ds_title_forms);
         var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
         $("#ds_source").html(ds_source);
+        var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
+        $("#ds_publisher_contact").html(ds_publisher_contact);
         $("#ds_source_contact").html(data.source);
         $("#ds_variables").html(JSON.stringify(resp.variable));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
@@ -475,6 +478,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#geospatial_selection_button").hide();
         $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
+        $("h3.my_resources_sidebar").show();
     }
 
 });
