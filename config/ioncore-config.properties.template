@@ -10,7 +10,7 @@ ioncore.cilogonignoreurls=/StartRequest /ready /SuccessServlet
 
 ioncore.mainurl=/dashboard
 
-ioncore.userauthorityfilterurls=/*
+ioncore.userauthorityfilterurls=
 
 ioncore.adminauthorityfilterurls=
 
