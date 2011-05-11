@@ -310,10 +310,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
     start_notifications: function(){
         var data_resource_id = $("#datatable_100 tr.selected").attr("id");
-        console.log(data_resource_id);
         var model = this.controller.resource_collection.get_by_dataset_id(data_resource_id);
-        c = this.controller.resource_collection;
-        m = model;
         var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
         if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATES";
         if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "DATASOURCEOFFLINE";
@@ -334,7 +331,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
                 alert("subscription saved");
-                //setTimeout(function(){document.location="/";}, 100);
+                setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
                 alert("subscription error");
