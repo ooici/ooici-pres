@@ -346,7 +346,7 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         Register New Resource.
     */
     events: {
-        "click .resouce_selector_tab":"resource_selector"
+        "click .resource_selector_tab":"resource_selector"
     },
 
     initialize: function() { 

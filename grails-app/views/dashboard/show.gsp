@@ -91,10 +91,10 @@
     <div id="westMultiOpenAccordion">
       <h3><a href="#">Resource Selector</a></h3>
       <div style="padding-left: 10px; padding-right: 10px;">
-        <div id="resouce_selector_view">  
-          <span id="view_existing_tab" title="<%= HELP.P1000_SP6 %>" class="resouce_selector_tab selected">View Existing</span>
-          <span id="resouce_selector_view_spacer">|</span>  
-          <span id="register_new_tab" title="<%= HELP.P1000_SP7 %>" title="<%= HELP.P1000_SP7 %>" class="resouce_selector_tab">Register New</span>
+        <div id="resource_selector_view">  
+          <span id="view_existing_tab" title="<%= HELP.P1000_SP6 %>" class="resource_selector_tab selected">View Existing</span>
+          <span id="resource_selector_view_spacer">|</span>  
+          <span id="register_new_tab" title="<%= HELP.P1000_SP7 %>" title="<%= HELP.P1000_SP7 %>" class="resource_selector_tab">Register New</span>
         </div>
 
         <div id="view_existing">
