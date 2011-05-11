@@ -288,11 +288,11 @@
             <tr><th width="50%">Send notifications when:</th></tr>
             </thead>
             <tr>
-              <td><input id="updateWhenAvailable" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td><input id="updateWhenAvailable" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
               <td style="padding-right: 30px;">Update When Available</td>
             </tr>
             <tr>
-              <td><input id="datasourceIsOffline" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td><input id="datasourceIsOffline" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
               <td>Datasource is offline</td>
             </tr>
           </table>
@@ -310,16 +310,16 @@
             </tr>
             </thead>
             <tr>
-              <td><input id="dispatcher_updateWhenAvailable" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td><input id="dispatcher_updateWhenAvailable" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
               <td style="padding-right: 30px;">Update When Available</td>
             </tr>
             <tr>
-              <td><input id="dispatcher_datasourceIsOffline" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td><input id="dispatcher_datasourceIsOffline" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
               <td>Datasource is offline</td>
             </tr>
           </table>
           <p style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Dispatcher Script</p>
-          Dispatcher Script Path: <input id="dispatcher_script_path" type="file"/>
+          Dispatcher Script Path: <input id="dispatcher_script_path" type="text"/>
         </form>
       </div><!-- end #dispatcher_settings -->
 
@@ -328,11 +328,11 @@
    </div><!-- end .east-center -->
 
    <div class="east-south">
-      <button id="save_notification_settings" disabled="disabled">Save Notification Settings</button>
       <button id="download_dataset_button" disabled="disabled">Download</button>
       <button id="setup_notifications" disabled="disabled">Setup Notifications</button>
       <button id="start_notifications">Start Notifications</button>
       <button id="save_myresources_changes" disabled="disabled">Save Changes</button>
+      <button id="save_notifications_changes" disabled="disabled">Save Changes</button>
    </div><!-- end .east-south -->
 
   </div><!-- end .ui-layout-east --> 

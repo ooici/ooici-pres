@@ -115,6 +115,9 @@ table.datatable tr {
 #save_myresources_changes {
   display:none;
 }
+#save_notifications_changes {
+  display:none;
+}
 .select_button {
   float:right;
   border: 1px solid #ccc;

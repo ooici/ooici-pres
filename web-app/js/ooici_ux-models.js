@@ -20,7 +20,7 @@ OOI.Collections.Resources = Backbone.Collection.extend({
 
     get_by_dataset_id:function(ds_id){
         return this.find(function(model){
-            return model.get("data_resource_id") == ds_id;
+            return model.get("datasetMetadata").data_resource_id == ds_id;
         });
     },
 

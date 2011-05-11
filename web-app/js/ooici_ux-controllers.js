@@ -18,11 +18,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.my_notifications_collection = new OOI.Collections.MyNotifications();
 
         this.workflow100 = new OOI.Views.Workflow100({el:"#datatable_100", controller:this}); 
-        this.workflow104 = new OOI.Views.Workflow104({el:"#datatable_104", controller:this}); 
+        this.workflow104 = new OOI.Views.Workflow104({el:"#layoutContainer", controller:this}); 
         this.workflow105 = new OOI.Views.Workflow105({el:"#resource_selector_view", controller:this}); 
         this.workflow106 = new OOI.Views.Workflow106({el:"#datatable_106", controller:this}); 
 
-        this.notifications = new OOI.Views.Notifications({el:"#east_sidebar", controller:this});
+        //this.notifications = new OOI.Views.Notifications({el:"#east_sidebar", controller:this});
         this.account_settings = new OOI.Views.AccountSettings({el:"#account_settings", controller:this});
         this.resource_selector = new OOI.Views.ResourceSelector({el:"#view_existing", controller:this}); 
         this.resource_details_scroll = new OOI.Views.ResourceDetailsScroll({el:"#datatable_details_scroll", controller:this}); 
@@ -46,8 +46,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     my_notification_settings: function(){
-        //this.workflow104.render();
-        this.notifications.render();
+        this.workflow104.render();
     },
 
     my_registered_resources: function(){

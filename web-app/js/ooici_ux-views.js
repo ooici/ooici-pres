@@ -67,85 +67,6 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
 
 
 
-
-OOI.Views.Notifications = Backbone.View.extend({
-    /*
-        Setup and Handle Notifications create/update/save/.
-    */
-    events: {
-        "click #setup_notifications":"setup_notifications",
-        "click #start_notifications":"start_notifications"
-    },
-
-    initialize: function() {
-        _.bindAll(this, "setup_notifications"); 
-        this.controller = this.options.controller;
-        //this.setup_notifications();
-    },
-
-    render: function() {
-        //this.populate_table();
-        this.presentation();
-        return this;
-    },
-
-    setup_notifications: function(){
-        //$(".notification_settings, .dispatcher_settings").trigger("click").trigger("click");  //XXX 
-        $("#start_notifications, #notification_settings, #dispatcher_settings").show();
-        //$("#save_notification_settings, #download_dataset_button, #setup_notifications").hide();
-        //$(".data_sources").hide();
-    },
-
-    start_notifications: function(){
-        //TODO: btn is diabled if by default, and if nothing changed. IMPORTANT: handle no-op (nothing checked at all)
-        var hash_args = document.location.hash.split("/");
-        if (hash_args[1] === ""){ //FIXME put in hash for 'details' (only 'all details hash works now
-             var nth_dataset = 0;
-        } else {
-            var nth_dataset = parseInt(hash_args[1]); 
-        }
-        if (hash_args[0].indexOf("registered") > 0){
-            var model = this.controller.my_resources_collection.models[nth_dataset];
-        } else {
-            var model = this.controller.resource_collection.models[nth_dataset];
-        }
-        var data_resource_id = model.get("data_resource_id");
-        var subscription_type = -1, email_alerts_filter = -1, dispatcher_alerts_filter = -1;
-        if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = 0;
-        if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = 1;
-        if ($("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = 2;
-
-        if ($("#dispatcher_updateWhenAvailable").is(":checked") && !$("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = 0;
-        if (!$("#dispatcher_updateWhenAvailable").is(":checked") && $("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = 1;
-        if ($("#dispatcher_updateWhenAvailable").is(":checked") && $("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = 2;
-
-        if (email_alerts_filter > -1 && dispatcher_alerts_filter == -1) subscription_type = 0;
-        if (email_alerts_filter == -1 && dispatcher_alerts_filter > -1) subscription_type = 1;
-        if (email_alerts_filter > -1 && dispatcher_alerts_filter > -1) subscription_type = 2;
-        
-        //TODO: dont send at all if any val is -1
-        var dispatcher_script_path = $("#dispatcher_script_path").val();
-        $.ajax({url:"subscription", type:"POST", data:{"action":"create", "data_resource_id":data_resource_id, "subscription_type":subscription_type,
-            "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path}, 
-            success: function(resp){
-                alert("subscription saved");
-                //setTimeout(function(){document.location="/";}, 100);
-            },
-            error: function(jqXHR, textStatus, error){
-                alert("subscription error");
-            }
-        });
-    },
-
-    presentation: function(){
-        $("#notification_settings, #dispatcher_settings").show()
-
-    }
-
-});
-
-
-
 OOI.Views.Workflow100 = Backbone.View.extend({
     /*
         All Resources.
@@ -270,12 +191,12 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#datatable h1").text("All Registered Resources");
         $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
-        $("#save_notification_settings").hide(); //button
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
         $("h3.data_sources").show();
         $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notif. Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
         $(".my_resources_sidebar").hide();
+        $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
     }
 });
 
@@ -284,11 +205,15 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         My Notification Settings.
     */
     events: {
-        //"click #radioMyPubRes":"render",
+        "click #datatable_104 tbody tr":"show_detail_clicked",
+        "click #setup_notifications":"setup_notifications", //XXX part of Workflow100 really...
+        "click #start_notifications":"start_notifications",
+        "click #save_notifications_changes":"save_notifications_changes",
+        "change input.notifications_dispatcher":"notifications_dispatcher"
     },
 
     initialize: function() {
-        _.bindAll(this, "render"); 
+        _.bindAll(this, "render", "show_detail_clicked", "setup_notifications", "start_notifications", "save_notifications_changes"); 
         this.controller = this.options.controller;
         this.datatable = this.controller.datatable_init("#datatable_104", 5);
     },
@@ -297,6 +222,10 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         this.presentation();
         this.populate_table();
         return this;
+    },
+ 
+    notifications_dispatcher: function(){
+        $("#save_notifications_changes").attr("disabled", "");
     },
 
     populate_table: function(){
@@ -309,12 +238,14 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                 var cb = "<input type='checkbox'/>";
                 self.controller.my_notifications_collection.remove_all();
                 $.each(data.subscriptionListResults, function(i, elem){
-                    self.controller.my_notifications_collection.add(elem.datasetMetadata);
+                    var model_info = $.extend({}, elem.datasetMetadata, elem.subscriptionInfo);
+                    self.controller.my_notifications_collection.add(model_info);
                     var new_date = new Date(elem.subscriptionInfo.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
                     self.datatable.fnAddData([cb, elem.datasetMetadata.title, elem.datasetMetadata.source, pretty_date, "Details"]);
-                    $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
+                    $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.subscriptionInfo.data_src_id);
                 });
+                n = self.controller.my_notifications_collection;
                 $("#datatable_select_buttons").show();
                 //$.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")});
                 //$("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%");
@@ -324,21 +255,136 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         });
     },
 
-    presentation: function(){
-        $("#datatable_104_wrapper").show();
-        $("#datatable_100_wrapper").hide();
-        $("#datatable_106_wrapper").hide();
-        $("#save_myresources_changes").hide();
-        $(".notification_settings").hide();
-        $("#datatable_details_container").hide();
-        $("#datatable_details_scroll").hide();
-        $("#datatable h1").text("Notification Settings");
-        $('#eastMultiOpenAccordion h3:eq(7)').show().trigger('click');
-        $(".data_sources").hide();
-        $("#geospatial_selection_button").hide();
+    setup_notifications: function(){
+        $("#start_notifications, #notification_settings, #dispatcher_settings").show();
         $("#download_dataset_button, #setup_notifications").hide();
+        $(".data_sources").hide();
+        $("#notification_settings, #dispatcher_settings").trigger("click");
     },
 
+    show_detail_clicked: function(e){
+        var tr = $(e.target);
+        var data_resource_id = tr.parent().attr("id"); 
+        $("#datatable_104 tr").removeClass("selected");
+        tr.parent().addClass("selected");
+        var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id);
+        var subscription_type = model.get("subscription_type");
+        var email_alerts_filter = model.get("email_alerts_filter");
+        var dispatcher_alerts_filter = model.get("dispatcher_alerts_filter");
+        var dispatcher_script_path = model.get("dispatcher_script_path");
+        if (subscription_type === "EMAIL" || subscription_type === "EMAILANDDISPATCHER"){
+            switch (email_alerts_filter){
+                case "UPDATES":
+                    $("#updateWhenAvailable").attr("checked", "checked");
+                    break;
+                case "DATASOURCEOFFLINE":
+                    $("#datasourceIsOffline").attr("checked", "checked");
+                    break;
+                case "UPDATESANDDATASOURCEOFFLINE":
+                    $("#updateWhenAvailable").attr("checked", "checked");
+                    $("#datasourceIsOffline").attr("checked", "checked");
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (subscription_type === "DISPATCHER" || subscription_type === "EMAILANDDISPATCHER"){
+            $("#dispatcher_script_path").val(dispatcher_script_path);
+            switch (dispatcher_alerts_filter){
+                case "UPDATES":
+                    $("#dispatcher_updateWhenAvailable").attr("checked", "checked");
+                    break;
+                case "DATASOURCEOFFLINE":
+                    $("#dispatcher_datasourceIsOffline").attr("checked", "checked");
+                    break;
+                case "UPDATESANDDATASOURCEOFFLINE":
+                    $("#dispatcher_updateWhenAvailable").attr("checked", "checked");
+                    $("#dispatcher_datasourceIsOffline").attr("checked", "checked");
+                    break;
+                default:
+                    break;
+            }
+        }
+        $("#notification_settings, #dispatcher_settings").trigger("click");
+    },
+
+    start_notifications: function(){
+        var data_resource_id = $("#datatable_100 tr.selected").attr("id");
+        console.log(data_resource_id);
+        var model = this.controller.resource_collection.get_by_dataset_id(data_resource_id);
+        c = this.controller.resource_collection;
+        m = model;
+        var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
+        if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATES";
+        if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "DATASOURCEOFFLINE";
+        if ($("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATESANDDATASOURCEOFFLINE";
+
+        if ($("#dispatcher_updateWhenAvailable").is(":checked") && !$("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = "UPDATES";
+        if (!$("#dispatcher_updateWhenAvailable").is(":checked") && $("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = "DATASOURCEOFFLINE";
+        if ($("#dispatcher_updateWhenAvailable").is(":checked") && $("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = "UPDATESANDDATASOURCEOFFLINE";
+
+        if (email_alerts_filter !== "" && dispatcher_alerts_filter === "") subscription_type = "EMAIL";
+        if (email_alerts_filter == "" && dispatcher_alerts_filter !== "") subscription_type = "DISPATCHER";
+        if (email_alerts_filter !== "" && dispatcher_alerts_filter !== "") subscription_type = "EMAILANDDISPATCHER";
+        var dispatcher_script_path = $("#dispatcher_script_path").val();
+
+        var subscriptionInfo = {"data_resource_id":data_resource_id, "subscription_type":subscription_type, 
+                                "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
+        var data = JSON.stringify({"action":"create", "subscriptionInfo":subscriptionInfo, "datasetMetadata":model.toJSON()});
+        $.ajax({url:"subscription", type:"POST", data:data, 
+            success: function(resp){
+                alert("subscription saved");
+                //setTimeout(function(){document.location="/";}, 100);
+            },
+            error: function(jqXHR, textStatus, error){
+                alert("subscription error");
+            }
+        });
+
+
+    },
+
+    save_notifications_changes: function(){
+        var data_resource_id = $("#datatable_104 tr.selected").attr("id");
+        var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id); //TODO: send user id using this
+        var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
+        if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATES";
+        if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "DATASOURCEOFFLINE";
+        if ($("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATESANDDATASOURCEOFFLINE";
+
+        if ($("#dispatcher_updateWhenAvailable").is(":checked") && !$("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = "UPDATES";
+        if (!$("#dispatcher_updateWhenAvailable").is(":checked") && $("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = "DATASOURCEOFFLINE";
+        if ($("#dispatcher_updateWhenAvailable").is(":checked") && $("#dispatcher_datasourceIsOffline").is(":checked")) dispatcher_alerts_filter = "UPDATESANDDATASOURCEOFFLINE";
+
+        if (email_alerts_filter !== "" && dispatcher_alerts_filter === "") subscription_type = "EMAIL";
+        if (email_alerts_filter == "" && dispatcher_alerts_filter !== "") subscription_type = "DISPATCHER";
+        if (email_alerts_filter !== "" && dispatcher_alerts_filter !== "") subscription_type = "EMAILANDDISPATCHER";
+
+        //TODO: dont send at all if any val is -1
+        var dispatcher_script_path = $("#dispatcher_script_path").val();
+        $.ajax({url:"subscription", type:"POST", data:{"action":"update", "data_resource_id":data_resource_id, "subscription_type":subscription_type,
+            "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path}, 
+            success: function(resp){
+                alert("subscription saved");
+                //setTimeout(function(){document.location="/";}, 100);
+            },
+            error: function(jqXHR, textStatus, error){
+                alert("subscription error");
+            }
+        });
+    },
+
+    presentation: function(){
+        $("#datatable_104_wrapper").show();
+        $("#datatable_100_wrapper, #datatable_106_wrapper").hide();
+        $(".notification_settings").hide();
+        $("#datatable_details_container, #datatable_details_scroll").hide();
+        $("#datatable h1").text("Notification Settings");
+        $(".data_sources").hide();
+        $("#geospatial_selection_button").hide();
+        $("#download_dataset_button, #setup_notifications, #save_myresources_changes").hide(); //bottom west buttons
+        $("#save_notifications_changes, #notification_settings, #dispatcher_settings").show()
+    }
 
 });
 
@@ -473,7 +519,6 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data_resource_id);
         var activation_state = my_resource_model.get("activation_state");
         var update_interval_seconds = my_resource_model.get("update_interval_seconds");
-        console.log(activation_state, update_interval_seconds);
         var active_check_elem_num = (activation_state == "Private") ? 0 : 1;
         $("input[name='availability_radio']").eq(active_check_elem_num).attr("checked", "checked");
         var update_interval_seconds_num = (update_interval_seconds > 0) ? 0 : 1;
@@ -516,6 +561,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#save_notification_settings").hide(); //button
         $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
+        $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $("h3.my_resources_sidebar").show();
     }
 
