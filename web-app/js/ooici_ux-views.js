@@ -265,6 +265,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         }
         $("#datatable_100_wrapper").show();
         $("#datatable_104_wrapper, #datatable_106_wrapper").hide();
+        $("#save_myresources_changes").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
         $(".notification_settings").hide();
@@ -327,6 +328,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $("#datatable_104_wrapper").show();
         $("#datatable_100_wrapper").hide();
         $("#datatable_106_wrapper").hide();
+        $("#save_myresources_changes").hide();
         $(".notification_settings").hide();
         $("#datatable_details_container").hide();
         $("#datatable_details_scroll").hide();
@@ -504,6 +506,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             $(".data_sources").trigger("click");
         }
         $("#datatable_106_wrapper").show();
+        $("#save_myresources_changes").show();
         $("#datatable_100_wrapper").hide();
         $("#datatable_104_wrapper").hide();
         $(".notification_settings").hide();
@@ -511,7 +514,6 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_details_container").hide();
         $("#datatable h1").text("My Registered Resources");
         $("#save_notification_settings").hide(); //button
-        $("#geospatial_selection_button").hide();
         $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("h3.my_resources_sidebar").show();

@@ -332,6 +332,7 @@
       <button id="download_dataset_button" disabled="disabled">Download</button>
       <button id="setup_notifications" disabled="disabled">Setup Notifications</button>
       <button id="start_notifications">Start Notifications</button>
+      <button id="save_myresources_changes" disabled="disabled">Save Changes</button>
    </div><!-- end .east-south -->
 
   </div><!-- end .ui-layout-east --> 

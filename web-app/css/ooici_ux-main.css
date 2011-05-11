@@ -112,6 +112,9 @@ table.datatable tr {
 #datatable_select_buttons {
   display:none;
 }
+#save_myresources_changes {
+  display:none;
+}
 .select_button {
   float:right;
   border: 1px solid #ccc;
