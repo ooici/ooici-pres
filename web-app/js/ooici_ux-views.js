@@ -153,7 +153,20 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
-        $(".my_resources_sidebar").hide();
+        //XXX should this be hidden? $(".my_resources_sidebar").hide();
+        $("#download_dataset_button").unbind('click').click(function(e) {
+		var url = 'http://thredds.oceanobservatories.org/thredds/dodsC/ooiciData/' + resp.data_resource_id + '.ncml.html';
+
+		// TODO: comment out this dummy one to build the correct URL once the dataset container is running
+		url = 'http://geoport.whoi.edu/thredds/dodsC/waves/ww3_multi/at_4m_all.html';
+
+		var $frame = $('<iframe class="thredds-frame" border="0"></iframe').attr('src', url);
+		var $cont = $('<div class="thredds-container"></div>').append($frame);
+		var $closeBtn = $('<button class="frame-close">Close Download</button>').appendTo($cont).click(function(e) {
+			$cont.remove();
+		});
+		$('.ui-layout-center:first').append($cont);
+	});
         self.controller.loading_dialog();
     },
 

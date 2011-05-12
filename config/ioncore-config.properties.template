@@ -8,11 +8,9 @@ ioncore.helpfile=help/help_text.csv
 ioncore.cilogonstarturl=/StartRequest
 ioncore.cilogonignoreurls=/StartRequest /ready /SuccessServlet
 
-ioncore.registerurl=/Register
+ioncore.mainurl=/dashboard
 
-ioncore.mainurl=/Dashboard
-
-ioncore.userauthorityfilterurls=/*
+ioncore.userauthorityfilterurls=
 
 ioncore.adminauthorityfilterurls=
 
