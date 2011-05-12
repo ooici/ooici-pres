@@ -338,13 +338,16 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         if (email_alerts_filter !== "" && dispatcher_alerts_filter !== "") subscription_type = "EMAILANDDISPATCHER";
         var dispatcher_script_path = $("#dispatcher_script_path").val();
 
-        var subscriptionInfo = {"data_resource_id":data_resource_id, "subscription_type":subscription_type, 
-                                "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
-        var data = JSON.stringify({"action":"create", "subscriptionInfo":subscriptionInfo, "datasetMetadata":model.toJSON()});
+        var modelJSON = model.toJSON();
+        var datasetMetadata = modelJSON.datasetMetadata;
+        var datasetMetadataJson = JSON.stringify(datasetMetadata);
+        var subscriptionInfo = {"data_src_id":data_resource_id, "subscription_type":subscription_type, "email_alerts_filter":email_alerts_filter, "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
+        var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
+        var data = {"action":"create", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
                 alert("subscription saved");
-                setTimeout(function(){document.location="/";}, 100);
+//                setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
                 alert("subscription error");
@@ -356,7 +359,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
     save_notifications_changes: function(){
         var data_resource_id = $("#datatable_104 tr.selected").attr("id");
-        var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id); //TODO: send user id using this
+        var model = this.controller.resource_collection.get_by_dataset_id(data_resource_id);
         var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
         if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATES";
         if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "DATASOURCEOFFLINE";
@@ -369,11 +372,15 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         if (email_alerts_filter !== "" && dispatcher_alerts_filter === "") subscription_type = "EMAIL";
         if (email_alerts_filter == "" && dispatcher_alerts_filter !== "") subscription_type = "DISPATCHER";
         if (email_alerts_filter !== "" && dispatcher_alerts_filter !== "") subscription_type = "EMAILANDDISPATCHER";
-
-        //TODO: dont send at all if any val is -1
         var dispatcher_script_path = $("#dispatcher_script_path").val();
-        $.ajax({url:"subscription", type:"POST", data:{"action":"update", "data_resource_id":data_resource_id, "subscription_type":subscription_type,
-            "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path}, 
+
+        var modelJSON = model.toJSON();
+        var datasetMetadata = modelJSON.datasetMetadata;
+        var datasetMetadataJson = JSON.stringify(datasetMetadata);
+        var subscriptionInfo = {"data_src_id":data_resource_id, "subscription_type":subscription_type, "email_alerts_filter":email_alerts_filter, "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
+        var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
+        var data = {"action":"update", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
+        $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
                 alert("subscription saved");
                 //setTimeout(function(){document.location="/";}, 100);
@@ -698,8 +705,19 @@ OOI.Views.AccountSettings = Backbone.View.extend({
     },
 
     account_settings_done: function(){
+        var name = $("#account_name").val();
+        var institution = $("#account_institution").val();
+        var email = $("#account_email").val();
+        var mobilephone = $("#account_mobilephone").val();
+        var twitter = $("#account_twitter").val();
+        var system_change_str = $("#system_change").is(":checked") ? "true" : "false";
+        var project_update_str = $("#project_update").is(":checked") ? "true" : "false";
+        var ocean_leadership_news_str = $("#ocean_leadership_news").is(":checked") ? "true" : "false";
+        var ooi_participate_str = $("#ooi_participate").is(":checked") ? "true" : "false";
         var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
-        var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile":{"mobilephone":mobilephone, "twitter":twitter}, "system_change":system_change, "project_update":project_update, "ocean_leadership_news":ocean_leadership_news, "ooi_participate":ooi_participate};
+        var profileData = [{"name": "mobilephone","value": mobilephone}, {"name": "twitter","value": twitter}, {"name": "system_change","value": system_change_str}, {"name": "project_update","value": project_update_str}, {"name": "ocean_leadership_news","value": ocean_leadership_news_str}, {"name": "ooi_participate","value": ooi_participate_str}];
+        var profileJson = JSON.stringify(profileData);
+        var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile": profileJson};
         $("#account_settings_done").text("Saving...");
         $.ajax({url:"userProfile", type:"POST", data:data,
             success: function(resp){
@@ -713,7 +731,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         //TODO clear out modal form data
         $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
         $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
-        $.ajax({url:"userProfile", type:"GET", dataType:"json",
+        $.ajax({url:"userProfile", type:"GET", data:{action:"get"}, dataType:"json",
             success: function(resp){
                 $("#account_name").val(resp.name);
                 $("#account_institution").val(resp.institution);
