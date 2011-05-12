@@ -22,10 +22,6 @@ class UserProfileController extends BaseController {
 		preProcessRequest(true)
 		
 		params.put("user_ooi_id", ooi_id)
-//		
-//		String profileStr = params.get("profile")
-//		
-//		def parsedProfileStr = JSON.parse(profileStr)
 		
 		params.put("profile",JSON.parse(params.get("profile")))
 
