@@ -100,7 +100,7 @@ table.datatable tr {
 }
 #register_new_tab {
 }
-.resouce_selector_tab {
+.resource_selector_tab {
     cursor:pointer;
 }
 #register_new {
@@ -110,6 +110,12 @@ table.datatable tr {
   display:none;
 }
 #datatable_select_buttons {
+  display:none;
+}
+#save_myresources_changes {
+  display:none;
+}
+#save_notifications_changes {
   display:none;
 }
 .select_button {

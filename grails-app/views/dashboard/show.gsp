@@ -60,7 +60,7 @@
       </table>
 
        <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+          <thead><tr><th>&nbsp;</th><th>Resource Title</th><th>Source</th><th>Notification Initiated</th><th>Details</th> </tr></thead>
           <tbody></tbody>
        </table>
     </script>
@@ -92,10 +92,10 @@
     <div id="westMultiOpenAccordion">
       <h3><a href="#">Resource Selector</a></h3>
       <div style="padding-left: 10px; padding-right: 10px;">
-        <div id="resouce_selector_view">  
-          <span id="view_existing_tab" title="<%= HELP.P1000_SP6 %>" class="resouce_selector_tab selected">View Existing</span>
-          <span id="resouce_selector_view_spacer">|</span>  
-          <span id="register_new_tab" title="<%= HELP.P1000_SP7 %>" title="<%= HELP.P1000_SP7 %>" class="resouce_selector_tab">Register New</span>
+        <div id="resource_selector_view">  
+          <span id="view_existing_tab" title="<%= HELP.P1000_SP6 %>" class="resource_selector_tab selected">View Existing</span>
+          <span id="resource_selector_view_spacer">|</span>  
+          <span id="register_new_tab" title="<%= HELP.P1000_SP7 %>" title="<%= HELP.P1000_SP7 %>" class="resource_selector_tab">Register New</span>
         </div>
 
         <div id="view_existing">
@@ -246,26 +246,19 @@
       <h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
       <div class="data_sources registered_registration_contact_editable">
         <div id="ds_publisher_contact"></div><br>
-        <div id="registered_registration_contact_name"><strong>Contact Name:</strong> <span class="val">...contact.name...</span></div>
-        <div id="registered_registration_contact_email"><strong>Contact Email:</strong> <span class="val">...contact.email...</span></div>
-        <div id="registered_registration_institution"><strong>Institution:</strong> <span class="val">...institution...</span></div>
-        <div id="registered_registration_website"><strong>Website:</strong> <span class="val">....website....</span></div>
       </div>
 
-      <h3 class="data_sources"><a href="#">Resources Availability Settings</a></h3>
-
-      <div class="data_sources registered_registration_availability_editable">
+      <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Availability Settings</a></h3>
+      <div class="data_sources registered_registration_availability_editable my_resources_sidebar">
         <div><input name="availability_radio" type="radio"/>Resource is private and available to me only</div>
         <div><input name="availability_radio" type="radio"/>Resource is publically available</div>
       </div>
 
-      <h3 class="data_sources"><a href="#">Resources Activation and Polling Settings</a></h3>
-      <div class="data_sources" id="registered_registration_activation_polling_editable">
-        <div><strong>Activation</strong></div>
-        <div><input class="" name="" type="checkbox"/>Activate Resource</div>
-        <div><input class="" name="" type="checkbox"/>Deactivate Resource</div>
+      <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Polling Settings</a></h3>
+      <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
         <div><strong>Polling Interval</strong></div>
-        <div>Poll resource every: <input id="" name="" type="text" size="18" maxlength="18"/> DD:HH:MM</div>
+        <div><input name="polling_radio" type="radio"/>Poll resource every: <input id="polling_time" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
+        <div><input name="polling_radio" type="radio"/>Do not poll the resource</div>
       </div>
 
       <h3 class="data_sources"><a href="#">Original Source Description</a></h3>
@@ -293,16 +286,14 @@
           <p id="notification_details"></p>
           <table>
             <thead>
-            <tr>
-              <th width="50%">Send notifications when:</th>
-            </tr>
+            <tr><th width="50%">Send notifications when:</th></tr>
             </thead>
             <tr>
-              <td><input id="updateWhenAvailable" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td><input id="updateWhenAvailable" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
               <td style="padding-right: 30px;">Update When Available</td>
             </tr>
             <tr>
-              <td><input id="datasourceIsOffline" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td><input id="datasourceIsOffline" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
               <td>Datasource is offline</td>
             </tr>
           </table>
@@ -320,16 +311,16 @@
             </tr>
             </thead>
             <tr>
-              <td><input id="dispatcher_updateWhenAvailable" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td><input id="dispatcher_updateWhenAvailable" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
               <td style="padding-right: 30px;">Update When Available</td>
             </tr>
             <tr>
-              <td><input id="dispatcher_datasourceIsOffline" class="_controlradios" name="group1" type="checkbox"/></td>
+              <td><input id="dispatcher_datasourceIsOffline" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
               <td>Datasource is offline</td>
             </tr>
           </table>
           <p style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Dispatcher Script</p>
-          Dispatcher Script Path: <input id="dispatcher_script_path" type="file"/>
+          Dispatcher Script Path: <input id="dispatcher_script_path" type="text"/>
         </form>
       </div><!-- end #dispatcher_settings -->
 
@@ -338,10 +329,11 @@
    </div><!-- end .east-center -->
 
    <div class="east-south">
-      <button id="save_notification_settings" disabled="disabled">Save Notification Settings</button>
       <button id="download_dataset_button" disabled="disabled">Download</button>
       <button id="setup_notifications" disabled="disabled">Setup Notifications</button>
       <button id="start_notifications">Start Notifications</button>
+      <button id="save_myresources_changes" disabled="disabled">Save Changes</button>
+      <button id="save_notifications_changes" disabled="disabled">Save Changes</button>
    </div><!-- end .east-south -->
 
   </div><!-- end .ui-layout-east --> 

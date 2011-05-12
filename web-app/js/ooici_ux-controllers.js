@@ -18,11 +18,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.my_notifications_collection = new OOI.Collections.MyNotifications();
 
         this.workflow100 = new OOI.Views.Workflow100({el:"#datatable_100", controller:this}); 
-        this.workflow104 = new OOI.Views.Workflow104({el:"#datatable_104", controller:this}); 
+        this.workflow104 = new OOI.Views.Workflow104({el:"#layoutContainer", controller:this}); 
         this.workflow105 = new OOI.Views.Workflow105({el:"#resource_selector_view", controller:this}); 
         this.workflow106 = new OOI.Views.Workflow106({el:"#datatable_106", controller:this}); 
 
-        this.notifications = new OOI.Views.Notifications({el:"#east_sidebar", controller:this});
+        //this.notifications = new OOI.Views.Notifications({el:"#east_sidebar", controller:this});
         this.account_settings = new OOI.Views.AccountSettings({el:"#account_settings", controller:this});
         this.resource_selector = new OOI.Views.ResourceSelector({el:"#view_existing", controller:this}); 
         this.resource_details_scroll = new OOI.Views.ResourceDetailsScroll({el:"#datatable_details_scroll", controller:this}); 
@@ -38,10 +38,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     all_registered_resources_details: function(nth_dataset){
         var model = this.resource_collection.models[nth_dataset];
         if (typeof model === "undefined"){
-            return alert("No more datasets this direction");
+            window.location.hash = "#/0";
+        } else {
+            var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
+            this.workflow100.show_detail(data_resource_id);
         }
-        var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
-        this.workflow100.show_detail_all(data_resource_id);
     },
 
     my_notification_settings: function(){
@@ -55,10 +56,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     my_registered_resources_details: function(nth_dataset){
         var model = this.my_resources_collection.models[nth_dataset];
         if (typeof model === "undefined"){
-            return alert("No more datasets this direction");
+            window.location.hash = "#registered/0";
+        } else {
+            var data_resource_id = model.get("data_resource_id");
+            this.workflow106.show_detail(data_resource_id);
         }
-        var data_resource_id = model.get("data_resource_id");
-        this.workflow106.show_detail_all(data_resource_id);
     },
 
     datatable_init: function(id, columns){
@@ -96,7 +98,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 return $.ajax({url:"dataResource", type:"POST", data:{"action":"delete", "dataset_ids":dataset_ids}, 
                     success: function(resp){
                         self.loading_dialog();
-                        document.location = "/"; //XXX
+                        //TODO: Refresh Table
+                        //document.location = "/"; //XXX
                     }
                 });
             } else {

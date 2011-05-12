@@ -192,7 +192,6 @@ table.display thead th div.DataTables_sort_wrapper span {
 
 
 
-
 tr.odd {
 	background-color: #E2E4FF;
 }
@@ -200,7 +199,9 @@ tr.odd {
 tr.even {
 	background-color: white;
 }
-
+tr.selected {
+	background-color: #CCC;
+}
 
 
 

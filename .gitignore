@@ -1,4 +1,5 @@
 .idea
+web-app/twistd.pid
 .classpath
 .DS_Store
 .project
