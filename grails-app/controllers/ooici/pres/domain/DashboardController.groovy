@@ -24,7 +24,8 @@ class DashboardController {
 		String DATA_PROVIDER_ROLE = "DATA_PROVIDER"
 		String MARINE_OPERATOR_ROLE = "MARINE_OPERATOR"
 	
-		String rolesString = "["
+		ArrayList<String> roles = new ArrayList<String>()
+		String rolesString;
 
 		String ooi_id = session.getAttribute(OOI_ID_KEY)
 		boolean isSignedIn = false
@@ -46,35 +47,23 @@ class DashboardController {
 		boolean isRegistered = session.getAttribute(USER_ALREADY_REGISTERED_KEY)
 
 		if (isSignedIn) {
-			rolesString += USER_ROLE
+			roles.add(USER_ROLE)
 		}
 		if (userIsAdmin) {
-			if (isSignedIn) {
-				rolesString += ", "
-			}
-			rolesString += ADMIN_ROLE
+			roles.add(ADMIN_ROLE)
 		}
 		if (userIsEarlyAdopter) {
-			if (isSignedIn || userIsAdmin) {
-				rolesString += ", "
-			}
-			rolesString += EARY_ADOPTER_ROLE
+			roles.add(EARY_ADOPTER_ROLE)
 		}
 		if (userIsDataProvider) {
-			if (isSignedIn || userIsAdmin || userIsEarlyAdopter) {
-				rolesString += ", "
-			}
-			rolesString = DATA_PROVIDER_ROLE
+			roles.add(DATA_PROVIDER_ROLE)
 		}
 		if (userIsMarineOperator) {
-			if (isSignedIn || userIsAdmin || userIsEarlyAdopter || userIsDataProvider) {
-				rolesString += ", "
-			}
-			rolesString += MARINE_OPERATOR_ROLE
+			roles.add(MARINE_OPERATOR_ROLE)
 		}
-		rolesString += "]"
+		rolesString = roles.encodeAsJSON()
 
-		String isRegisteredString = isRegistered ? "True" : "False"
+		String isRegisteredString = isRegistered ? "true" : "false"
 			
 		render(view:"show",model:[OOI_ROLES: rolesString, REGISTERED: isRegisteredString, HELP: BootstrapIONService.helpStrings])
 	}
