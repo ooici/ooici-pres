@@ -19,7 +19,7 @@ class SubscriptionController extends BaseController {
 		
 		preProcessRequest(true)
 		
-		params.put("subscriptionInfo[user_ooi_id]", ooi_id)
+		specialPreProcessRequest()
 
 		sendReceive(RequestType.CREATE_DATA_RESOURCE_SUBSCRIPTION)
 	}
@@ -27,6 +27,8 @@ class SubscriptionController extends BaseController {
 	def update = {
 		
 		preProcessRequest(true)
+		
+		specialPreProcessRequest()
 
 		sendReceive(RequestType.UPDATE_DATA_RESOURCE_SUBSCRIPTION)
 	}
@@ -34,7 +36,32 @@ class SubscriptionController extends BaseController {
 	def delete = {
 		
 		preProcessRequest(true)
+		
+		specialPreProcessRequest()
 
 		sendReceive(RequestType.DELETE_DATA_RESOURCE_SUBSCRIPTION)
+	}
+	
+	def specialPreProcessRequest = {
+		
+		params.put("subscriptionInfo",JSON.parse(params.get("subscriptionInfo")))
+		
+		def subscriptionInfoJSON = params.get("subscriptionInfo")
+		
+		subscriptionInfoJSON.put("user_ooi_id", ooi_id)
+
+		def dispatcher_alerts_filter = subscriptionInfoJSON.get("dispatcher_alerts_filter")
+		if (dispatcher_alerts_filter == "") {
+			subscriptionInfoJSON.remove("dispatcher_alerts_filter")
+		}
+
+		def email_alerts_filter = subscriptionInfoJSON.get("email_alerts_filter")
+		if (email_alerts_filter == "") {
+			subscriptionInfoJSON.remove("email_alerts_filter")
+		}
+
+		params.put("subscriptionInfo",subscriptionInfoJSON)
+		
+		params.put("datasetMetadata",JSON.parse(params.get("datasetMetadata")))
 	}
 }

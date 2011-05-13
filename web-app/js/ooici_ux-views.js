@@ -25,6 +25,34 @@ OOI.Views.ResourceSelector = Backbone.View.extend({
     }
 });
 
+OOI.Views.AdminSelector = Backbone.View.extend({
+
+    events: {
+        "click .admin_selector":"switch_admin"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "switch_admin"); 
+        this.controller = this.options.controller;
+    },
+
+    switch_admin: function(e){
+        var tool = $(e.target).attr("id");
+        switch (tool) {
+            case "radioRunEPU":
+                return window.location.hash="running-epus";
+            case "radioRegUsers":
+                return window.location.hash="registered-users";
+			case "radioDatasets":
+			    return window.location.hash="datasets";
+			case "radioDatasources":
+			    return window.location.hash="datasources";
+            default:
+                return window.location.hash="";
+        }
+    }
+});
+
 
 OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
 
@@ -61,7 +89,7 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
     return_to_dataset_listing: function(e){
         var return_hash = document.location.hash.split("/")[0];
         document.location.hash = return_hash;
-    },
+    }
 });
 
 
@@ -97,7 +125,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         tr.parent().addClass("selected");
         if (tr.text() == "Details"){
             $("#datatable_details_scroll, #datatable_details_container").show();
-            $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+            $(".dataTables_wrapper").hide();
             if (!$("#datatable_details_container").hasClass(data_resource_id)){
                 var nth_elem = $(e.target).parent().index();
                 if (window.location.hash === ""){
@@ -213,8 +241,8 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if ($("h3.data_sources:first").hasClass("ui-state-active")){
             $(".data_sources").trigger("click");
         }
+		$(".dataTables_wrapper").hide();
         $("#datatable_100_wrapper").show();
-        $("#datatable_104_wrapper, #datatable_106_wrapper").hide();
         $("#save_myresources_changes").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
@@ -357,13 +385,16 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         if (email_alerts_filter !== "" && dispatcher_alerts_filter !== "") subscription_type = "EMAILANDDISPATCHER";
         var dispatcher_script_path = $("#dispatcher_script_path").val();
 
-        var subscriptionInfo = {"data_resource_id":data_resource_id, "subscription_type":subscription_type, 
-                                "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
-        var data = JSON.stringify({"action":"create", "subscriptionInfo":subscriptionInfo, "datasetMetadata":model.toJSON()});
+        var modelJSON = model.toJSON();
+        var datasetMetadata = modelJSON.datasetMetadata;
+        var datasetMetadataJson = JSON.stringify(datasetMetadata);
+        var subscriptionInfo = {"data_src_id":data_resource_id, "subscription_type":subscription_type, "email_alerts_filter":email_alerts_filter, "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
+        var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
+        var data = {"action":"create", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
                 alert("subscription saved");
-                setTimeout(function(){document.location="/";}, 100);
+//                setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
                 alert("subscription error");
@@ -375,7 +406,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
     save_notifications_changes: function(){
         var data_resource_id = $("#datatable_104 tr.selected").attr("id");
-        var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id); //TODO: send user id using this
+        var model = this.controller.resource_collection.get_by_dataset_id(data_resource_id);
         var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
         if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATES";
         if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "DATASOURCEOFFLINE";
@@ -388,11 +419,15 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         if (email_alerts_filter !== "" && dispatcher_alerts_filter === "") subscription_type = "EMAIL";
         if (email_alerts_filter == "" && dispatcher_alerts_filter !== "") subscription_type = "DISPATCHER";
         if (email_alerts_filter !== "" && dispatcher_alerts_filter !== "") subscription_type = "EMAILANDDISPATCHER";
-
-        //TODO: dont send at all if any val is -1
         var dispatcher_script_path = $("#dispatcher_script_path").val();
-        $.ajax({url:"subscription", type:"POST", data:{"action":"update", "data_resource_id":data_resource_id, "subscription_type":subscription_type,
-            "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path}, 
+
+        var modelJSON = model.toJSON();
+        var datasetMetadata = modelJSON.datasetMetadata;
+        var datasetMetadataJson = JSON.stringify(datasetMetadata);
+        var subscriptionInfo = {"data_src_id":data_resource_id, "subscription_type":subscription_type, "email_alerts_filter":email_alerts_filter, "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
+        var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
+        var data = {"action":"update", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
+        $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
                 alert("subscription saved");
                 //setTimeout(function(){document.location="/";}, 100);
@@ -404,8 +439,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     presentation: function(){
+		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
-        $("#datatable_100_wrapper, #datatable_106_wrapper").hide();
         $(".notification_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("Notification Settings");
@@ -524,7 +559,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         tr.parent().addClass("selected");
         if (tr.text() == "Details"){
             $("#datatable_details_scroll, #datatable_details_container").show();
-            $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+			$(".dataTables_wrapper").hide();
             if (!$("#datatable_details_container").hasClass(data_resource_id)){
                 var nth_elem = $(e.target).parent().index();
                 window.location.hash += "/"+nth_elem;
@@ -594,10 +629,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         if ($("h3.data_sources:first").hasClass("ui-state-active")){
             $(".data_sources").trigger("click");
         }
+		$(".dataTables_wrapper").hide();
         $("#datatable_106_wrapper").show();
         $("#save_myresources_changes").show();
-        $("#datatable_100_wrapper").hide();
-        $("#datatable_104_wrapper").hide();
         $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
@@ -611,6 +645,152 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 
 });
 
+OOI.Views.Workflow109 = Backbone.View.extend({
+    /*
+        Base class for the 109 workflows.
+    */
+
+	resourceType: '',	// To be filled by derived classes
+
+    events: {
+        "click tbody tr":"show_detail_clicked"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all");
+        this.controller = this.options.controller;
+		this.$table = $(this.options.el);
+		this.columnCount = this.$table.find('thead th').length;
+        this.datatable = this.controller.datatable_init(this.options.el, this.columnCount);
+		this.$tableWrapper = $(this.options.el + '_wrapper');
+    },
+
+    render: function() {
+        this.populate_table();
+        this.presentation();
+        return this;
+    },
+
+    populate_table: function(){
+        this.controller.loading_dialog("Loading datasets...");
+        this.datatable.fnClearTable();
+        var datatable_id = this.datatable.attr("id");
+        var self = this;
+        $.ajax({url:"resource", type:"GET", data:{action: "ofType", resource_type: self.resourceType}, dataType:"json",
+            success: function(data){
+				var cb = "<input type='checkbox'/>";
+                //self.controller.my_resources_collection.remove_all();
+                $.each(data.resources, function(i, elem){
+                    //self.controller.my_resources_collection.add(elem);
+					
+					// Automatically add all of the columns in the middle
+					var columns = [cb, "Details"];
+					var resourceCols = elem.attribute.slice();
+					while (resourceCols.length < (self.columnCount - columns.length)) resourceCols.push('');
+					Array.prototype.splice.apply(columns, [1, 0].concat(resourceCols));
+                    self.datatable.fnAddData(columns);
+                    $(self.$table.dataTable().fnGetNodes(i)).attr("id", resourceCols[0]);
+                });
+                $("#datatable_select_buttons").show();
+                $.each(self.$table.find("tr"), function(i, e){ $(e).find("td:first").css("width", "4%")});
+				var colWidth = ((100 - 4)/(self.columnCount - 1)) + '%';
+                self.$table.find("tr").find("td:not(:first), th:not(:first)").css("width", colWidth);
+                self.controller.loading_dialog();
+            }
+        });
+    },
+
+    show_detail_clicked: function(e) {
+		var self = this;
+        var tr = $(e.target);
+        var ooi_id = tr.parent().attr("id");
+        this.$table.find("tr").removeClass("selected");
+        tr.parent().addClass("selected");
+        if (tr.text() == "Details"){
+            $("#datatable_details_scroll, #datatable_details_container").show();
+			$('#dataset_scroll_left, #dataset_scroll_right').hide();
+			$('#dataset_return_button').unbind('click').one('click', function(e) {
+				$('#datatable_details_container').hide();
+				$('#dataset_scroll_left, #dataset_scroll_right').show();
+				self.$tableWrapper.show();
+			});
+            $(".dataTables_wrapper").hide();
+            if (!$("#datatable_details_container").hasClass(ooi_id)){
+                //var nth_elem = $(e.target).parent().index();
+                //window.location.hash += "/"+nth_elem;
+
+				this.show_detail(ooi_id);
+            }
+        } else {
+            this.show_detail(ooi_id);
+        }
+    },
+
+    show_detail: function(ooi_id){
+        var self = this;
+        $.ajax({url:"resource", type:"GET", dataType:"json", data:{"action":"detail", "ooi_id":ooi_id},
+            success: function(resp){
+                self.show_detail_all(resp, ooi_id);
+                //self.dataset_sidebar(resp, ooi_id, self);
+            }
+        });
+    },
+
+    show_detail_all: function(resp, ooi_id) {
+		var $container = $("#datatable_details_container").empty();
+		
+		// The CSS here should be moved into one of the stylesheets; doing inline here to avoid interfering with Alex's work
+		var labelCss = {display: 'block', float: 'left', width: '16em', margin: 0};
+		var fieldCss = {display: 'block', float: 'left', width: '20em', margin: '0 1.5em 0 0'};
+		var fieldsetCss = {width: '100%', fontSize: '1.25em', margin: 0, padding: '1.5em', border: 0};
+
+		var $fieldset = $('<fieldset/>').css(fieldsetCss);
+		$(resp.resource).each(function(i,v) {
+			var $name = $('<label/>').text(v.name + ':').css(labelCss);
+			var $value = $('<input type="text" readonly />').val(v.value).css(fieldCss);
+			//$fieldset.append($name).append($value);
+			var $nobr = $('<nobr/>').append($name).append($value).appendTo($fieldset);
+			if (i & 1) $fieldset.append('<br/>');
+		});
+        $container.removeClass().addClass(ooi_id).append($fieldset);
+    },
+
+    dataset_sidebar: function(resp, ooi_id, self){
+    },
+
+    presentation: function(){
+        if ($("h3.data_sources:first").hasClass("ui-state-active")){
+            $(".data_sources").trigger("click");
+        }
+		$('#east_sidebar').hide();
+		$(".dataTables_wrapper").hide();
+        this.$tableWrapper.show();
+        $("#save_myresources_changes").show();
+        $(".notification_settings").hide();
+        $("#datatable_details_scroll").hide();
+        $("#datatable_details_container").hide();
+        $("#datatable h1").text("Running EPUs");
+        $("#save_notification_settings").hide(); //button
+        $(".notification_settings").hide();
+        $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
+        $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
+        $("h3.my_resources_sidebar").show();
+    }
+
+});
+
+OOI.Views.Workflow109EPUs = OOI.Views.Workflow109.extend({
+	resourceType: 'epucontrollers'
+});
+OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
+	resourceType: 'identities'
+});
+OOI.Views.Workflow109Datasets = OOI.Views.Workflow109.extend({
+	resourceType: 'datasets'
+});
+OOI.Views.Workflow109Datasources = OOI.Views.Workflow109.extend({
+	resourceType: 'datasources'
+});
 
 OOI.Views.GeospatialContainer = Backbone.View.extend({
     //TODO: incomplete functionality
@@ -732,8 +912,19 @@ OOI.Views.AccountSettings = Backbone.View.extend({
     },
 
     account_settings_done: function(){
+        var name = $("#account_name").val();
+        var institution = $("#account_institution").val();
+        var email = $("#account_email").val();
+        var mobilephone = $("#account_mobilephone").val();
+        var twitter = $("#account_twitter").val();
+        var system_change_str = $("#system_change").is(":checked") ? "true" : "false";
+        var project_update_str = $("#project_update").is(":checked") ? "true" : "false";
+        var ocean_leadership_news_str = $("#ocean_leadership_news").is(":checked") ? "true" : "false";
+        var ooi_participate_str = $("#ooi_participate").is(":checked") ? "true" : "false";
         var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
-        var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile":{"mobilephone":mobilephone, "twitter":twitter}, "system_change":system_change, "project_update":project_update, "ocean_leadership_news":ocean_leadership_news, "ooi_participate":ooi_participate};
+        var profileData = [{"name": "mobilephone","value": mobilephone}, {"name": "twitter","value": twitter}, {"name": "system_change","value": system_change_str}, {"name": "project_update","value": project_update_str}, {"name": "ocean_leadership_news","value": ocean_leadership_news_str}, {"name": "ooi_participate","value": ooi_participate_str}];
+        var profileJson = JSON.stringify(profileData);
+        var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile": profileJson};
         $("#account_settings_done").text("Saving...");
         $.ajax({url:"userProfile", type:"POST", data:data,
             success: function(resp){
@@ -747,7 +938,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         //TODO clear out modal form data
         $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
         $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
-        $.ajax({url:"userProfile", type:"GET", dataType:"json",
+        $.ajax({url:"userProfile", type:"GET", data:{action:"get"}, dataType:"json",
             success: function(resp){
                 $("#account_name").val(resp.name);
                 $("#account_institution").val(resp.institution);
