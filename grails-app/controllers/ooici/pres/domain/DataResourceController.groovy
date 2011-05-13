@@ -62,4 +62,11 @@ class DataResourceController extends BaseController {
 		
 		sendReceive(RequestType.DELETE_DATA_RESOURCE)
 	}
+	
+	def validate = {
+		
+		preProcessRequest(true)
+		
+		sendReceive(RequestType.VALIDATE_DATA_RESOURCE)
+	}
 }
