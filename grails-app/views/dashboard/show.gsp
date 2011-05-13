@@ -103,15 +103,15 @@
             <table>
               <tr>
                 <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td style="padding-right: 30px;">All Registered Resources</td>
+                <td style="padding-right: 30px;"><label for="radioAllPubRes">All Registered Resources</label></td>
                 <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td>My Registered Resources</td>
+                <td><label for="radioMyPubRes">My Registered Resources</label></td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td><input id="radioMySub" title="<%= HELP.P1000_SP10 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td>My Notification Settings</td>
+                <td><label for="radioMySub">My Notification Settings</label></td>
               </tr>
             </table>
           </form>
@@ -132,12 +132,10 @@
         <form action="">
           <table>
             <tr>
-              <td><input id="radioRunEPU" title="<%= HELP.P1028_SP127 %>" class="controlradios" name="group1" type="radio"/>
-              </td>
-              <td>Running EPUs</td>
-              <td><input id="radioRegUsers" title="<%= HELP.P1028_SP126 %>" class="controlradios" name="group1" type="radio"/>
-              </td>
-              <td>Registered Users</td>
+              <td><input id="radioRunEPU" title="<%= HELP.P1028_SP127 %>" class="controlradios" name="group1" type="radio"/></td>
+              <td><label for="radioRunEPU">Running EPUs</label></td>
+              <td><input id="radioRegUsers" title="<%= HELP.P1028_SP126 %>" class="controlradios" name="group1" type="radio"/></td>
+              <td><label for="radioRegUsers">Registered Users</label></td>
             </tr>
           </table>
         </form>
@@ -150,13 +148,13 @@
             <table>
               <tr>
                 <td><strong>Bounding Box:</strong></td>
-                <td><input title="<%= HELP.P1001_SP19 %>" class="all bounding" name="group1" type="radio"/></td>
-                <td>All</td>
+                <td><input id="radioBoundingAll" title="<%= HELP.P1001_SP19 %>" class="all bounding" name="group1" type="radio"/></td>
+                <td><label for="radioBoundingAll">All</label></td>
               </tr>
               <tr>
                 <td></td>
-                <td><input title="<%= HELP.P1001_SP20 %>" class="defined bounding" name="group1" type="radio"/></td>
-                <td>Defined</td>
+                <td><input id="radioBoundingDefined" title="<%= HELP.P1001_SP20 %>" class="defined bounding" name="group1" type="radio"/></td>
+                <td><label for="radioBoundingDefined">Defined</label></td>
               </tr>
             </table>
           </form>
@@ -166,13 +164,13 @@
             <table>
               <tr>
                 <td><strong>Altitude:</strong></td>
-                <td><input title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/></td>
-                <td>All</td>
+                <td><input id="radioAltitudeAll" title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/></td>
+                <td><label for="radioAltitudeAll">All</label></td>
               </tr>
               <tr>
                 <td></td>
-                <td><input title="<%= HELP.P1001_SP22 %>" class="defined altitude" name="group1" type="radio"/></td>
-                <td>Defined</td>
+                <td><input id="radioAltitudeDefined" title="<%= HELP.P1001_SP22 %>" class="defined altitude" name="group1" type="radio"/></td>
+                <td><label for="radioAltitudeDefined">Defined</label></td>
               </tr>
             </table>
           </form>
@@ -206,11 +204,10 @@
           <table>
             <tr>
               <td class="boldText">Time Range:</td>
-              <td><input id="TE_timeRange_all" title="<%= HELP.P1003_SP35 %>" class="all" name="group1" type="radio"/>
-              </td>
-              <td>All</td>
+              <td><input id="TE_timeRange_all" title="<%= HELP.P1003_SP35 %>" class="all" name="group1" type="radio"/></td>
+              <td><label for="TE_timeRange_all">All</label></td>
               <td><input id="TE_timeRange_defined" title="<%= HELP.P1003_SP36 %>" class="defined" name="group1" type="radio"/></td>
-              <td>Defined</td>
+              <td><label for="TE_timeRange_defined">Defined</label></td>
             </tr>
           </table>
         </form>
@@ -250,15 +247,15 @@
 
       <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Availability Settings</a></h3>
       <div class="data_sources registered_registration_availability_editable my_resources_sidebar">
-        <div><input name="availability_radio" type="radio"/>Resource is private and available to me only</div>
-        <div><input name="availability_radio" type="radio"/>Resource is publically available</div>
+        <div><input id="availability_radio_private" name="availability_radio" type="radio"/><label for="availability_radio_private">Resource is private and available to me only</label></div>
+        <div><input id="availability_radio_public" name="availability_radio" type="radio"/><label for="availability_radio_public">Resource is publically available</label></div>
       </div>
 
       <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Polling Settings</a></h3>
       <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
         <div><strong>Polling Interval</strong></div>
-        <div><input name="polling_radio" type="radio"/>Poll resource every: <input id="polling_time" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
-        <div><input name="polling_radio" type="radio"/>Do not poll the resource</div>
+        <div><input id="polling_radio_yes" name="polling_radio" type="radio"/><label for="polling_radio_yes">Poll resource every: </label><input id="polling_time" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
+        <div><input id="polling_radio_no" name="polling_radio" type="radio"/><label for="polling_radio_no">Do not poll the resource</label></div>
       </div>
 
       <h3 class="data_sources"><a href="#">Original Source Description</a></h3>
@@ -290,11 +287,11 @@
             </thead>
             <tr>
               <td><input id="updateWhenAvailable" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td style="padding-right: 30px;">Update When Available</td>
+              <td style="padding-right: 30px;"><label for="updateWhenAvailable">Update When Available</label></td>
             </tr>
             <tr>
               <td><input id="datasourceIsOffline" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td>Datasource is offline</td>
+              <td><label for="datasourceIsOffline">Datasource is offline</label></td>
             </tr>
           </table>
         </form>
@@ -312,11 +309,11 @@
             </thead>
             <tr>
               <td><input id="dispatcher_updateWhenAvailable" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td style="padding-right: 30px;">Update When Available</td>
+              <td style="padding-right: 30px;"><label for="dispatcher_updateWhenAvailable">Update When Available</label></td>
             </tr>
             <tr>
               <td><input id="dispatcher_datasourceIsOffline" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td>Datasource is offline</td>
+              <td><label for="dispatcher_datasourceIsOffline">Datasource is offline</label></td>
             </tr>
           </table>
           <p style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Dispatcher Script</p>
