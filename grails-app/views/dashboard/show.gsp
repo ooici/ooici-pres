@@ -36,16 +36,15 @@
 <div id="loading_message"><span class="msg">Loading...</span></div>
 <div id="layoutContainer">
 
-  <div class="ui-layout-north">
+  <div id="top" class="ui-layout-north">
     <div id="branding">
-      <h2>Ocean Observatories Initiative</h2>
-      <h1>Integrated Observatory Network</h1>
     </div>
     <div id="userbar">
-      <a href="logout">Logout</a>
-      <a id="registration_link" title="<%= HELP.P1097_SP278 %>" href="#">Register</a>
-      <a id="account_settings_link" title="<%= HELP.P1084_SP242 %>" href="#">Account Settings</a>
-      <a title="<%= HELP.P1084_SP243 %>" href="static/IONHelpContent.pdf">Help</a>
+      <a id="login_link" href="login">Sign In&nbsp;&nbsp;&nbsp;</a>
+      <a id="logout_link" href="logout">Sign Out&nbsp;&nbsp;&nbsp;</a>
+      <a id="registration_link" title="<%= HELP.P1097_SP278 %>" href="#">Create an Account&nbsp;</a>
+      <a id="account_settings_link" title="<%= HELP.P1084_SP242 %>" href="#">Account Settings&nbsp;&nbsp;&nbsp;&nbsp;</a>
+      <a id="help_link" title="<%= HELP.P1084_SP243 %>" href="static/IONHelpContent.pdf">Help&nbsp;</a>
     </div>
   </div><!-- end .ui-layout-north -->
 

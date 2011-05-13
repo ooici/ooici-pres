@@ -23,36 +23,60 @@ body {
     position:relative;
     top:4px;
 }
+#top {
+	background: url("../images/G1107-Wire-Waves-White-Narrow.png") no-repeat 0px -15px;
+}
 #branding {
     width:75%;
-	background: url("../images/logo.png") no-repeat 0px -4px #15151F;
+	background: url("../images/G1122-Banner-Landing-Page-White.png") no-repeat 0px 10px transparent;
     position:relative;
     top:-5px;
+    height:100px;
 }
 #branding h1 {
     margin:0px 0px 0px 115px;
     padding:0px;
     color:#CECECD;
+    display:none;
 }
 #branding h2 {
     margin:0px 0px 0px 115px;
     padding:0px;
     color:#4992C8;
+    display:none;
 }
 #userbar {
     float:right;
     position:relative;
-    top:-25px;
+    top:-75px;
 }
 #userbar a {
-    display:inline;
-    color:#CECECD;
+    color:transparent; /* FIXME */
     text-decoration:none;
-    padding:2px 4px;
+    padding:4px;
 }
 #userbar a:hover {
     text-decoration:underline;
 }
+#registration_link {
+	background: url("../images/G1135-Script-Create-Account.png") no-repeat 0px 0px;
+}
+#login_link {
+	background: url("../images/G1134-Script-Sign-In.png") no-repeat 0px 0px;
+}
+#logout_link {
+	background: url("../images/G1115-Script-Sign-Out.png") no-repeat 0px 0px;
+}
+#account_settings_link {
+	background: url("../images/G1106-Script-Account-Settings.png") no-repeat 0px 0px;
+}
+#logout_link {
+	background: url("../images/G1115-Script-Sign-Out.png") no-repeat 0px 0px;
+}
+#help_link {
+	background: url("../images/G1114-Script-Help.png") no-repeat 0px 0px;
+}
+
 
 table.datatable tr {
     cursor:pointer;

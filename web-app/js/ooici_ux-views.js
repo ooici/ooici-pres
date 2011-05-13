@@ -744,6 +744,7 @@ OOI.Views.Layout = Backbone.View.extend({
         $('.ui-layout-east').hide();
         $('#eastMultiOpenAccordion, #westMultiOpenAccordion').multiAccordion();
         $('#westMultiOpenAccordion h3').slice(0, 4).trigger('click');
+        $("#top").css("padding-bottom", "25px");
 
     },
 
@@ -752,6 +753,8 @@ OOI.Views.Layout = Backbone.View.extend({
         $(this.el).height($(window).height() - $(this.el).offset().top);
         var layout_main = $(this.el).layout({
             resizerClass: 'ui-state-default',
+            north__resizable: false,
+            north__closable: false,
             north__size: 60,
             west__size: 350,
             east__size: 350,
