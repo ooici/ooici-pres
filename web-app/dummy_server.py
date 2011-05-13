@@ -22,7 +22,6 @@ class Notifications(Resource):
     DATA = {"subscriptionListResults": [{"subscriptionInfo": {"user_ooi_id": "A7B44115-34BC-4553-B51E-1D87617F12E0","data_src_id": "3319A67F-81F3-424F-8E69-4F28C4E04801","subscription_type": "EMAILANDDISPATCHER","email_alerts_filter": "UPDATES","dispatcher_alerts_filter": "UPDATES","dispatcher_script_path": "path","date_registered": 1304724473336},"datasetMetadata": {"user_ooi_id": "A7B44115-34BC-4553-B51E-1D87617F12E0","data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04801","title": "path","institution": "HYCOM","source": "HYCOM archive file","references": "","conventions": "","summary": "","comment": "","ion_time_coverage_start": "2011-04-11T00:00:00Z","ion_time_coverage_end": "2011-04-11T00:00:00Z","ion_geospatial_lat_min": 32.0284996033,"ion_geospatial_lat_max": 44.0166015625,"ion_geospatial_lon_min": -81.0400390625,"ion_geospatial_lon_max": -65.0400390625,"ion_geospatial_vertical_min": 1.0,"ion_geospatial_vertical_max": 32.0,"ion_geospatial_vertical_positive": "down","download_url": "http://localhost:8081/thredds/dodsC/scanData/3319A67F-81F3-424F-8E69-4F28C4E04801.ncml"}}]}
 
 
-  
     def render_GET(self, request):
         return json.dumps(self.DATA)
 
@@ -81,7 +80,7 @@ class DataResource(Resource):
             return json.dumps(self.DATA)
 
     def render_POST(self, request):
-        return json.dumps({"success":True})
+        return json.dumps({"success":XXX})
 
 
 root = Resource()

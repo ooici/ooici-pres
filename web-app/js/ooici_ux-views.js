@@ -122,10 +122,26 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail_all: function(resp, data_resource_id) {
-        var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
-        html += "<br><br>"+JSON.stringify(resp.source);
-        html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
-        html = html.replace(/,/g, "<br>").replace(/}/g, "").replace(/{/g, "").replace(/\[/g, "").replace(/\]/g, "");
+        $("#datatable h1").text("Metadata");
+        var html = "";
+        var dataResourceSummary = resp.dataResourceSummary;
+        $.each(dataResourceSummary, function(v){
+            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
+            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+dataResourceSummary[v]+"</div></div>";
+        });
+        var source = resp.source;
+        $.each(source, function(v){
+            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
+            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
+        });
+        var variable = resp.variable;
+        html += "<div class='detail'><strong>Variables</strong>";
+        $.each(variable, function(v){
+            var vari = variable[v];
+            var var_string = vari.units + " = " + vari.standard_name + " = " + vari.long_name;
+            html += "<div>"+var_string+"</div>";
+        });
+        html += "</div>";
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -407,16 +423,29 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         Register New Resource.
     */
     events: {
-        "click .resource_selector_tab":"resource_selector"
+        "click .resource_selector_tab":"resource_selector",
+        "click #register_resource_button":"register_resource"
     },
 
     initialize: function() { 
-        _.bindAll(this, "render"); 
+        _.bindAll(this, "render", "resource_selector", "register_resource"); 
         this.controller = this.options.controller;
     },
 
     render: function() {
         return this;
+    },
+
+    register_resource:function(){
+        var data_resource_url = $("#data_resource_url").val();
+        $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url}, dataType:"json",
+            success: function(data){
+                alert("Resource has been registered.")
+            },
+            error: function(data){
+                alert("Resource error.");
+            }
+        });
     },
 
     resource_selector: function(e){
@@ -532,7 +561,6 @@ OOI.Views.Workflow106 = Backbone.View.extend({
              $('h3.data_sources').trigger('click');
         }
         var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data_resource_id);
-        console.log(my_resource_model);
         var activation_state = my_resource_model.get("activation_state");
         var update_interval_seconds = my_resource_model.get("update_interval_seconds");
         var active_check_elem_num = (activation_state == "Private") ? 0 : 1;

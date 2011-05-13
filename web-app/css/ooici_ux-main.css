@@ -194,8 +194,18 @@ tr.odd {
     text-align:center;
 }
 #datatable_details_container {
-    line-height:300%;
+    line-height:100%;
+    font-size:130%;
 }
+#datatable_details_container .detail {
+    margin-bottom:15px;
+}
+#datatable_details_container {
+}
+
+
+
+
 
 #footer {
     position:absolute;

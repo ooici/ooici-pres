@@ -19,7 +19,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
         this.workflow100 = new OOI.Views.Workflow100({el:"#datatable_100", controller:this}); 
         this.workflow104 = new OOI.Views.Workflow104({el:"#layoutContainer", controller:this}); 
-        this.workflow105 = new OOI.Views.Workflow105({el:"#resource_selector_view", controller:this}); 
+        this.workflow105 = new OOI.Views.Workflow105({el:"#layoutContainer", controller:this}); 
         this.workflow106 = new OOI.Views.Workflow106({el:"#datatable_106", controller:this}); 
 
         //this.notifications = new OOI.Views.Notifications({el:"#east_sidebar", controller:this});

@@ -26,8 +26,8 @@
   <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
   $(function() {
-	var OOI_ROLES = "<%= OOI_ROLES %>";
-	var REGISTERED = "<%= REGISTERED %>";
+	window.OOI_ROLES = JSON.parse("<%= OOI_ROLES %>");
+	window.REGISTERED = JSON.parse("<%= REGISTERED %>");
     OOI.init();
   });
   </script>
@@ -118,7 +118,7 @@
 
         <div id="register_new">
             <table>
-              <tr><td>Source URL:&nbsp;<input size='27' type="text"/></td></tr>
+              <tr><td>Source URL:&nbsp;<input id="data_resource_url" size='27' type="text"/></td></tr>
               <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button disabled="disabled" style="float:right;margin-left:2px">Look Up</button></td></tr>
               <tr><td>Visualization URL:&nbsp;<input size='22' type="text"/></td></tr>
             </table>
