@@ -30,7 +30,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
         this.datatable_select_buttons();
         
-        if (REGISTERED == "False") {
+        if (!REGISTERED) {
         	$('#account_settings_link').click();
         }
     },
