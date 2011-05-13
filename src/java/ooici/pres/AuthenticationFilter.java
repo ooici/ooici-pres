@@ -36,6 +36,8 @@ public class AuthenticationFilter implements Filter {
 	// Constants
 	final String OOI_ID_KEY = "IONCOREOOIID";
 	final String EXPIRY_KEY = "IONCOREEXPIRY";
+	final String USER_ALREADY_REGISTERED_KEY = "user_already_registered";
+
 
 	private boolean initialized = false;
 	private String[] cilogonignoreurls;
@@ -225,6 +227,7 @@ public class AuthenticationFilter implements Filter {
 
 		session.setAttribute(OOI_ID_KEY, ooi_id);
 		session.setAttribute(EXPIRY_KEY, "" + (currentDateMS/1000 + expiry));
+		session.setAttribute(USER_ALREADY_REGISTERED_KEY,true);
 
 		// Programmatically add credential for principal (OOI_ID)
 		String authorityRole = "ROLE_USER";
