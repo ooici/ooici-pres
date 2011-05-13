@@ -25,6 +25,34 @@ OOI.Views.ResourceSelector = Backbone.View.extend({
     }
 });
 
+OOI.Views.AdminSelector = Backbone.View.extend({
+
+    events: {
+        "click .admin_selector":"switch_admin"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "switch_admin"); 
+        this.controller = this.options.controller;
+    },
+
+    switch_admin: function(e){
+        var tool = $(e.target).attr("id");
+        switch (tool) {
+            case "radioRunEPU":
+                return window.location.hash="running-epus";
+            case "radioRegUsers":
+                return window.location.hash="registered-users";
+			case "radioDatasets":
+			    return window.location.hash="datasets";
+			case "radioDatasources":
+			    return window.location.hash="datasources";
+            default:
+                return window.location.hash="";
+        }
+    }
+});
+
 
 OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
 
@@ -61,7 +89,7 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
     return_to_dataset_listing: function(e){
         var return_hash = document.location.hash.split("/")[0];
         document.location.hash = return_hash;
-    },
+    }
 });
 
 
@@ -97,7 +125,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         tr.parent().addClass("selected");
         if (tr.text() == "Details"){
             $("#datatable_details_scroll, #datatable_details_container").show();
-            $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+            $(".dataTables_wrapper").hide();
             if (!$("#datatable_details_container").hasClass(data_resource_id)){
                 var nth_elem = $(e.target).parent().index();
                 if (window.location.hash === ""){
@@ -197,8 +225,8 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if ($("h3.data_sources:first").hasClass("ui-state-active")){
             $(".data_sources").trigger("click");
         }
+		$(".dataTables_wrapper").hide();
         $("#datatable_100_wrapper").show();
-        $("#datatable_104_wrapper, #datatable_106_wrapper").hide();
         $("#save_myresources_changes").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
@@ -392,8 +420,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     presentation: function(){
+		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
-        $("#datatable_100_wrapper, #datatable_106_wrapper").hide();
         $(".notification_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("Notification Settings");
@@ -496,7 +524,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         tr.parent().addClass("selected");
         if (tr.text() == "Details"){
             $("#datatable_details_scroll, #datatable_details_container").show();
-            $("#datatable_100_wrapper, #datatable_104_wrapper, #datatable_106_wrapper").hide();
+			$(".dataTables_wrapper").hide();
             if (!$("#datatable_details_container").hasClass(data_resource_id)){
                 var nth_elem = $(e.target).parent().index();
                 window.location.hash += "/"+nth_elem;
@@ -567,10 +595,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         if ($("h3.data_sources:first").hasClass("ui-state-active")){
             $(".data_sources").trigger("click");
         }
+		$(".dataTables_wrapper").hide();
         $("#datatable_106_wrapper").show();
         $("#save_myresources_changes").show();
-        $("#datatable_100_wrapper").hide();
-        $("#datatable_104_wrapper").hide();
         $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
@@ -584,6 +611,152 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 
 });
 
+OOI.Views.Workflow109 = Backbone.View.extend({
+    /*
+        Base class for the 109 workflows.
+    */
+
+	resourceType: '',	// To be filled by derived classes
+
+    events: {
+        "click tbody tr":"show_detail_clicked"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all");
+        this.controller = this.options.controller;
+		this.$table = $(this.options.el);
+		this.columnCount = this.$table.find('thead th').length;
+        this.datatable = this.controller.datatable_init(this.options.el, this.columnCount);
+		this.$tableWrapper = $(this.options.el + '_wrapper');
+    },
+
+    render: function() {
+        this.populate_table();
+        this.presentation();
+        return this;
+    },
+
+    populate_table: function(){
+        this.controller.loading_dialog("Loading datasets...");
+        this.datatable.fnClearTable();
+        var datatable_id = this.datatable.attr("id");
+        var self = this;
+        $.ajax({url:"resource", type:"GET", data:{action: "ofType", resource_type: self.resourceType}, dataType:"json",
+            success: function(data){
+				var cb = "<input type='checkbox'/>";
+                //self.controller.my_resources_collection.remove_all();
+                $.each(data.resources, function(i, elem){
+                    //self.controller.my_resources_collection.add(elem);
+					
+					// Automatically add all of the columns in the middle
+					var columns = [cb, "Details"];
+					var resourceCols = elem.attribute.slice();
+					while (resourceCols.length < (self.columnCount - columns.length)) resourceCols.push('');
+					Array.prototype.splice.apply(columns, [1, 0].concat(resourceCols));
+                    self.datatable.fnAddData(columns);
+                    $(self.$table.dataTable().fnGetNodes(i)).attr("id", resourceCols[0]);
+                });
+                $("#datatable_select_buttons").show();
+                $.each(self.$table.find("tr"), function(i, e){ $(e).find("td:first").css("width", "4%")});
+				var colWidth = ((100 - 4)/(self.columnCount - 1)) + '%';
+                self.$table.find("tr").find("td:not(:first), th:not(:first)").css("width", colWidth);
+                self.controller.loading_dialog();
+            }
+        });
+    },
+
+    show_detail_clicked: function(e) {
+		var self = this;
+        var tr = $(e.target);
+        var ooi_id = tr.parent().attr("id");
+        this.$table.find("tr").removeClass("selected");
+        tr.parent().addClass("selected");
+        if (tr.text() == "Details"){
+            $("#datatable_details_scroll, #datatable_details_container").show();
+			$('#dataset_scroll_left, #dataset_scroll_right').hide();
+			$('#dataset_return_button').unbind('click').one('click', function(e) {
+				$('#datatable_details_container').hide();
+				$('#dataset_scroll_left, #dataset_scroll_right').show();
+				self.$tableWrapper.show();
+			});
+            $(".dataTables_wrapper").hide();
+            if (!$("#datatable_details_container").hasClass(ooi_id)){
+                //var nth_elem = $(e.target).parent().index();
+                //window.location.hash += "/"+nth_elem;
+
+				this.show_detail(ooi_id);
+            }
+        } else {
+            this.show_detail(ooi_id);
+        }
+    },
+
+    show_detail: function(ooi_id){
+        var self = this;
+        $.ajax({url:"resource", type:"GET", dataType:"json", data:{"action":"detail", "ooi_id":ooi_id},
+            success: function(resp){
+                self.show_detail_all(resp, ooi_id);
+                //self.dataset_sidebar(resp, ooi_id, self);
+            }
+        });
+    },
+
+    show_detail_all: function(resp, ooi_id) {
+		var $container = $("#datatable_details_container").empty();
+		
+		// The CSS here should be moved into one of the stylesheets; doing inline here to avoid interfering with Alex's work
+		var labelCss = {display: 'block', float: 'left', width: '16em', margin: 0};
+		var fieldCss = {display: 'block', float: 'left', width: '20em', margin: '0 1.5em 0 0'};
+		var fieldsetCss = {width: '100%', fontSize: '1.25em', margin: 0, padding: '1.5em', border: 0};
+
+		var $fieldset = $('<fieldset/>').css(fieldsetCss);
+		$(resp.resource).each(function(i,v) {
+			var $name = $('<label/>').text(v.name + ':').css(labelCss);
+			var $value = $('<input type="text" readonly />').val(v.value).css(fieldCss);
+			//$fieldset.append($name).append($value);
+			var $nobr = $('<nobr/>').append($name).append($value).appendTo($fieldset);
+			if (i & 1) $fieldset.append('<br/>');
+		});
+        $container.removeClass().addClass(ooi_id).append($fieldset);
+    },
+
+    dataset_sidebar: function(resp, ooi_id, self){
+    },
+
+    presentation: function(){
+        if ($("h3.data_sources:first").hasClass("ui-state-active")){
+            $(".data_sources").trigger("click");
+        }
+		$('#east_sidebar').hide();
+		$(".dataTables_wrapper").hide();
+        this.$tableWrapper.show();
+        $("#save_myresources_changes").show();
+        $(".notification_settings").hide();
+        $("#datatable_details_scroll").hide();
+        $("#datatable_details_container").hide();
+        $("#datatable h1").text("Running EPUs");
+        $("#save_notification_settings").hide(); //button
+        $(".notification_settings").hide();
+        $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
+        $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
+        $("h3.my_resources_sidebar").show();
+    }
+
+});
+
+OOI.Views.Workflow109EPUs = OOI.Views.Workflow109.extend({
+	resourceType: 'epucontrollers'
+});
+OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
+	resourceType: 'identities'
+});
+OOI.Views.Workflow109Datasets = OOI.Views.Workflow109.extend({
+	resourceType: 'datasets'
+});
+OOI.Views.Workflow109Datasources = OOI.Views.Workflow109.extend({
+	resourceType: 'datasources'
+});
 
 OOI.Views.GeospatialContainer = Backbone.View.extend({
     //TODO: incomplete functionality

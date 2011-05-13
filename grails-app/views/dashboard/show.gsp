@@ -63,11 +63,30 @@
           <thead><tr><th>&nbsp;</th><th>Resource Title</th><th>Source</th><th>Notification Initiated</th><th>Details</th> </tr></thead>
           <tbody></tbody>
        </table>
-    </script>
 
        <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
             <thead><tr><th>&nbsp;</th><th>Active</th><th>Avail.</th><th>My Registration Title</th><th>Original Source Title</th><th>Publication Date</th><th>Details</th></tr></thead>
             <tbody></tbody>
+       </table>
+
+       <table id="datatable_109_epus" class="datatable" cellpadding="0" cellspacing="0" border="0">
+          <thead><tr><th>&nbsp;</th><th>EPU Controller ID</th><th>Details</th></tr></thead>
+          <tbody></tbody>
+       </table>
+
+       <table id="datatable_109_users" class="datatable" cellpadding="0" cellspacing="0" border="0">
+          <thead><tr><th>&nbsp;</th><th>OOI ID</th><th>Subject</th><th>Details</th></tr></thead>
+          <tbody></tbody>
+       </table>
+
+       <table id="datatable_109_datasets" class="datatable" cellpadding="0" cellspacing="0" border="0">
+          <thead><tr><th>&nbsp;</th><th>OOI ID</th><th>Title</th><th>Details</th></tr></thead>
+          <tbody></tbody>
+       </table>
+
+       <table id="datatable_109_datasources" class="datatable" cellpadding="0" cellspacing="0" border="0">
+          <thead><tr><th>&nbsp;</th><th>OOI ID</th><th>Station ID</th><th>Details</th></tr></thead>
+          <tbody></tbody>
        </table>
 
 
@@ -128,14 +147,18 @@
       </div>
 
     <h3 class="view_existing"><a href="#">Administration Selector</a></h3>
-      <div class="view_existing" style="padding-left: 10px; padding-right: 10px;">
+      <div id="view_admin_tools" class="view_existing" style="padding-left: 10px; padding-right: 10px;">
         <form action="">
           <table>
             <tr>
-              <td><input id="radioRunEPU" title="<%= HELP.P1028_SP127 %>" class="controlradios" name="group1" type="radio"/></td>
-              <td><label for="radioRunEPU">Running EPUs</label></td>
-              <td><input id="radioRegUsers" title="<%= HELP.P1028_SP126 %>" class="controlradios" name="group1" type="radio"/></td>
-              <td><label for="radioRegUsers">Registered Users</label></td>
+              <td><input id="radioRunEPU" title="<%= HELP.P1028_SP127 %>" class="admin_selector controlradios" name="group1" type="radio"/></td>
+              <td><label for="radioRunEPU" title="<%= HELP.P1028_SP127 %>">Running EPUs</label></td>
+              <td><input id="radioRegUsers" title="<%= HELP.P1028_SP126 %>" class="admin_selector controlradios" name="group1" type="radio"/></td>
+              <td><label for="radioRegUsers" title="<%= HELP.P1028_SP126 %>">Registered Users</label></td>
+              <td><input id="radioDatasets" class="admin_selector controlradios" name="group1" type="radio"/></td>
+              <td><label for="radioDatasets">Data Sets</label></td>
+              <td><input id="radioDatasources" class="admin_selector controlradios" name="group1" type="radio"/></td>
+              <td><label for="radioDatasources">Data Sources</label></td>
             </tr>
           </table>
         </form>
