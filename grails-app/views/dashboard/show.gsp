@@ -189,7 +189,7 @@
           <span class="NSEWBackgroundBorder"></span>
         </div>
         <div class="altitudeControls">
-            <span class="altText">Altitude<br/>
+            <span class="altText">Vertical Extent<br/>
             (Feet MSL)</span>
             <span class="altitudeUpper">Upper Bound:
             <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
@@ -229,7 +229,7 @@
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
       <button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>
-      <button id="register_resource_button">Register Resource</button>
+      <button id="register_resource_button">Register DataSource</button>
    </div><!-- end .west-south -->
 
  </div> <!-- end .ui-layout-west -->
@@ -323,7 +323,6 @@
         </form>
       </div><!-- end #dispatcher_settings -->
 
-
     </div><!-- end #eastMultiOpenAccordion -->
    </div><!-- end .east-center -->
 
@@ -337,6 +336,11 @@
 
   </div><!-- end .ui-layout-east --> 
 
+</div>
+
+<div id="footer">
+    <span><img width="50" height="50" src="images/logo-NSF.png">OOI is funded by the<br>National Science Foundation</span>
+    <span><img width="58" height="50" src="images/logo-COL.png"/>OOI is managed and coordinated through<br>the Consortium for Ocean Leadership</span>
 </div>
 
 

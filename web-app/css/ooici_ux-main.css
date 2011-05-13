@@ -48,7 +48,7 @@ body {
 #userbar {
     float:right;
     position:relative;
-    top:-75px;
+    top:-65px;
 }
 #userbar a {
     color:transparent; /* FIXME */
@@ -81,6 +81,14 @@ body {
 table.datatable tr {
     cursor:pointer;
 }
+tr.odd {
+    background-color: #F5F5F5;
+}
+#datatable h1 {
+    color: #00457C;
+    font-size:13px;
+    border-bottom:1px solid #00457C;
+}
 
 .bold {
   font-weight:bold;
@@ -88,7 +96,11 @@ table.datatable tr {
 }
 .selected {
   font-weight:bold;
-  color:#362B36 !important;
+  background-color:#DDDDDD !important;
+}
+#resource_selector_view .selected {
+  background-color:#F5F5F5 !important;
+  color:#AAA;
 }
 
 .hidden {
@@ -184,3 +196,99 @@ table.datatable tr {
 #datatable_details_container {
     line-height:300%;
 }
+
+#footer {
+    position:absolute;
+    bottom:-8px;
+    left:25%;
+    z-index:4;
+}
+#footer span {
+    float:right; 
+    margin:0px 8px;
+}
+#footer img {
+    float:left;
+    position:relative;
+    top:-10px;
+    left:-5px;
+}
+
+
+
+/* sidebar widget containers */
+
+.ui-layout-center {
+    margin:0px;
+    padding:0px;
+    border:none;
+}
+.ui-layout-west {
+    background-color:#F5F5F5;
+}
+.ui-layout-east {
+    margin:0px;
+    padding:0px;
+    border:none;
+}
+.west-center {
+    border:none;
+    background-color:#F5F5F5;
+}
+
+.ui-accordion .ui-accordion-header a {
+    display: block;
+    color: #00457C;
+    font-family: Geneva,Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight:lighter;
+    padding: 2px;
+    margin-left:20px;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    background: url("images/FIXME.png") repeat-x scroll 50% 50% #F5F5F5;
+    border: none;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: url("images/FIXME.png") repeat-x scroll 50% 50% #E6E6E6;
+    border: none;
+    color: #000;
+    font-weight: bold;
+}
+
+.ui-accordion .ui-accordion-content {
+    padding: 12px;
+    border-top:1px solid #00457C;
+}
+.ui-widget-content {
+    background: url("images/FIXME.png") repeat-x scroll 50% top #F5F5F5;
+    border: 1px solid #F5F5F5;
+    color: #362B36;
+}
+.ui-widget-header {
+    background: url("images/FIXME.png") repeat-x scroll 50% 50% #FFFFFF;
+    border: none;
+    color: #000;
+    font-weight: bold;
+}
+
+
+
+.ui-state-active .ui-icon {
+	background: url("../images/I1126-Plus-Simple.png") no-repeat 0px 0px transparent;
+}
+.ui-accordion .ui-accordion-header .ui-icon {
+	background: url("../images/I1126-Plus-Simple.png") no-repeat 0px 0px transparent;
+}
+.ui-icon-triangle-1-e {
+    background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent;
+}
+
+/*I1125-Minus-Simple.png */
+
+
+/* END sidebar widget containers */
+
+
+

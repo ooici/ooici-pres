@@ -278,6 +278,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     show_detail_clicked: function(e){
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
+        if (data_resource_id == ""){
+            data_resource_id = tr.parent().parent().attr("id");  //click on the checkbox
+        }
         $("#datatable_104 tr").removeClass("selected");
         tr.parent().addClass("selected");
         var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id);
@@ -485,6 +488,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     show_detail_clicked: function(e) {
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
+        if (data_resource_id == ""){
+            data_resource_id = tr.parent().parent().attr("id");  //click on the checkbox
+        }
         $("#datatable_106 tr").removeClass("selected");
         tr.parent().addClass("selected");
         if (tr.text() == "Details"){
@@ -525,8 +531,8 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         if(!$("h3.data_sources").hasClass("ui-state-active")){
              $('h3.data_sources').trigger('click');
         }
-        c = self.controller.my_resources_collection;
         var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data_resource_id);
+        console.log(my_resource_model);
         var activation_state = my_resource_model.get("activation_state");
         var update_interval_seconds = my_resource_model.get("update_interval_seconds");
         var active_check_elem_num = (activation_state == "Private") ? 0 : 1;
@@ -552,7 +558,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#ds_references").html(data.references);
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
-        $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+        $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled");
         self.controller.loading_dialog();
     },
 
@@ -744,7 +750,7 @@ OOI.Views.Layout = Backbone.View.extend({
         $('.ui-layout-east').hide();
         $('#eastMultiOpenAccordion, #westMultiOpenAccordion').multiAccordion();
         $('#westMultiOpenAccordion h3').slice(0, 4).trigger('click');
-        $("#top").css("padding-bottom", "25px");
+        $("#top").css("padding-bottom", "17px");
 
     },
 
@@ -757,7 +763,7 @@ OOI.Views.Layout = Backbone.View.extend({
             north__closable: false,
             north__size: 60,
             west__size: 350,
-            east__size: 350,
+            east__size: 350
         });
         return layout_main;
     },
