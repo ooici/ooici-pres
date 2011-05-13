@@ -655,7 +655,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 					while (resourceCols.length < (self.columnCount - columns.length)) resourceCols.push('');
 					Array.prototype.splice.apply(columns, [1, 0].concat(resourceCols));
                     self.datatable.fnAddData(columns);
-                    $(self.$table.dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
+                    $(self.$table.dataTable().fnGetNodes(i)).attr("id", resourceCols[0]);
                 });
                 $("#datatable_select_buttons").show();
                 $.each(self.$table.find("tr"), function(i, e){ $(e).find("td:first").css("width", "4%")});
@@ -667,47 +667,68 @@ OOI.Views.Workflow109 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
+		var self = this;
         var tr = $(e.target);
-        var data_resource_id = tr.parent().attr("id");
+        var ooi_id = tr.parent().attr("id");
         this.$table.find("tr").removeClass("selected");
         tr.parent().addClass("selected");
         if (tr.text() == "Details"){
             $("#datatable_details_scroll, #datatable_details_container").show();
+			$('#dataset_scroll_left, #dataset_scroll_right').hide();
+			$('#dataset_return_button').unbind('click').one('click', function(e) {
+				$('#datatable_details_container').hide();
+				$('#dataset_scroll_left, #dataset_scroll_right').show();
+				self.$tableWrapper.show();
+			});
             $(".dataTables_wrapper").hide();
-            if (!$("#datatable_details_container").hasClass(data_resource_id)){
-                var nth_elem = $(e.target).parent().index();
-                window.location.hash += "/"+nth_elem;
+            if (!$("#datatable_details_container").hasClass(ooi_id)){
+                //var nth_elem = $(e.target).parent().index();
+                //window.location.hash += "/"+nth_elem;
+
+				this.show_detail(ooi_id);
             }
         } else {
-            this.show_detail(data_resource_id);
+            this.show_detail(ooi_id);
         }
     },
 
-    show_detail: function(data_resource_id){
+    show_detail: function(ooi_id){
         var self = this;
-        $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id},
+        $.ajax({url:"resource", type:"GET", dataType:"json", data:{"action":"detail", "ooi_id":ooi_id},
             success: function(resp){
-                self.show_detail_all(resp, data_resource_id);
-                self.dataset_sidebar(resp, data_resource_id, self);
+                self.show_detail_all(resp, ooi_id);
+                //self.dataset_sidebar(resp, ooi_id, self);
             }
         });
     },
 
-    show_detail_all: function(resp, data_resource_id) {
-        var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
-        html += "<br><br>"+JSON.stringify(resp.source);
-        html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
-        html = html.replace(/,/g, "<br>").replace(/}/g, "").replace(/{/g, "").replace(/\[/g, "").replace(/\]/g, "");
-        $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
+    show_detail_all: function(resp, ooi_id) {
+		var $container = $("#datatable_details_container").empty();
+		
+		// The CSS here should be moved into one of the stylesheets; doing inline here to avoid interfering with Alex's work
+		var labelCss = {display: 'block', float: 'left', width: '16em', margin: 0};
+		var fieldCss = {display: 'block', float: 'left', width: '20em', margin: '0 1.5em 0 0'};
+		var fieldsetCss = {width: '100%', fontSize: '1.25em', margin: 0, padding: '1.5em', border: 0};
+
+		var $fieldset = $('<fieldset/>').css(fieldsetCss);
+		$(resp.resource).each(function(i,v) {
+			var $name = $('<label/>').text(v.name + ':').css(labelCss);
+			var $value = $('<input type="text" readonly />').val(v.value).css(fieldCss);
+			//$fieldset.append($name).append($value);
+			var $nobr = $('<nobr/>').append($name).append($value).appendTo($fieldset);
+			if (i & 1) $fieldset.append('<br/>');
+		});
+        $container.removeClass().addClass(ooi_id).append($fieldset);
     },
 
-    dataset_sidebar: function(resp, data_resource_id, self){
+    dataset_sidebar: function(resp, ooi_id, self){
     },
 
     presentation: function(){
         if ($("h3.data_sources:first").hasClass("ui-state-active")){
             $(".data_sources").trigger("click");
         }
+		$('#east_sidebar').hide();
 		$(".dataTables_wrapper").hide();
         this.$tableWrapper.show();
         $("#save_myresources_changes").show();
