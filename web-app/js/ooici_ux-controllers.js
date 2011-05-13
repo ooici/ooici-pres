@@ -29,6 +29,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.geospatial_container = new OOI.Views.GeospatialContainer({"el":"#west_south", controller:this}); 
 
         this.datatable_select_buttons();
+        
+        if (REGISTERED == "False") {
+        	$('#account_settings_link').click();
+        }
     },
 
     all_registered_resources: function(){

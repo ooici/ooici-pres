@@ -26,8 +26,8 @@
   <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
   $(function() {
-	var OOI_ROLES = "<%= OOI_ROLES %>";
-	var REGISTERED = "<%= REGISTERED %>";
+	window.OOI_ROLES = "<%= OOI_ROLES %>";
+	window.REGISTERED = "<%= REGISTERED %>";
     OOI.init();
   });
   </script>
