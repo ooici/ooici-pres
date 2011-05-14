@@ -40,8 +40,19 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
         this.datatable_select_buttons();
         
+        //TODO: the below should go in a self contained view:
         if (!REGISTERED) {
         	$('#account_settings_link').click();
+        }
+        var is_user = _.any(OOI_ROLES, function(role){return role === "USER"});
+        if (is_user) {
+            $("#login_link, #registration_link").hide();
+        } else {
+            $("#logout_link, #account_settings_link").hide();
+        }
+        var is_admin = _.any(OOI_ROLES, function(role){return role === "ADMIN"});
+        if (!is_admin){
+            $(".admin_role").hide();
         }
     },
 
