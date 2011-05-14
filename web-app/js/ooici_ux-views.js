@@ -715,7 +715,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$('#dataset_scroll_left, #dataset_scroll_right').hide();
 			$('#dataset_return_button').unbind('click').one('click', function(e) {
-				$('#datatable_details_container').hide();
+				$('#datatable_details_container, #datatable_details_scroll').hide();
 				$('#dataset_scroll_left, #dataset_scroll_right').show();
 				self.$tableWrapper.show();
 			});
@@ -745,7 +745,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 		var $container = $("#datatable_details_container").empty();
 		
 		// The CSS here should be moved into one of the stylesheets; doing inline here to avoid interfering with Alex's work
-		var labelCss = {display: 'block', float: 'left', width: '16em', margin: 0};
+		var labelCss = {display: 'block', float: 'left', width: '24em', margin: 0};
 		var fieldCss = {display: 'block', float: 'left', width: '20em', margin: '0 1.5em 0 0'};
 		var fieldsetCss = {width: '100%', fontSize: '1.25em', margin: 0, padding: '1.5em', border: 0};
 
@@ -754,8 +754,8 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 			var $name = $('<label/>').text(v.name + ':').css(labelCss);
 			var $value = $('<input type="text" readonly />').val(v.value).css(fieldCss);
 			//$fieldset.append($name).append($value);
-			var $nobr = $('<nobr/>').append($name).append($value).appendTo($fieldset);
-			if (i & 1) $fieldset.append('<br/>');
+			var $nobr = $('<div/>').addClass('clearfix').append($name).append($value).appendTo($fieldset);
+			// if (i & 1) $fieldset.append('<br/>');
 		});
         $container.removeClass().addClass(ooi_id).append($fieldset);
     },
