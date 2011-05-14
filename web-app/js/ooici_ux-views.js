@@ -275,12 +275,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         this.controller = this.options.controller;
         this.datatable = this.controller.datatable_init("#datatable_104", 5);
         var self = this;
-        $("#setup_notifications").click(function(){ //XXX hack
-            self.setup_notifications();
-        });
-        $("#start_notifications").click(function(){ //XXX hack
-            self.start_notifications();
-        });
     },
 
     render: function() {

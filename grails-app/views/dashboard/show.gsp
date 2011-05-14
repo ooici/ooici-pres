@@ -34,6 +34,14 @@
 </head>
 <body id="body">
 <div id="loading_message"><span class="msg">Loading...</span></div>
+
+<!-- Cheesy hack nodes that exist only for binding events, fix a better way later -->
+<div id="delegate-me-01">
+<div id="delegate-me-02">
+<div id="delegate-me-03">
+<div id="delegate-me-04">
+<div id="delegate-me-05">
+
 <div id="layoutContainer">
 
   <div id="top" class="ui-layout-north">
@@ -354,8 +362,15 @@
       <button id="save_notifications_changes" disabled="disabled">Save Changes</button>
    </div><!-- end .east-south -->
 
-  </div><!-- end .ui-layout-east --> 
+  </div><!-- end .ui-layout-east -->
 
+</div>
+
+<!-- Cheesy hack nodes that exist only for binding events, fix a better way later -->
+</div>
+</div>
+</div>
+</div>
 </div>
 
 <div id="footer">

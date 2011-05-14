@@ -23,8 +23,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.my_notifications_collection = new OOI.Collections.MyNotifications();
 
         this.workflow100 = new OOI.Views.Workflow100({el:"#datatable_100", controller:this}); 
-        this.workflow104 = new OOI.Views.Workflow104({el:"#layoutContainer", controller:this}); 
-        this.workflow105 = new OOI.Views.Workflow105({el:"#layoutContainer", controller:this}); 
+        this.workflow104 = new OOI.Views.Workflow104({el:"#delegate-me-01", controller:this});
+        this.workflow105 = new OOI.Views.Workflow105({el:"#delegate-me-02", controller:this});
         this.workflow106 = new OOI.Views.Workflow106({el:"#datatable_106", controller:this}); 
 		this.workflow109epus = new OOI.Views.Workflow109EPUs({el:"#datatable_109_epus", controller:this});
 		this.workflow109users = new OOI.Views.Workflow109Users({el:"#datatable_109_users", controller:this});
