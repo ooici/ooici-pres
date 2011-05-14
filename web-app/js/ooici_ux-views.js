@@ -210,8 +210,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
 			$cont.remove();
 		});
 		$('.ui-layout-center:first').append($cont);
-	});
+	    });
         self.controller.loading_dialog();
+        $(".my_resources_sidebar").hide();
     },
 
     populate_table: function(){
@@ -252,8 +253,8 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
         $("h3.data_sources").show();
         $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notif. Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
-        $(".my_resources_sidebar").hide();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
+        $(".my_resources_sidebar").hide();
     }
 });
 
@@ -273,6 +274,13 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         _.bindAll(this, "render", "show_detail_clicked", "setup_notifications", "start_notifications", "save_notifications_changes"); 
         this.controller = this.options.controller;
         this.datatable = this.controller.datatable_init("#datatable_104", 5);
+        var self = this;
+        $("#setup_notifications").click(function(){ //XXX hack
+            self.setup_notifications();
+        });
+        $("#start_notifications").click(function(){ //XXX hack
+            self.start_notifications();
+        });
     },
 
     render: function() {
@@ -446,8 +454,12 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $("#datatable h1").text("Notification Settings");
         $(".data_sources").hide();
         $("#geospatial_selection_button").hide();
-        $("#download_dataset_button, #setup_notifications, #save_myresources_changes").hide(); //bottom west buttons
+        $("#download_dataset_button, #setup_notifications, #save_myresources_changes, #start_notifications").hide(); //bottom west buttons
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").show()
+        var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
+        if (!is_early_adopter){
+            $(".early_adopter").hide();
+        }
     }
 
 });
@@ -621,8 +633,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#ds_references").html(data.references);
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
-        $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled");
-        self.controller.loading_dialog();
+        $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
     },
 
     presentation: function(){
@@ -636,7 +647,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("My Registered Resources");
-        $("#save_notification_settings").hide(); //button
+        $("#save_notification_settings, #start_notifications").hide(); //button
         $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()

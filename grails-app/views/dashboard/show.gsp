@@ -32,7 +32,7 @@
   });
   </script>
 </head>
-<body>
+<body id="body">
 <div id="loading_message"><span class="msg">Loading...</span></div>
 <div id="layoutContainer">
 
@@ -145,8 +145,8 @@
 
       </div>
 
-    <h3 class="view_existing"><a href="#">Administration Selector</a></h3>
-      <div id="view_admin_tools" class="view_existing" style="padding-left: 10px; padding-right: 10px;">
+    <h3 class="view_existing admin_role"><a href="#">Administration Selector</a></h3>
+      <div id="view_admin_tools" class="view_existing admin_role" style="padding-left: 10px; padding-right: 10px;">
         <form action="">
           <table>
             <tr>
@@ -319,8 +319,8 @@
         </form>
       </div><!-- end #notification_settings -->
 
-    <h3 id="dispatcher_settings" class="dispatcher_settings"><a href="#">Dispatcher Settings</a></h3>
-      <div class="dispatcher_settings" style="padding-left: 10px; padding-right: 10px;">
+    <h3 id="dispatcher_settings" class="dispatcher_settings early_adopter"><a href="#">Dispatcher Settings</a></h3>
+      <div class="dispatcher_settings early_adopter" style="padding-left: 10px; padding-right: 10px;">
         <form action="">
           <p  style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Notification Triggers</p>
           <table>
