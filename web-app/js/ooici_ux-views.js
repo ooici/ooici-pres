@@ -412,11 +412,11 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var data = {"action":"create", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
-                alert("subscription saved");
+                alert("Notification saved");
 //                setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
-                alert("subscription error");
+                alert("Notification error");
             }
         });
 
@@ -966,6 +966,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
                 $("#account_name").val(resp.name);
                 $("#account_institution").val(resp.institution);
                 $("#account_email").val(resp.email_address);
+                $("#authenticating_organization").text(resp.authenticating_organization);
                 $("#loading_account_settings").remove();
                 $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
                 $.each(resp.profile, function(i, v){

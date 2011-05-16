@@ -426,7 +426,7 @@
         </tr>
         <tr>
           <td>Identity provider:</td>
-          <td>&lt;Some text goes here&gt;</td>
+          <td id="authenticating_organization"></td>
         </tr>
       </tbody></table>
       <p class="heading">Optional Notification Settings</p>
