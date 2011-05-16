@@ -608,12 +608,30 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail_all: function(resp, data_resource_id) {
-        var html = "<pre style='font-size:18px'>"+JSON.stringify(resp.dataResourceSummary);
-        html += "<br><br>"+JSON.stringify(resp.source);
-        html += "<br><br>"+JSON.stringify(resp.variable)+"</pre>";
-        html = html.replace(/,/g, "<br>").replace(/}/g, "").replace(/{/g, "").replace(/\[/g, "").replace(/\]/g, "");
+        $("#datatable h1").text("Metadata");
+        var html = "";
+        var dataResourceSummary = resp.dataResourceSummary;
+        $.each(dataResourceSummary, function(v){
+            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
+            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+dataResourceSummary[v]+"</div></div>";
+        });
+        var source = resp.source;
+        $.each(source, function(v){
+            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
+            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
+        });
+        var variable = resp.variable;
+        html += "<div class='detail'><strong>Variables</strong>";
+        $.each(variable, function(v){
+            var vari = variable[v];
+            var var_string = vari.units + " = " + vari.standard_name + " = " + vari.long_name;
+            html += "<div>"+var_string+"</div>";
+        });
+        html += "</div>";
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
+
+
 
     dataset_sidebar: function(resp, data_resource_id, self){
         var data = resp.dataResourceSummary;
