@@ -221,7 +221,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
-        $.ajax({url:"dataResource", type:"GET", data:{action:"find"}, dataType:"json",
+        var geo_data = this.controller.geospatial_container.get_form_data();
+        var data = $.extend(geo_data, {"action":"find"});
+        $.ajax({url:"dataResource", type:"GET", data:data, dataType:"json",
             success: function(data){
                 $("#datatable_select_buttons").hide();
                 self.controller.resource_collection.remove_all();
@@ -551,7 +553,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
-        $.ajax({url:"dataResource", type:"GET", data:{action:"findByUser"}, dataType:"json",
+        var geo_data = this.controller.geospatial_container.get_form_data();
+        var data = $.extend(geo_data, {"action":"findByUser"});
+        $.ajax({url:"dataResource", type:"GET", data:data, dataType:"json",
             success: function(data){
                 self.controller.my_resources_collection.remove_all();
                 $.each(data.datasetByOwnerMetadata, function(i, elem){
@@ -832,7 +836,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         this.controller = this.options.controller;
         this.init_geo();
         this.init_bounding();
-        //$("#temporalExtent").siblings().last().trigger("click");  //XXX temporary default
+        $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").attr("checked", "checked");
     },
 
     render_geo:function(){
@@ -866,6 +870,31 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             }
         });
         return this;
+    },
+
+    get_form_data: function(){
+        var data = {}
+        var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
+        var minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
+        var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val();
+        var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
+        var posVertical = "down";
+        if ($("#radioBoundingDefined").is(":checked")){
+            data["minLatitude"] = minLatitude;
+            data["maxLatitude"] = maxLatitude;
+            data["minLongitude"] = minLongitude;
+            data["maxLongitude"] = maxLongitude;
+        }
+        if ($("#radioAltitudeDefined").is(":checked")){
+            data["minVertical"] = minVertical;
+            data["maxVertical"] = maxVertical;
+            data["posVertical"] = posVertical;
+        }
+        if ($("#TE_timeRange_defined").is(":checked")){
+            data["minTime"] = minTime;
+            data["maxTime"] = maxTime;
+        }
+        return data;
     },
 
     init_geo:function(){

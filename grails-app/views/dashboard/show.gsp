@@ -26,8 +26,8 @@
   <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
   $(function() {
-    window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
-    window.REGISTERED = JSON.parse('<%= REGISTERED %>');
+    window.OOI_ROLES = JSON.parse('["USER"]'); //<%= OOI_ROLES %>');
+    window.REGISTERED = JSON.parse('true'); //<%= REGISTERED %>');
     OOI.init();
   });
   </script>
@@ -256,7 +256,7 @@
     </div>
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
-      <button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>
+      <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
       <button id="register_resource_button">Register DataSource</button>
    </div><!-- end .west-south -->
 
