@@ -41,15 +41,28 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.datatable_select_buttons();
         
         //TODO: the below should go in a self contained view:
+
+        if (OOI_ROLES.length === 0) {
+            $("#radioMyPubRes, #radioMySub").attr("disabled", "disabled");
+            $("#setup_notifications").hide();//TODO: put this in
+        }
+
         if (!REGISTERED && OOI_ROLES.length > 0) {
         	$('#account_settings_link').click();
         }
+
         var is_user = _.any(OOI_ROLES, function(role){return role === "USER"});
         if (is_user) {
             $("#login_link, #registration_link").hide();
         } else {
             $("#logout_link, #account_settings_link").hide();
         }
+
+        var is_data_provider = _.any(OOI_ROLES, function(role){return role === "DATA_PROVIDER"});
+        if (!is_data_provider){
+            $("#resource_selector_view_spacer, #register_new_tab").hide();
+        }
+
         var is_admin = _.any(OOI_ROLES, function(role){return role === "ADMIN"});
         if (!is_admin){
             $(".admin_role").hide();
