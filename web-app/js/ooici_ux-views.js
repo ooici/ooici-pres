@@ -309,7 +309,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                     self.datatable.fnAddData([cb, elem.datasetMetadata.title, elem.datasetMetadata.source, pretty_date, "Details"]);
                     $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.subscriptionInfo.data_src_id);
                 });
-                n = self.controller.my_notifications_collection;
                 $("#datatable_select_buttons").show();
                 //$.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")});
                 //$("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%");
@@ -384,7 +383,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     start_notifications: function(){
-        var data_resource_id = $("#datatable_100 tr.selected").attr("id");
+        var data_resource_id = $("#datatable_104 tr.selected").attr("id");
         var model = this.controller.resource_collection.get_by_dataset_id(data_resource_id);
         var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
         if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATES";
@@ -421,7 +420,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
     save_notifications_changes: function(){
         var data_resource_id = $("#datatable_104 tr.selected").attr("id");
-        var model = this.controller.resource_collection.get_by_dataset_id(data_resource_id);
+        var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id);
         var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
         if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATES";
         if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "DATASOURCEOFFLINE";
@@ -444,11 +443,11 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var data = {"action":"update", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
-                alert("subscription saved");
+                alert("Notification saved");
                 //setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
-                alert("subscription error");
+                alert("Notification error");
             }
         });
     },
