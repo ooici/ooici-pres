@@ -139,27 +139,39 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         var button_id = $(this).attr("id");
         var datatable_id = $(".datatable:visible").attr("id"); 
         switch (button_id) {
+          case "deselect_all":
+            $("#"+datatable_id+" input:checkbox").attr("checked", "");
+            break;
+          case "select_all":
+            $("#"+datatable_id+" input:checkbox").attr("checked", "checked");
+            break;
           case "delete_selected":
-            var num_selected = $("#"+datatable_id+" input:checked").length;
+            var ds_checked = $("#"+datatable_id+" input:checked");
+            var ds_delete_list = [];
+            if (ds_checked.first().parent().attr("id") !== ""){
+                $.each(ds_checked, function(i, e){ds_delete_list.push($(e).parent().parent().attr("id"))})
+            } else {
+                $.each(ds_checked, function(i, e){ds_delete_list.push($(e).parent().parent().attr("id"))})
+            }
+            var num_selected = ds_checked.length;
             if (num_selected == 0) return alert("Select items to delete them");
             var answer = confirm("Delete "+num_selected + " selected items?");
             if (answer){ 
                 self.loading_dialog("Deleting "+num_selected+" items...");
-                var dataset_ids = [111, 222, 333]; //TODO
-                return $.ajax({url:"dataResource", type:"POST", data:{"action":"delete", "dataset_ids":dataset_ids}, 
-                    success: function(resp){
-                        self.loading_dialog();
-                        //TODO: Refresh Table
-                        //document.location = "/"; //XXX
-                    }
+                $.each(ds_delete_list, function(i, e){
+                    //var subscriptionInfo = JSON.stringify({"data_src_id":e}); 
+                    $.ajax({url:"dataResource", type:"POST", data:{"action":"delete", "subscriptionInfo":{"data_src_id":e}}, 
+                        success: function(resp){
+                            //TODO: Refresh Table
+                            //document.location = "/";
+                        }
+                    });
                 });
+                setTimeout(function(){self.loading_dialog()}, 500); //XXX this is imperfect if the response time is long.
+                return;
             } else {
                 return;
             }
-          case "deselect_all":
-            return $("#"+datatable_id+" input:checkbox").attr("checked", "");
-          case "select_all":
-            return $("#"+datatable_id+" input:checkbox").attr("checked", "checked");
           default:
             return;
         }

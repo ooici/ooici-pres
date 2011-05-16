@@ -80,7 +80,7 @@ class DataResource(Resource):
             return json.dumps(self.DATA)
 
     def render_POST(self, request):
-        return json.dumps({"success":XXX})
+        return json.dumps({"success":True})
 
 
 root = Resource()
