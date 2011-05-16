@@ -82,7 +82,7 @@
        </table>
 
        <table id="datatable_109_users" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>OOI ID</th><th>Name</th><th>Institution</th><th>Email</th><th>Subject</th><th>Details</th></tr></thead>
+          <thead><tr><th>&nbsp;</th><th>OOI ID</th><th>Name</th><th>Email</th><th>Institution</th><th>Subject</th><th>Details</th></tr></thead>
           <tbody></tbody>
        </table>
 

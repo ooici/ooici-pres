@@ -674,6 +674,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
     */
 
 	resourceType: '',	// To be filled by derived classes
+	tableTitle: '',		// To be filled by derived classes
 
     events: {
         "click tbody tr":"show_detail_clicked"
@@ -714,7 +715,6 @@ OOI.Views.Workflow109 = Backbone.View.extend({
                     self.datatable.fnAddData(columns);
                     $(self.$table.dataTable().fnGetNodes(i)).attr("id", resourceCols[0]);
                 });
-                $("#datatable_select_buttons").show();
                 $.each(self.$table.find("tr"), function(i, e){ $(e).find("td:first").css("width", "4%")});
 				var colWidth = ((100 - 4)/(self.columnCount - 1)) + '%';
                 self.$table.find("tr").find("td:not(:first), th:not(:first)").css("width", colWidth);
@@ -792,27 +792,32 @@ OOI.Views.Workflow109 = Backbone.View.extend({
         $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
-        $("#datatable h1").text("Running EPUs");
+        $("#datatable h1").text(this.tableTitle);
         $("#save_notification_settings").hide(); //button
         $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $("h3.my_resources_sidebar").show();
+		$("#datatable_select_buttons").hide();
     }
 
 });
 
 OOI.Views.Workflow109EPUs = OOI.Views.Workflow109.extend({
-	resourceType: 'epucontrollers'
+	  resourceType: 'epucontrollers'
+	, tableTitle: 'Running EPUs'
 });
 OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
-	resourceType: 'identities'
+	  resourceType: 'identities'
+	, tableTitle: 'Registered Users'
 });
 OOI.Views.Workflow109Datasets = OOI.Views.Workflow109.extend({
-	resourceType: 'datasets'
+	  resourceType: 'datasets'
+	, tableTitle: 'Data Sets'
 });
 OOI.Views.Workflow109Datasources = OOI.Views.Workflow109.extend({
-	resourceType: 'datasources'
+	  resourceType: 'datasources'
+	, tableTitle: 'Data Sources'
 });
 
 OOI.Views.GeospatialContainer = Backbone.View.extend({
