@@ -141,6 +141,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
 
     show_detail: function(data_resource_id){
         self = this;
+        this.controller.loading_dialog("Loading dataset details...");
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);
@@ -288,7 +289,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     populate_table: function(){
-        this.controller.loading_dialog("Loading datasets...");
+        this.controller.loading_dialog("Loading notifications...");
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
@@ -319,6 +320,10 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
         $("#notification_settings, #dispatcher_settings").trigger("click");
+        var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
+        if (!is_early_adopter){
+            $(".dispatcher_settings").hide();
+        }
     },
 
     show_detail_clicked: function(e){
@@ -368,6 +373,10 @@ OOI.Views.Workflow104 = Backbone.View.extend({
             }
         }
         $("#notification_settings, #dispatcher_settings").trigger("click");
+        var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
+        if (!is_early_adopter){
+            $(".dispatcher_settings").hide();
+        }
     },
 
     start_notifications: function(){
@@ -576,6 +585,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail: function(data_resource_id){
+        this.controller.loading_dialog("Loading dataset details...");
         self = this;
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
