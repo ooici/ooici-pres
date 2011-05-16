@@ -383,8 +383,13 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     start_notifications: function(){
-        var data_resource_id = $("#datatable_104 tr.selected").attr("id");
-        var model = this.controller.resource_collection.get_by_dataset_id(data_resource_id);
+        if (window.location.hash === "#notifications"){
+            var data_resource_id = $("#datatable_104 tr.selected").attr("id");
+            var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id);
+        } else { //XXX mixing Workflow100 with Workflow104 right here:
+            var data_resource_id = $("#datatable_100 tr.selected").attr("id");
+            var model = this.controller.resource_collection.get_by_dataset_id(data_resource_id);
+        }
         var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
         if ($("#updateWhenAvailable").is(":checked") && !$("#datasourceIsOffline").is(":checked")) email_alerts_filter = "UPDATES";
         if (!$("#updateWhenAvailable").is(":checked") && $("#datasourceIsOffline").is(":checked")) email_alerts_filter = "DATASOURCEOFFLINE";
