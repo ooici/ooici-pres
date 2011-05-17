@@ -18,7 +18,7 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		compile 'net.ooici:ionproto:0.3.21-pl4',
+		compile 'net.ooici:ionproto:0.3.22-pl1',
 		        'net.ooici:ioncore-java:0.2.6-dev'
     }
 }
