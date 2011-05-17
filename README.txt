@@ -44,7 +44,7 @@ mkdir ~/.grails
 
 Deploy and run it
 =================
-ioncore-python> bin/twistd -n cc res/deploy/r1deploy.rel
+ioncore-python> bin/twistd cc -n -a sysname=<sysname> -h <rabbitmq hostname> res/deploy/r1deploy.rel
 
 
 Deploying
