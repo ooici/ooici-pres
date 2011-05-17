@@ -8,20 +8,8 @@ class DataResourceController extends BaseController {
 	def find = {
 		
 		preProcessRequest(false);
-
-		// Special handle numeric params		
-		if (params.get("minLongitude") != null)
-			params.put("minLongitude",params.float("minLongitude"));
-		if (params.get("maxLongitude") != null)
-			params.put("maxLongitude",params.float("maxLongitude"));
-		if (params.get("minLatitude") != null)
-			params.put("minLatitude",params.float("minLatitude"));
-		if (params.get("maxLatitude") != null)
-			params.put("maxLatitude",params.float("maxLatitude"));
-		if (params.get("minVirtical") != null)
-			params.put("minVirtical",params.float("minVirtical"));
-		if (params.get("maxVirtical") != null)
-			params.put("maxVirtical",params.float("maxVirtical"));
+		
+		specialPreProcessRequest()
 	
 		sendReceive(RequestType.FIND_DATA_RESOURCES);
 	}
@@ -29,7 +17,9 @@ class DataResourceController extends BaseController {
 	def findByUser = {
 		
 		preProcessRequest(true)
-				
+		
+		specialPreProcessRequest()
+
 		params.put("user_ooi_id", ooi_id)
 		
 		sendReceive(RequestType.FIND_DATA_RESOURCES_BY_USER)
@@ -69,4 +59,22 @@ class DataResourceController extends BaseController {
 		
 		sendReceive(RequestType.VALIDATE_DATA_RESOURCE)
 	}
+	
+	def specialPreProcessRequest = {
+		
+		// Special handle numeric params
+		if (params.get("minLongitude") != null)
+			params.put("minLongitude",params.float("minLongitude"));
+		if (params.get("maxLongitude") != null)
+			params.put("maxLongitude",params.float("maxLongitude"));
+		if (params.get("minLatitude") != null)
+			params.put("minLatitude",params.float("minLatitude"));
+		if (params.get("maxLatitude") != null)
+			params.put("maxLatitude",params.float("maxLatitude"));
+		if (params.get("minVertical") != null)
+			params.put("minVertical",params.float("minVirtical"));
+		if (params.get("maxVertical") != null)
+			params.put("maxVertical",params.float("maxVirtical"));
+	}
+
 }
