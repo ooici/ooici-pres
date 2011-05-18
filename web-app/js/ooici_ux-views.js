@@ -11,13 +11,26 @@ OOI.Views.ResourceSelector = Backbone.View.extend({
     },
 
     switch_resource: function(e){
+        /* Manually change hash to trigger corresponding
+        callback function. If hash is currently the same,
+        call corresponding callback function directly
+        */
         var resource = $(e.target).attr("id");
         switch (resource) {
             case "radioAllPubRes":
+                if (window.location.hash === ""){
+                    this.controller.all_registered_resources();
+                }
                 return window.location.hash="";
             case "radioMySub":
+                if (window.location.hash === "#notifications"){
+                    this.controller.my_notification_settings();
+                }
                 return window.location.hash="notifications";
             case "radioMyPubRes":
+                if (window.location.hash === "#registered"){
+                    this.controller.my_registered_resources();
+                }
                 return window.location.hash="registered";
             default:
                 return window.location.hash="";
