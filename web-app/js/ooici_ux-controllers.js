@@ -37,6 +37,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.admin_selector = new OOI.Views.AdminSelector({el:"#view_admin_tools", controller:this}); 
         this.resource_details_scroll = new OOI.Views.ResourceDetailsScroll({el:"#datatable_details_scroll", controller:this}); 
         this.geospatial_container = new OOI.Views.GeospatialContainer({"el":"#west_south", controller:this}); 
+        this.resource_actions = new OOI.Views.ResourceActions({"el":".east-south", controller:this});
 
         this.datatable_select_buttons();
         

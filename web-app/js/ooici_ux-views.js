@@ -574,7 +574,51 @@ OOI.Views.Workflow105 = Backbone.View.extend({
 
 });
 
+OOI.Views.ResourceActions = Backbone.View.extend({
+    /*
+        Handles resource actions like saving,
+        initiated by click on certain buttons.
+    */
 
+    events: {
+        "click #save_myresources_changes":"save_myresources_changes"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "save_myresources_changes"); 
+        this.controller = this.options.controller;
+    },
+ 
+    save_myresources_changes:function(){
+        var data_source_resource_id = $("#datatable_106 tr.selected").attr("id");
+        if ($("#polling_radio_yes").is(":checked")){
+            var polling_time = parseInt($("#polling_time").val().split(":")[2]); //XXX generalize
+            var update_interval_seconds = polling_time*60;
+        } else {
+            var update_interval_seconds = 0;
+        }
+        var ion_title = $("#resource_registration_title").val();
+        var ion_description = $("#resource_registration_description").val();
+        if ($("#availability_radio_private").is(":checked")){
+            var is_public = false;
+        } else {
+            var is_public = true;
+        }
+        var max_ingest_millis = update_interval_seconds * 1000;
+        var update_start_datetime_millis = (new Date()).getTime()*1000;
+        var data = {"data_source_resource_id":data_source_resource_id, "update_interval_seconds":update_interval_seconds,
+            "ion_title":ion_title, "ion_description":ion_description, "is_public":is_public, "max_ingest_millis":max_ingest_millis,
+            "update_start_datetime_millis":update_start_datetime_millis};
+        this.controller.loading_dialog("Saving Resource Changes...");
+        var self = this;
+        $.ajax({url:"dataResource", type:"POST", data:data,
+            success: function(resp){
+                self.controller.loading_dialog();
+            }
+        });
+    }
+});
+    
 
 
 OOI.Views.Workflow106 = Backbone.View.extend({
@@ -587,7 +631,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     initialize: function() {
-        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all"); 
+        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all");
         this.controller = this.options.controller;
         this.datatable = this.controller.datatable_init("#datatable_106", 7);
     },
@@ -597,7 +641,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         this.presentation();
         return this;
     }, 
-    
+
     populate_table: function(){
         this.controller.loading_dialog("Loading datasets...");
         this.datatable.fnClearTable();
