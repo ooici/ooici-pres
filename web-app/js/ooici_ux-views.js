@@ -517,9 +517,8 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         return this;
     },
 
-	show_validate_response: function(data) {
-		var selector = '#validate-resource-dialog', $el = $(selector);
-		$el.find('.field').hide();
+	show_validate_response: function($el, data) {
+		$el.find('.loading:first').hide();
 		var $result = $el.find('.result:first').show().find('.value:first');
 
 		if (data.error_str) {
@@ -537,27 +536,34 @@ OOI.Views.Workflow105 = Backbone.View.extend({
 				if (cdm.cdm_output !== undefined)			$el.find('.cdm-output').show().find('.value:first').text(cdm.cdm_output);
 			}
 		}
-		
 
-		$.colorbox({
-            inline:true,
-            href:"#validate-resource-dialog",
-            transition:"none",
-            opacity:0.7
-        });
 	},
 
     register_resource:function(){
+		var selector = '#validate-resource-dialog', $el = $(selector);
+		$el.find('.field').hide();
+		$el.find('.loading:first').show();
+		$.colorbox({
+            inline: true,
+            href: selector,
+            transition: 'none',
+            opacity: 0.7
+        });
 
+		function successOrError(data) {
+			console.log($el, arguments);
+			this.show_validate_response($el, data);
+		}
+
+		var self = this;
         var data_resource_url = $("#data_resource_url").val();
         $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url}, dataType:"json",
             success: function(data){
-                //alert("Resource has been registered.")
-				this.show_validate_response(data);
+				self.show_validate_response($el, data);
             },
-            error: function(data){
-                //alert("Resource error.");
-				this.show_validate_response(data);
+            error: function(xhr){
+				var data = JSON.parse(xhr.responseText);
+				self.show_validate_response($el, data);
             }
         });
 
