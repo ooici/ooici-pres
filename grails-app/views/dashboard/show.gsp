@@ -480,6 +480,7 @@
     <!--Body-->
     <div align="left" style=" background-color:#F4F4F6; width:590px; height:310px; padding:10px; padding-left:30px; padding-right:20px; border:1px solid #494949;border-bottom:none">
 
+        <div class="loading"><p>Validating the dataset, this can take several minutes...</p></div>
 
         <div class="field clearfix result"><label>Result:</label><input type="text" class="value" readonly /></div>
         <div class="field clearfix error-msg"><label>Error Message:</label><pre class="value"></pre></div>
