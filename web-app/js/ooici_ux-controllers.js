@@ -158,11 +158,16 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             var answer = confirm("Delete "+num_selected + " selected items?");
             if (answer){ 
                 self.loading_dialog("Deleting "+num_selected+" items...");
+                if (document.location.hash.indexOf("notifications") > 0){
+                    var url = "subscription";
+                } else {
+                    var url = "dataResource";
+                }
                 $.each(ds_delete_list, function(i, e){
                     var subscriptionInfo = {"data_src_id":e};
                     var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
                     var data = {"action":"delete", "subscriptionInfo":subscriptionInfoJson};
-                    $.ajax({url:"subscription", type:"POST", data:data, 
+                    $.ajax({url:url, type:"POST", data:data, 
                         success: function(resp){
                             //TODO: Refresh Table
                             //document.location = "/";
