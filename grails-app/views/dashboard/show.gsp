@@ -26,7 +26,7 @@
   <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
   $(function() {
-    window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>').concat(['USER', 'ADMIN', 'DATA_PROVIDER']);
+    window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
     window.REGISTERED = JSON.parse('<%= REGISTERED %>');
     OOI.init();
   });
