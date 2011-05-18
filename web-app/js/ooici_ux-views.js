@@ -163,15 +163,19 @@ OOI.Views.Workflow100 = Backbone.View.extend({
             var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
         });
-        var variable = resp.variable;
-        html += "<div class='detail'><strong>Variables</strong>";
-        $.each(variable, function(v){
-            var vari = variable[v];
+        html += this.format_variables(resp.variable);
+        $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
+    },
+
+    format_variables:function(data){
+        html = "<div class='detail'><strong>Variables</strong>";
+        $.each(data, function(v){
+            var vari = data[v];
             var var_string = vari.units + " = " + vari.standard_name + " = " + vari.long_name;
             html += "<div>"+var_string+"</div>";
         });
         html += "</div>";
-        $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
+        return html;
     },
 
     dataset_sidebar: function(resp, self){
@@ -191,7 +195,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#ds_source").html(ds_source);
         var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
         $("#ds_source_contact").html(ds_source_contact);
-        $("#ds_variables").html(JSON.stringify(resp.variable));
+        $("#ds_variables").html(self.format_variables(resp.variable));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
         $("#ds_references").html(data.references);
@@ -666,18 +670,20 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
         });
-        var variable = resp.variable;
-        html += "<div class='detail'><strong>Variables</strong>";
-        $.each(variable, function(v){
-            var vari = variable[v];
+        html += this.format_variables(resp.variable);
+        $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
+    },
+
+    format_variables:function(data){
+        html = "<div class='detail'><strong>Variables</strong>";
+        $.each(data, function(v){
+            var vari = data[v];
             var var_string = vari.units + " = " + vari.standard_name + " = " + vari.long_name;
             html += "<div>"+var_string+"</div>";
         });
         html += "</div>";
-        $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
+        return html;
     },
-
-
 
     dataset_sidebar: function(resp, data_resource_id, self){
         var data = resp.dataResourceSummary;
@@ -707,7 +713,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
         $("#ds_publisher_contact").html(ds_publisher_contact);
         $("#ds_source_contact").html(data.source);
-        $("#ds_variables").html(JSON.stringify(resp.variable));
+        $("#ds_variables").html(self.format_variables(resp.variable));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
         $("#ds_references").html(data.references);
