@@ -496,16 +496,57 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         return this;
     },
 
+	show_validate_response: function(data) {
+		//console.log(data);
+
+		var selector = '#validate-resource-dialog', $el = $(selector);
+		$el.find('.field').hide();
+		var $result = $el.find('.result:first').show().find('.value:first');
+
+		if (data.error_str) {
+			$result.val('Failure');
+			$el.find('.error-msg:first').show().find('.value:first').text(data.error_str);
+		} else {
+			$result.val('Success');
+
+			var cdm = data.cdmResponse;
+			if (cdm) {
+				if (cdm.cf_info_count !== undefined)		$el.find('.cf-info').show().find('.value:first').val(cdm.cf_info_count);
+				if (cdm.cf_warning_count !== undefined)		$el.find('.cf-warning').show().find('.value:first').val(cdm.cf_warning_count);
+				if (cdm.cf_error_count !== undefined)		$el.find('.cf-error').show().find('.value:first').val(cdm.cf_error_count);
+				if (cdm.cf_output !== undefined)			$el.find('.cf-output').show().find('.value:first').text(cdm.cf_output);
+				if (cdm.cdm_output !== undefined)			$el.find('.cdm-output').show().find('.value:first').text(cdm.cdm_output);
+			}
+		}
+		
+
+		$.colorbox({
+            inline:true,
+            href:"#validate-resource-dialog",
+            transition:"none",
+            opacity:0.7
+        });
+	},
+
     register_resource:function(){
+		/* TODO: Uncomment the good lines once the backend service is fixed.
         var data_resource_url = $("#data_resource_url").val();
         $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url}, dataType:"json",
             success: function(data){
-                alert("Resource has been registered.")
+                //alert("Resource has been registered.")
+				this.show_validate_response(data);
             },
             error: function(data){
-                alert("Resource error.");
+                //alert("Resource error.");
+				this.show_validate_response(data);
             }
         });
+        */
+
+		var goodResponse = {"dataResourceSummary": {"title": "WHOTS 7 near-real-time Mooring Data, System 1","institution": "WHOI","references": "http:// www.oceansites.org, http://uop.whoi.edu/projects/whots","summary": "Near-real-time surface data from ASIMet system 1 on the seventh deployment of the WHOI HOT Station (WHOTS) observatory.","comment": "Argos, hourly averaged ASIMet data","ion_time_coverage_start": "2010-07-29T06:00:00Z","ion_time_coverage_end": "2011-05-16T13:00:00Z","ion_geospatial_lat_min": 22.75,"ion_geospatial_lat_max": 22.75,"ion_geospatial_lon_min": -158.0,"ion_geospatial_lon_max": -158.0,"ion_geospatial_vertical_min": -1.0,"ion_geospatial_vertical_max": 2.0,"ion_geospatial_vertical_positive": "True"},"cdmResponse": {"response_type": "PASS","cf_output": "\nCHECKING NetCDF FILE: http://geoport.whoi.edu/thredds/dodsC/usgs/data0/rsignell/data/oceansites/OS_WHOTS_2010_R_M-1.nc\n=====================\nUsing CF Checker Version 2.0.2\nUsing Standard Name Table Version 16 (2010-10-11T12:16:51Z)\nUsing Area Type Table Version 1 (5 December 2008)\n\n\n------------------\nChecking variable: UWND\n------------------\n\n------------------\nChecking variable: TEMP\n------------------\n\n------------------\nChecking variable: VWND\n------------------\n\n------------------\nChecking variable: SW\n------------------\n\n------------------\nChecking variable: longitude\n------------------\nINFO: attribute \'comment\' is being used in a non-standard way\nINFO: attribute \'_FillValue\' is being used in a non-standard way\n\n------------------\nChecking variable: ATMS\n------------------\n\n------------------\nChecking variable: PSAL\n------------------\n\n------------------\nChecking variable: LW\n------------------\n\n------------------\nChecking variable: depth\n------------------\nINFO: attribute \'comment\' is being used in a non-standard way\n\n------------------\nChecking variable: RELH\n------------------\n\n------------------\nChecking variable: AIRT\n------------------\n\n------------------\nChecking variable: time\n------------------\nWARNING (4.4.1): Use of the calendar and/or month_lengths attributes is recommended for time coordinate variables\n\n------------------\nChecking variable: latitude\n------------------\nINFO: attribute \'comment\' is being used in a non-standard way\nINFO: attribute \'_FillValue\' is being used in a non-standard way\n\n------------------\nChecking variable: RAIT\n------------------\n\nERRORS detected: 0\nWARNINGS given: 1\nINFORMATION messages: 5\n","cdm_output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<netcdfDatasetInfo location=\"dods://geoport.whoi.edu/thredds/dodsC/usgs/data0/rsignell/data/oceansites/OS_WHOTS_2010_R_M-1.nc\">\r\n  <convention name=\"CF-1.4\" />\r\n  <axis name=\"time\" decl=\"double time(time)\" type=\"Time\" units=\"days since 1950-01-01T00:00:00Z\" udunits=\"date\" regular=\".041666\" />\r\n  <axis name=\"depth\" decl=\"float depth(depth)\" type=\"Height\" units=\"meters\" udunits=\"m\" regular=\".0\" />\r\n  <axis name=\"latitude\" decl=\"float latitude(latitude)\" type=\"Lat\" units=\"degrees_north\" udunits=\"0.017453292519943295 rad\" regular=\".0\" />\r\n  <axis name=\"longitude\" decl=\"float longitude(longitude)\" type=\"Lon\" units=\"degrees_east\" udunits=\"0.017453292519943295 rad\" regular=\".0\" />\r\n  <coordSystem name=\"time depth\" />\r\n  <variable name=\"time\" decl=\"double time(time)\" units=\"days since 1950-01-01T00:00:00Z\" udunits=\"date\" coordSys=\" \" />\r\n  <variable name=\"depth\" decl=\"float depth(depth)\" units=\"meters\" udunits=\"m\" coordSys=\" \" />\r\n  <variable name=\"latitude\" decl=\"float latitude(latitude)\" units=\"degrees_north\" udunits=\"0.017453292519943295 rad\" coordSys=\" \" />\r\n  <variable name=\"longitude\" decl=\"float longitude(longitude)\" units=\"degrees_east\" udunits=\"0.017453292519943295 rad\" coordSys=\" \" />\r\n  <variable name=\"AIRT\" decl=\"float AIRT(time, depth)\" units=\"degree_C\" udunits=\"(K) @ 273.15\" coordSys=\"time depth\" />\r\n  <variable name=\"ATMS\" decl=\"float ATMS(time, depth)\" units=\"millibars\" udunits=\"100.0 Pa\" coordSys=\"time depth\" />\r\n  <variable name=\"RELH\" decl=\"float RELH(time, depth)\" units=\"percent\" udunits=\"0.01 \" coordSys=\"time depth\" />\r\n  <variable name=\"LW\" decl=\"float LW(time, depth)\" units=\"W m-2\" udunits=\"kg.s-3\" coordSys=\"time depth\" />\r\n  <variable name=\"RAIT\" decl=\"float RAIT(time, depth)\" units=\"mm\" udunits=\"0.0010 m\" coordSys=\"time depth\" />\r\n  <variable name=\"TEMP\" decl=\"float TEMP(time, depth)\" units=\"degree_C\" udunits=\"(K) @ 273.15\" coordSys=\"time depth\" />\r\n  <variable name=\"SW\" decl=\"float SW(time, depth)\" units=\"W m-2\" udunits=\"kg.s-3\" coordSys=\"time depth\" />\r\n  <variable name=\"UWND\" decl=\"float UWND(time, depth)\" units=\"meters/second\" udunits=\"m.s-1\" coordSys=\"time depth\" />\r\n  <variable name=\"VWND\" decl=\"float VWND(time, depth)\" units=\"meters/second\" udunits=\"m.s-1\" coordSys=\"time depth\" />\r\n  <variable name=\"PSAL\" decl=\"float PSAL(time, depth)\" units=\"1\" udunits=\"1.0 \" coordSys=\"time depth\" />\r\n  <userAdvice>No gridded data variables were found.</userAdvice>\r\n</netcdfDatasetInfo>\r\n\r\n","cf_error_count": 0,"cf_warning_count": 1,"cf_info_count": 5,"err_msg": ""}};
+		var badResponse = {"error_num": 500,"error_str": "ValidateDataResource.validate(): INVALID: CF compliance failed x5  :: cf_output: \nCHECKING NetCDF FILE: http://hfrnet.ucsd.edu:8080/thredds/dodsC/HFRNet/USEGC/6km/hourly/RTV\n=====================\nUsing CF Checker Version 2.0.2\nUsing Standard Name Table Version 16 (2010-10-11T12:16:51Z)\nUsing Area Type Table Version 1 (5 December 2008)\n\nWARNING: Inconsistency - The conventions attribute is set to CF-1.1, but you\'ve requested a validity check against CF 1.4\n\n------------------\nChecking variable: v\n------------------\n\n------------------\nChecking variable: DOPx\n------------------\nERROR (3.1): No units attribute set\n\n------------------\nChecking variable: site_code\n------------------\nERROR (3.1): No units attribute set\n\n------------------\nChecking variable: site_lon\n------------------\n\n------------------\nChecking variable: lon\n------------------\n\n------------------\nChecking variable: procParams\n------------------\nERROR (3.1): No units attribute set\n\n------------------\nChecking variable: u\n------------------\n\n------------------\nChecking variable: DOPy\n------------------\nERROR (3.1): No units attribute set\n\n------------------\nChecking variable: time\n------------------\n\n------------------\nChecking variable: lat\n------------------\n\n------------------\nChecking variable: site_netCode\n------------------\nERROR (3.1): No units attribute set\n\n------------------\nChecking variable: site_lat\n------------------\n\nERRORS detected: 5\nWARNINGS given: 1\nINFORMATION messages: 0\n :: cdm_output: <?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<netcdfDatasetInfo location=\"dods://hfrnet.ucsd.edu:8080/thredds/dodsC/HFRNet/USEGC/6km/hourly/RTV\">\r\n  <convention name=\"CF-1.1\" />\r\n  <axis name=\"lat\" decl=\"float lat(lat)\" type=\"Lat\" units=\"degrees_north\" udunits=\"0.017453292519943295 rad\" regular=\".053939\" />\r\n  <axis name=\"lon\" decl=\"float lon(lon)\" type=\"Lon\" units=\"degrees_east\" udunits=\"0.017453292519943295 rad\" regular=\".058075\" />\r\n  <axis name=\"time\" decl=\"int time(time)\" type=\"Time\" units=\"seconds since 1970-01-01\" udunits=\"date\" />\r\n  <gridCoordSystem name=\"time lat lon\" horizX=\"lon\" horizY=\"lat\" time=\"time\" />\r\n  <grid name=\"u\" decl=\"short u(time, lat, lon)\" units=\"m s-1\" udunits=\"m.s-1\" coordSys=\"time lat lon\" />\r\n  <grid name=\"v\" decl=\"short v(time, lat, lon)\" units=\"m s-1\" udunits=\"m.s-1\" coordSys=\"time lat lon\" />\r\n  <grid name=\"DOPx\" decl=\"short DOPx(time, lat, lon)\" coordSys=\"time lat lon\" />\r\n  <grid name=\"DOPy\" decl=\"short DOPy(time, lat, lon)\" coordSys=\"time lat lon\" />\r\n  <variable name=\"lat\" decl=\"float lat(lat)\" units=\"degrees_north\" udunits=\"0.017453292519943295 rad\" coordSys=\" \" />\r\n  <variable name=\"lon\" decl=\"float lon(lon)\" units=\"degrees_east\" udunits=\"0.017453292519943295 rad\" coordSys=\" \" />\r\n  <variable name=\"site_lat\" decl=\"float site_lat(nSites)\" units=\"degrees_north\" udunits=\"0.017453292519943295 rad\" coordSys=\" \" />\r\n  <variable name=\"site_lon\" decl=\"float site_lon(nSites)\" units=\"degrees_east\" udunits=\"0.017453292519943295 rad\" coordSys=\" \" />\r\n  <variable name=\"site_code\" decl=\"char site_code(nSites, &quot;nSites_maxStrlen&quot;)\" coordSys=\" \" />\r\n  <variable name=\"site_netCode\" decl=\"char site_netCode(nSites, &quot;nSites_maxStrlen&quot;)\" coordSys=\" \" />\r\n  <variable name=\"procParams\" decl=\"float procParams(nProcParam)\" coordSys=\" \" />\r\n  <variable name=\"time\" decl=\"int time(time)\" units=\"seconds since 1970-01-01\" udunits=\"date\" coordSys=\" \" />\r\n  <userAdvice>Dataset contains useable gridded data.</userAdvice>\r\n  <userAdvice>Some variables are not gridded fields; check that is what you expect.</userAdvice>\r\n</netcdfDatasetInfo>\r\n\r\n :: err_msg:  "};
+
+		this.show_validate_response(goodResponse);
     },
 
     resource_selector: function(e){

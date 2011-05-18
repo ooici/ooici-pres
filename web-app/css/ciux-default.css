@@ -374,3 +374,25 @@ Temporal Extent
 
 .clearfix:after, .container:after {content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;}
 .clearfix, {display:block;}
+
+#validate-resource-dialog .field {
+    margin-bottom: 5px;
+}
+#validate-resource-dialog label {
+    display: block;
+    width: 120px;
+    float: left;
+}
+#validate-resource-dialog input, #validate-resource-dialog pre {
+    width: 460px;
+    float: left;
+    border: 1px solid #666666;
+    background: #FFFFFF;
+    padding: 3px;
+}
+#validate-resource-dialog pre {
+
+    overflow: auto;
+    height: 80px;
+    margin: 0;
+}

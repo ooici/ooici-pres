@@ -474,6 +474,33 @@
     </div>
    </div><!-- end #registration_complete_dialog -->
 
+<div id="validate-resource-dialog" style="width:640px; height:400px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000">
+    <!--Header-->
+    <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">Validate Data Resource</div>
+    <!--Body-->
+    <div align="left" style=" background-color:#F4F4F6; width:590px; height:310px; padding:10px; padding-left:30px; padding-right:20px; border:1px solid #494949;border-bottom:none">
+
+
+        <div class="field clearfix result"><label>Result:</label><input type="text" class="value" readonly /></div>
+        <div class="field clearfix error-msg"><label>Error Message:</label><pre class="value"></pre></div>
+        <div class="field clearfix cf-error"><label>CF Error Count:</label><input type="text" class="value" readonly /></div>
+        <div class="field clearfix cf-warning"><label>CF Warning Count:</label><input type="text" class="value" readonly /></div>
+        <div class="field clearfix cf-info"><label>CF Info Count:</label><input type="text" class="value" readonly /></div>
+        <div class="field clearfix cf-output"><label>CF Output:</label><pre class="value"></pre></div>
+        <div class="field clearfix cdm-output"><label>CDM Output:</label><pre class="value"></pre></div>
+    </div>
+
+    <div align="left" style=" background-color:#FFF; width:590px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border:1px solid #494949;">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+          <td>&nbsp;</td>
+          <td width="100px">&nbsp;</td>
+          <td width="10px">&nbsp;</td>
+          <td width="100px"><a href="#" class="modal_close colorbox_button blue-button-inactive">Done</a></td>
+        </tr>
+      </tbody></table></div>
+</div>
+
 
 </div><!-- end #modal_dialogs -->
 
