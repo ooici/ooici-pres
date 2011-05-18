@@ -139,13 +139,11 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if (tr.text() == "Details"){
             $("#datatable_details_scroll, #datatable_details_container").show();
             $(".dataTables_wrapper").hide();
-            if (!$("#datatable_details_container").hasClass(data_resource_id)){
-                var nth_elem = $(e.target).parent().index();
-                if (window.location.hash === ""){
-                    window.location.hash += "#/"+nth_elem;
-                } else {
-                    window.location.hash += "/"+nth_elem;
-                }
+            var nth_elem = $(e.target).parent().index();
+            if (window.location.hash === ""){
+                window.location.hash += "#/"+nth_elem;
+            } else {
+                window.location.hash += "/"+nth_elem;
             }
         } else {
             this.show_detail(data_resource_id);
@@ -244,6 +242,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
             success: function(data){
                 $("#datatable_select_buttons").hide();
                 self.controller.resource_collection.remove_all();
+                if (typeof data.dataResourceSummary === "undefined"){
+                    data["dataResourceSummary"] = [];
+                }
                 $.each(data.dataResourceSummary, function(i, elem){
                     self.controller.resource_collection.add(elem);
                     var new_date = new Date(elem.date_registered);
@@ -320,6 +321,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
             success: function(data){
                 var cb = "<input type='checkbox'/>";
                 self.controller.my_notifications_collection.remove_all();
+                if (typeof data.subscriptionListResults === "undefined"){
+                    data["subscriptionListResults"] = [];
+                }
                 $.each(data.subscriptionListResults, function(i, elem){
                     var model_info = $.extend({}, elem.datasetMetadata, elem.subscriptionInfo);
                     self.controller.my_notifications_collection.add(model_info);
@@ -514,8 +518,6 @@ OOI.Views.Workflow105 = Backbone.View.extend({
     },
 
 	show_validate_response: function(data) {
-		//console.log(data);
-
 		var selector = '#validate-resource-dialog', $el = $(selector);
 		$el.find('.field').hide();
 		var $result = $el.find('.result:first').show().find('.value:first');
@@ -665,6 +667,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $.ajax({url:"dataResource", type:"GET", data:data, dataType:"json",
             success: function(data){
                 self.controller.my_resources_collection.remove_all();
+                if (typeof data.datasetByOwnerMetadata === "undefined"){
+                    data["datasetByOwnerMetadata"] = [];
+                }
                 $.each(data.datasetByOwnerMetadata, function(i, elem){
                     self.controller.my_resources_collection.add(elem);
                     var cb = "<input type='checkbox'/>";
@@ -694,10 +699,8 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         if (tr.text() == "Details"){
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$(".dataTables_wrapper").hide();
-            if (!$("#datatable_details_container").hasClass(data_resource_id)){
-                var nth_elem = $(e.target).parent().index();
-                window.location.hash += "/"+nth_elem;
-            }
+            var nth_elem = $(e.target).parent().index();
+            window.location.hash += "/"+nth_elem;
         } else {
             this.show_detail(data_resource_id);
         }

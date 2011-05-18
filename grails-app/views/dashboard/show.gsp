@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>OOICI UX Template</title>
+  <title>OOI Integrated Observatory Network</title>
 
   <link rel="stylesheet" type="text/css" href="css/ciux-default.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/cupertino/jquery-ui-1.8.9.custom.css"/>
@@ -243,12 +243,12 @@
         </form>
       <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
-        <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="15" maxlength="15"/>
+        <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="20" maxlength="20"/>
         <br><br><span class="te-to boldText">To:</span>
-        <input id="te_to_input" name="te_to_input" type="text" size="15" maxlength="15"/>
+        <input id="te_to_input" name="te_to_input" type="text" size="20" maxlength="20"/>
         <div style="color:#aaa" class="te-footer-text">
           ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
-          Example: 2010-11-15T09:00:00
+          Example: 2010-11-15T09:00:00Z
         </div>
       </div><!-- end .temporalExtentControls -->
 

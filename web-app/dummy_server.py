@@ -71,6 +71,7 @@ class DataResource(Resource):
         #import time; time.sleep(0.8) #mock out real latency
         action = request.args["action"][0]
         if action == "detail":
+            self.DATA["source"]["ion_description"] = request.args["data_resource_id"][0]
             self.DATA.update({"dataResourceSummary":self.dataResourceSummary_one})
             return json.dumps(self.DATA)
         elif action == "findByUser":
