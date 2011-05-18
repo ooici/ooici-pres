@@ -27,6 +27,7 @@
   <script type="text/javascript">
   $(function() {
     window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
+    if (document.location.hostname === 'localhost') window.OOI_ROLES.push('ADMIN', 'DATA_PROVIDER');
     window.REGISTERED = JSON.parse('<%= REGISTERED %>');
     OOI.init();
   });
