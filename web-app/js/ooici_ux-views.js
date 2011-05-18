@@ -520,6 +520,11 @@ OOI.Views.Workflow105 = Backbone.View.extend({
             $("#geospatial_selection_button, #view_existing, .view_existing").hide();
             $("#view_existing_tab").removeClass("selected");
         }
+        //TODO: this 'role' type logic needs to be changed to a class based switch strategy:
+        var is_admin = _.any(OOI_ROLES, function(role){return role === "ADMIN"});
+        if (!is_admin){
+            $(".admin_role").hide();
+        }
     }
 
 });
