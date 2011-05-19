@@ -22,7 +22,7 @@ def ciLogonConfig():
 
     global webAppPort
     if webAppPort is None:
-        webAppPort = prompt('Please enter web application SSL port number:', default='8443')
+        webAppPort = prompt('Please enter web application SSL port number:', default='443')
 
     # Perform value substitution in CILogon config file
     o = open('web-app/WEB-INF/cfg.rdf', 'w')
