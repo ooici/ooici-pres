@@ -8,7 +8,7 @@ class DataResourceController extends BaseController {
 		
 		preProcessRequest(false);
 		
-		specialPreProcessRequest()
+		specialPreProcessFindRequest()
 		
 		params.put("user_ooi_id", ooi_id)
 
@@ -19,7 +19,7 @@ class DataResourceController extends BaseController {
 		
 		preProcessRequest(true)
 		
-		specialPreProcessRequest()
+		specialPreProcessFindRequest()
 
 		params.put("user_ooi_id", ooi_id)
 		
@@ -37,6 +37,12 @@ class DataResourceController extends BaseController {
 		
 		preProcessRequest(true)
 		
+		specialPreProcessBooleanAndTimeValues()
+
+		specialPreProcessBounds()
+		
+		params.put("user_id", ooi_id)
+
 		sendReceive(RequestType.CREATE_DATA_RESOURCE)
 	}
 	
@@ -44,6 +50,8 @@ class DataResourceController extends BaseController {
 		
 		preProcessRequest(true)
 		
+		specialPreProcessBooleanAndTimeValues()
+
 		sendReceive(RequestType.UPDATE_DATA_RESOURCE)
 	}
 	
@@ -61,7 +69,7 @@ class DataResourceController extends BaseController {
 		sendReceive(RequestType.VALIDATE_DATA_RESOURCE)
 	}
 	
-	def specialPreProcessRequest = {
+	def specialPreProcessFindRequest = {
 		
 		// Special handle numeric params
 		if (params.get("minLongitude") != null)
@@ -73,9 +81,35 @@ class DataResourceController extends BaseController {
 		if (params.get("maxLatitude") != null)
 			params.put("maxLatitude",params.float("maxLatitude"));
 		if (params.get("minVertical") != null)
-			params.put("minVertical",params.float("minVirtical"));
+			params.put("minVertical",params.float("minVertical"));
 		if (params.get("maxVertical") != null)
-			params.put("maxVertical",params.float("maxVirtical"));
+			params.put("maxVertical",params.float("maxVertical"));
+	}
+	
+	def specialPreProcessBooleanAndTimeValues = {
+		
+		// Special handle numeric params
+		if (params.get("update_interval_seconds") != null)
+			params.put("update_interval_seconds",params.long("update_interval_seconds"));
+		if (params.get("max_ingest_millis") != null)
+			params.put("max_ingest_millis",params.long("max_ingest_millis"));
+		if (params.get("update_start_datetime_millis") != null)
+			params.put("update_start_datetime_millis",params.long("update_start_datetime_millis"));
+		if (params.get("is_public") != null)
+			params.put("is_public",params.boolean("is_public"));
+	}
+	
+	def specialPreProcessBounds = {
+		
+		// Special handle numeric params
+		if (params.get("request_bounds_north") != null)
+			params.put("request_bounds_north",params.float("request_bounds_north"));
+		if (params.get("request_bounds_south") != null)
+			params.put("request_bounds_south",params.float("request_bounds_south"));
+		if (params.get("request_bounds_west") != null)
+			params.put("request_bounds_west",params.float("request_bounds_west"));
+		if (params.get("request_bounds_east") != null)
+			params.put("request_bounds_east",params.float("request_bounds_east"));
 	}
 
 }
