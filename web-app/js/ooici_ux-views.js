@@ -842,22 +842,18 @@ OOI.Views.Workflow109 = Backbone.View.extend({
         var self = this;
         $.ajax({url:"resource", type:"GET", data:{action: "ofType", resource_type: self.resourceType}, dataType:"json",
             success: function(data){
-				var cb = "<input type='checkbox'/>";
-                //self.controller.my_resources_collection.remove_all();
-                $.each(data.resources, function(i, elem){
-                    //self.controller.my_resources_collection.add(elem);
-					
-					// Automatically add all of the columns in the middle
-					var columns = [cb, "Details"];
+				$.each(data.resources, function(i, elem){
+                	// Automatically add all of the columns in the middle
+					var columns = ["Details"];
 					var resourceCols = elem.attribute.slice();
 					while (resourceCols.length < (self.columnCount - columns.length)) resourceCols.push('');
-					Array.prototype.splice.apply(columns, [1, 0].concat(resourceCols));
+					Array.prototype.splice.apply(columns, [0, 0].concat(resourceCols));
                     self.datatable.fnAddData(columns);
                     $(self.$table.dataTable().fnGetNodes(i)).attr("id", resourceCols[0]);
                 });
-                $.each(self.$table.find("tr"), function(i, e){ $(e).find("td:first").css("width", "4%")});
-				var colWidth = ((100 - 4)/(self.columnCount - 1)) + '%';
-                self.$table.find("tr").find("td:not(:first), th:not(:first)").css("width", colWidth);
+                //$.each(self.$table.find("tr"), function(i, e){ $(e).find("td:first").css("width", "4%")});
+				var colWidth = (100.0/self.columnCount) + '%';
+                self.$table.find("tr").find("td, th").css("width", colWidth);
                 self.controller.loading_dialog();
             }
         });
@@ -891,6 +887,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 
     show_detail: function(ooi_id){
         var self = this;
+		$("#datatable_details_container").empty();
         $.ajax({url:"resource", type:"GET", dataType:"json", data:{"action":"detail", "ooi_id":ooi_id},
             success: function(resp){
                 self.show_detail_all(resp, ooi_id);

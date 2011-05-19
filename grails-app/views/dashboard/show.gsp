@@ -78,22 +78,22 @@
        </table>
 
        <table id="datatable_109_epus" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>EPU Controller ID</th><th>Details</th></tr></thead>
+          <thead><tr><th>EPU Controller ID</th><th>Details</th></tr></thead>
           <tbody></tbody>
        </table>
 
        <table id="datatable_109_users" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>OOI ID</th><th>Name</th><th>Email</th><th>Institution</th><th>Subject</th><th>Details</th></tr></thead>
+          <thead><tr><th>OOI ID</th><th>Name</th><th>Email</th><th>Institution</th><th>Subject</th><th>Details</th></tr></thead>
           <tbody></tbody>
        </table>
 
        <table id="datatable_109_datasets" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>OOI ID</th><th>Title</th><th>Details</th></tr></thead>
+          <thead><tr><th>OOI ID</th><th>Title</th><th>Details</th></tr></thead>
           <tbody></tbody>
        </table>
 
        <table id="datatable_109_datasources" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>OOI ID</th><th>Station ID</th><th>Details</th></tr></thead>
+          <thead><tr><th>OOI ID</th><th>Station ID</th><th>Details</th></tr></thead>
           <tbody></tbody>
        </table>
 
@@ -477,7 +477,7 @@
 
 <div id="validate-resource-dialog" style="width:640px; height:400px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000">
     <!--Header-->
-    <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">Validate Data Resource</div>
+    <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">Register Data Resource</div>
     <!--Body-->
     <div align="left" style=" background-color:#F4F4F6; width:590px; height:310px; padding:10px; padding-left:30px; padding-right:20px; border:1px solid #494949;border-bottom:none">
 
