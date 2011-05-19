@@ -2,7 +2,6 @@ package ooici.pres.domain
 
 import ion.integration.ais.AppIntegrationService.RequestType;
 
-
 class DataResourceController extends BaseController {
 
 	def find = {
@@ -10,7 +9,9 @@ class DataResourceController extends BaseController {
 		preProcessRequest(false);
 		
 		specialPreProcessRequest()
-	
+		
+		params.put("user_ooi_id", ooi_id)
+
 		sendReceive(RequestType.FIND_DATA_RESOURCES);
 	}
 	
