@@ -554,6 +554,7 @@ OOI.Views.Workflow105 = Backbone.View.extend({
 				$('.east-south button').hide();
 				$('#save_register_resource').show();
 
+				 $('#save_register_resource').data('dataset_url', data_resource_url);
 				var data_resource_id = 'register-dataset';
 				var workflow = self.controller.workflow106;
 				workflow.show_detail_all(data, data_resource_id);
@@ -628,7 +629,7 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         this.controller = this.options.controller;
     },
 
-	save_resource: function(action, data_source_resource_id) {
+	save_resource: function(action, data_source_resource_id, dataset_url) {
 		if ($("#polling_radio_yes").is(":checked")){
             var polling_time = parseInt($("#polling_time").val().split(":")[2]); //XXX generalize
             var update_interval_seconds = polling_time*60;
@@ -647,9 +648,9 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         var data = {"action":action, "update_interval_seconds":update_interval_seconds,
             "ion_title":ion_title, "ion_description":ion_description, "is_public":is_public, "max_ingest_millis":max_ingest_millis,
             "update_start_datetime_millis":update_start_datetime_millis};
-		if (data_source_resource_id !== undefined) {
-			data["data_source_resource_id"] = data_source_resource_id;
-		}
+		if (data_source_resource_id !== undefined)  data["data_source_resource_id"] = data_source_resource_id;
+		if (dataset_url !== undefined)  data["dataset_url"] = dataset_url;
+
         this.controller.loading_dialog("Saving Resource Changes...");
         var self = this;
         $.ajax({url:"dataResource", type:"POST", data:data,
@@ -665,7 +666,11 @@ OOI.Views.ResourceActions = Backbone.View.extend({
     },
 
 	save_register_resource: function() {
-		this.save_resource('create');
+		// TODO: remove this atrocious hack
+		var $btn = $('#save_register_resource');
+		var url = $btn.data('dataset_url');
+		if (url) $btn.removeData('dataset_url');
+		this.save_resource('create', undefined, url);
 	}
 });
     
