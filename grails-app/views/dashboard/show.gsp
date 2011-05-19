@@ -258,7 +258,7 @@
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
       <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
-      <button id="register_resource_button">Register DataSource</button>
+      <button id="register_resource_button">Validate DataSource</button>
    </div><!-- end .west-south -->
 
  </div> <!-- end .ui-layout-west -->
@@ -361,6 +361,7 @@
       <button id="start_notifications">Start Notifications</button>
       <button id="save_myresources_changes" disabled="disabled">Save Changes</button>
       <button id="save_notifications_changes" disabled="disabled">Save Changes</button>
+      <button id="save_register_resource" style="display: none;">Register Resource</button>
    </div><!-- end .east-south -->
 
   </div><!-- end .ui-layout-east -->
@@ -496,9 +497,9 @@
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tbody><tr>
           <td>&nbsp;</td>
-          <td width="100px">&nbsp;</td>
+          <td width="100px"><a href="#" class="modal_close colorbox_button blue-button-inactive">Cancel</a></td>
           <td width="10px">&nbsp;</td>
-          <td width="100px"><a href="#" class="modal_close colorbox_button blue-button-inactive">Done</a></td>
+          <td width="100px"><a href="#" class="validate-ok colorbox_button blue-button-inactive">OK</a></td>
         </tr>
       </tbody></table></div>
 </div>

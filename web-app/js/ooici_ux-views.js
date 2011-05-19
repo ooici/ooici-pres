@@ -169,12 +169,12 @@ OOI.Views.Workflow100 = Backbone.View.extend({
             var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+dataResourceSummary[v]+"</div></div>";
         });
-        var source = resp.source;
+        var source = resp.source || {};
         $.each(source, function(v){
             var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
         });
-        html += this.format_variables(resp.variable);
+        html += this.format_variables(resp.variable || {});
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -198,15 +198,18 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if(!$("h3.data_sources").hasClass("ui-state-active")){
              $('h3.data_sources').trigger('click');
         }
-        var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description;
-        $("#ds_title").html(ds_title);
-        var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
-        $("#ds_publisher_contact").html(ds_publisher_contact);
+		if (resp.source) {
+			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description;
+			$("#ds_title").html(ds_title);
+			var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
+			$("#ds_publisher_contact").html(ds_publisher_contact);
+		}
+
         var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
         $("#ds_source").html(ds_source);
         var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
         $("#ds_source_contact").html(ds_source_contact);
-        $("#ds_variables").html(self.format_variables(resp.variable));
+        $("#ds_variables").html(self.format_variables(resp.variable || {}));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
         $("#ds_references").html(data.references);
@@ -266,7 +269,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         }
 		$(".dataTables_wrapper").hide();
         $("#datatable_100_wrapper").show();
-        $("#save_myresources_changes").hide();
+        $(".east-south button").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
         $(".notification_settings").hide();
@@ -480,7 +483,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         });
     },
 
-    presentation: function(){
+	presentation: function(){
 		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
         $(".notification_settings").hide();
@@ -488,7 +491,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $("#datatable h1").text("Notification Settings");
         $(".data_sources").hide();
         $("#geospatial_selection_button").hide();
-        $("#download_dataset_button, #setup_notifications, #save_myresources_changes, #start_notifications").hide(); //bottom west buttons
+        $(".east-south button").hide();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").show()
         var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
         if (!is_early_adopter){
@@ -517,13 +520,17 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         return this;
     },
 
-	show_validate_response: function($el, data) {
+	show_validate_response: function($el, data_resource_url, data) {
+		var self = this;
+
 		$el.find('.loading:first').hide();
 		var $result = $el.find('.result:first').show().find('.value:first');
 
 		if (data.error_str) {
 			$result.val('Failure');
 			$el.find('.error-msg:first').show().find('.value:first').text(data.error_str);
+
+			$el.find('.validate-ok:first').hide();
 		} else {
 			$result.val('Success');
 
@@ -535,8 +542,24 @@ OOI.Views.Workflow105 = Backbone.View.extend({
 				if (cdm.cf_output !== undefined)			$el.find('.cf-output').show().find('.value:first').text(cdm.cf_output);
 				if (cdm.cdm_output !== undefined)			$el.find('.cdm-output').show().find('.value:first').text(cdm.cdm_output);
 			}
-		}
 
+			$el.find('.validate-ok:first').show().one('click', function(e) {
+				e.preventDefault();
+				$.fn.colorbox.close();
+
+				//window.location.href = '#register-dataset/' + encodeURIComponent(data_resource_url);
+
+				$("#datatable_details_container").show();
+				$(".dataTables_wrapper").hide();
+				$('.east-south button').hide();
+				$('#save_register_resource').show();
+
+				var data_resource_id = 'register-dataset';
+				var workflow = self.controller.workflow106;
+				workflow.show_detail_all(data, data_resource_id);
+                workflow.dataset_sidebar(data, data_resource_id, workflow);
+			});
+		}
 	},
 
     register_resource:function(){
@@ -550,21 +573,15 @@ OOI.Views.Workflow105 = Backbone.View.extend({
             opacity: 0.7
         });
 
-		function successOrError(data) {
-			console.log($el, arguments);
-			this.show_validate_response($el, data);
-		}
-
-		var self = this;
         var data_resource_url = $("#data_resource_url").val();
         $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url}, dataType:"json",
-            success: function(data){
-				self.show_validate_response($el, data);
-            },
-            error: function(xhr){
+            success: _.bind(function(data){
+				this.show_validate_response($el, data_resource_url, data);
+            }, this),
+            error: _.bind(function(xhr){
 				var data = JSON.parse(xhr.responseText);
-				self.show_validate_response($el, data);
-            }
+				this.show_validate_response($el, data_resource_url, data);
+            }, this)
         });
 
 
@@ -602,17 +619,17 @@ OOI.Views.ResourceActions = Backbone.View.extend({
     */
 
     events: {
-        "click #save_myresources_changes":"save_myresources_changes"
+        "click #save_myresources_changes":"save_myresources_changes",
+		"click #save_register_resource":"save_register_resource"
     },
 
     initialize: function() {
         _.bindAll(this, "save_myresources_changes"); 
         this.controller = this.options.controller;
     },
- 
-    save_myresources_changes:function(){
-        var data_source_resource_id = $("#datatable_106 tr.selected").attr("id");
-        if ($("#polling_radio_yes").is(":checked")){
+
+	save_resource: function(action, data_source_resource_id) {
+		if ($("#polling_radio_yes").is(":checked")){
             var polling_time = parseInt($("#polling_time").val().split(":")[2]); //XXX generalize
             var update_interval_seconds = polling_time*60;
         } else {
@@ -627,9 +644,12 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         }
         var max_ingest_millis = update_interval_seconds * 1000;
         var update_start_datetime_millis = (new Date()).getTime()*1000;
-        var data = {"data_source_resource_id":data_source_resource_id, "update_interval_seconds":update_interval_seconds,
+        var data = {"action":action, "update_interval_seconds":update_interval_seconds,
             "ion_title":ion_title, "ion_description":ion_description, "is_public":is_public, "max_ingest_millis":max_ingest_millis,
             "update_start_datetime_millis":update_start_datetime_millis};
+		if (data_source_resource_id !== undefined) {
+			data["data_source_resource_id"] = data_source_resource_id;
+		}
         this.controller.loading_dialog("Saving Resource Changes...");
         var self = this;
         $.ajax({url:"dataResource", type:"POST", data:data,
@@ -637,7 +657,16 @@ OOI.Views.ResourceActions = Backbone.View.extend({
                 self.controller.loading_dialog();
             }
         });
-    }
+	},
+ 
+    save_myresources_changes:function(){
+        var data_source_resource_id = $("#datatable_106 tr.selected").attr("id");
+		this.save_resource('update', data_source_resource_id);
+    },
+
+	save_register_resource: function() {
+		this.save_resource('create');
+	}
 });
     
 
@@ -731,12 +760,12 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+dataResourceSummary[v]+"</div></div>";
         });
-        var source = resp.source;
+        var source = resp.source || {};
         $.each(source, function(v){
             var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
         });
-        html += this.format_variables(resp.variable);
+        html += this.format_variables(resp.variable || {});
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -760,8 +789,8 @@ OOI.Views.Workflow106 = Backbone.View.extend({
              $('h3.data_sources').trigger('click');
         }
         var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data_resource_id);
-        var activation_state = my_resource_model.get("activation_state");
-        var update_interval_seconds = my_resource_model.get("update_interval_seconds");
+        var activation_state = (my_resource_model) ? my_resource_model.get("activation_state") : '';
+        var update_interval_seconds = (my_resource_model) ? my_resource_model.get("update_interval_seconds") : 0;
         var active_check_elem_num = (activation_state == "Private") ? 0 : 1;
         $("input[name='availability_radio']").eq(active_check_elem_num).attr("checked", "checked");
         var update_interval_seconds_num = (update_interval_seconds > 0) ? 0 : 1;
@@ -772,14 +801,23 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         } else {
             $("#polling_time").val("");
         }
-        var ds_title_forms = "Title: <input id='resource_registration_title' value='"+resp.source.ion_title+"' name='resource_registration_title' type='text' size='28' maxlength='28'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+resp.source.ion_description+"</textarea>"; 
-        $("#ds_title").html(ds_title_forms);
-        var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
+
+		var ion_title = '', ion_description = '', ion_name = '', ion_email = '', ion_institution = '';
+		if (resp.source) {
+			ion_title = resp.source.ion_title;
+			ion_description = resp.source.ion_description;
+			ion_name = resp.source.ion_name;
+			ion_email = resp.source.ion_email;
+			ion_institution = resp.source.ion_institution;
+		}
+		var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='28' maxlength='28'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>";
+		$("#ds_title").html(ds_title_forms);
+		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b>"+ion_email+"<br><b>Contact Institution:</b>"+ion_institution;
+		$("#ds_publisher_contact").html(ds_publisher_contact);
+		var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
         $("#ds_source").html(ds_source);
-        var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
-        $("#ds_publisher_contact").html(ds_publisher_contact);
         $("#ds_source_contact").html(data.source);
-        $("#ds_variables").html(self.format_variables(resp.variable));
+        $("#ds_variables").html(self.format_variables(resp.variable || {}));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
         $("#ds_references").html(data.references);
@@ -794,6 +832,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         }
 		$(".dataTables_wrapper").hide();
         $("#datatable_106_wrapper").show();
+		$(".east-south button").hide();
         $("#save_myresources_changes").show();
         $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
@@ -925,6 +964,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 		$('#east_sidebar').hide();
 		$(".dataTables_wrapper").hide();
         this.$tableWrapper.show();
+		$(".east-south button").hide();
         $("#save_myresources_changes").show();
         $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
@@ -933,7 +973,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
         $("#save_notification_settings").hide(); //button
         $(".notification_settings").hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
-        $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
+        $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide();
         $("h3.my_resources_sidebar").show();
 		$("#datatable_select_buttons").hide();
     }

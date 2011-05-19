@@ -9,12 +9,13 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
       "running-epus":"running_epus",
       "registered-users":"registered_users",
 	  "datasets": "datasets",
-	  "datasources": "datasources"
+	  "datasources": "datasources",
+      "register-dataset/:dataset": "register_dataset"
     },
 
     initialize: function(options) {
         _.bindAll(this, "all_registered_resources", "all_registered_resources_details", "my_notification_settings", "my_registered_resources",
-				"running_epus", "registered_users", "datasets", "datasources");
+				"running_epus", "registered_users", "datasets", "datasources", "register_dataset");
 
         this.layout = new OOI.Views.Layout({"el":"#layoutContainer"}); 
 
@@ -114,6 +115,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 	datasources: function(){
         this.workflow109datasources.render();
     },
+	register_dataset: function(dataset) {
+		// TODO: support deeplinking for register_dataset
+		dataset = decodeURIComponent(dataset);
+	},
 
     datatable_init: function(id, columns){
         var oTable = $(id).dataTable({

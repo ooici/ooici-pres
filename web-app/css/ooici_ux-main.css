@@ -81,6 +81,9 @@ body {
 table.datatable tr {
     cursor:pointer;
 }
+table.datatable td, table.datatable th {
+    padding: 0 3px;
+}
 tr.odd {
     background-color: #F5F5F5;
 }
