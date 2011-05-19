@@ -1162,6 +1162,7 @@ OOI.Views.Layout = Backbone.View.extend({
         $('#westMultiOpenAccordion h3').slice(0, 4).trigger('click');
         $("#top").css("padding-bottom", "17px");
 
+		$('.ui-layout-center, .ui-layout-east').show();
     },
 
     layout_main_init: function(){
