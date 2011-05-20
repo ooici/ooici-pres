@@ -219,9 +219,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         //XXX should this be hidden? $(".my_resources_sidebar").hide();
         $("#download_dataset_button").unbind('click').click(function(e) {
 		var url = 'http://thredds.oceanobservatories.org/thredds/dodsC/ooiciData/' + resp.data_resource_id + '.ncml.html';
-
-		// TODO: comment out this dummy one to build the correct URL once the dataset container is running
-		url = 'http://geoport.whoi.edu/thredds/dodsC/waves/ww3_multi/at_4m_all.html';
+		//url = 'http://geoport.whoi.edu/thredds/dodsC/waves/ww3_multi/at_4m_all.html';
 
 		var $frame = $('<iframe class="thredds-frame" border="0"></iframe').attr('src', url);
 		var $cont = $('<div class="thredds-container"></div>').append($frame);
@@ -648,6 +646,11 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         var data = {"action":action, "update_interval_seconds":update_interval_seconds,
             "ion_title":ion_title, "ion_description":ion_description, "is_public":is_public, "max_ingest_millis":max_ingest_millis,
             "update_start_datetime_millis":update_start_datetime_millis};
+		if (action === 'create') {
+			data['source_type'] = 'NETCDF_S';
+			data['request_type'] = 'DAP';
+			data['ion_institution_id'] = 'default';
+		}
 		if (data_source_resource_id !== undefined)  data["data_source_resource_id"] = data_source_resource_id;
 		if (dataset_url !== undefined)  data["dataset_url"] = dataset_url;
 
@@ -794,7 +797,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
              $('h3.data_sources').trigger('click');
         }
         var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data_resource_id);
-        var activation_state = (my_resource_model) ? my_resource_model.get("activation_state") : '';
+        var activation_state = (my_resource_model) ? my_resource_model.get("activation_state") : 'Private';
         var update_interval_seconds = (my_resource_model) ? my_resource_model.get("update_interval_seconds") : 0;
         var active_check_elem_num = (activation_state == "Private") ? 0 : 1;
         $("input[name='availability_radio']").eq(active_check_elem_num).attr("checked", "checked");
@@ -819,9 +822,11 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 		$("#ds_title").html(ds_title_forms);
 		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b>"+ion_email+"<br><b>Contact Institution:</b>"+ion_institution;
 		$("#ds_publisher_contact").html(ds_publisher_contact);
-		var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
+		var ds_source = "<b>Title:</b> "+data.title;
+		if (data.summary) ds_source += "<br><br><b>Description:</b><br>"+data.summary;
         $("#ds_source").html(ds_source);
-        $("#ds_source_contact").html(data.source);
+		var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
+        $("#ds_source_contact").html(ds_source_contact);
         $("#ds_variables").html(self.format_variables(resp.variable || {}));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
@@ -1208,6 +1213,7 @@ OOI.Views.Layout = Backbone.View.extend({
         $("#top").css("padding-bottom", "17px");
 
 		$('.ui-layout-center, .ui-layout-east').show();
+		$('.ui-layout-center').css('zIndex', 10);		// Workaround so download frame shows over footer
     },
 
     layout_main_init: function(){
