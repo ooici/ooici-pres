@@ -1028,8 +1028,8 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var action = "find";
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
-        var minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
-        var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val();
+        var minLongitude = $("#ge_bb_west").val(), maxLongitude = $("#ge_bb_east").val();
+        var minVertical = $("#ge_altitude_ub").val(), maxVertical = $("#ge_altitude_lb").val();
         var posVertical="down"; //XXX
         var data = {};
         data.action = action;
@@ -1060,8 +1060,8 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
     get_form_data: function(){
         var data = {}
         var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
-        var minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
-        var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val();
+        var minLongitude = $("#ge_bb_west").val(), maxLongitude = $("#ge_bb_east").val();
+        var minVertical = $("#ge_altitude_up").val(), maxVertical = $("#ge_altitude_lb").val();
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var posVertical = "down";
         if ($("#radioBoundingDefined").is(":checked")){

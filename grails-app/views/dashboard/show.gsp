@@ -178,30 +178,26 @@
           <form action="">
             <table>
               <tr>
-                <td><strong>Bounding Box:</strong></td>
-                <td><input id="radioBoundingAll" title="<%= HELP.P1001_SP19 %>" class="all bounding" name="group1" type="radio"/></td>
-                <td><label for="radioBoundingAll">All</label></td>
+                <td>&nbsp;</td>
+                <td><strong style="position:relative;left:-30px">Bounding Box:</strong></td>
               </tr>
               <tr>
-                <td></td>
-                <td><input id="radioBoundingDefined" title="<%= HELP.P1001_SP20 %>" class="defined bounding" name="group1" type="radio"/></td>
-                <td><label for="radioBoundingDefined">Defined</label></td>
+                <td><input id="radioBoundingAll" title="<%= HELP.P1001_SP19 %>" class="all bounding" name="group1" type="radio"/>All</td>
+                <td><input id="radioBoundingDefined" title="<%= HELP.P1001_SP20 %>" class="defined bounding" name="group1" type="radio"/>Defined</td>
               </tr>
             </table>
           </form>
         </div>
         <div class="altitudeRadios">
           <form action="">
-            <table>
+            <table style="position:relative;left:20px">
               <tr>
-                <td><strong>Altitude:</strong></td>
-                <td><input id="radioAltitudeAll" title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/></td>
-                <td><label for="radioAltitudeAll">All</label></td>
+                <td>&nbsp;</td>
+                <td><strong style="position:relative;left:-30px">Vertical Extent:</strong></td>
               </tr>
               <tr>
-                <td></td>
-                <td><input id="radioAltitudeDefined" title="<%= HELP.P1001_SP22 %>" class="defined altitude" name="group1" type="radio"/></td>
-                <td><label for="radioAltitudeDefined">Defined</label></td>
+                <td><input id="radioAltitudeAll" title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/>All</td>
+                <td><input id="radioAltitudeDefined" title="<%= HELP.P1001_SP22 %>" class="defined altitude" name="group1" type="radio"/>Defined</td>
               </tr>
             </table>
           </form>
