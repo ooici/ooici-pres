@@ -1153,7 +1153,8 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         }
     },
 
-    account_settings_done: function(){
+    account_settings_done: function(e){
+        e.stopPropagation();
         var name = $("#account_name").val();
         var institution = $("#account_institution").val();
         var email = $("#account_email").val();
