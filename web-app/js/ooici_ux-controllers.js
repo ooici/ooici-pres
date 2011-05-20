@@ -170,16 +170,13 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 } else {
                     var url = "dataResource";
                 }
-                $.each(ds_delete_list, function(i, e){
-                    var subscriptionInfo = {"data_src_id":e};
-                    var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
-                    var data = {"action":"delete", "subscriptionInfo":subscriptionInfoJson};
-                    $.ajax({url:url, type:"POST", data:data, 
-                        success: function(resp){
-                            //TODO: Refresh Table
-                            //document.location = "/";
-                        }
-                    });
+                var subscriptions = JSON.stringify(ds_delete_list);
+                var data = {"action":"delete", "subscriptions":subscriptions};
+                $.ajax({url:url, type:"POST", data:data, 
+                    success: function(resp){
+                        //TODO: Refresh Table
+                        //document.location = "/";
+                    }
                 });
                 setTimeout(function(){self.loading_dialog()}, 500); //XXX this is imperfect if the response time is long.
                 return;
