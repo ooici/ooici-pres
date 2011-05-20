@@ -136,7 +136,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         var data_resource_id = tr.parent().attr("id"); 
         $("#datatable_100 tr").removeClass("selected");
         tr.parent().addClass("selected");
-        if (tr.text() == "Details"){
+        if (tr.hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
             $(".dataTables_wrapper").hide();
             var nth_elem = $(e.target).parent().index();
@@ -250,7 +250,8 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.controller.resource_collection.add(elem);
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    self.datatable.fnAddData([elem.datasetMetadata.title, elem.notificationSet, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, "Details"]);
+                    var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
+                    self.datatable.fnAddData([elem.datasetMetadata.title, elem.notificationSet, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
                 c = self.controller.resource_collection;
@@ -719,8 +720,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
                     var active = "Off";
+                    var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
                     if (elem.update_interval_seconds !== 0) active = "On";
-                    self.datatable.fnAddData([cb, active, elem.activation_state, elem.ion_title, elem.title, pretty_date, "Details"]);
+                    self.datatable.fnAddData([cb, active, elem.activation_state, elem.ion_title, elem.title, pretty_date, details_image]);
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
                 $("#datatable_select_buttons").show();
@@ -739,7 +741,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         }
         $("#datatable_106 tr").removeClass("selected");
         tr.parent().addClass("selected");
-        if (tr.text() == "Details"){
+        if (tr.hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$(".dataTables_wrapper").hide();
             var nth_elem = $(e.target).parent().index();
@@ -1026,8 +1028,8 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var action = "find";
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
-        var minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
-        var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val();
+        var minLongitude = $("#ge_bb_west").val(), maxLongitude = $("#ge_bb_east").val();
+        var minVertical = $("#ge_altitude_ub").val(), maxVertical = $("#ge_altitude_lb").val();
         var posVertical="down"; //XXX
         var data = {};
         data.action = action;
@@ -1058,8 +1060,8 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
     get_form_data: function(){
         var data = {}
         var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
-        var minLongitude = $("#ge_bb_east").val(), maxLongitude = $("#ge_bb_west").val();
-        var minVertical = $("#ge_altitude_lb").val(), maxVertical = $("#ge_altitude_ub").val();
+        var minLongitude = $("#ge_bb_west").val(), maxLongitude = $("#ge_bb_east").val();
+        var minVertical = $("#ge_altitude_up").val(), maxVertical = $("#ge_altitude_lb").val();
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var posVertical = "down";
         if ($("#radioBoundingDefined").is(":checked")){
