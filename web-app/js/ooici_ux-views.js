@@ -1154,7 +1154,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
     },
 
     account_settings_done: function(e){
-        e.stopPropagation();
+        e.preventDefault();
         var name = $("#account_name").val();
         var institution = $("#account_institution").val();
         var email = $("#account_email").val();
@@ -1171,6 +1171,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         $("#account_settings_done").text("Saving...");
         $.ajax({url:"userProfile", type:"POST", data:data,
             success: function(resp){
+                console.log("account_settings_done success");
                 $("#account_settings_done").text("Done");
                 $(".modal_close").trigger("click");
             }
