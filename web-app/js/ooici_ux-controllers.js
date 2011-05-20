@@ -156,9 +156,15 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             var ds_checked = $("#"+datatable_id+" input:checked");
             var ds_delete_list = [];
             if (ds_checked.first().parent().attr("id") !== ""){
-                $.each(ds_checked, function(i, e){ds_delete_list.push($(e).parent().parent().attr("id"))})
+                $.each(ds_checked, function(i, e){
+                    var delete_item = {"data_src_id":$(e).parent().parent().attr("id")};
+                    ds_delete_list.push(delete_item);
+                });
             } else {
-                $.each(ds_checked, function(i, e){ds_delete_list.push($(e).parent().parent().attr("id"))})
+                $.each(ds_checked, function(i, e){
+                    var delete_item = {"data_src_id":$(e).parent().parent().attr("id")};
+                    ds_delete_list.push(delete_item);
+                });
             }
             var num_selected = ds_checked.length;
             if (num_selected == 0) return alert("Select items to delete them");
