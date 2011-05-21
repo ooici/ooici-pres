@@ -39,15 +39,12 @@ class SubscriptionController extends BaseController {
 		
 		preProcessRequest(true)
 		
-		JSONArray subscriptionIdList = (JSONArray)JSON.parse(params.get("subscriptions"))
-		
-		ArrayList subscriptionList = new ArrayList()
+		JSONArray subscriptionList = (JSONArray)JSON.parse(params.get("subscriptions"))
 
-		for (int i = 0; i < subscriptionIdList.length(); i++) {
-			HashMap aSubscription = new HashMap();
-			aSubscription.put("data_src_id",subscriptionIdList.get(i))
+		for (int i = 0; i < subscriptionList.length(); i++) {
+			HashMap aSubscription = subscriptionList.get(i)
 			aSubscription.put("user_ooi_id", ooi_id)
-			subscriptionList.add(aSubscription)
+			subscriptionList.put(i, aSubscription)
 		}
 		
 		params.put("subscriptions",subscriptionList)
