@@ -20,8 +20,15 @@ body {
     background-color:#FFF15F;
     font-weight:bold;
     padding:4px;
+    padding-top:6px;
     position:relative;
-    top:4px;
+    padding-left:70px;
+}
+#loading_message img {
+    position:relative;
+    z-index:3;
+    top:2px;
+    left:66px;
 }
 #top {
 	background: url("../images/G1107-Wire-Waves-White-Narrow.png") no-repeat 0px -15px;
@@ -237,6 +244,8 @@ tr.odd {
     border:none;
 }
 .ui-layout-west {
+    margin:0px;
+    padding:0px;
     background-color:#F5F5F5;
 }
 .ui-layout-east {
@@ -286,8 +295,6 @@ tr.odd {
     font-weight: bold;
 }
 
-
-
 .ui-state-active .ui-icon {
 	background: url("../images/I1126-Plus-Simple.png") no-repeat 0px 0px transparent;
 }
@@ -297,8 +304,6 @@ tr.odd {
 .ui-icon-triangle-1-e {
     background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent;
 }
-
-/*I1125-Minus-Simple.png */
 
 
 /* END sidebar widget containers */
