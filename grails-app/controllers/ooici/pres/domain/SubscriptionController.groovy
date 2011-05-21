@@ -1,5 +1,7 @@
 package ooici.pres.domain
 
+import org.codehaus.groovy.grails.web.json.JSONArray;
+
 import grails.converters.JSON
 import ion.integration.ais.AppIntegrationService;
 import ion.integration.ais.AppIntegrationService.RequestType;
@@ -37,13 +39,18 @@ class SubscriptionController extends BaseController {
 		
 		preProcessRequest(true)
 		
-		params.put("subscriptionInfo",JSON.parse(params.get("subscriptionInfo")))
+		JSONArray subscriptionIdList = (JSONArray)JSON.parse(params.get("subscriptions"))
 		
-		def subscriptionInfoJSON = params.get("subscriptionInfo")
-		
-		subscriptionInfoJSON.put("user_ooi_id", ooi_id)
+		ArrayList subscriptionList = new ArrayList()
 
-		params.put("subscriptionInfo",subscriptionInfoJSON)
+		for (int i = 0; i < subscriptionIdList.length(); i++) {
+			HashMap aSubscription = new HashMap();
+			aSubscription.put("data_src_id",subscriptionIdList.get(i))
+			aSubscription.put("user_ooi_id", ooi_id)
+			subscriptionList.add(aSubscription)
+		}
+		
+		params.put("subscriptions",subscriptionList)
 
 		sendReceive(RequestType.DELETE_DATA_RESOURCE_SUBSCRIPTION)
 	}
