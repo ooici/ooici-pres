@@ -251,11 +251,13 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
                     var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
-                    self.datatable.fnAddData([elem.datasetMetadata.title, elem.notificationSet, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
+                    var notification_check = elem.notificationSet ? "<img class='dataset_details' src='images/G1110-Checkbox-Tick-White.png'>" : "";
+                    self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
                 c = self.controller.resource_collection;
-                $("table#datatable_100 tbody tr td").css("width", "30%");
+                $("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
+                $("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
                 self.controller.loading_dialog();
             }
         });
@@ -279,7 +281,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
             $("#setup_notifications").hide();
         }
         $("h3.data_sources").show();
-        $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notif. Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
+        $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notification Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $(".my_resources_sidebar").hide();
     }
@@ -408,6 +410,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     start_notifications: function(){
+        this.controller.loading_dialog("Saving Notification...");
         if (window.location.hash === "#notifications"){
             var data_resource_id = $("#datatable_104 tr.selected").attr("id");
             var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id);
@@ -435,12 +438,15 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var subscriptionInfo = {"data_src_id":data_resource_id, "subscription_type":subscription_type, "email_alerts_filter":email_alerts_filter, "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
         var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
         var data = {"action":"create", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
+        var self = this;
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
-                alert("Notification saved");
-//                setTimeout(function(){document.location="/";}, 100);
+                self.controller.loading_dialog();
+                 alert("Notification saved");
+                //setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
+                self.controller.loading_dialog();
                 alert("Notification error");
             }
         });
@@ -449,6 +455,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     save_notifications_changes: function(){
+        this.controller.loading_dialog("Saving Notification...");
         var data_resource_id = $("#datatable_104 tr.selected").attr("id");
         var model = this.controller.my_notifications_collection.get_by_dataset_id(data_resource_id);
         var subscription_type = "", email_alerts_filter = "", dispatcher_alerts_filter = "";
@@ -471,12 +478,15 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var subscriptionInfo = {"data_src_id":data_resource_id, "subscription_type":subscription_type, "email_alerts_filter":email_alerts_filter, "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
         var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
         var data = {"action":"update", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
+        var self = this;
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
+                self.controller.loading_dialog();
                 alert("Notification saved");
                 //setTimeout(function(){document.location="/";}, 100);
             },
             error: function(jqXHR, textStatus, error){
+                self.controller.loading_dialog();
                 alert("Notification error");
             }
         });
@@ -726,8 +736,8 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
                 $("#datatable_select_buttons").show();
-                $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")});
-                $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "25%");
+                $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "15%");
+                $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:eq(4)").css("width", "30%")});
                 self.controller.loading_dialog();
             }
         });
@@ -1153,7 +1163,8 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         }
     },
 
-    account_settings_done: function(){
+    account_settings_done: function(e){
+        e.preventDefault();
         var name = $("#account_name").val();
         var institution = $("#account_institution").val();
         var email = $("#account_email").val();
@@ -1170,6 +1181,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         $("#account_settings_done").text("Saving...");
         $.ajax({url:"userProfile", type:"POST", data:data,
             success: function(resp){
+                console.log("account_settings_done success");
                 $("#account_settings_done").text("Done");
                 $(".modal_close").trigger("click");
             }
