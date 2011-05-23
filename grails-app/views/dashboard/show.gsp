@@ -105,6 +105,10 @@
 
      </div><!-- end .center-center -->
     <div class="center-south">
+     <div id="footer">
+      <span><img width="50" height="50" src="images/logo-NSF.png">OOI is funded by the<br>National Science Foundation</span>
+      <span><img width="58" height="50" src="images/logo-COL.png"/>OOI is managed and coordinated through<br>the Consortium for Ocean Leadership</span>
+     </div>
      <div id="datatable_select_buttons">
       <span class="select_button" id="delete_selected">Delete Selected</span>
       <span class="select_button" id="deselect_all">Deselect All</span>
@@ -369,11 +373,6 @@
 </div>
 </div>
 </div>
-</div>
-
-<div id="footer">
-    <span><img width="50" height="50" src="images/logo-NSF.png">OOI is funded by the<br>National Science Foundation</span>
-    <span><img width="58" height="50" src="images/logo-COL.png"/>OOI is managed and coordinated through<br>the Consortium for Ocean Leadership</span>
 </div>
 
 

@@ -1231,7 +1231,7 @@ OOI.Views.Layout = Backbone.View.extend({
 
     layout_main_init: function(){
         //  set a 'fixed height' on the container so it does not collapse...
-        $(this.el).height($(window).height() - $(this.el).offset().top);
+        //$(this.el).height($(window).height() - $(this.el).offset().top);
         var layout_main = $(this.el).layout({
             resizerClass: 'ui-state-default',
             north__resizable: false,
