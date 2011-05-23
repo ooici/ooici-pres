@@ -7,51 +7,51 @@ class InstrumentController extends BaseController {
 	def index = {
 		redirect(action: "list", params: params)
 	}
-
-	def list = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.GET_INSTRUMENT_LIST)
-	}
-
-	def create = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.CREATE_INSTRUMENT)
-	}
-
-	def start = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.START_INSTRUMENT_SAMPLING)
-	}
-
-	def stop = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.STOP_INSTRUMENT_SAMPLING)
-	}
-
-	def getState = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.GET_INSTRUMENT_STATE)
-	}
-
-	def setState = {
-		
-		preProcessRequest(false)
-		
-		specialPreProcessProperties()
-
-		sendReceive(RequestType.SET_INSTRUMENT_STATE)
-	}
-	
+//
+//	def list = {
+//		
+//		preProcessRequest(false)
+//
+//		sendReceive(RequestType.GET_INSTRUMENT_LIST)
+//	}
+//
+//	def create = {
+//		
+//		preProcessRequest(false)
+//
+//		sendReceive(RequestType.CREATE_INSTRUMENT)
+//	}
+//
+//	def start = {
+//		
+//		preProcessRequest(false)
+//
+//		sendReceive(RequestType.START_INSTRUMENT_SAMPLING)
+//	}
+//
+//	def stop = {
+//		
+//		preProcessRequest(false)
+//
+//		sendReceive(RequestType.STOP_INSTRUMENT_SAMPLING)
+//	}
+//
+//	def getState = {
+//		
+//		preProcessRequest(false)
+//
+//		sendReceive(RequestType.GET_INSTRUMENT_STATE)
+//	}
+//
+//	def setState = {
+//		
+//		preProcessRequest(false)
+//		
+//		specialPreProcessProperties()
+//
+//		sendReceive(RequestType.SET_INSTRUMENT_STATE)
+//	}
+//	
 	def specialPreProcessProperties = {
 		
 		params.put("properties",JSON.parse(params.get("properties")))
@@ -73,5 +73,41 @@ class InstrumentController extends BaseController {
 			propertiesJSON.put("storetime",propertiesJSON.int("storetime"))
 
 		params.put("properties",propertiesJSON)
+	}
+	
+	def command = {
+		render(view:"command")
+	}
+	
+	def commandStatus = {
+		render(view:"commandStatus")
+	}
+	
+	def create = {
+		render(view:"create")
+	}
+	
+	def edit = {
+		render(view:"exit")
+	}
+	
+	def getset = {
+		render(view:"getset")
+	}
+	
+	def list = {
+		render(view:"list")
+	}
+	
+	def seeagent = {
+		render(view:"seeagent")
+	}
+	
+	def show = {
+		render(view="show")
+	}
+
+	def status = {
+		render(view="status")
 	}
 }
