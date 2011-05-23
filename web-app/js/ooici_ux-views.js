@@ -473,8 +473,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var dispatcher_script_path = $("#dispatcher_script_path").val();
 
         var modelJSON = model.toJSON();
-        var datasetMetadata = modelJSON.datasetMetadata;
-        var datasetMetadataJson = JSON.stringify(datasetMetadata);
+        var datasetMetadataJson = JSON.stringify(modelJSON);
         var subscriptionInfo = {"data_src_id":data_resource_id, "subscription_type":subscription_type, "email_alerts_filter":email_alerts_filter, "dispatcher_alerts_filter":dispatcher_alerts_filter, "dispatcher_script_path":dispatcher_script_path};
         var subscriptionInfoJson = JSON.stringify(subscriptionInfo);
         var data = {"action":"update", "subscriptionInfo":subscriptionInfoJson, "datasetMetadata": datasetMetadataJson};
@@ -638,7 +637,7 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         this.controller = this.options.controller;
     },
 
-	save_resource: function(action, data_source_resource_id, dataset_url) {
+	save_resource: function(action, data_set_resource_id, dataset_url) {
 		if ($("#polling_radio_yes").is(":checked")){
             var polling_time = parseInt($("#polling_time").val().split(":")[2]); //XXX generalize
             var update_interval_seconds = polling_time*60;
@@ -662,7 +661,7 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 			data['request_type'] = 'DAP';
 			data['ion_institution_id'] = 'default';
 		}
-		if (data_source_resource_id !== undefined)  data["data_source_resource_id"] = data_source_resource_id;
+		if (data_set_resource_id !== undefined)  data["data_set_resource_id"] = data_set_resource_id;
 		if (dataset_url !== undefined)  data["dataset_url"] = dataset_url;
 
         this.controller.loading_dialog("Saving Resource Changes...");
@@ -675,8 +674,8 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 	},
  
     save_myresources_changes:function(){
-        var data_source_resource_id = $("#datatable_106 tr.selected").attr("id");
-		this.save_resource('update', data_source_resource_id);
+        var data_set_resource_id = $("#datatable_106 tr.selected").attr("id");
+		this.save_resource('update', data_set_resource_id);
     },
 
 	save_register_resource: function() {
