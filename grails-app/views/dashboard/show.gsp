@@ -27,7 +27,7 @@
   <script type="text/javascript">
   $(function() {
     window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
-    if (document.location.hostname === 'localhost') window.OOI_ROLES.push('ADMIN', 'DATA_PROVIDER');
+    if (document.location.hostname === 'localhost') window.OOI_ROLES.push('ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR');
     window.REGISTERED = JSON.parse('<%= REGISTERED %>');
     OOI.init();
   });
@@ -94,6 +94,11 @@
 
        <table id="datatable_109_datasources" class="datatable" cellpadding="0" cellspacing="0" border="0">
           <thead><tr><th>OOI ID</th><th>Station ID</th><th>Details</th></tr></thead>
+          <tbody></tbody>
+       </table>
+
+       <table id="datatable_instruments" class="datatable" cellpadding="0" cellspacing="0" border="0">
+          <thead><tr><th>OOI ID</th><th>Name</th><th>Description</th><th>Manufacturer</th><th>Model</th><th>Serial</th><th>Firmware</th></tr></thead>
           <tbody></tbody>
        </table>
 
@@ -176,6 +181,22 @@
         </form>
       </div>
 
+      <h3 class="marine_op_role"><a href="#">Instrument Management</a></h3>
+      <div class="marine_op_role" style="padding-left: 10px; padding-right: 10px;">
+        <div id="view_instruments">
+          <form action="">
+            <table>
+              <tr>
+                <td><a href="#instrument/list"><input id="radioViewInstruments" class="resource_selector controlradios" name="group1" type="radio"/></a></td>
+                <td style="padding-right: 30px;"><a href="#instrument/list"><label for="radioViewInstruments">View All Instruments</label></a></td>
+                <td><a href="#instrument/new"><input id="radioNewInstrument" class="resource_selector controlradios" name="group1" type="radio"/></a></td>
+                <td style="padding-right: 30px;"><a href="#instrument/new"><label for="radioNewInstrument">Register New Instrument</label></a></td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+
       <h3 class="view_existing"><a href="#">Geospatial Extent</a></h3>
       <div class="view_existing" id="geospatialContainer">
         <div class="boundingBoxRadios">
@@ -252,8 +273,8 @@
           Example: 2010-11-15T09:00:00Z
         </div>
       </div><!-- end .temporalExtentControls -->
-
       </div>
+
     </div>
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
@@ -352,6 +373,9 @@
         </form>
       </div><!-- end #dispatcher_settings -->
 
+      <h3 class="instrument_agent"><a href="#">Instrument Agent Details</a></h3>
+      <div class="instrument_agent" id="instrument_agent_details">&nbsp;</div>
+
     </div><!-- end #eastMultiOpenAccordion -->
    </div><!-- end .east-center -->
 
@@ -362,6 +386,13 @@
       <button id="save_myresources_changes" disabled="disabled">Save Changes</button>
       <button id="save_notifications_changes" disabled="disabled">Save Changes</button>
       <button id="save_register_resource" style="display: none;">Register Resource</button>
+      <!--
+      <button id="agent_start" class="agent_button" style="display: none;">Start Agent</button>
+      <button id="agent_stop" class="agent_button" style="display: none;">Stop Agent</button>
+      -->
+      <button id="agent_sampling_start" class="agent_button" style="display: none;">Start Sampling</button>
+      <button id="agent_sampling_stop" class="agent_button" style="display: none;">Stop Sampling</button>
+      <button id="agent_sample_monitor" class="agent_button" style="display: none;">Sample Monitor</button>
    </div><!-- end .east-south -->
 
   </div><!-- end .ui-layout-east -->
@@ -471,7 +502,7 @@
     </div>
    </div><!-- end #registration_complete_dialog -->
 
-<div id="validate-resource-dialog" style="width:640px; height:400px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000">
+<div id="validate-resource-dialog" class="form-dialog" style="width:640px; height:400px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000">
     <!--Header-->
     <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">Register Data Resource</div>
     <!--Body-->
@@ -518,6 +549,35 @@
         </tr>
       </tbody></table></div>
 </div>
+
+
+<div id="register-instrument-dialog" class="form-dialog" style="width:640px; height:340px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000">
+    <!--Header-->
+    <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">Register an Instrument</div>
+    <!--Body-->
+    <div align="left" style=" background-color:#F4F4F6; width:590px; height:250px; padding:10px; padding-left:30px; padding-right:20px; border:1px solid #494949;border-bottom:none">
+
+      <form id="register-instrument-form" name="register-instrument-form" action="#">
+        <div class="field clearfix"><label>Name:</label><input type="text" class="value" name="name" value="SeaBird SBE37" /></div>
+        <div class="field clearfix"><label>Description:</label><input type="text" class="value" name="description" value="SeaBird Sensor" /></div>
+        <div class="field clearfix"><label>Manufacturer:</label><select name="manufacturer"><option value="SeaBird Electronics">SeaBird Electronics</option></select></div>
+        <div class="field clearfix"><label>Model:</label><select name="model"><option value="SBE37">SBE37</option></select></div>
+        <div class="field clearfix"><label>Serial Number:</label><input type="text" class="value" name="serial_num" value="123ABC" /></div>
+        <div class="field clearfix"><label>Firmware Version:</label><input type="text" class="value" name="fw_version" value="1.0" /></div>
+      </form>
+    </div>
+
+    <div align="left" style=" background-color:#FFF; width:590px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border:1px solid #494949;">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+          <td>&nbsp;</td>
+          <td width="100px"><a href="#" class="modal_close colorbox_button blue-button-inactive">Cancel</a></td>
+          <td width="10px">&nbsp;</td>
+          <td width="100px"><a href="#" class="register_instrument_ok colorbox_button blue-button-inactive-focus">Register</a></td>
+        </tr>
+      </tbody></table></div>
+ </div><!-- end #register-instrument-dialog -->
+
 
 </div><!-- end #modal_dialogs -->
 

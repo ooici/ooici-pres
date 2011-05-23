@@ -95,7 +95,9 @@ body {
 	background: url("../images/G1114-Script-Help.png") no-repeat 0px 0px;
 }
 
-
+table.datatable {
+    width: 100%;
+}
 table.datatable tr {
     cursor:pointer;
 }
@@ -307,6 +309,12 @@ tr.odd {
     border: none;
     color: #000;
     font-weight: bold;
+}
+.ui-accordion-content input[type=radio], .ui-accordion-content label {
+    cursor: pointer;
+}
+.ui-accordion-content a {
+    text-decoration: none;
 }
 
 .ui-state-active .ui-icon {
