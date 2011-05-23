@@ -11,8 +11,10 @@ class SubscriptionController extends BaseController {
 	def find = {
 		
 		preProcessRequest(true)
-		
+
 		params.put("user_ooi_id", ooi_id)
+		
+		// TODO handle bounds
 
 		sendReceive(RequestType.FIND_DATA_RESOURCE_SUBSCRIPTION)
 	}
@@ -54,26 +56,28 @@ class SubscriptionController extends BaseController {
 	
 	def specialPreProcessRequest = {
 		
-		params.put("subscriptionInfo",JSON.parse(params.get("subscriptionInfo")))
-		
-		def subscriptionInfoJSON = params.get("subscriptionInfo")
-		
-		subscriptionInfoJSON.put("user_ooi_id", ooi_id)
+		if (params.get("subscriptionInfo") != null) {
+			params.put("subscriptionInfo",JSON.parse(params.get("subscriptionInfo")))
 
-		def dispatcher_alerts_filter = subscriptionInfoJSON.get("dispatcher_alerts_filter")
-		if (dispatcher_alerts_filter == "") {
-			subscriptionInfoJSON.remove("dispatcher_alerts_filter")
-		}
+			def subscriptionInfoJSON = params.get("subscriptionInfo")
 
-		def email_alerts_filter = subscriptionInfoJSON.get("email_alerts_filter")
-		if (email_alerts_filter == "") {
-			subscriptionInfoJSON.remove("email_alerts_filter")
+			subscriptionInfoJSON.put("user_ooi_id", ooi_id)
+
+			def dispatcher_alerts_filter = subscriptionInfoJSON.get("dispatcher_alerts_filter")
+			if (dispatcher_alerts_filter == "") {
+				subscriptionInfoJSON.remove("dispatcher_alerts_filter")
+			}
+
+			def email_alerts_filter = subscriptionInfoJSON.get("email_alerts_filter")
+			if (email_alerts_filter == "") {
+				subscriptionInfoJSON.remove("email_alerts_filter")
+			}
+
+			params.put("subscriptionInfo",subscriptionInfoJSON)
 		}
 		
 		if (params.get("datasetMetadata") != null) {
 			params.put("datasetMetadata",JSON.parse(params.get("datasetMetadata")))
 		}
-
-		params.put("subscriptionInfo",subscriptionInfoJSON)
 	}
 }
