@@ -10,12 +10,14 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
       "registered-users":"registered_users",
 	  "datasets": "datasets",
 	  "datasources": "datasources",
-      "register-dataset/:dataset": "register_dataset"
+      "register-dataset/:dataset": "register_dataset",
+      "instrument/list": "instrument_list",
+      "instrument/new": "instrument_new"
     },
 
     initialize: function(options) {
         _.bindAll(this, "all_registered_resources", "all_registered_resources_details", "my_notification_settings", "my_registered_resources",
-				"running_epus", "registered_users", "datasets", "datasources", "register_dataset");
+				"running_epus", "registered_users", "datasets", "datasources", "register_dataset", "instrument_list", "instrument_new");
 
         this.layout = new OOI.Views.Layout({"el":"#layoutContainer"}); 
 
@@ -39,6 +41,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.resource_details_scroll = new OOI.Views.ResourceDetailsScroll({el:"#datatable_details_scroll", controller:this}); 
         this.geospatial_container = new OOI.Views.GeospatialContainer({"el":"#west_south", controller:this}); 
         this.resource_actions = new OOI.Views.ResourceActions({"el":".east-south", controller:this});
+		this.instruments = new OOI.Views.InstrumentList({"el":"#datatable_instruments", controller:this});
 
         this.datatable_select_buttons();
         
@@ -118,6 +121,13 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 	register_dataset: function(dataset) {
 		// TODO: support deeplinking for register_dataset
 		dataset = decodeURIComponent(dataset);
+	},
+
+	instrument_list: function() {
+		this.instruments.render();
+	},
+	instrument_new: function() {
+		this.instruments.register();
 	},
 
     datatable_init: function(id, columns){

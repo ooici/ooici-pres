@@ -308,6 +308,12 @@ tr.odd {
     color: #000;
     font-weight: bold;
 }
+.ui-accordion-content input[type=radio], .ui-accordion-content label {
+    cursor: pointer;
+}
+.ui-accordion-content a {
+    text-decoration: none;
+}
 
 .ui-state-active .ui-icon {
 	background: url("../images/I1126-Plus-Simple.png") no-repeat 0px 0px transparent;

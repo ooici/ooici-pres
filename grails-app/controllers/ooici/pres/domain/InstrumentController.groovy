@@ -9,58 +9,58 @@ class InstrumentController extends BaseController {
 	def index = {
 		redirect(action: "list", params: params)
 	}
+  
+  	def list = {
+  		
+  		preProcessRequest(false)
+  
+  		sendReceive(RequestType.GET_INSTRUMENT_LIST)
+  	}
+  
+  	def create = {
+  		
+  		preProcessRequest(false)
+  
+  		sendReceive(RequestType.CREATE_INSTRUMENT)
+  	}
 
-	def list = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.GET_INSTRUMENT_LIST)
-	}
-
-	def create = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.CREATE_INSTRUMENT)
-	}
-	
 	def startAgent = {
 		
 		preProcessRequest(false)
 
 		sendReceive(RequestType.START_INSTRUMENT_AGENT)
 	}
-
-	def start = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.START_INSTRUMENT_SAMPLING)
-	}
-
-	def stop = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.STOP_INSTRUMENT_SAMPLING)
-	}
-
-	def getState = {
-		
-		preProcessRequest(false)
-
-		sendReceive(RequestType.GET_INSTRUMENT_STATE)
-	}
-
-	def setState = {
-		
-		preProcessRequest(false)
-		
-		specialPreProcessProperties()
-
-		sendReceive(RequestType.SET_INSTRUMENT_STATE)
-	}
-	
+  
+  	def start = {
+  		
+  		preProcessRequest(false)
+  
+  		sendReceive(RequestType.START_INSTRUMENT_SAMPLING)
+  	}
+  
+  	def stop = {
+  		
+  		preProcessRequest(false)
+  
+  		sendReceive(RequestType.STOP_INSTRUMENT_SAMPLING)
+  	}
+  
+  	def getState = {
+  		
+  		preProcessRequest(false)
+  
+  		sendReceive(RequestType.GET_INSTRUMENT_STATE)
+  	}
+  
+  	def setState = {
+  		
+  		preProcessRequest(false)
+  		
+  		specialPreProcessProperties()
+  
+  		sendReceive(RequestType.SET_INSTRUMENT_STATE)
+  	}
+  	
 	def specialPreProcessProperties = {
 		
 		params.put("properties",JSON.parse(params.get("properties")))
@@ -83,32 +83,40 @@ class InstrumentController extends BaseController {
 
 		params.put("properties",propertiesJSON)
 	}
-//	
-//	def command = {
-//		render(view:"command")
-//	}
-//	
-//	def commandStatus = {
-//		render(view:"commandStatus")
-//	}
-//	
-//	def edit = {
-//		render(view:"exit")
-//	}
-//	
-//	def getset = {
-//		render(view:"getset")
-//	}
-//	
-//	def seeagent = {
-//		render(view:"seeagent")
-//	}
-//	
-//	def show = {
-//		render(view="show")
-//	}
-//
-//	def status = {
-//		render(view="status")
-//	}
+	
+	def lcacommand = {
+		render(view:"command")
+	}
+	
+	def lcacommandStatus = {
+		render(view:"commandStatus")
+	}
+	
+	def lcacreate = {
+		render(view:"create")
+	}
+	
+	def lcaedit = {
+		render(view:"exit")
+	}
+	
+	def lcagetset = {
+		render(view:"getset")
+	}
+	
+	def lcalist = {
+		render(view:"list")
+	}
+	
+	def lcaseeagent = {
+		render(view:"seeagent")
+	}
+	
+	def lcashow = {
+		render(view="show")
+	}
+
+	def lcastatus = {
+		render(view="status")
+	}
 }

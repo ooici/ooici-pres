@@ -1214,7 +1214,204 @@ OOI.Views.AccountSettings = Backbone.View.extend({
 
 });
 
+OOI.Views.InstrumentList = Backbone.View.extend({
+    /*
+        All Resources.
+    */
 
+    events: {
+        "click tbody tr":"show_detail_clicked"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all");
+        this.controller = this.options.controller;
+		var $table = $("#datatable_instruments");
+        this.datatable = this.controller.datatable_init($table.selector, $table.find('thead th').length);
+    },
+
+    render: function() {
+        this.populate_table();
+        this.presentation();
+        $('.ui-layout-center, .ui-layout-east').show();
+        return this;
+    },
+
+    show_detail_clicked: function(e) {
+        var tr = $(e.target);
+		var $table = $("#datatable_instruments");
+        var instrument_resource_id = tr.parent().attr("id");
+        $table.find("tr").removeClass("selected");
+        tr.parent().addClass("selected");
+        this.show_detail(instrument_resource_id);
+    },
+
+    show_detail: function(data_resource_id){
+        self = this;
+        this.controller.loading_dialog("Loading dataset details...");
+        $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id},
+            success: function(resp){
+                self.show_detail_all(resp, data_resource_id);
+                self.dataset_sidebar(resp, self);
+            }
+        });
+    },
+
+    show_detail_all: function(resp, data_resource_id) {
+        $("#datatable h1").text("Metadata");
+        var html = "";
+        var dataResourceSummary = resp.dataResourceSummary;
+        $.each(dataResourceSummary, function(v){
+            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
+            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+dataResourceSummary[v]+"</div></div>";
+        });
+        var source = resp.source || {};
+        $.each(source, function(v){
+            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
+            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
+        });
+        html += this.format_variables(resp.variable || {});
+        $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
+    },
+
+    format_variables:function(data){
+        html = "<div class='detail'><strong>Variables</strong>";
+        $.each(data, function(v){
+            var vari = data[v];
+            var var_string = vari.units + " = " + vari.standard_name + " = " + vari.long_name;
+            html += "<div>"+var_string+"</div>";
+        });
+        html += "</div>";
+        return html;
+    },
+
+    dataset_sidebar: function(resp, self){
+        var data = resp.dataResourceSummary;
+        $(self.datatable.fnSettings().aoData).each(function () {
+           $(this.nTr).removeClass('row_selected');
+        });
+        // Expands right pane panels when row is selected. Also closes panels if already expanded.
+        if(!$("h3.data_sources").hasClass("ui-state-active")){
+             $('h3.data_sources').trigger('click');
+        }
+		if (resp.source) {
+			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description;
+			$("#ds_title").html(ds_title);
+			var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
+			$("#ds_publisher_contact").html(ds_publisher_contact);
+		}
+
+        var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
+        $("#ds_source").html(ds_source);
+        var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
+        $("#ds_source_contact").html(ds_source_contact);
+        $("#ds_variables").html(self.format_variables(resp.variable || {}));
+        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+        $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+        $("#ds_references").html(data.references);
+        $(".data_sources").show();
+        $(".notification_settings, .dispatcher_settings").hide();
+        $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+        //XXX should this be hidden? $(".my_resources_sidebar").hide();
+        $("#download_dataset_button").unbind('click').click(function(e) {
+		var url = 'http://thredds.oceanobservatories.org/thredds/dodsC/ooiciData/' + resp.data_resource_id + '.ncml.html';
+		//url = 'http://geoport.whoi.edu/thredds/dodsC/waves/ww3_multi/at_4m_all.html';
+
+		var $frame = $('<iframe class="thredds-frame" border="0"></iframe').attr('src', url);
+		var $cont = $('<div class="thredds-container"></div>').append($frame);
+		var $closeBtn = $('<button class="frame-close">Close Download</button>').appendTo($cont).click(function(e) {
+			$cont.remove();
+		});
+		$('.ui-layout-center:first').append($cont);
+	    });
+        self.controller.loading_dialog();
+        $(".my_resources_sidebar").hide();
+    },
+
+    populate_table: function(){
+        this.controller.loading_dialog("Loading instruments...");
+        this.datatable.fnClearTable();
+        var datatable_id = this.datatable.attr("id");
+        var self = this;
+        $.ajax({url:"instrument/list", type:"GET", data:{}, dataType:"json",
+            success: function(data){
+                $("#datatable_select_buttons").hide();
+                self.controller.resource_collection.remove_all();
+                if (typeof data.dataResourceSummary === "undefined"){
+                    data["dataResourceSummary"] = [];
+                }
+                $.each(data.dataResourceSummary, function(i, elem){
+                    self.controller.resource_collection.add(elem);
+                    var new_date = new Date(elem.date_registered);
+                    var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
+                    var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
+                    var notification_check = elem.notificationSet ? "<img class='dataset_details' src='images/G1110-Checkbox-Tick-White.png'>" : "";
+                    self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
+                    $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
+                });
+                c = self.controller.resource_collection;
+                $("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
+                $("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
+                self.controller.loading_dialog();
+            }
+        });
+    },
+
+    presentation: function(){
+        //TODO need to "broadcast presentation events" instead of couple style with workflows so directly.
+		$(".dataTables_wrapper").hide();
+        $("#datatable_instruments_wrapper").show();
+        $(".east-south button").hide();
+        $("#datatable_details_container").hide();
+        $("#datatable h1").text("All Instruments");
+        $(".notification_settings").hide();
+        $("#datatable_details_scroll").hide();
+        $("#geospatial_selection_button").show();
+        $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
+        $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide();
+        $(".my_resources_sidebar").hide();
+    },
+
+	register: function() {
+		var self = this;
+
+		var selector = '#register-instrument-dialog', $el = $(selector);
+		var $dlg = $.colorbox({inline: true, href: selector, transition: 'none', opacity: 0.7});
+		$el.find('.modal_close').one('click', function(e) {
+			history.back();
+		});
+		
+		function submit(e) {
+			e.preventDefault(); e.stopPropagation();
+
+			function close() {
+				self.controller.loading_dialog();
+				$dlg.colorbox.close();
+				window.location.href = '#instrument/list';
+			}
+
+			self.controller.loading_dialog('Registering instrument...');
+			var $form = $('#register-instrument-form');
+			var data = $form.serialize();
+
+			$.ajax({url:"instrument/create", type:"POST", data:data, dataType:"json", success: function() {
+				$.ajax({url:"instrument/create", type:"POST", data:data, dataType:"json", success: function() {
+
+				}, error: function() {
+					close();
+					self.controller.loading_dialog('Failed to start instrument agent.');
+					setTimeout(function() { self.controller.loading_dialog(); }, 5000);
+				}});
+			}, error: function() {
+				close();
+				self.controller.loading_dialog('Failed to register instrument.');
+				setTimeout(function() { self.controller.loading_dialog(); }, 5000);
+			}});
+		}
+		$el.find('#register-instrument-form:first').one('submit', submit);
+		$el.find('.register_instrument_ok:first').one('click', submit);
+	}
+});
  
 
 OOI.Views.Layout = Backbone.View.extend({
@@ -1228,7 +1425,7 @@ OOI.Views.Layout = Backbone.View.extend({
         $('.ui-layout-center').hide();
         $('.ui-layout-east').hide();
         $('#eastMultiOpenAccordion, #westMultiOpenAccordion').multiAccordion();
-        $('#westMultiOpenAccordion h3').slice(0, 4).trigger('click');
+        $('#westMultiOpenAccordion h3').slice(0, 5).trigger('click');
         $("#top").css("padding-bottom", "17px");
 
 		$('.ui-layout-center, .ui-layout-east').show();
