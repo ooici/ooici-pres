@@ -7,21 +7,28 @@ class InstrumentController extends BaseController {
 	def index = {
 		redirect(action: "list", params: params)
 	}
-//
-//	def list = {
-//		
-//		preProcessRequest(false)
-//
-//		sendReceive(RequestType.GET_INSTRUMENT_LIST)
-//	}
-//
-//	def create = {
-//		
-//		preProcessRequest(false)
-//
-//		sendReceive(RequestType.CREATE_INSTRUMENT)
-//	}
-//
+
+	def list = {
+		
+		preProcessRequest(false)
+
+		sendReceive(RequestType.GET_INSTRUMENT_LIST)
+	}
+
+	def create = {
+		
+		preProcessRequest(false)
+
+		sendReceive(RequestType.CREATE_INSTRUMENT)
+	}
+	
+	def startAgent = {
+		
+		preProcessRequest(false)
+
+		sendReceive(RequestType.START_INSTRUMENT_AGENT)
+	}
+
 //	def start = {
 //		
 //		preProcessRequest(false)
@@ -83,20 +90,12 @@ class InstrumentController extends BaseController {
 		render(view:"commandStatus")
 	}
 	
-	def create = {
-		render(view:"create")
-	}
-	
 	def edit = {
 		render(view:"exit")
 	}
 	
 	def getset = {
 		render(view:"getset")
-	}
-	
-	def list = {
-		render(view:"list")
 	}
 	
 	def seeagent = {
