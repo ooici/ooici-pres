@@ -1,8 +1,19 @@
+html, body {
+    min-height: 100%;
+    height: 100%;
+}
 body {
     font-family: Arial, sans-serif;
     font-size: 0.75em;
     margin:0px;
     padding:0px;
+}
+#layoutContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 .ui-layout-north {
     overflow:hidden;
@@ -218,20 +229,23 @@ tr.odd {
 
 
 #footer {
-    position:absolute;
-    bottom:-8px;
-    left:25%;
-    z-index:4;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    z-index: 4;
 }
 #footer span {
-    float:right; 
-    margin:0px 8px;
+    float: right;
+    margin: 0;
+    display: block;
+    width: 230px;
+    font-size: 0.8em;
 }
 #footer img {
-    float:left;
-    position:relative;
-    top:-10px;
-    left:-5px;
+    float: left;
+    position: relative;
+    top: -6px;
+    left: -5px;
 }
 
 
