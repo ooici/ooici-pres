@@ -72,6 +72,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         if (!is_admin){
             $(".admin_role").hide();
         }
+
+		var is_marine_op = _.any(OOI_ROLES, function(role){return role === "MARINE_OPERATOR"});
+        if (!is_marine_op){
+            $(".marine_op_role").hide();
+        }
     },
 
     all_registered_resources: function(){

@@ -27,7 +27,7 @@
   <script type="text/javascript">
   $(function() {
     window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
-    if (document.location.hostname === 'localhost') window.OOI_ROLES.push('ADMIN', 'DATA_PROVIDER');
+    if (document.location.hostname === 'localhost') window.OOI_ROLES.push('ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR');
     window.REGISTERED = JSON.parse('<%= REGISTERED %>');
     OOI.init();
   });
@@ -181,6 +181,22 @@
         </form>
       </div>
 
+      <h3 class="marine_op_role"><a href="#">Instrument Management</a></h3>
+      <div class="marine_op_role" style="padding-left: 10px; padding-right: 10px;">
+        <div id="view_instruments">
+          <form action="">
+            <table>
+              <tr>
+                <td><a href="#instrument/list"><input id="radioViewInstruments" class="resource_selector controlradios" name="group1" type="radio"/></a></td>
+                <td style="padding-right: 30px;"><a href="#instrument/list"><label for="radioViewInstruments">View All Instruments</label></a></td>
+                <td><a href="#instrument/new"><input id="radioNewInstrument" class="resource_selector controlradios" name="group1" type="radio"/></a></td>
+                <td style="padding-right: 30px;"><a href="#instrument/new"><label for="radioNewInstrument">Register New Instrument</label></a></td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+
       <h3 class="view_existing"><a href="#">Geospatial Extent</a></h3>
       <div class="view_existing" id="geospatialContainer">
         <div class="boundingBoxRadios">
@@ -259,23 +275,6 @@
       </div><!-- end .temporalExtentControls -->
       </div>
 
-
-      <h3><a href="#">Instrument Management</a></h3>
-      <div style="padding-left: 10px; padding-right: 10px;">
-        <div id="view_instruments">
-          <form action="">
-            <table>
-              <tr>
-                <td><a href="#instrument/list"><input id="radioViewInstruments" class="resource_selector controlradios" name="group1" type="radio"/></a></td>
-                <td style="padding-right: 30px;"><a href="#instrument/list"><label for="radioViewInstruments">View All Instruments</label></a></td>
-                <td><a href="#instrument/new"><input id="radioNewInstrument" class="resource_selector controlradios" name="group1" type="radio"/></a></td>
-                <td style="padding-right: 30px;"><a href="#instrument/new"><label for="radioNewInstrument">Register New Instrument</label></a></td>
-              </tr>
-            </table>
-          </form>
-        </div>
-
-      </div>
     </div>
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
@@ -374,6 +373,9 @@
         </form>
       </div><!-- end #dispatcher_settings -->
 
+      <h3 class="instrument_agent"><a href="#">Instrument Agent Details</a></h3>
+      <div class="instrument_agent" id="instrument_agent_details">&nbsp;</div>
+
     </div><!-- end #eastMultiOpenAccordion -->
    </div><!-- end .east-center -->
 
@@ -384,6 +386,13 @@
       <button id="save_myresources_changes" disabled="disabled">Save Changes</button>
       <button id="save_notifications_changes" disabled="disabled">Save Changes</button>
       <button id="save_register_resource" style="display: none;">Register Resource</button>
+      <!--
+      <button id="agent_start" class="agent_button" style="display: none;">Start Agent</button>
+      <button id="agent_stop" class="agent_button" style="display: none;">Stop Agent</button>
+      -->
+      <button id="agent_sampling_start" class="agent_button" style="display: none;">Start Sampling</button>
+      <button id="agent_sampling_stop" class="agent_button" style="display: none;">Stop Sampling</button>
+      <button id="agent_sample_monitor" class="agent_button" style="display: none;">Sample Monitor</button>
    </div><!-- end .east-south -->
 
   </div><!-- end .ui-layout-east -->

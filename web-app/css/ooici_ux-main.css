@@ -95,7 +95,9 @@ body {
 	background: url("../images/G1114-Script-Help.png") no-repeat 0px 0px;
 }
 
-
+table.datatable {
+    width: 100%;
+}
 table.datatable tr {
     cursor:pointer;
 }

@@ -280,6 +280,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if (OOI_ROLES.length === 0) {
             $("#setup_notifications").hide();
         }
+		$('.instrument_agent').hide();
         $("h3.data_sources").show();
         $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notification Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
@@ -498,6 +499,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("Notification Settings");
         $(".data_sources").hide();
+		$('.instrument_agent').hide();
         $("#geospatial_selection_button").hide();
         $(".east-south button").hide();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").show()
@@ -867,6 +869,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable h1").text("My Registered Resources");
         $("#save_notification_settings, #start_notifications").hide(); //button
         $(".notification_settings").hide();
+		$('.instrument_agent').hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $("h3.my_resources_sidebar").show();
@@ -902,7 +905,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
     },
 
     populate_table: function(){
-        this.controller.loading_dialog("Loading datasets...");
+        this.controller.loading_dialog("Loading " + this.tableTitle + "...");
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
@@ -999,6 +1002,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
         $("#datatable h1").text(this.tableTitle);
         $("#save_notification_settings").hide(); //button
         $(".notification_settings").hide();
+		$('.instrument_agent').hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide();
         $("h3.my_resources_sidebar").show();
@@ -1224,16 +1228,21 @@ OOI.Views.InstrumentList = Backbone.View.extend({
     },
 
     initialize: function() {
-        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "show_detail_all");
+        _.bindAll(this, "render", "show_detail", "show_detail_clicked", "populate_table", "register",
+				  "agent_sampling_start", "agent_sampling_stop");
         this.controller = this.options.controller;
 		var $table = $("#datatable_instruments");
         this.datatable = this.controller.datatable_init($table.selector, $table.find('thead th').length);
+
+		//$('#agent_sampling_start').click(this.agent_sampling_start);
+		//$('#agent_sampling_stop').click(this.agent_sampling_stop);
     },
 
     render: function() {
         this.populate_table();
         this.presentation();
         $('.ui-layout-center, .ui-layout-east').show();
+		$('.agent_button').attr('disabled', 'disabled');
         return this;
     },
 
@@ -1246,84 +1255,80 @@ OOI.Views.InstrumentList = Backbone.View.extend({
         this.show_detail(instrument_resource_id);
     },
 
-    show_detail: function(data_resource_id){
+    show_detail: function(instrument_resource_id){
         self = this;
-        this.controller.loading_dialog("Loading dataset details...");
-        $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id},
+		$('.agent_button').attr('disabled', 'disabled');
+		$("#instrument_agent_details").text('Loading instrument details...');
+        this.controller.loading_dialog("Loading instrument details...");
+        $.ajax({url:"instrument/getState", type:"POST", dataType:"json", data:{instrument_resource_id:instrument_resource_id},
             success: function(resp){
-                self.show_detail_all(resp, data_resource_id);
-                self.dataset_sidebar(resp, self);
-            }
+                self.instrument_sidebar(instrument_resource_id, resp, self);
+            }, error: function(xhr) {
+				$("#instrument_agent_details").text('Failed to load properties for this agent. Are you sure it is running?');
+			}
         });
     },
 
-    show_detail_all: function(resp, data_resource_id) {
-        $("#datatable h1").text("Metadata");
-        var html = "";
-        var dataResourceSummary = resp.dataResourceSummary;
-        $.each(dataResourceSummary, function(v){
-            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
-            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+dataResourceSummary[v]+"</div></div>";
-        });
-        var source = resp.source || {};
-        $.each(source, function(v){
-            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
-            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
-        });
-        html += this.format_variables(resp.variable || {});
-        $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
-    },
-
-    format_variables:function(data){
-        html = "<div class='detail'><strong>Variables</strong>";
-        $.each(data, function(v){
-            var vari = data[v];
-            var var_string = vari.units + " = " + vari.standard_name + " = " + vari.long_name;
-            html += "<div>"+var_string+"</div>";
-        });
-        html += "</div>";
-        return html;
-    },
-
-    dataset_sidebar: function(resp, self){
-        var data = resp.dataResourceSummary;
+    instrument_sidebar: function(instrument_resource_id, data, self){
         $(self.datatable.fnSettings().aoData).each(function () {
            $(this.nTr).removeClass('row_selected');
         });
         // Expands right pane panels when row is selected. Also closes panels if already expanded.
-        if(!$("h3.data_sources").hasClass("ui-state-active")){
-             $('h3.data_sources').trigger('click');
+        if(!$("h3.instrument_agent").hasClass("ui-state-active")){
+             $('h3.instrument_agent').trigger('click');
         }
-		if (resp.source) {
-			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description;
-			$("#ds_title").html(ds_title);
-			var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
-			$("#ds_publisher_contact").html(ds_publisher_contact);
+
+		if (!data.properties) data.properties = {};
+		var $details = $("#instrument_agent_details").empty();
+		var $form = $('<form action="#"></form>').appendTo($details);
+		var css = {display: 'inline-block', width: '130px'};
+        _.each(data.properties, function(val, key) {
+			var $row = $('<div/>').appendTo($details);
+			var $label = $('<label/>').text(key + ': ').css(css).appendTo($form);
+			var $input = $('<input type="text" />').attr('name', key).val(val).css(css).appendTo($form);
+		});
+
+		var $row = $('<div/>').appendTo($form).append($('<label>&nbsp;</label>').css(css));
+		var $saveBtn = $('<input type="submit" value="Save Properties" />').css(css).appendTo($row);
+		$form.bind('submit', function(e) {
+			e.preventDefault(); e.stopPropagation();
+			
+			var props = {};
+			_.each($form.serializeArray(), function(item) { props[item.name] = item.value; });
+
+			self.controller.loading_dialog('Saving instrument properties...');
+			var postData = {instrument_resource_id: instrument_resource_id, properties: props};
+			$.ajax({url: '/instrument/setState', type: 'POST', dataType: 'json', data: postData, success: function(data) {
+				self.controller.loading_dialog();
+			}, error: function(xhr) {
+				self.controller.loading_dialog('Failed to set the instrument properties.');
+				setTimeout(function() { self.controller.loading_dialog(); }, 5000);
+			}});
+		});
+
+		function toggleSampleState(state) {
+			self.controller.loading_dialog('Trying to ' + state + ' sampling...');
+			var postData = {instrument_resource_id: instrument_resource_id};
+			$.ajax({url: '/instrument/' + state, type: 'POST', dataType: 'json', data: postData, success: function(data) {
+				self.controller.loading_dialog();
+			}, error: function(xhr) {
+				self.controller.loading_dialog('Failed to ' + state + ' sampling.');
+				setTimeout(function() { self.controller.loading_dialog(); }, 5000);
+			}});
 		}
 
-        var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
-        $("#ds_source").html(ds_source);
-        var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
-        $("#ds_source_contact").html(ds_source_contact);
-        $("#ds_variables").html(self.format_variables(resp.variable || {}));
-        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
-        $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-        $("#ds_references").html(data.references);
-        $(".data_sources").show();
-        $(".notification_settings, .dispatcher_settings").hide();
-        $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
-        //XXX should this be hidden? $(".my_resources_sidebar").hide();
-        $("#download_dataset_button").unbind('click').click(function(e) {
-		var url = 'http://thredds.oceanobservatories.org/thredds/dodsC/ooiciData/' + resp.data_resource_id + '.ncml.html';
-		//url = 'http://geoport.whoi.edu/thredds/dodsC/waves/ww3_multi/at_4m_all.html';
-
-		var $frame = $('<iframe class="thredds-frame" border="0"></iframe').attr('src', url);
-		var $cont = $('<div class="thredds-container"></div>').append($frame);
-		var $closeBtn = $('<button class="frame-close">Close Download</button>').appendTo($cont).click(function(e) {
-			$cont.remove();
+		$('.agent_button').attr('disabled', false);
+		$('#agent_sampling_start').unbind('click').click(function(e) {
+			toggleSampleState('start');
 		});
-		$('.ui-layout-center:first').append($cont);
-	    });
+		$('#agent_sampling_stop').unbind('click').click(function(e) {
+			toggleSampleState('stop');
+		});
+		$('#agent_sample_monitor').unbind('click').click(function(e) {
+			var url = 'http://amoeba.ucsd.edu:9998/';
+			window.open(url, '_blank');
+		});
+
         self.controller.loading_dialog();
         $(".my_resources_sidebar").hide();
     },
@@ -1331,27 +1336,24 @@ OOI.Views.InstrumentList = Backbone.View.extend({
     populate_table: function(){
         this.controller.loading_dialog("Loading instruments...");
         this.datatable.fnClearTable();
+		var $table = $("#datatable_instruments");
         var datatable_id = this.datatable.attr("id");
         var self = this;
         $.ajax({url:"instrument/list", type:"GET", data:{}, dataType:"json",
             success: function(data){
                 $("#datatable_select_buttons").hide();
                 self.controller.resource_collection.remove_all();
-                if (typeof data.dataResourceSummary === "undefined"){
-                    data["dataResourceSummary"] = [];
+                if (typeof data.instrument_metadata === "undefined"){
+                    data["instrument_metadata"] = [];
                 }
-                $.each(data.dataResourceSummary, function(i, elem){
-                    self.controller.resource_collection.add(elem);
-                    var new_date = new Date(elem.date_registered);
-                    var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
-                    var notification_check = elem.notificationSet ? "<img class='dataset_details' src='images/G1110-Checkbox-Tick-White.png'>" : "";
-                    self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
-                    $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
+                $.each(data.instrument_metadata, function(i, elem){
+                    self.datatable.fnAddData([elem.instrument_resource_id, elem.name, elem.description, elem.manufacturer,
+						elem.model, elem.serial_num, elem.fw_version]);
+                    $(self.datatable.dataTable().fnGetNodes(i)).attr("id", elem.instrument_resource_id);
                 });
                 c = self.controller.resource_collection;
-                $("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
-                $("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
+                self.datatable.find("thead th:eq(0), tbody tr td:eq(0)").css("width", "260px");
+				//self.datatable.find("thead th:eq(1), tbody tr td:eq(1)").css("width", "20%");
                 self.controller.loading_dialog();
             }
         });
@@ -1359,15 +1361,19 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 
     presentation: function(){
         //TODO need to "broadcast presentation events" instead of couple style with workflows so directly.
+		$(".instrument_agent").show();
+		if ($("h3.instrument_agent:first").hasClass("ui-state-active")){
+            $(".instrument_agent").trigger("click");
+        }
 		$(".dataTables_wrapper").hide();
         $("#datatable_instruments_wrapper").show();
         $(".east-south button").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Instruments");
-        $(".notification_settings").hide();
+        $(".data_sources, .notification_settings, .dispatcher_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#geospatial_selection_button").show();
-        $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
+        $(".agent_button").show();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide();
         $(".my_resources_sidebar").hide();
     },
@@ -1392,11 +1398,16 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 
 			self.controller.loading_dialog('Registering instrument...');
 			var $form = $('#register-instrument-form');
-			var data = $form.serialize();
+			var regData = $form.serialize();
 
-			$.ajax({url:"instrument/create", type:"POST", data:data, dataType:"json", success: function() {
-				$.ajax({url:"instrument/create", type:"POST", data:data, dataType:"json", success: function() {
-
+			$.ajax({url:"instrument/create", type:"POST", data:regData, dataType:"json", success: function(data) {
+				self.controller.loading_dialog('Starting instrument agent...');
+				var startData = {
+					instrument_resource_id: data.instrument_resource_id,
+					model: $form.find('[name=model]:first').val()
+				};
+				$.ajax({url:"instrument/startAgent", type:"POST", data:startData, dataType:"json", success: function(data) {
+					close();
 				}, error: function() {
 					close();
 					self.controller.loading_dialog('Failed to start instrument agent.');
@@ -1410,6 +1421,11 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 		}
 		$el.find('#register-instrument-form:first').one('submit', submit);
 		$el.find('.register_instrument_ok:first').one('click', submit);
+	},
+
+	agent_sampling_start: function(e) {
+	},
+	agent_sampling_stop: function(e) {
 	}
 });
  
