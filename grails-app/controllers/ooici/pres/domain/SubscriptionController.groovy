@@ -70,7 +70,9 @@ class SubscriptionController extends BaseController {
 			subscriptionInfoJSON.remove("email_alerts_filter")
 		}
 		
-		params.put("datasetMetadata",JSON.parse(params.get("datasetMetadata")))
+		if (params.get("datasetMetadata") != null) {
+			params.put("datasetMetadata",JSON.parse(params.get("datasetMetadata")))
+		}
 
 		params.put("subscriptionInfo",subscriptionInfoJSON)
 	}
