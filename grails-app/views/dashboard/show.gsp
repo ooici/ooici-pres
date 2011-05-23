@@ -499,6 +499,25 @@
       </tbody></table></div>
 </div>
 
+<div id="register-resource-complete" style="width:640px; height:400px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000">
+    <!--Header-->
+    <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">Data Resource Registration Successful</div>
+    <!--Body-->
+    <div align="left" style=" background-color:#F4F4F6; width:590px; height:310px; padding:10px; padding-left:30px; padding-right:20px; border:1px solid #494949;border-bottom:none">
+
+        <p>Registration was successful. Ingestion has begun, but it can take some time depending on the size of the dataset. Do not be alarmed if you do not see the data right away.</p>
+    </div>
+
+    <div align="left" style=" background-color:#FFF; width:590px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border:1px solid #494949;">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+          <td>&nbsp;</td>
+          <td width="100px">&nbsp;</td>
+          <td width="10px">&nbsp;</td>
+          <td width="100px"><a href="#" class="modal_close colorbox_button blue-button-inactive">OK</a></td>
+        </tr>
+      </tbody></table></div>
+</div>
 
 </div><!-- end #modal_dialogs -->
 

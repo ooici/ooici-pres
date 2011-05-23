@@ -534,7 +534,7 @@ OOI.Views.Workflow105 = Backbone.View.extend({
 		$el.find('.loading:first').hide();
 		var $result = $el.find('.result:first').show().find('.value:first');
 
-		if (data.error_str) {
+		if (_.size(data) == 0 || data.error_str) {
 			$result.val('Failure');
 			$el.find('.error-msg:first').show().find('.value:first').text(data.error_str);
 
@@ -637,7 +637,7 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         this.controller = this.options.controller;
     },
 
-	save_resource: function(action, data_set_resource_id, dataset_url) {
+	save_resource: function(action, data_set_resource_id, dataset_url, callback) {
 		if ($("#polling_radio_yes").is(":checked")){
             var polling_time = parseInt($("#polling_time").val().split(":")[2]); //XXX generalize
             var update_interval_seconds = polling_time*60;
@@ -669,6 +669,7 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         $.ajax({url:"dataResource", type:"POST", data:data,
             success: function(resp){
                 self.controller.loading_dialog();
+				if (callback) callback(resp);
             }
         });
 	},
@@ -683,7 +684,12 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 		var $btn = $('#save_register_resource');
 		var url = $btn.data('dataset_url');
 		if (url) $btn.removeData('dataset_url');
-		this.save_resource('create', undefined, url);
+		this.save_resource('create', undefined, url, function() {
+			var selector = '#validate-resource-dialog', $el = $(selector);
+		$el.find('.field').hide();
+		$el.find('.loading:first').show();
+			$.colorbox({ inline: true, href: '#register-resource-complete', transition: 'none', opacity: 0.7 });
+		});
 	}
 });
     
