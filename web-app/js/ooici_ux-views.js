@@ -1191,7 +1191,6 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         $("#account_settings_done").text("Saving...");
         $.ajax({url:"userProfile", type:"POST", data:data,
             success: function(resp){
-                console.log("account_settings_done success");
                 $("#account_settings_done").text("Done");
                 $(".modal_close").trigger("click");
             }

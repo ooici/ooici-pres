@@ -317,14 +317,15 @@ tr.odd {
     text-decoration: none;
 }
 
+.ui-icon-triangle-1-s {
+    background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent !important;
+}
+
 .ui-state-active .ui-icon {
 	background: url("../images/I1126-Plus-Simple.png") no-repeat 0px 0px transparent;
 }
 .ui-accordion .ui-accordion-header .ui-icon {
 	background: url("../images/I1126-Plus-Simple.png") no-repeat 0px 0px transparent;
-}
-.ui-icon-triangle-1-e {
-    background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent;
 }
 
 
