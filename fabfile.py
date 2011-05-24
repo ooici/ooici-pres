@@ -36,6 +36,7 @@ topicHost = None
 topicSysname = None
 topicPort = None
 topicExchange = None
+instrumentMonitorURL = None
 debugMode = None
 def appConfig(localDeployment):
     global topicHost
@@ -60,6 +61,13 @@ def appConfig(localDeployment):
     if topicExchange is None:
         topicExchange = prompt('Please enter topic exchange:', default='magnet.topic')
 
+    global instrumentMonitorURL
+    if instrumentMonitorURL is None:
+        if localDeployment:
+            instrumentMonitorURL = prompt('Please enter instrument monitor URL:', default='http://localhost:9998')
+        else
+            instrumentMonitorURL = prompt('Please enter instrument monitor URL:', default='http://pubdebug01.oceanobservatories.org:9998')
+
     global debugMode
     if debugMode is None:
         if localDeployment:
@@ -77,6 +85,7 @@ def appConfig(localDeployment):
     appCfg = re.sub('HOSTNAME', topicHost, appCfg)
     appCfg = re.sub('SYSNAME', topicSysname, appCfg)
     appCfg = re.sub('PORT', topicPort, appCfg)
+    appCfg = re.sub('INSTRUMENT_MONITOR_URL', instrumentMonitorURL, appCfg)
     appCfg = re.sub('BYPASSAUTHENTICATIONMODE', debugMode, appCfg)
     o.write( re.sub('EXCHANGE', topicExchange, appCfg) )
     o.close()

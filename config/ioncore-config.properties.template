@@ -14,6 +14,8 @@ ioncore.userauthorityfilterurls=
 
 ioncore.adminauthorityfilterurls=
 
+ioncore.instrument_monitor_url=INSTRUMENT_MONITOR_URL
+
 # The following properties are For testing purposes
 #
 # Usage:
