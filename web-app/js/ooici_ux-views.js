@@ -1183,7 +1183,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         var project_update_str = $("#project_update").is(":checked") ? "true" : "false";
         var ocean_leadership_news_str = $("#ocean_leadership_news").is(":checked") ? "true" : "false";
         var ooi_participate_str = $("#ooi_participate").is(":checked") ? "true" : "false";
-        var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
+//        var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
         var profileData = [{"name": "mobilephone","value": mobilephone}, {"name": "twitter","value": twitter}, {"name": "system_change","value": system_change_str}, {"name": "project_update","value": project_update_str}, {"name": "ocean_leadership_news","value": ocean_leadership_news_str}, {"name": "ooi_participate","value": ooi_participate_str}];
         var profileJson = JSON.stringify(profileData);
         var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile": profileJson};
@@ -1260,7 +1260,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 		$('.agent_button').attr('disabled', 'disabled');
 		$("#instrument_agent_details").text('Loading instrument details...');
         this.controller.loading_dialog("Loading instrument details...");
-        $.ajax({url:"instrument/getState", type:"POST", dataType:"json", data:{instrument_resource_id:instrument_resource_id},
+        $.ajax({url:"instrument", type:"POST", dataType:"json", data:{action: "getState", instrument_resource_id:instrument_resource_id},
             success: function(resp){
                 self.instrument_sidebar(instrument_resource_id, resp, self);
             }, error: function(xhr) {
@@ -1297,8 +1297,8 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 			_.each($form.serializeArray(), function(item) { props[item.name] = item.value; });
 
 			self.controller.loading_dialog('Saving instrument properties...');
-			var postData = {instrument_resource_id: instrument_resource_id, properties: props};
-			$.ajax({url: '/instrument/setState', type: 'POST', dataType: 'json', data: postData, success: function(data) {
+			var postData = {action: "setState", instrument_resource_id: instrument_resource_id, properties: props};
+			$.ajax({url: 'instrument', type: 'POST', dataType: 'json', data: postData, success: function(data) {
 				self.controller.loading_dialog();
 			}, error: function(xhr) {
 				self.controller.loading_dialog('Failed to set the instrument properties.');
@@ -1308,8 +1308,8 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 
 		function toggleSampleState(state) {
 			self.controller.loading_dialog('Trying to ' + state + ' sampling...');
-			var postData = {instrument_resource_id: instrument_resource_id};
-			$.ajax({url: '/instrument/' + state, type: 'POST', dataType: 'json', data: postData, success: function(data) {
+			var postData = {action: state, instrument_resource_id: instrument_resource_id};
+			$.ajax({url: 'instrument', type: 'POST', dataType: 'json', data: postData, success: function(data) {
 				self.controller.loading_dialog();
 			}, error: function(xhr) {
 				self.controller.loading_dialog('Failed to ' + state + ' sampling.');
@@ -1325,7 +1325,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 			toggleSampleState('stop');
 		});
 		$('#agent_sample_monitor').unbind('click').click(function(e) {
-			var url = 'http://amoeba.ucsd.edu:9998/';
+			var url = INSTRUMENT_MONITOR_URL;
 			window.open(url, '_blank');
 		});
 
@@ -1339,7 +1339,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 		var $table = $("#datatable_instruments");
         var datatable_id = this.datatable.attr("id");
         var self = this;
-        $.ajax({url:"instrument/list", type:"GET", data:{}, dataType:"json",
+        $.ajax({url:"instrument", type:"GET", data:{action: "list"}, dataType:"json",
             success: function(data){
                 $("#datatable_select_buttons").hide();
                 self.controller.resource_collection.remove_all();
@@ -1397,27 +1397,33 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 			}
 
 			self.controller.loading_dialog('Registering instrument...');
-			var $form = $('#register-instrument-form');
-			var regData = $form.serialize();
-
-			$.ajax({url:"instrument/create", type:"POST", data:regData, dataType:"json", success: function(data) {
-				self.controller.loading_dialog('Starting instrument agent...');
-				var startData = {
-					instrument_resource_id: data.instrument_resource_id,
-					model: $form.find('[name=model]:first').val()
-				};
-				$.ajax({url:"instrument/startAgent", type:"POST", data:startData, dataType:"json", success: function(data) {
-					close();
+	        var name = $("#instrument_name").val();
+	        var description = $("#instrument_description").val();
+	        var manufacturer = $("#instrument_manufacturer").val();
+	        var model = $("#instrument_model").val();
+	        var serial_number = $("#instrument_serial_num").val();
+	        var fw_version = $("#instrument_fw_version").val();
+			var regData = {action: "create", "name": name, "description": description, "manufacturer": manufacturer, "model": model, "serial_number": serial_number, "fw_version": fw_version};
+			
+			$.ajax({url:"instrument", type:"POST", data:regData, dataType:"json",
+				success: function(data) {
+					self.controller.loading_dialog('Starting instrument agent...');
+					var startData = {action: "startAgent", name: manufacturer, model: model, instrument_resource_id: data.instrument_resource_id};
+					$.ajax({url:"instrument", type:"POST", data:startData, dataType:"json",
+						success: function(data) {
+							close();
+						}, error: function() {
+							close();
+							self.controller.loading_dialog('Failed to start instrument agent.');
+							setTimeout(function() { self.controller.loading_dialog(); }, 5000);
+						}
+					});
 				}, error: function() {
 					close();
-					self.controller.loading_dialog('Failed to start instrument agent.');
+					self.controller.loading_dialog('Failed to register instrument.');
 					setTimeout(function() { self.controller.loading_dialog(); }, 5000);
-				}});
-			}, error: function() {
-				close();
-				self.controller.loading_dialog('Failed to register instrument.');
-				setTimeout(function() { self.controller.loading_dialog(); }, 5000);
-			}});
+				}
+			});
 		}
 		$el.find('#register-instrument-form:first').one('submit', submit);
 		$el.find('.register_instrument_ok:first').one('click', submit);
