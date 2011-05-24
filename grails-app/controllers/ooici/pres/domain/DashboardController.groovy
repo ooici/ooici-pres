@@ -1,5 +1,7 @@
 package ooici.pres.domain
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder;
+
 import ooici.pres.BootstrapIONService
 import grails.converters.JSON
 
@@ -64,7 +66,11 @@ class DashboardController {
 		rolesString = roles.encodeAsJSON()
 
 		String isRegisteredString = isRegistered ? "true" : "false"
-			
-		render(view:"show",model:[OOI_ROLES: rolesString, REGISTERED: isRegisteredString, HELP: BootstrapIONService.helpStrings])
+
+		Map map = ConfigurationHolder.getConfig().flatten()
+		
+		def instrument_monitor_url = (String)map.get("ioncore.instrument_monitor_url")
+		
+		render(view:"show",model:[OOI_ROLES: rolesString, REGISTERED: isRegisteredString, INSTRUMENT_MONITOR_URL: instrument_monitor_url, HELP: BootstrapIONService.helpStrings])
 	}
 }
