@@ -151,6 +151,8 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail: function(data_resource_id){
+        $("#download_dataset_button, #setup_notifications").show();
+        $("#start_notifications").hide();
         self = this;
         this.controller.loading_dialog("Loading dataset details...");
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
@@ -347,10 +349,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     setup_notifications: function(){
-        $("#start_notifications, #notification_settings, #dispatcher_settings").show();
+        $("#start_notifications, .notification_settings, .dispatcher_settings").show();
         $("#download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
-        $("#notification_settings, #dispatcher_settings").trigger("click");
         var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
         if (!is_early_adopter){
             $(".dispatcher_settings").hide();
