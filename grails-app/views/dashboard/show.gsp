@@ -157,7 +157,7 @@
         <div id="register_new">
             <table>
               <tr><td>Source URL:&nbsp;<input id="data_resource_url" size='27' type="text"/></td></tr>
-              <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button disabled="disabled" style="float:right;margin-left:2px">Look Up</button></td></tr>
+              <!-- <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button disabled="disabled" style="float:right;margin-left:2px">Look Up</button></td></tr> -->
               <tr><td>Visualization URL:&nbsp;<input size='22' type="text"/></td></tr>
             </table>
         </div>
@@ -182,8 +182,8 @@
         </form>
       </div>
 
-      <h3 class="marine_op_role"><a href="#">Instrument Management</a></h3>
-      <div class="marine_op_role" style="padding-left: 10px; padding-right: 10px;">
+      <h3 class="marine_op_role instrument_view"><a href="#">Instrument Management</a></h3>
+      <div class="marine_op_role instrument_view" style="padding-left: 10px; padding-right: 10px;">
         <div id="view_instruments">
           <form action="">
             <table>
@@ -280,7 +280,7 @@
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
       <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
-      <button id="register_resource_button">Validate DataSource</button>
+      <button id="register_resource_button">Validate Resource</button>
    </div><!-- end .west-south -->
 
  </div> <!-- end .ui-layout-west -->
@@ -559,12 +559,20 @@
     <div align="left" style=" background-color:#F4F4F6; width:590px; height:250px; padding:10px; padding-left:30px; padding-right:20px; border:1px solid #494949;border-bottom:none">
 
       <form id="register-instrument-form" name="register-instrument-form" action="#">
+        <!--
         <div class="field clearfix"><label>Name:</label><input type="text" class="value" id="instrument_name" value="SeaBird SBE37" /></div>
         <div class="field clearfix"><label>Description:</label><input type="text" class="value" id="instrument_description" value="SeaBird Sensor" /></div>
         <div class="field clearfix"><label>Manufacturer:</label><select id="instrument_manufacturer"><option value="SeaBird Electronics">SeaBird Electronics</option></select></div>
         <div class="field clearfix"><label>Model:</label><select id="instrument_model"><option value="SBE37">SBE37</option></select></div>
         <div class="field clearfix"><label>Serial Number:</label><input type="text" class="value" id="instrument_serial_num" value="123ABC" /></div>
         <div class="field clearfix"><label>Firmware Version:</label><input type="text" class="value" id="instrument_fw_version" value="1.0" /></div>
+        -->
+        <div class="field clearfix"><label>Name:</label><input type="text" class="value" id="instrument_name" value="" /></div>
+        <div class="field clearfix"><label>Description:</label><input type="text" class="value" id="instrument_description" value="" /></div>
+        <div class="field clearfix"><label>Manufacturer:</label><select id="instrument_manufacturer"><option value="SeaBird Electronics">SeaBird Electronics</option></select></div>
+        <div class="field clearfix"><label>Model:</label><select id="instrument_model"><option value="SBE37">SBE37</option></select></div>
+        <div class="field clearfix"><label>Serial Number:</label><input type="text" class="value" id="instrument_serial_num" value="" /></div>
+        <div class="field clearfix"><label>Firmware Version:</label><input type="text" class="value" id="instrument_fw_version" value="" /></div>
       </form>
     </div>
 
