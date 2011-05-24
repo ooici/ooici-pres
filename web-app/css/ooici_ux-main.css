@@ -230,28 +230,6 @@ tr.odd {
 
 
 
-#footer {
-    position: absolute;
-    bottom: 0;
-    left: 10px;
-    z-index: 4;
-}
-#footer span {
-    float: right;
-    margin: 0;
-    display: block;
-    width: 230px;
-    font-size: 0.8em;
-}
-#footer img {
-    float: left;
-    position: relative;
-    top: -6px;
-    left: -5px;
-}
-
-
-
 /* sidebar widget containers */
 
 .ui-layout-center {
