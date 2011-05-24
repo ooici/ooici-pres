@@ -157,7 +157,7 @@
         <div id="register_new">
             <table>
               <tr><td>Source URL:&nbsp;<input id="data_resource_url" size='27' type="text"/></td></tr>
-              <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button disabled="disabled" style="float:right;margin-left:2px">Look Up</button></td></tr>
+              <!-- <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button disabled="disabled" style="float:right;margin-left:2px">Look Up</button></td></tr> -->
               <tr><td>Visualization URL:&nbsp;<input size='22' type="text"/></td></tr>
             </table>
         </div>
@@ -182,8 +182,8 @@
         </form>
       </div>
 
-      <h3 class="marine_op_role"><a href="#">Instrument Management</a></h3>
-      <div class="marine_op_role" style="padding-left: 10px; padding-right: 10px;">
+      <h3 class="marine_op_role instrument_view"><a href="#">Instrument Management</a></h3>
+      <div class="marine_op_role instrument_view" style="padding-left: 10px; padding-right: 10px;">
         <div id="view_instruments">
           <form action="">
             <table>
@@ -280,7 +280,7 @@
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
       <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
-      <button id="register_resource_button">Validate DataSource</button>
+      <button id="register_resource_button">Validate Resource</button>
    </div><!-- end .west-south -->
 
  </div> <!-- end .ui-layout-west -->

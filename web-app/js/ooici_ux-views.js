@@ -606,18 +606,22 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         var id = $(e.target).attr("id");
         $("#"+id).addClass("selected");
         if (id == "view_existing_tab"){
-            $("#geospatial_selection_button, #view_existing, .view_existing").show();
+            $("#geospatial_selection_button, #view_existing, .view_existing, .instrument_view").show();
             $("#register_new, #register_resource_button").hide();
             $("#register_new_tab").removeClass("selected");
         } else {
             $("#register_new, #register_resource_button").show();
-            $("#geospatial_selection_button, #view_existing, .view_existing").hide();
+            $("#geospatial_selection_button, #view_existing, .view_existing, .instrument_view").hide();
             $("#view_existing_tab").removeClass("selected");
         }
         //TODO: this 'role' type logic needs to be changed to a class based switch strategy:
         var is_admin = _.any(OOI_ROLES, function(role){return role === "ADMIN"});
         if (!is_admin){
             $(".admin_role").hide();
+        }
+		var is_marine_op = _.any(OOI_ROLES, function(role){return role === "MARINE_OPERATOR"});
+        if (!is_marine_op){
+            $(".marine_op_role").hide();
         }
     }
 
