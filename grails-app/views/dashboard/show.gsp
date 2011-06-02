@@ -26,10 +26,19 @@
   <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
   $(function() {
-    window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
-    if (document.location.hostname === 'localhost') window.OOI_ROLES.push('ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR');
-    window.REGISTERED = JSON.parse('<%= REGISTERED %>');
-    window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
+    try {
+        window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
+        window.REGISTERED = JSON.parse('<%= REGISTERED %>');
+        window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
+    } catch(err){ //For development:
+        if (document.location.hostname === 'localhost'){
+            window.OOI_ROLES = ['USER', 'ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR'];
+            window.REGISTERED = true;
+            window.INSTRUMENT_MONITOR_URL = 'http://example.edu';
+        } else {
+            return alert("One of: OOI_ROLES, REGISTERED, INSTRUMENT_MONITOR_URL failed to load.");
+        }
+    }
     OOI.init();
   });
   </script>
