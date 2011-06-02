@@ -1034,18 +1034,37 @@ OOI.Views.Workflow109Datasources = OOI.Views.Workflow109.extend({
 });
 
 OOI.Views.GeospatialContainer = Backbone.View.extend({
-    //TODO: incomplete functionality
 
     events: {
         //TODO: "click #geospatial_selection_button":"render_geo"
+        "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
+        "click .vertical_extent_button":"vertical_extent_direction_toggle",
     },
 
     initialize: function() {
-        _.bindAll(this, "render_geo", "init_bounding"); 
+        _.bindAll(this, "render_geo", "init_bounding", "vertical_extent_units_toggle", "vertical_extent_direction_toggle"); 
         this.controller = this.options.controller;
-        this.init_geo();
-        this.init_bounding();
+        this.init_geo(); //'el' property doesn't encapsulate properly ... fixme
+        this.init_bounding(); //'el' property doesn't encapsulate properly.. fixme
         $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").attr("checked", "checked");
+    },
+
+    vertical_extent_units_toggle: function(e){
+        var current_units = $(e.target).text();
+        if (current_units == "ft"){
+            $(e.target).text("m");
+        } else {
+            $(e.target).text("ft");
+        }
+    },
+
+    vertical_extent_direction_toggle: function(e){
+        var current_direction = $(e.target).attr("src").indexOf("Above");
+        if (current_direction > 0){
+            $(e.target).attr("src", "images/Below-Sea-Level-Simple.png")
+        } else {
+            $(e.target).attr("src", "images/Above-Sea-Level-Simple.png")
+        }
     },
 
     render_geo:function(){

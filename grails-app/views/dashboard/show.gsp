@@ -221,10 +221,10 @@
         </div>
         <div class="altitudeRadios">
           <form action="">
-            <table style="position:relative;left:20px">
+            <table>
               <tr>
                 <td>&nbsp;</td>
-                <td><strong style="position:relative;left:-30px">Vertical Extent:</strong></td>
+                <td><strong style="position:relative;left:-30px">Vertical Extent</strong><span id="vertical_extent_units_toggle">ft</span></td>
               </tr>
               <tr>
                 <td><input id="radioAltitudeAll" title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/>All</td>
@@ -248,11 +248,13 @@
         <div class="altitudeControls">
             <span class="altText">Vertical Extent<br/>
             (Feet MSL)</span>
-            <span class="altitudeUpper">Upper Bound:
-            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+            <span class="altitudeUpper"><div>Upper Bound</div>
+            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="10" maxlength="10"/>
+            <img  id="vertical_extent_above" class="vertical_extent_button" src="images/Above-Sea-Level-Simple.png">
             </span>
-            <span class="altitudeLower">Lower Bound:
-            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+            <span class="altitudeLower"><div>Lower Bound</div>
+            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="10" maxlength="10"/>
+            <img id="vertical_extent_below" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
             </span>
         </div>
       </div>

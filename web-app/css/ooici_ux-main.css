@@ -141,6 +141,20 @@ tr.odd {
 }
 #geospatial_selection_button {
 }
+#vertical_extent_units_toggle {
+    padding:0px 2px;
+    margin-left:4px;
+    border:1px solid #ccc;
+    position:relative;
+    left:-30px;
+    cursor:pointer;
+}
+.vertical_extent_button {
+    margin-left:12px;
+    position:relative;
+    top:2px;
+    cursor:pointer;
+}
 
 #resource_selector_view {
   text-align:center;
