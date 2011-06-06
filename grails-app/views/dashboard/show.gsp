@@ -233,7 +233,7 @@
             </table>
           </form>
         </div>
-        <div class="boundingBoxText"> Bounding Box<br/> (Decimal Degrees) </div>
+        <div class="boundingBoxText">(Decimal Degrees) </div>
         <div class="boundingBoxControls">
           <span class="Ntext">N</span>
           <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
@@ -246,8 +246,6 @@
           <span class="NSEWBackgroundBorder"></span>
         </div>
         <div class="altitudeControls">
-            <span class="altText">Vertical Extent<br/>
-            (Feet MSL)</span>
             <span class="altitudeUpper"><div>Upper Bound</div>
             <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="10" maxlength="10"/>
             <img  id="vertical_extent_above" class="vertical_extent_button" src="images/Above-Sea-Level-Simple.png">
