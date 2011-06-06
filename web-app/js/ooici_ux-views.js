@@ -842,7 +842,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 			ion_email = resp.source.ion_email;
 			ion_institution = resp.source.ion_institution;
 		}
-		var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='28' maxlength='28'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>";
+		var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='30' maxlength='50'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>";
 		$("#ds_title").html(ds_title_forms);
 		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b>"+ion_email+"<br><b>Contact Institution:</b>"+ion_institution;
 		$("#ds_publisher_contact").html(ds_publisher_contact);
@@ -854,7 +854,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#ds_variables").html(self.format_variables(resp.variable || {}));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-        $("#ds_references").html(data.references);
+        $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
