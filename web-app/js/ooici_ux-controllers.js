@@ -137,7 +137,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
     datatable_init: function(id, columns){
         var oTable = $(id).dataTable({
-            "aLengthMenu": [[20, 25, 50, -1], [20, 25, 50, "All"]],
+            "iDisplayLength":20,
+            "aLengthMenu": [[10, 20, 25, 50, -1], [10, 20, 25, 50, "All"]],
             "aaData":[_.map(_.range(columns), function(x){return null;})],
             "bJQueryUI": true, 
             "sPaginationType": "full_numbers"

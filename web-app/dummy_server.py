@@ -77,7 +77,7 @@ class DataResource(Resource):
         elif action == "findByUser":
             return json.dumps(self.findByUser)
         else:
-            self.DATA.update({"dataResourceSummary":self.dataResourceSummary})
+            self.DATA.update({"dataResourceSummary":self.dataResourceSummary*10})
             return json.dumps(self.DATA)
 
     def render_POST(self, request):
