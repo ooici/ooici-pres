@@ -286,6 +286,15 @@ tr.odd {
     color: #000;
     font-weight: bold;
 }
+#east_sidebar .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background-color: #fff;
+}
+#east_sidebar .ui-accordion-header {
+    background-color: #fff;
+}
+#east_sidebar .ui-accordion-content {
+    background-color: #fff;
+}
 
 .ui-accordion .ui-accordion-content {
     padding: 12px;
