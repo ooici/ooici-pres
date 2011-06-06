@@ -164,7 +164,7 @@ div#icons {
 
 .boundingBoxControls {
 	position:absolute;
-	top:87px;
+	top:77px;
 	left:-10px;
 	/*background-color:#cccccc;*/
 	width:180px;
@@ -249,7 +249,7 @@ div#icons {
 
 .altitudeControls {
 	position:absolute;
-	top:50px;
+	top:25px;
 	left:159px;
 	/*background-color:#cccccc;*/
 	width:150px;

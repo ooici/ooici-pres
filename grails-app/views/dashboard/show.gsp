@@ -113,7 +113,7 @@
        </table>
 
 
-            <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll">←</span><span id="dataset_return_button">Return to List</span><span id="dataset_scroll_right" class="arrow dataset_scroll">→</span></div>
+            <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll"><img src="images/Arrow-Left.png"/></span><span id="dataset_return_button"><img style="width:30px;height:20px" src="images/List-View.png"/></span><span id="dataset_scroll_right" class="arrow dataset_scroll"><img src="images/Arrow-Right.png"/></span></div>
 
        <div id="datatable_details_container"></div>
       </div><!-- end #datatable -->

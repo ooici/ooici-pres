@@ -212,15 +212,13 @@ tr.odd {
 #datatable_details_scroll {
   float:right;
   position:relative;
-  top:-31px;
-  left:-4px;
-  font-size:130%;
+  top:-36px;
+  left:-6px;
   padding:2px 3px;
   cursor:pointer;
 }
 #datatable_details_scroll span {
-  margin:0px 2px;
-  background-color:#eee;
+  margin:0px 3px;
 }
 #datatable_details_scroll .arrow {
   font-weight:bold;
