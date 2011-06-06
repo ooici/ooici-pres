@@ -1104,7 +1104,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var data = {}
         var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
         var minLongitude = $("#ge_bb_west").val(), maxLongitude = $("#ge_bb_east").val();
-        var minVertical = $("#ge_altitude_up").val(), maxVertical = $("#ge_altitude_lb").val();
+        var minVertical = $("#ge_altitude_ub").val(), maxVertical = $("#ge_altitude_lb").val();
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var posVertical = "down";
         if ($("#radioBoundingDefined").is(":checked")){
@@ -1114,8 +1114,20 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             data["maxLongitude"] = maxLongitude;
         }
         if ($("#radioAltitudeDefined").is(":checked")){
-            data["minVertical"] = minVertical;
-            data["maxVertical"] = maxVertical;
+            if (minVertical === "" && maxVertical === ""){
+                minVertical = -99999; //default 'highest possible atmosphere height'
+            }
+            if (minVertical !== "" && maxVertical === ""){
+                maxVertical = 99999; //default 'lowest possible ocean depth'
+            }
+            minVertical = parseInt(minVertical), maxVertical = parseInt(maxVertical);
+            if ($("#vertical_extent_units_toggle").text() === "ft"){
+                minVertical = (minVertical * 0.3048), maxVertical = (maxVertical * 0.3048); //convert to meters
+            }
+            var upper_sign = ($("#vertical_extent_above").attr("src").indexOf("Above") > 0) ? -1 : 1;
+            var lower_sign = ($("#vertical_extent_below").attr("src").indexOf("Above") > 0) ? -1 : 1;
+            data["minVertical"] = minVertical * upper_sign;
+            data["maxVertical"] = maxVertical * lower_sign;
             data["posVertical"] = posVertical;
         }
         if ($("#TE_timeRange_defined").is(":checked")){
