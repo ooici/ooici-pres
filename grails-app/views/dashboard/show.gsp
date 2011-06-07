@@ -224,7 +224,7 @@
             <table>
               <tr>
                 <td>&nbsp;</td>
-                <td><strong style="position:relative;left:-30px">Vertical Extent</strong><span id="vertical_extent_units_toggle">ft</span></td>
+                <td><strong style="position:relative;left:-30px">Vertical Extent</strong><span id="vertical_extent_units_toggle">m</span></td>
               </tr>
               <tr>
                 <td><input id="radioAltitudeAll" title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/>All</td>
