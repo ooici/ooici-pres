@@ -214,7 +214,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#ds_variables").html(self.format_variables(resp.variable || {}));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-        $("#ds_references").html(data.references);
+        $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
@@ -324,7 +324,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
-        $.ajax({url:"subscription", type:"GET", data:{action:"find"}, dataType:"json",
+        var geo_data = this.controller.geospatial_container.get_form_data();
+        var data = $.extend(geo_data, {"action":"find"});
+        $.ajax({url:"subscription", type:"GET", data:data, dataType:"json",
             success: function(data){
                 var cb = "<input type='checkbox'/>";
                 self.controller.my_notifications_collection.remove_all();

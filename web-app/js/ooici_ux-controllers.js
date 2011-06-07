@@ -161,6 +161,13 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
       $(".select_button").click(function(){
         var button_id = $(this).attr("id");
         var datatable_id = $(".datatable:visible").attr("id"); 
+        if (document.location.hash.indexOf("notifications") > 0){
+            var url = "subscription";
+            var data_src_id_name = "data_src_id"; 
+        } else {
+            var url = "dataResource";
+            var data_src_id_name = "data_set_resource_id";
+        }
         switch (button_id) {
           case "deselect_all":
             $("#"+datatable_id+" input:checkbox").attr("checked", "");
@@ -173,12 +180,14 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             var ds_delete_list = [];
             if (ds_checked.first().parent().attr("id") !== ""){
                 $.each(ds_checked, function(i, e){
-                    var delete_item = {"data_src_id":$(e).parent().parent().attr("id")};
+                    var delete_item = {};
+                    delete_item[data_src_id_name] = $(e).parent().parent().attr("id");
                     ds_delete_list.push(delete_item);
                 });
             } else {
                 $.each(ds_checked, function(i, e){
-                    var delete_item = {"data_src_id":$(e).parent().parent().attr("id")};
+                    var delete_item = {};
+                    delete_item[data_src_id_name] = $(e).parent().parent().attr("id");
                     ds_delete_list.push(delete_item);
                 });
             }
@@ -187,11 +196,6 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             var answer = confirm("Delete "+num_selected + " selected items?");
             if (answer){ 
                 self.loading_dialog("Deleting "+num_selected+" items...");
-                if (document.location.hash.indexOf("notifications") > 0){
-                    var url = "subscription";
-                } else {
-                    var url = "dataResource";
-                }
                 var subscriptions = JSON.stringify(ds_delete_list);
                 var data = {"action":"delete", "subscriptions":subscriptions};
                 $.ajax({url:url, type:"POST", data:data, 
