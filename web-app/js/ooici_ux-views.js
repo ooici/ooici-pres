@@ -361,6 +361,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e){
+        $(".notification_settings").show();
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
         if (data_resource_id == ""){
@@ -406,7 +407,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                     break;
             }
         }
-        $("#notification_settings, #dispatcher_settings").trigger("click");
+        if ($("div.notification_settings").is(":hidden")){
+            $("#notification_settings, #dispatcher_settings").trigger("click");
+        }
         var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
         if (!is_early_adopter){
             $(".dispatcher_settings").hide();
