@@ -65,7 +65,7 @@ def appConfig(localDeployment):
     if instrumentMonitorURL is None:
         if localDeployment:
             instrumentMonitorURL = prompt('Please enter instrument monitor URL:', default='http://localhost:9998')
-        else
+        else:
             instrumentMonitorURL = prompt('Please enter instrument monitor URL:', default='http://pubdebug01.oceanobservatories.org:9998')
 
     global debugMode
