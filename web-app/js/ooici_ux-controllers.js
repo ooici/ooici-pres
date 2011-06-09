@@ -205,11 +205,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 var data = {"action":"delete", "subscriptions":subscriptions};
                 $.ajax({url:url, type:"POST", data:data, 
                     success: function(resp){
-                        //TODO: Refresh Table
-                        //document.location = "/";
+                        $.each(ds_delete_list, function(i, e){$("#"+e[data_src_id_name]).remove()});
+                        self.loading_dialog();
                     }
                 });
-                setTimeout(function(){self.loading_dialog()}, 500); //XXX this is imperfect if the response time is long.
                 return;
             } else {
                 return;
