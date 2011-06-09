@@ -1045,6 +1045,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         //TODO: "click #geospatial_selection_button":"render_geo"
         "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
         "click .vertical_extent_button":"vertical_extent_direction_toggle",
+        "click .bb_direction":"bounding_box_direction_toggle"
     },
 
     initialize: function() {
@@ -1061,6 +1062,26 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             $(e.target).text("m");
         } else {
             $(e.target).text("ft");
+        }
+    },
+
+    bounding_box_direction_toggle: function(e){
+        var current_direction = $(e.target).text();
+        switch (current_direction) {
+            case "N":
+                $(e.target).text("S");
+                break;
+            case "S":
+                $(e.target).text("N");
+                break;
+            case "E":
+                $(e.target).text("W");
+                break;
+            case "W":
+                $(e.target).text("E");
+                break;
+            default:
+                return;
         }
     },
 

@@ -237,13 +237,13 @@
         </div>
         <div class="boundingBoxText">(Decimal Degrees) </div>
         <div class="boundingBoxControls">
-          <span class="Ntext">N</span>
+          <span class="bb_direction Ntext">N</span>
           <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
-          <span class="Stext">S</span>
+          <span class="bb_direction Stext">S</span>
           <input id="ge_bb_south" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
-          <span class="Etext">E</span>
+          <span class="bb_direction Etext">E</span>
           <input id="ge_bb_east" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
-          <span class="Wtext">W</span>
+          <span class="bb_direction Wtext">W</span>
           <input id="ge_bb_west" title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
           <span class="NSEWBackgroundBorder"></span>
         </div>

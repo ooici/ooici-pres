@@ -157,7 +157,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     datetime_selectors:function(){
-        $("#te_from_input, #te_to_input").datetimepicker({showSecond:true, timeFormat:'hh:mm:ss'});
+        $("#te_from_input, #te_to_input").datetimepicker({
+            showSecond:true, dateFormat:'yy-mm-dd', timeFormat:'hh:mm:ssZ', separator: 'T'});
     },
 
     datatable_select_buttons: function(){

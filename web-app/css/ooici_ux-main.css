@@ -141,6 +141,12 @@ tr.odd {
 }
 #geospatial_selection_button {
 }
+.bb_direction {
+    cursor:pointer;
+    border: 1px solid #CCCCCC;
+    padding: 0 2px;
+    margin-bottom:1px;
+}
 #vertical_extent_units_toggle {
     padding:0px 2px;
     margin-left:4px;
