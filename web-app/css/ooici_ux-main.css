@@ -264,6 +264,11 @@ tr.odd {
     background-color:#F5F5F5;
 }
 
+.ui-accordion .ui-accordion-header {
+    cursor: pointer;
+    margin-top: 1px;
+    height:20px;
+}
 .ui-accordion .ui-accordion-header a {
     display: block;
     color: #00457C;
@@ -272,6 +277,8 @@ tr.odd {
     font-weight:lighter;
     padding: 2px;
     margin-left:20px;
+    position:relative;
+    top:-20px;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
@@ -292,22 +299,29 @@ tr.odd {
 }
 #east_sidebar .ui-accordion-content {
     background-color: #fff;
+    display:none;
 }
 
-.ui-accordion .ui-accordion-content {
-    padding: 12px;
-    border-top:1px solid #00457C;
-}
-.ui-widget-content {
+.center-center .ui-widget-content {
     background: url("images/FIXME.png") repeat-x scroll 50% top #F5F5F5;
     border: 1px solid #F5F5F5;
     color: #362B36;
 }
-.ui-widget-header {
+.center-center .ui-widget-header {
     background: url("images/FIXME.png") repeat-x scroll 50% 50% #FFFFFF;
     border: none;
     color: #000;
     font-weight: bold;
+}
+.center-center .ui-widget-header {
+    background: url("images/FIXME.png") repeat-x scroll 50% 50% #FFFFFF;
+    border: none;
+    color: #000;
+    font-weight: bold;
+}
+.ui-accordion .ui-accordion-content {
+    padding: 12px;
+    border-top:1px solid #00457C;
 }
 .ui-accordion-content input[type=radio], .ui-accordion-content label {
     cursor: pointer;
@@ -316,8 +330,23 @@ tr.odd {
     text-decoration: none;
 }
 
-.ui-icon-triangle-1-s {
+.ui-layout-west .ui-icon-triangle-1-s {
     background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent !important;
+}
+.ui-layout-east .ui-icon-triangle-1-s {
+    background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent !important;
+}
+.ui-layout-west .ui-widget-content {
+    background:none;
+    border-bottom:none;
+    border-left:none;
+    border-right:none;
+}
+.ui-layout-east .ui-widget-content {
+    background:none;
+    border-bottom:none;
+    border-left:none;
+    border-right:none;
 }
 
 .ui-state-active .ui-icon {
@@ -330,5 +359,12 @@ tr.odd {
 
 /* END sidebar widget containers */
 
+
+/* datetime widget css */
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
 
 

@@ -5,13 +5,15 @@
   <title>OOI Integrated Observatory Network</title>
 
   <link rel="stylesheet" type="text/css" href="css/ciux-default.css"/>
-  <link rel="stylesheet" type="text/css" media="screen" href="css/cupertino/jquery-ui-1.8.9.custom.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui-1.8.6.custom.css"/> 
   <link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-page.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-table-jui.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/colorbox.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/ooici_ux-main.css"/>
 
   <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+  <script src="js/jquery-ui-1.8.6.custom.min.js" type="text/javascript"></script>
+  <script src="js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
   <script src="js/jquery.layout.min.js" type="text/javascript"></script>
   <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
   <script src="js/jquery.colorbox.min.js" type="text/javascript"></script>
@@ -274,10 +276,7 @@
         <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="20" maxlength="20"/>
         <br><br><span class="te-to boldText">To:</span>
         <input id="te_to_input" name="te_to_input" type="text" size="20" maxlength="20"/>
-        <div style="color:#aaa" class="te-footer-text">
-          ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
-          Example: 2010-11-15T09:00:00Z
-        </div>
+        <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC</div>
       </div><!-- end .temporalExtentControls -->
       </div>
 

@@ -44,6 +44,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 		this.instruments = new OOI.Views.InstrumentList({"el":"#datatable_instruments", controller:this});
 
         this.datatable_select_buttons();
+        this.datetime_selectors();
         
         //TODO: the below should go in a self contained view:
 
@@ -153,6 +154,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         } else {
             elem.show().find(".msg").text(msg);
         }
+    },
+
+    datetime_selectors:function(){
+        $("#te_from_input, #te_to_input").datetimepicker({showSecond:true, timeFormat:'hh:mm:ss'});
     },
 
     datatable_select_buttons: function(){
