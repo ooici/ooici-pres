@@ -154,6 +154,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").show();
         $("#start_notifications").hide();
         self = this;
+        $("#datatable_details_container").html("<p>Loading dataset details...</p>");
         this.controller.loading_dialog("Loading dataset details...");
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
@@ -257,7 +258,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
-                c = self.controller.resource_collection;
                 $("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
                 $("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
                 self.controller.loading_dialog();
@@ -777,6 +777,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 
     show_detail: function(data_resource_id){
         this.controller.loading_dialog("Loading dataset details...");
+        $("#datatable_details_container").html("<p>Loading dataset details...</p>");
         self = this;
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
