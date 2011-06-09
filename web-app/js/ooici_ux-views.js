@@ -918,7 +918,8 @@ OOI.Views.Workflow109 = Backbone.View.extend({
             success: function(data){
 				$.each(data.resources, function(i, elem){
                 	// Automatically add all of the columns in the middle
-					var columns = ["Details"];
+					var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
+					var columns = [details_image];
 					var resourceCols = elem.attribute.slice();
 					while (resourceCols.length < (self.columnCount - columns.length)) resourceCols.push('');
 					Array.prototype.splice.apply(columns, [0, 0].concat(resourceCols));
@@ -936,10 +937,10 @@ OOI.Views.Workflow109 = Backbone.View.extend({
     show_detail_clicked: function(e) {
 		var self = this;
         var tr = $(e.target);
-        var ooi_id = tr.parent().attr("id");
+        var ooi_id = tr.parent().attr('id') || tr.parent().parent().attr('id');
         this.$table.find("tr").removeClass("selected");
         tr.parent().addClass("selected");
-        if (tr.text() == "Details"){
+        if (tr.hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$('#dataset_scroll_left, #dataset_scroll_right').hide();
 			$('#dataset_return_button').unbind('click').one('click', function(e) {
