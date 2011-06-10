@@ -27,8 +27,8 @@
   <script type="text/javascript">
   $(function() {
     window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
-    if (document.location.hostname === 'localhost') window.OOI_ROLES.push('ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR');
     window.REGISTERED = JSON.parse('<%= REGISTERED %>');
+    window.CERTIFICATE_TIMEOUT_SECS = JSON.parse('<%= CERTIFICATE_TIMEOUT_SECS %>');
     window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
     OOI.init();
   });
@@ -582,6 +582,26 @@
         </tr>
       </tbody></table></div>
  </div><!-- end #register-instrument-dialog -->
+
+<div id="certificate-timeout" style="width:530px; height:190px; padding:10px; padding-top:2px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#494949), to(#A9A9A9)); border:1px solid #000; box-shadow: 3px 3px 3px #000">
+    <!--Header-->
+    <div align="left" style="height:20px; width:100%; padding:5px; padding-left:0" class="header">Session Expired</div>
+    <!--Body-->
+    <div align="left" style=" background-color:#F4F4F6; width:480px; height:100px; padding:10px; padding-left:30px; padding-right:20px; border:1px solid #494949;border-bottom:none">
+
+        <p>Your session has expired.  You may choose to continue working as a guest or re-login.</p>
+    </div>
+
+    <div align="left" style=" background-color:#FFF; width:480px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border:1px solid #494949;">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+          <td>&nbsp;</td>
+          <td width="100px"><a href="#" class="modal_close guest colorbox_button blue-button-inactive">Guest</a></td>
+          <td width="10px">&nbsp;</td>
+          <td width="100px"><a href="#" class="modal_close login colorbox_button blue-button-inactive">Login</a></td>
+        </tr>
+      </tbody></table></div>
+</div>
 
 
 </div><!-- end #modal_dialogs -->

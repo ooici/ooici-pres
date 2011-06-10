@@ -1500,4 +1500,24 @@ OOI.Views.Layout = Backbone.View.extend({
 });
 
 
+OOI.Views.SessionMgr = Backbone.View.extend({
+    events: {},
+
+    initialize: function() {
+    	if (CERTIFICATE_TIMEOUT_SECS > 0) {
+    		setTimeout(function() {
+    			var selector = '#certificate-timeout', $el = $(selector);
+    			var $dlg = $.colorbox({inline: true, href: selector, transition: 'none', opacity: 0.7});
+    			$el.find('.guest').one('click', function(e) {
+    				window.location.reload();
+    			});
+    			$el.find('.login').one('click', function(e) {
+    				window.location.href = "login";
+    			});
+    		}, CERTIFICATE_TIMEOUT_SECS * 1000);
+    	}
+    }
+});
+
+
 

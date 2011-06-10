@@ -42,6 +42,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.geospatial_container = new OOI.Views.GeospatialContainer({"el":"#west_south", controller:this}); 
         this.resource_actions = new OOI.Views.ResourceActions({"el":".east-south", controller:this});
 		this.instruments = new OOI.Views.InstrumentList({"el":"#datatable_instruments", controller:this});
+		this.sessionmgr = new OOI.Views.SessionMgr({controller:this});
 
         this.datatable_select_buttons();
         
