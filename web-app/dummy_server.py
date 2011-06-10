@@ -68,7 +68,7 @@ class DataResource(Resource):
     findByUser = {"datasetByOwnerMetadata": [{"data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04802","title": "NTAS 10 Real-time Mooring Data, System 1","date_registered": 1304696743406,"ion_title": "NTAS1 Data Source","activation_state": "Public","update_interval_seconds": 60},{"data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04805","title": "WHOTS 7 near-real-time Mooring Data, System 2","date_registered": 1304696743328,"ion_title": "WHOTS2 Data Source","activation_state": "Private","update_interval_seconds": 0},{"data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04806","title": "7723 Moanalua RG No 1 at alt 1000 ft Oahu HI (212359157502601) - Instantaneous Value","date_registered": 1304696743377,"ion_title": "Moana Loa Data Source","activation_state": "Public","update_interval_seconds": 60},{"data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04808","title": "CONNECTICUT RIVER AT THOMPSONVILLE CT (01184000) - Instantaneous Value","date_registered": 1304696743367,"ion_title": "Connecticut River Data Source","activation_state": "Private","update_interval_seconds": 0},{"data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04803","title": "NTAS 10 Real-time Mooring Data, System 2","date_registered": 1304696743426,"ion_title": "NTAS2 Data Source","activation_state": "Private","update_interval_seconds": 0},{"data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04807","title": "CHOPTANK RIVER NEAR GREENSBORO MD (01491000) - Instantaneous Value","date_registered": 1304696743397,"ion_title": "Choptank River Data Source","activation_state": "Private","update_interval_seconds": 0},{"data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04804","title": "WHOTS 7 near-real-time Mooring Data, System 1","date_registered": 1304696743348,"ion_title": "WHOTS1 Data Source","activation_state": "Private","update_interval_seconds": 0},{"data_resource_id": "3319A67F-81F3-424F-8E69-4F28C4E04801","title": "HYCOM","date_registered": 1304696743358,"ion_title": "HyCom Data Source","activation_state": "Private","update_interval_seconds": 0}]}
 
     def render_GET(self, request):
-        #import time; time.sleep(0.8) #mock out real latency
+        import time; time.sleep(0.8) #mock out real latency
         action = request.args["action"][0]
         if action == "detail":
             self.DATA["source"]["ion_description"] = request.args["data_resource_id"][0]
@@ -77,7 +77,7 @@ class DataResource(Resource):
         elif action == "findByUser":
             return json.dumps(self.findByUser)
         else:
-            self.DATA.update({"dataResourceSummary":self.dataResourceSummary})
+            self.DATA.update({"dataResourceSummary":self.dataResourceSummary*10})
             return json.dumps(self.DATA)
 
     def render_POST(self, request):

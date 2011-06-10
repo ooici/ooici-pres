@@ -154,6 +154,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").show();
         $("#start_notifications").hide();
         self = this;
+        $("#datatable_details_container").html("<p>Loading dataset details...</p>");
         this.controller.loading_dialog("Loading dataset details...");
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
@@ -214,7 +215,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#ds_variables").html(self.format_variables(resp.variable || {}));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-        $("#ds_references").html(data.references);
+        $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
@@ -257,7 +258,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
-                c = self.controller.resource_collection;
                 $("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
                 $("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
                 self.controller.loading_dialog();
@@ -324,7 +324,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         this.datatable.fnClearTable();
         var datatable_id = this.datatable.attr("id");
         var self = this;
-        $.ajax({url:"subscription", type:"GET", data:{action:"find"}, dataType:"json",
+        var geo_data = this.controller.geospatial_container.get_form_data();
+        var data = $.extend(geo_data, {"action":"find"});
+        $.ajax({url:"subscription", type:"GET", data:data, dataType:"json",
             success: function(data){
                 var cb = "<input type='checkbox'/>";
                 self.controller.my_notifications_collection.remove_all();
@@ -359,6 +361,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e){
+        $(".notification_settings").show();
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
         if (data_resource_id == ""){
@@ -404,7 +407,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                     break;
             }
         }
-        $("#notification_settings, #dispatcher_settings").trigger("click");
+        if ($("div.notification_settings").is(":hidden")){
+            $("#notification_settings, #dispatcher_settings").trigger("click");
+        }
         var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
         if (!is_early_adopter){
             $(".dispatcher_settings").hide();
@@ -775,6 +780,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 
     show_detail: function(data_resource_id){
         this.controller.loading_dialog("Loading dataset details...");
+        $("#datatable_details_container").html("<p>Loading dataset details...</p>");
         self = this;
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
@@ -842,7 +848,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 			ion_email = resp.source.ion_email;
 			ion_institution = resp.source.ion_institution;
 		}
-		var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='28' maxlength='28'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>";
+		var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='30' maxlength='50'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>";
 		$("#ds_title").html(ds_title_forms);
 		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b>"+ion_email+"<br><b>Contact Institution:</b>"+ion_institution;
 		$("#ds_publisher_contact").html(ds_publisher_contact);
@@ -854,7 +860,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#ds_variables").html(self.format_variables(resp.variable || {}));
         $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-        $("#ds_references").html(data.references);
+        $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
@@ -1035,18 +1041,58 @@ OOI.Views.Workflow109Datasources = OOI.Views.Workflow109.extend({
 });
 
 OOI.Views.GeospatialContainer = Backbone.View.extend({
-    //TODO: incomplete functionality
 
     events: {
         //TODO: "click #geospatial_selection_button":"render_geo"
+        "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
+        "click .vertical_extent_button":"vertical_extent_direction_toggle",
+        "click .bb_direction":"bounding_box_direction_toggle"
     },
 
     initialize: function() {
-        _.bindAll(this, "render_geo", "init_bounding"); 
+        _.bindAll(this, "render_geo", "init_bounding", "vertical_extent_units_toggle", "vertical_extent_direction_toggle"); 
         this.controller = this.options.controller;
-        this.init_geo();
-        this.init_bounding();
+        this.init_geo(); //'el' property doesn't encapsulate properly ... fixme
+        this.init_bounding(); //'el' property doesn't encapsulate properly.. fixme
         $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").attr("checked", "checked");
+    },
+
+    vertical_extent_units_toggle: function(e){
+        var current_units = $(e.target).text();
+        if (current_units == "ft"){
+            $(e.target).text("m");
+        } else {
+            $(e.target).text("ft");
+        }
+    },
+
+    bounding_box_direction_toggle: function(e){
+        var current_direction = $(e.target).text();
+        switch (current_direction) {
+            case "N":
+                $(e.target).text("S");
+                break;
+            case "S":
+                $(e.target).text("N");
+                break;
+            case "E":
+                $(e.target).text("W");
+                break;
+            case "W":
+                $(e.target).text("E");
+                break;
+            default:
+                return;
+        }
+    },
+
+    vertical_extent_direction_toggle: function(e){
+        var current_direction = $(e.target).attr("src").indexOf("Above");
+        if (current_direction > 0){
+            $(e.target).attr("src", "images/Below-Sea-Level-Simple.png")
+        } else {
+            $(e.target).attr("src", "images/Above-Sea-Level-Simple.png")
+        }
     },
 
     render_geo:function(){
@@ -1086,7 +1132,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var data = {}
         var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
         var minLongitude = $("#ge_bb_west").val(), maxLongitude = $("#ge_bb_east").val();
-        var minVertical = $("#ge_altitude_up").val(), maxVertical = $("#ge_altitude_lb").val();
+        var minVertical = $("#ge_altitude_ub").val(), maxVertical = $("#ge_altitude_lb").val();
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var posVertical = "down";
         if ($("#radioBoundingDefined").is(":checked")){
@@ -1096,8 +1142,20 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             data["maxLongitude"] = maxLongitude;
         }
         if ($("#radioAltitudeDefined").is(":checked")){
-            data["minVertical"] = minVertical;
-            data["maxVertical"] = maxVertical;
+            if (minVertical === "" && maxVertical === ""){
+                minVertical = -99999; //default 'highest possible atmosphere height'
+            }
+            if (minVertical !== "" && maxVertical === ""){
+                maxVertical = 99999; //default 'lowest possible ocean depth'
+            }
+            minVertical = parseInt(minVertical), maxVertical = parseInt(maxVertical);
+            if ($("#vertical_extent_units_toggle").text() === "ft"){
+                minVertical = (minVertical * 0.3048), maxVertical = (maxVertical * 0.3048); //convert to meters
+            }
+            var upper_sign = ($("#vertical_extent_above").attr("src").indexOf("Above") > 0) ? -1 : 1;
+            var lower_sign = ($("#vertical_extent_below").attr("src").indexOf("Above") > 0) ? -1 : 1;
+            data["minVertical"] = minVertical * upper_sign;
+            data["maxVertical"] = maxVertical * lower_sign;
             data["posVertical"] = posVertical;
         }
         if ($("#TE_timeRange_defined").is(":checked")){
