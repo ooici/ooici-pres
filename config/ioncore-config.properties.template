@@ -1,6 +1,8 @@
 ioncore.sysname=SYSNAME
 ioncore.host=HOSTNAME
 ioncore.amqpport=PORT
+ioncore.username=USERNAME
+ioncore.password=PASSWORD
 ioncore.exchange=EXCHANGE
 
 ioncore.helpfile=help/help_text.csv
@@ -10,7 +12,7 @@ ioncore.cilogonignoreurls=/StartRequest /ready /SuccessServlet
 
 ioncore.mainurl=/dashboard
 
-ioncore.userauthorityfilterurls=
+ioncore.userauthorityfilterurls=/dashboard*
 
 ioncore.adminauthorityfilterurls=
 
