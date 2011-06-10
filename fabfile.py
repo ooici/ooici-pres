@@ -35,6 +35,8 @@ def ciLogonConfig():
 topicHost = None
 topicSysname = None
 topicPort = None
+topicUsername = None
+topicPassword = None
 topicExchange = None
 instrumentMonitorURL = None
 debugMode = None
@@ -57,6 +59,14 @@ def appConfig(localDeployment):
     if topicPort is None:
         topicPort = prompt('Please enter topic AMQ port number:', default='5672')
 
+    global topicUsername
+    if topicUsername is None:
+        topicUsername = prompt('Please enter username for connecting to RabbitMQ:', default='guest')
+
+    global topicPassword
+    if topicPassword is None:
+        topicPassword = prompt('Please enter password for connecting to RabbitMQ:', default='guest')
+
     global topicExchange
     if topicExchange is None:
         topicExchange = prompt('Please enter topic exchange:', default='magnet.topic')
@@ -65,7 +75,7 @@ def appConfig(localDeployment):
     if instrumentMonitorURL is None:
         if localDeployment:
             instrumentMonitorURL = prompt('Please enter instrument monitor URL:', default='http://localhost:9998')
-        else
+        else:
             instrumentMonitorURL = prompt('Please enter instrument monitor URL:', default='http://pubdebug01.oceanobservatories.org:9998')
 
     global debugMode
@@ -85,6 +95,8 @@ def appConfig(localDeployment):
     appCfg = re.sub('HOSTNAME', topicHost, appCfg)
     appCfg = re.sub('SYSNAME', topicSysname, appCfg)
     appCfg = re.sub('PORT', topicPort, appCfg)
+    appCfg = re.sub('USERNAME', topicUsername, appCfg)
+    appCfg = re.sub('PASSWORD', topicPassword, appCfg)
     appCfg = re.sub('INSTRUMENT_MONITOR_URL', instrumentMonitorURL, appCfg)
     appCfg = re.sub('BYPASSAUTHENTICATIONMODE', debugMode, appCfg)
     o.write( re.sub('EXCHANGE', topicExchange, appCfg) )
