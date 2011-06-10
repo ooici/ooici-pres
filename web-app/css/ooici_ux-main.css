@@ -141,6 +141,26 @@ tr.odd {
 }
 #geospatial_selection_button {
 }
+.bb_direction {
+    cursor:pointer;
+    border: 1px solid #CCCCCC;
+    padding: 0 2px;
+    margin-bottom:1px;
+}
+#vertical_extent_units_toggle {
+    padding:0px 2px;
+    margin-left:4px;
+    border:1px solid #ccc;
+    position:relative;
+    left:-30px;
+    cursor:pointer;
+}
+.vertical_extent_button {
+    margin-left:12px;
+    position:relative;
+    top:2px;
+    cursor:pointer;
+}
 
 #resource_selector_view {
   text-align:center;
@@ -198,15 +218,13 @@ tr.odd {
 #datatable_details_scroll {
   float:right;
   position:relative;
-  top:-31px;
-  left:-4px;
-  font-size:130%;
+  top:-36px;
+  left:-6px;
   padding:2px 3px;
   cursor:pointer;
 }
 #datatable_details_scroll span {
-  margin:0px 2px;
-  background-color:#eee;
+  margin:0px 3px;
 }
 #datatable_details_scroll .arrow {
   font-weight:bold;
@@ -252,6 +270,11 @@ tr.odd {
     background-color:#F5F5F5;
 }
 
+.ui-accordion .ui-accordion-header {
+    cursor: pointer;
+    margin-top: 1px;
+    height:20px;
+}
 .ui-accordion .ui-accordion-header a {
     display: block;
     color: #00457C;
@@ -260,6 +283,8 @@ tr.odd {
     font-weight:lighter;
     padding: 2px;
     margin-left:20px;
+    position:relative;
+    top:-20px;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
@@ -272,21 +297,37 @@ tr.odd {
     color: #000;
     font-weight: bold;
 }
-
-.ui-accordion .ui-accordion-content {
-    padding: 12px;
-    border-top:1px solid #00457C;
+#east_sidebar .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background-color: #fff;
 }
-.ui-widget-content {
+#east_sidebar .ui-accordion-header {
+    background-color: #fff;
+}
+#east_sidebar .ui-accordion-content {
+    background-color: #fff;
+    display:none;
+}
+
+.center-center .ui-widget-content {
     background: url("images/FIXME.png") repeat-x scroll 50% top #F5F5F5;
     border: 1px solid #F5F5F5;
     color: #362B36;
 }
-.ui-widget-header {
+.center-center .ui-widget-header {
     background: url("images/FIXME.png") repeat-x scroll 50% 50% #FFFFFF;
     border: none;
     color: #000;
     font-weight: bold;
+}
+.center-center .ui-widget-header {
+    background: url("images/FIXME.png") repeat-x scroll 50% 50% #FFFFFF;
+    border: none;
+    color: #000;
+    font-weight: bold;
+}
+.ui-accordion .ui-accordion-content {
+    padding: 12px;
+    border-top:1px solid #00457C;
 }
 .ui-accordion-content input[type=radio], .ui-accordion-content label {
     cursor: pointer;
@@ -295,18 +336,41 @@ tr.odd {
     text-decoration: none;
 }
 
+.ui-layout-west .ui-icon-triangle-1-s {
+    background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent !important;
+}
+.ui-layout-east .ui-icon-triangle-1-s {
+    background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent !important;
+}
+.ui-layout-west .ui-widget-content {
+    background:none;
+    border-bottom:none;
+    border-left:none;
+    border-right:none;
+}
+.ui-layout-east .ui-widget-content {
+    background:none;
+    border-bottom:none;
+    border-left:none;
+    border-right:none;
+}
+
 .ui-state-active .ui-icon {
 	background: url("../images/I1126-Plus-Simple.png") no-repeat 0px 0px transparent;
 }
 .ui-accordion .ui-accordion-header .ui-icon {
 	background: url("../images/I1126-Plus-Simple.png") no-repeat 0px 0px transparent;
 }
-.ui-icon-triangle-1-e {
-    background: url("../images/I1125-Minus-Simple.png") no-repeat scroll 0 0 transparent;
-}
 
 
 /* END sidebar widget containers */
 
+
+/* datetime widget css */
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
 
 

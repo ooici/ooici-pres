@@ -5,13 +5,15 @@
   <title>OOI Integrated Observatory Network</title>
 
   <link rel="stylesheet" type="text/css" href="css/ciux-default.css"/>
-  <link rel="stylesheet" type="text/css" media="screen" href="css/cupertino/jquery-ui-1.8.9.custom.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui-1.8.6.custom.css"/> 
   <link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-page.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-table-jui.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/colorbox.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/ooici_ux-main.css"/>
 
   <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+  <script src="js/jquery-ui-1.8.6.custom.min.js" type="text/javascript"></script>
+  <script src="js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
   <script src="js/jquery.layout.min.js" type="text/javascript"></script>
   <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
   <script src="js/jquery.colorbox.min.js" type="text/javascript"></script>
@@ -26,10 +28,21 @@
   <script src="js/ooici_ux-controllers.js" type="text/javascript"></script>
   <script type="text/javascript">
   $(function() {
-    window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
-    window.REGISTERED = JSON.parse('<%= REGISTERED %>');
-    window.CERTIFICATE_TIMEOUT_SECS = JSON.parse('<%= CERTIFICATE_TIMEOUT_SECS %>');
-    window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
+    try {
+        window.OOI_ROLES = JSON.parse('<%= OOI_ROLES %>');
+        window.REGISTERED = JSON.parse('<%= REGISTERED %>');
+        window.CERTIFICATE_TIMEOUT_SECS = JSON.parse('<%= CERTIFICATE_TIMEOUT_SECS %>');
+        window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
+    } catch(err){ //For development:
+        if (document.location.hostname === 'localhost'){
+            window.OOI_ROLES = ['USER', 'ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR'];
+            window.REGISTERED = true;
+            window.CERTIFICATE_TIMEOUT_SECS = 0;
+            window.INSTRUMENT_MONITOR_URL = 'http://example.edu';
+        } else {
+            return alert("One of: OOI_ROLES, REGISTERED, INSTRUMENT_MONITOR_URL failed to load.");
+        }
+    }
     OOI.init();
   });
   </script>
@@ -104,7 +117,7 @@
        </table>
 
 
-            <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll">←</span><span id="dataset_return_button">Return to List</span><span id="dataset_scroll_right" class="arrow dataset_scroll">→</span></div>
+            <div style="display:none" id="datatable_details_scroll"><span id="dataset_scroll_left" class="arrow dataset_scroll"><img src="images/Arrow-Left.png"/></span><span id="dataset_return_button"><img style="width:30px;height:20px" src="images/List-View.png"/></span><span id="dataset_scroll_right" class="arrow dataset_scroll"><img src="images/Arrow-Right.png"/></span></div>
 
        <div id="datatable_details_container"></div>
       </div><!-- end #datatable -->
@@ -212,10 +225,10 @@
         </div>
         <div class="altitudeRadios">
           <form action="">
-            <table style="position:relative;left:20px">
+            <table>
               <tr>
                 <td>&nbsp;</td>
-                <td><strong style="position:relative;left:-30px">Vertical Extent:</strong></td>
+                <td><strong style="position:relative;left:-30px">Vertical Extent</strong><span id="vertical_extent_units_toggle">m</span></td>
               </tr>
               <tr>
                 <td><input id="radioAltitudeAll" title="<%= HELP.P1001_SP21 %>" class="all altitude" name="group1" type="radio"/>All</td>
@@ -224,26 +237,26 @@
             </table>
           </form>
         </div>
-        <div class="boundingBoxText"> Bounding Box<br/> (Decimal Degrees) </div>
+        <div class="boundingBoxText">(Decimal Degrees) </div>
         <div class="boundingBoxControls">
-          <span class="Ntext">N</span>
+          <span class="bb_direction Ntext">N</span>
           <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
-          <span class="Stext">S</span>
+          <span class="bb_direction Stext">S</span>
           <input id="ge_bb_south" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
-          <span class="Etext">E</span>
+          <span class="bb_direction Etext">E</span>
           <input id="ge_bb_east" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
-          <span class="Wtext">W</span>
+          <span class="bb_direction Wtext">W</span>
           <input id="ge_bb_west" title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
           <span class="NSEWBackgroundBorder"></span>
         </div>
         <div class="altitudeControls">
-            <span class="altText">Vertical Extent<br/>
-            (Feet MSL)</span>
-            <span class="altitudeUpper">Upper Bound:
-            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="5" maxlength="5"/>
+            <span class="altitudeUpper"><div>Upper Bound</div>
+            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="10" maxlength="10"/>
+            <img  id="vertical_extent_above" class="vertical_extent_button" src="images/Above-Sea-Level-Simple.png">
             </span>
-            <span class="altitudeLower">Lower Bound:
-            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="5" maxlength="5"/>
+            <span class="altitudeLower"><div>Lower Bound</div>
+            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="10" maxlength="10"/>
+            <img id="vertical_extent_below" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
             </span>
         </div>
       </div>
@@ -265,10 +278,7 @@
         <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="20" maxlength="20"/>
         <br><br><span class="te-to boldText">To:</span>
         <input id="te_to_input" name="te_to_input" type="text" size="20" maxlength="20"/>
-        <div style="color:#aaa" class="te-footer-text">
-          ISO Formatted Time: YYYY-MM-DDTHH:MM:SSZ<br/>
-          Example: 2010-11-15T09:00:00Z
-        </div>
+        <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC</div>
       </div><!-- end .temporalExtentControls -->
       </div>
 
