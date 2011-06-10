@@ -23,13 +23,26 @@ class BootstrapIONService  {
 		def config = ConfigurationHolder.config
 		String hostName = config.ioncore.host
 		int portNumber = Integer.parseInt(config.ioncore.amqpport)
+		String username = config.ioncore.username
+		if (username.equals("{}")) {
+			username = null;
+		}
+		String password = config.ioncore.password
+		if (password.equals("{}")) {
+			password = null;
+		}
 		String exchange = config.ioncore.exchange
 		String sysName = config.ioncore.sysname
-		
-		System.out.println("Starting msg broker client.  Connecting to " + hostName + ":" + portNumber + ":" + exchange + ":" + sysName)
+
+		String str = "Starting msg broker client.  Connecting to " + hostName + ":" + portNumber
+		if (username != null) {
+			str += ":" + username
+		}
+		str += ":" + exchange + ":" + sysName
+		System.out.println(str)
 
 		// Messaging environment
-		ionClient = new MsgBrokerClient(hostName, portNumber, exchange)
+		ionClient = new MsgBrokerClient(hostName, portNumber, username, password, exchange)
 		ionClient.attach()
 
 		baseProcess = new BaseProcess(ionClient)
