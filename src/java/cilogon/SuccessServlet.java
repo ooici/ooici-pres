@@ -3,7 +3,6 @@ package cilogon;
 import grails.converters.JSON;
 import ion.integration.ais.AppIntegrationService.RequestType;
 
-import java.io.PrintWriter;
 import java.net.URI;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
@@ -50,15 +49,9 @@ public class SuccessServlet extends PortalAbstractServlet {
 	final String USER_IS_MARINE_OPERATOR_KEY = "user_is_marine_operator";
 	final String USER_ALREADY_REGISTERED_KEY = "user_already_registered";
 
-	final String ADMIN_ROLE = "ADMIN";
-	final String EARY_ADOPTER_ROLE = "EARLY_ADOPTER";
-	final String DATA_PROVIDER_ROLE = "DATA_PROVIDER";
-	final String MARINE_OPERATOR_ROLE = "MARINE_OPERATOR";
-
 	protected void doIt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Throwable {
 
 		httpServletResponse.setContentType("text/html");
-		PrintWriter pw = httpServletResponse.getWriter();
 
 		String identifier = clearCookie(httpServletRequest, httpServletResponse);
 		if (identifier == null) {
@@ -69,16 +62,12 @@ public class SuccessServlet extends PortalAbstractServlet {
 
 		X509Certificate certificate = credential.getX509Certificate();
 
-		long startDateMS = certificate.getNotBefore().getTime();
 		long expirationDateMS = certificate.getNotAfter().getTime();
 		long currentDateMS = System.currentTimeMillis();
 
 		// For debugging purposes
 		Principal principal = certificate.getSubjectDN();
 		String subjectDN = principal.getName();
-
-		principal = certificate.getIssuerDN();
-		String issuerDN = principal.getName();
 
 		System.out.println("SuccessServlet: received authentication request for <" + subjectDN + ">");
 
@@ -99,6 +88,8 @@ public class SuccessServlet extends PortalAbstractServlet {
 
 			String request = "{\"certificate\": \"" + certificateString + "\",";
 			request += "\"rsa_private_key\": \"" + privateKeyString + "\"}";
+			
+			System.out.println("Request string for register user: " + request);
 
 			String result = BootstrapIONService.appIntegrationService.sendReceiveUIRequest(request, RequestType.REGISTER_USER, "ANONYMOUS", "0");
 
@@ -128,8 +119,6 @@ public class SuccessServlet extends PortalAbstractServlet {
 				}
 
 				if (ooi_id.length() != 0) {
-					int expiry = (int)((expirationDateMS - currentDateMS)/1000);
-
 					session.setAttribute(OOI_ID_KEY, ooi_id);
 					session.setAttribute(EXPIRY_KEY, "" + expirationDateMS/1000);
 				}
@@ -156,20 +145,20 @@ public class SuccessServlet extends PortalAbstractServlet {
 				}
 
 				if (userIsDataProvider) {
-					session.setAttribute(DATA_PROVIDER_ROLE, true);
+					session.setAttribute(USER_IS_DATA_PROVIDER_KEY, true);
 					System.out.println("SuccessServlet: <" + subjectDN + "> isDataProvider: True");
 				}
 				else {
-					session.setAttribute(DATA_PROVIDER_ROLE, false);
+					session.setAttribute(USER_IS_DATA_PROVIDER_KEY, false);
 					System.out.println("SuccessServlet: <" + subjectDN + "> isDataProvider: False");
 				}
 
 				if (userIsMarineOperator) {
-					session.setAttribute(MARINE_OPERATOR_ROLE, true);
+					session.setAttribute(USER_IS_MARINE_OPERATOR_KEY, true);
 					System.out.println("SuccessServlet: <" + subjectDN + "> isMarineOperator: True");
 				}
 				else {
-					session.setAttribute(MARINE_OPERATOR_ROLE, false);
+					session.setAttribute(USER_IS_MARINE_OPERATOR_KEY, false);
 					System.out.println("SuccessServlet: <" + subjectDN + "> isMarineOperator: False");
 				}
 
@@ -203,7 +192,7 @@ public class SuccessServlet extends PortalAbstractServlet {
 
 				System.out.println("SuccessServlet: Error received logging in <" + subjectDN + ">\nRequest message: " + request + "\nStatus: " + status + "\nError message: " + errorMessage);
 
-				URI redirectUri = new URI(httpServletRequest.getContextPath());
+				URI redirectUri = new URI(httpServletRequest.getContextPath() + "/index.html");
 				httpServletResponse.sendRedirect(redirectUri.toString());
 			}
 		}
@@ -212,7 +201,7 @@ public class SuccessServlet extends PortalAbstractServlet {
 			System.out.println("SuccessServlet: current time MS       <" + currentDateMS + ">");
 			System.out.println("SuccessServlet: certificate expiry MS <" + expirationDateMS + ">");
 
-			URI redirectUri = new URI(httpServletRequest.getContextPath());
+			URI redirectUri = new URI(httpServletRequest.getContextPath() + "/index.html");
 			httpServletResponse.sendRedirect(redirectUri.toString());
 		}
 	}
