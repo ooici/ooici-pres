@@ -29,10 +29,13 @@ class DashboardController {
 		ArrayList<String> roles = new ArrayList<String>()
 		String rolesString;
 
-		String ooi_id = session.getAttribute(OOI_ID_KEY)
+		boolean ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
+		boolean expiryFound = session.getAttribute(EXPIRY_KEY) != null;
+
+		String ooi_id = ooiidFound ? session.getAttribute(OOI_ID_KEY) : "ANONYMOUS"
+
 		boolean isSignedIn = false
-		if (ooi_id == null || ooi_id.equals("")) {
-			// Force OOI ID to ANONYMOUS
+		if (!ooiidFound || !expiryFound) {
 			session.setAttribute(OOI_ID_KEY, "ANONYMOUS")
 			session.setAttribute(EXPIRY_KEY, "0")
 		}
@@ -42,11 +45,41 @@ class DashboardController {
 			}
 		}
 
-		boolean userIsAdmin = session.getAttribute(USER_IS_ADMIN_KEY)
-		boolean userIsEarlyAdopter = session.getAttribute(USER_IS_EARY_ADOPTER_KEY)
-		boolean userIsDataProvider = session.getAttribute(DATA_PROVIDER_ROLE)
-		boolean userIsMarineOperator = session.getAttribute(MARINE_OPERATOR_ROLE)
-		boolean isRegistered = session.getAttribute(USER_ALREADY_REGISTERED_KEY)
+		long certificateTimeoutSecs = 0;
+		if (expiryFound) {
+			String expiryString = session.getAttribute(EXPIRY_KEY)
+			Long expiry = new Long(expiryString)
+			if (expiry > 0) {
+				long currentTimeSecs = System.currentTimeMillis()/1000
+				// Subtract current time plus 30 seconds for good measure
+				certificateTimeoutSecs = expiry - currentTimeSecs - 30
+				if (certificateTimeoutSecs <= 0) {
+					certificateTimeoutSecs = 1;
+				}
+			}
+		}
+
+		boolean userIsAdmin = false
+		boolean userIsEarlyAdopter = false
+		boolean userIsDataProvider = false
+		boolean userIsMarineOperator = false
+		boolean isRegistered = false
+
+		if (session.getAttribute(USER_IS_ADMIN_KEY) != null) {
+			userIsAdmin = session.getAttribute(USER_IS_ADMIN_KEY)
+		}
+		if (session.getAttribute(USER_IS_EARY_ADOPTER_KEY) != null) {
+			userIsEarlyAdopter = session.getAttribute(USER_IS_EARY_ADOPTER_KEY)
+		}
+		if (session.getAttribute(USER_IS_DATA_PROVIDER_KEY) != null) {
+			userIsDataProvider = session.getAttribute(USER_IS_DATA_PROVIDER_KEY)
+		}
+		if (session.getAttribute(USER_IS_MARINE_OPERATOR_KEY) != null) {
+			userIsMarineOperator = session.getAttribute(USER_IS_MARINE_OPERATOR_KEY)
+		}
+		if (session.getAttribute(USER_ALREADY_REGISTERED_KEY) != null) {
+			isRegistered = session.getAttribute(USER_ALREADY_REGISTERED_KEY)
+		}
 
 		if (isSignedIn) {
 			roles.add(USER_ROLE)
@@ -71,6 +104,6 @@ class DashboardController {
 		
 		def instrument_monitor_url = (String)map.get("ioncore.instrument_monitor_url")
 		
-		render(view:"show",model:[OOI_ROLES: rolesString, REGISTERED: isRegisteredString, INSTRUMENT_MONITOR_URL: instrument_monitor_url, HELP: BootstrapIONService.helpStrings])
+		render(view:"show",model:[OOI_ROLES: rolesString, REGISTERED: isRegisteredString, CERTIFICATE_TIMEOUT_SECS: certificateTimeoutSecs, INSTRUMENT_MONITOR_URL: instrument_monitor_url, HELP: BootstrapIONService.helpStrings])
 	}
 }

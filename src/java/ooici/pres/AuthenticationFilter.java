@@ -36,16 +36,19 @@ public class AuthenticationFilter implements Filter {
 	// Constants
 	final String OOI_ID_KEY = "IONCOREOOIID";
 	final String EXPIRY_KEY = "IONCOREEXPIRY";
+	final String USER_IS_ADMIN_KEY = "user_is_admin";
+	final String USER_IS_EARY_ADOPTER_KEY = "user_is_early_adopter";
+	final String USER_IS_DATA_PROVIDER_KEY = "user_is_data_provider";
+	final String USER_IS_MARINE_OPERATOR_KEY = "user_is_marine_operator";
 	final String USER_ALREADY_REGISTERED_KEY = "user_already_registered";
 
 
 	private boolean initialized = false;
 	private String[] cilogonignoreurls;
-	private String cilogonstarturl;
 	private String[] userauthorityfilterurls;
 	private String[] adminauthorityfilterurls;
 	private String ooi_id;
-	private String roleStr;
+	private String[] roles;
 	private String expiryStr;
 	private TestMode testMode = TestMode.DISABLED;
 
@@ -69,8 +72,6 @@ public class AuthenticationFilter implements Filter {
 		}
 		
 		String path = request.getServletPath();
-		if (testMode != TestMode.DISABLED) {
-		}
 
 		// If the URL paths of any of the CILogon delegation servlets change,
 		// these values need to be modified in the config file
@@ -79,11 +80,11 @@ public class AuthenticationFilter implements Filter {
 			return;
 		}
 
+		boolean ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
+		boolean expiryFound = session.getAttribute(EXPIRY_KEY) != null;
+
 		switch(testMode) {
 		case FORCE:
-			boolean ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
-			boolean expiryFound = session.getAttribute(EXPIRY_KEY) != null;
-
 			if (!ooiidFound || !expiryFound) {
 				testModeAuthenticate(request, response);
 			}
@@ -95,9 +96,6 @@ public class AuthenticationFilter implements Filter {
 			Map params = request.getParameterMap();
 			
 			if (params.containsKey("Test")) {
-				ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
-				expiryFound = session.getAttribute(EXPIRY_KEY) != null;
-				
 				if (!ooiidFound || !expiryFound) {
 					testModeAuthenticate(request, response);
 
@@ -112,34 +110,9 @@ public class AuthenticationFilter implements Filter {
 					}
 				}
 			}
-			// Fall through to delegate the CILogon
 
 		default:
-			// If URL requires authentication
-			if ((urlMatches(path, userauthorityfilterurls)) || (urlMatches(path, adminauthorityfilterurls))) {
-				// See if our cookie exists.  If not, we'll delegate to CILogon
-				ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
-				expiryFound = session.getAttribute(EXPIRY_KEY) != null;
-				
-				if (!ooiidFound || !expiryFound) {
-					try {
-						// Stash the originating URL
-						session.setAttribute("IONCOREORIGINIATINGURL", path);
-
-						URI redirectUri = new URI(request.getContextPath() + cilogonstarturl);
-						response.sendRedirect(redirectUri.toString());
-					}
-					catch(Exception e) {
-						// TODO report error
-					}
-				}
-				else {
-					chain.doFilter(req, res);
-				}
-			}
-			else {
-				chain.doFilter(req, res);
-			}
+			chain.doFilter(req, res);
 			break;
 		}
 	}
@@ -172,11 +145,6 @@ public class AuthenticationFilter implements Filter {
 			cilogonignoreurls = prop.split(" ");
 		}
 
-		cilogonstarturl = (String)map.get("ioncore.cilogonstarturl");
-		if (cilogonstarturl == null) {
-			cilogonstarturl = "/StartRequest";
-		}
-
 		prop = (String)map.get("ioncore.userauthorityfilterurls");
 		if (prop != null) {
 			userauthorityfilterurls = prop.split(" ");
@@ -202,7 +170,11 @@ public class AuthenticationFilter implements Filter {
 				testMode = TestMode.DISABLED;
 			}
 			else {
-				roleStr = (String)map.get("ioncore.testmode.authorityrole");
+				String rolesStr = (String)map.get("ioncore.testmode.authorityrole");
+				if (prop != null) {
+					roles = rolesStr.split(" ");
+				}
+
 				expiryStr = (String)map.get("ioncore.testmode.expiry");
 			}
 		}
@@ -226,14 +198,37 @@ public class AuthenticationFilter implements Filter {
 		long currentDateMS = System.currentTimeMillis();
 
 		session.setAttribute(OOI_ID_KEY, ooi_id);
-		session.setAttribute(EXPIRY_KEY, "" + (currentDateMS/1000 + expiry));
+		String expiryValSecs = "" + (currentDateMS/1000 + expiry);
+		session.setAttribute(EXPIRY_KEY, expiryValSecs);
 		session.setAttribute(USER_ALREADY_REGISTERED_KEY,true);
 
 		// Programmatically add credential for principal (OOI_ID)
 		String authorityRole = "ROLE_USER";
-		if (roleStr != null && roleStr.equalsIgnoreCase("admin")) {
-			authorityRole = "ROLE_ADMIN";
+		for (int i = 0; i < roles.length; i++) {
+			if (roles[i].equals("admin")) {
+				authorityRole = "ROLE_ADMIN";
+				session.setAttribute(USER_IS_ADMIN_KEY, true);
+				continue;
+			}
+
+			if (roles[i].equals("earlyadopter")) {
+				session.setAttribute(USER_IS_EARY_ADOPTER_KEY, true);
+				continue;
+			}
+
+			if (roles[i].equals("dataprovider")) {
+				session.setAttribute(USER_IS_DATA_PROVIDER_KEY, true);
+				continue;
+			}
+
+			if (roles[i].equals("marineoperator")) {
+				session.setAttribute(USER_IS_MARINE_OPERATOR_KEY, true);
+				continue;
+			}
 		}
+
+		session.setAttribute(USER_ALREADY_REGISTERED_KEY, true);
+
 		PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
 				ooi_id, new GrantedAuthority[] { new GrantedAuthorityImpl(authorityRole) });
 		token.setAuthenticated(true);
