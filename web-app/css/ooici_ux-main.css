@@ -246,8 +246,6 @@ tr.odd {
 
 
 
-
-
 /* sidebar widget containers */
 
 .ui-layout-center {
@@ -308,6 +306,11 @@ tr.odd {
     display:none;
 }
 
+.center-center {
+    width:99.2% !important;
+    padding:0px;
+    padding-left:0.5%;
+}
 .center-center .ui-widget-content {
     background: url("images/FIXME.png") repeat-x scroll 50% top #F5F5F5;
     border: 1px solid #F5F5F5;
