@@ -161,6 +161,12 @@ tr.odd {
     top:2px;
     cursor:pointer;
 }
+#te_from_input {
+    margin-top:4px;
+}
+#te_to_input {
+    margin:8px 0px 8px 16px;
+}
 
 #resource_selector_view {
   text-align:center;

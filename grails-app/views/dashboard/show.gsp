@@ -235,7 +235,6 @@
             </table>
           </form>
         </div>
-        <div class="boundingBoxText">(Decimal Degrees) </div>
         <div class="boundingBoxControls">
           <span class="bb_direction Ntext">N</span>
           <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
@@ -274,7 +273,7 @@
       <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
         <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="20" maxlength="20"/>
-        <br><br><span class="te-to boldText">To:</span>
+        <br><span class="te-to boldText">To:</span>
         <input id="te_to_input" name="te_to_input" type="text" size="20" maxlength="20"/>
         <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC</div>
       </div><!-- end .temporalExtentControls -->
