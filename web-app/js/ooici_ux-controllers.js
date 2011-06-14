@@ -186,11 +186,9 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
           case "delete_selected":
             var ds_checked = $("#"+datatable_id+" input:checked");
             var ds_delete_list = [];
-            if (ds_checked.first().parent().attr("id") !== ""){
+            if (url === "dataResource"){
                 $.each(ds_checked, function(i, e){
-                    var delete_item = {};
-                    delete_item[data_src_id_name] = $(e).parent().parent().attr("id");
-                    ds_delete_list.push(delete_item);
+                    ds_delete_list.push($(e).parent().parent().attr("id"));
                 });
             } else {
                 $.each(ds_checked, function(i, e){
@@ -205,11 +203,20 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             if (answer){ 
                 self.loading_dialog("Deleting "+num_selected+" items...");
                 var subscriptions = JSON.stringify(ds_delete_list);
-                var data = {"action":"delete", "subscriptions":subscriptions};
+                if (url == "dataResource"){
+                    var data = {"action":"delete"};
+                    data[data_src_id_name] = subscriptions;
+                } else {
+                    var data = {"action":"delete", "subscriptions":subscriptions};
+                }
                 $.ajax({url:url, type:"POST", data:data, 
                     success: function(resp){
                         $.each(ds_delete_list, function(i, e){
+                          if (url === "dataResource"){
+                            $(table_id).dataTable().fnDeleteRow($("#"+e).index());
+                          } else {
                             $(table_id).dataTable().fnDeleteRow($("#"+e[data_src_id_name]).index());
+                          }
                         });
                         self.loading_dialog();
                     }
