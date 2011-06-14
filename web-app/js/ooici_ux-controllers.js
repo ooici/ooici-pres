@@ -170,9 +170,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         if (document.location.hash.indexOf("notifications") > 0){
             var url = "subscription";
             var data_src_id_name = "data_src_id"; 
+            var table_id = "#datatable_104";
         } else {
             var url = "dataResource";
             var data_src_id_name = "data_set_resource_id";
+            var table_id = "#datatable_106";
         }
         switch (button_id) {
           case "deselect_all":
@@ -206,7 +208,9 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 var data = {"action":"delete", "subscriptions":subscriptions};
                 $.ajax({url:url, type:"POST", data:data, 
                     success: function(resp){
-                        $.each(ds_delete_list, function(i, e){$("#"+e[data_src_id_name]).remove()});
+                        $.each(ds_delete_list, function(i, e){
+                            $(table_id).dataTable().fnDeleteRow($("#"+e[data_src_id_name]).index());
+                        });
                         self.loading_dialog();
                     }
                 });
