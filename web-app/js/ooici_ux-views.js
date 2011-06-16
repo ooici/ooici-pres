@@ -202,7 +202,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
              $('h3.data_sources').trigger('click');
         }
 		if (resp.source) {
-			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description;
+			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description+"<br><br><b>Visualization URL:</b><br><a style='text-decoration:underline' target='_blank' href='"+resp.source.visualization_url+"'>"+resp.source.visualization_url+"</a>";
 			$("#ds_title").html(ds_title);
 			var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
 			$("#ds_publisher_contact").html(ds_publisher_contact);
@@ -591,6 +591,8 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         });
 
         var data_resource_url = $("#data_resource_url").val();
+        // var visualization_url = $("#visualization_url").val();
+        // $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url, "visualization_url":visualization_url}, dataType:"json",
         $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url}, dataType:"json",
             success: _.bind(function(data){
 				this.show_validate_response($el, data_resource_url, data);
@@ -658,15 +660,17 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         }
         var ion_title = $("#resource_registration_title").val();
         var ion_description = $("#resource_registration_description").val();
+        var ion_visualization_url = $("#resource_registration_visualization_url").val();
         if ($("#availability_radio_private").is(":checked")){
             var is_public = false;
         } else {
             var is_public = true;
         }
         var max_ingest_millis = update_interval_seconds * 1000;
-        var update_start_datetime_millis = (new Date()).getTime()*1000;
+        var update_start_datetime_millis = (new Date()).getTime();
         var data = {"action":action, "update_interval_seconds":update_interval_seconds,
-            "ion_title":ion_title, "ion_description":ion_description, "is_public":is_public, "max_ingest_millis":max_ingest_millis,
+            "ion_title":ion_title, "ion_description":ion_description, "visualization_url":ion_visualization_url,
+            "is_public":is_public, "max_ingest_millis":max_ingest_millis,
             "update_start_datetime_millis":update_start_datetime_millis};
 		if (action === 'create') {
 			data['source_type'] = 'NETCDF_S';
@@ -839,31 +843,51 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         } else {
             $("#polling_time").val("");
         }
+        
+        function renderFields() {
+        	var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='30' maxlength='50'/>" +
+        			"<br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>" +
+					"<br><br><span style='position:relative;top:-32px'>Visualization URL:</span><textarea style='width:167px' id='resource_registration_visualization_url'>"+ion_visualization_url+"</textarea>";
+    		$("#ds_title").html(ds_title_forms);
+    		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b> "+ion_email+"<br><b>Contact Institution:</b> "+ion_institution;
+    		$("#ds_publisher_contact").html(ds_publisher_contact);
+    		var ds_source = "<b>Title:</b> "+data.title;
+    		if (data.summary) ds_source += "<br><br><b>Description:</b><br>"+data.summary;
+            $("#ds_source").html(ds_source);
+    		var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
+            $("#ds_source_contact").html(ds_source_contact);
+            $("#ds_variables").html(self.format_variables(resp.variable || {}));
+            $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+            $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+            $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
+            $(".data_sources").show();
+            $(".notification_settings, .dispatcher_settings").hide();
+            $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
+        }
 
-		var ion_title = '', ion_description = '', ion_name = '', ion_email = '', ion_institution = '';
+		var ion_title = '', ion_description = '', ion_name = '', ion_email = '', ion_institution = '', ion_visualization_url = '';
 		if (resp.source) {
 			ion_title = resp.source.ion_title;
 			ion_description = resp.source.ion_description;
+			ion_visualization_url = resp.source.visualization_url;
 			ion_name = resp.source.ion_name;
 			ion_email = resp.source.ion_email;
 			ion_institution = resp.source.ion_institution;
+			
+			renderFields();
 		}
-		var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='30' maxlength='50'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>";
-		$("#ds_title").html(ds_title_forms);
-		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b>"+ion_email+"<br><b>Contact Institution:</b>"+ion_institution;
-		$("#ds_publisher_contact").html(ds_publisher_contact);
-		var ds_source = "<b>Title:</b> "+data.title;
-		if (data.summary) ds_source += "<br><br><b>Description:</b><br>"+data.summary;
-        $("#ds_source").html(ds_source);
-		var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
-        $("#ds_source_contact").html(ds_source_contact);
-        $("#ds_variables").html(self.format_variables(resp.variable || {}));
-        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
-        $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-        $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
-        $(".data_sources").show();
-        $(".notification_settings, .dispatcher_settings").hide();
-        $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
+		else {
+			$.ajax({url:"userProfile", type:"GET", data:{action:"get"}, dataType:"json",
+				success: function(profile_resp){
+					ion_name = profile_resp.name;
+					ion_institution = profile_resp.institution;
+					ion_email = profile_resp.email_address;
+
+					renderFields();
+				}
+			});
+		}
+		
     },
 
     presentation: function(){
