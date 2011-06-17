@@ -139,7 +139,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if (tr.hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
             $(".dataTables_wrapper").hide();
-            var nth_elem = $(e.target).parent().index();
+            var nth_elem = $(e.target).parent().parent().index();
             if (window.location.hash === ""){
                 window.location.hash += "#/"+nth_elem;
             } else {
@@ -771,7 +771,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         if (tr.hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$(".dataTables_wrapper").hide();
-            var nth_elem = $(e.target).parent().index();
+            var nth_elem = $(e.target).parent().parent().index();
             window.location.hash += "/"+nth_elem;
         } else {
             this.show_detail(data_resource_id);
