@@ -131,6 +131,7 @@ tr.odd {
 }
 .ui-accordion .ui-accordion-content {
   padding: 12px;
+  border-top:1px solid #dddddd !important;
 }
 
 .notification_settings {
@@ -160,6 +161,12 @@ tr.odd {
     position:relative;
     top:2px;
     cursor:pointer;
+}
+#te_from_input {
+    margin-top:4px;
+}
+#te_to_input {
+    margin:8px 0px 8px 16px;
 }
 
 #resource_selector_view {
@@ -246,8 +253,6 @@ tr.odd {
 
 
 
-
-
 /* sidebar widget containers */
 
 .ui-layout-center {
@@ -272,8 +277,13 @@ tr.odd {
 
 .ui-accordion .ui-accordion-header {
     cursor: pointer;
-    margin-top: 1px;
-    height:20px;
+    margin-top: 2px;
+    height:17px;
+}
+
+.ui-accordion .ui-accordion-header .ui-icon {
+    position:absolute;
+    right:10px;
 }
 .ui-accordion .ui-accordion-header a {
     display: block;
@@ -281,11 +291,12 @@ tr.odd {
     font-family: Geneva,Arial,Helvetica,sans-serif;
     font-size: 13px;
     font-weight:lighter;
-    padding: 2px;
-    margin-left:20px;
+    padding: 0px;
+    margin-left:0px;
     position:relative;
-    top:-20px;
+    top:0px;
 }
+
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
     background: url("images/FIXME.png") repeat-x scroll 50% 50% #F5F5F5;
@@ -308,6 +319,11 @@ tr.odd {
     display:none;
 }
 
+.center-center {
+    width:99.2% !important;
+    padding:0px;
+    padding-left:0.5%;
+}
 .center-center .ui-widget-content {
     background: url("images/FIXME.png") repeat-x scroll 50% top #F5F5F5;
     border: 1px solid #F5F5F5;
