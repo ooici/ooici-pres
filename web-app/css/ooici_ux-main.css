@@ -276,8 +276,13 @@ tr.odd {
 
 .ui-accordion .ui-accordion-header {
     cursor: pointer;
-    margin-top: 1px;
-    height:20px;
+    margin-top: 2px;
+    height:17px;
+}
+
+.ui-accordion .ui-accordion-header .ui-icon {
+    position:absolute;
+    right:10px;
 }
 .ui-accordion .ui-accordion-header a {
     display: block;
@@ -285,11 +290,12 @@ tr.odd {
     font-family: Geneva,Arial,Helvetica,sans-serif;
     font-size: 13px;
     font-weight:lighter;
-    padding: 2px;
-    margin-left:20px;
+    padding: 0px;
+    margin-left:0px;
     position:relative;
-    top:-20px;
+    top:0px;
 }
+
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
     background: url("images/FIXME.png") repeat-x scroll 50% 50% #F5F5F5;
