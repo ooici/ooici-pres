@@ -147,7 +147,7 @@
             <table>
               <tr>
                 <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td style="padding-right: 30px;"><label for="radioAllPubRes">All Registered Resources</label></td>
+                <td><label for="radioAllPubRes">All Registered Resources</label></td>
                 <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td><label for="radioMyPubRes">My Registered Resources</label></td>
               </tr>
