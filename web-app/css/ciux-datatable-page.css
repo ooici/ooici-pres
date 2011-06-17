@@ -82,7 +82,8 @@
 }
 
 #datatable table th {
-  text-align:left;
+    text-align:left;
+    vertical-align: bottom;
 }
 
 .css_right {

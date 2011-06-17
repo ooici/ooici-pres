@@ -139,7 +139,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if (tr.hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
             $(".dataTables_wrapper").hide();
-            var nth_elem = $(e.target).parent().index();
+            var nth_elem = $(e.target).parent().parent().index();
             if (window.location.hash === ""){
                 window.location.hash += "#/"+nth_elem;
             } else {
@@ -351,6 +351,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     setup_notifications: function(){
+        $(".notification_settings input[type='checkbox']").removeAttr("checked");
         $("#start_notifications, .notification_settings, .dispatcher_settings").show();
         $("#download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
@@ -775,7 +776,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         if (tr.hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$(".dataTables_wrapper").hide();
-            var nth_elem = $(e.target).parent().index();
+            var nth_elem = $(e.target).parent().parent().index();
             window.location.hash += "/"+nth_elem;
         } else {
             this.show_detail(data_resource_id);
@@ -1070,7 +1071,8 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         //TODO: "click #geospatial_selection_button":"render_geo"
         "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
         "click .vertical_extent_button":"vertical_extent_direction_toggle",
-        "click .bb_direction":"bounding_box_direction_toggle"
+        "click .bb_direction":"bounding_box_direction_toggle",
+        "keyup input[type='text']":"validate_input_values"
     },
 
     initialize: function() {
@@ -1079,6 +1081,15 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         this.init_geo(); //'el' property doesn't encapsulate properly ... fixme
         this.init_bounding(); //'el' property doesn't encapsulate properly.. fixme
         $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").attr("checked", "checked");
+    },
+
+    validate_input_values: function(e){
+        var val = $(e.target).val();
+        if (isNaN(val) && val !== ""){
+            $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+        } else {
+            $(e.target).attr("style", "");
+        }
     },
 
     vertical_extent_units_toggle: function(e){

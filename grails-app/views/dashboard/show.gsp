@@ -149,7 +149,7 @@
             <table>
               <tr>
                 <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td style="padding-right: 30px;"><label for="radioAllPubRes">All Registered Resources</label></td>
+                <td><label for="radioAllPubRes">All Registered Resources</label></td>
                 <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td><label for="radioMyPubRes">My Registered Resources</label></td>
               </tr>
@@ -237,7 +237,6 @@
             </table>
           </form>
         </div>
-        <div class="boundingBoxText">(Decimal Degrees) </div>
         <div class="boundingBoxControls">
           <span class="bb_direction Ntext">N</span>
           <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
@@ -276,7 +275,7 @@
       <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
         <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="20" maxlength="20"/>
-        <br><br><span class="te-to boldText">To:</span>
+        <br><span class="te-to boldText">To:</span>
         <input id="te_to_input" name="te_to_input" type="text" size="20" maxlength="20"/>
         <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC</div>
       </div><!-- end .temporalExtentControls -->
