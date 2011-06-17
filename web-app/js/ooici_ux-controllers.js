@@ -141,6 +141,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             "iDisplayLength":20,
             "aLengthMenu": [[10, 20, 25, 50, -1], [10, 20, 25, 50, "All"]],
             "aaData":[_.map(_.range(columns), function(x){return null;})],
+            //"sScrollY":540,
+            "sScrollX":"100%",
             "bJQueryUI": true, 
             "sPaginationType": "full_numbers"
         });

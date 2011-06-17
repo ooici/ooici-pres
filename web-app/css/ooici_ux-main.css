@@ -107,10 +107,12 @@ table.datatable td, table.datatable th {
 tr.odd {
     background-color: #F5F5F5;
 }
+#datatable {
+}
 #datatable h1 {
     color: #00457C;
     font-size:13px;
-    border-bottom:1px solid #00457C;
+    border-bottom:1px solid #dddddd;
 }
 
 .bold {
@@ -273,6 +275,12 @@ tr.odd {
 .west-center {
     border:none;
     background-color:#F5F5F5;
+    overflow-x:hidden;
+}
+
+.west-center .ui-widget-content {
+    white-space:nowrap;
+    font-size:11px;
 }
 
 .ui-accordion .ui-accordion-header {

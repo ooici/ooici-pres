@@ -258,8 +258,10 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
-                $("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
-                $("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
+                //FIXME using: http://datatables.net/forums/comments.php?DiscussionID=1117
+                //$("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
+                //$("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
+                //$("table#datatable_100 tbody tr td").eq(3).css("width", "20%");
                 self.controller.loading_dialog();
             }
         });

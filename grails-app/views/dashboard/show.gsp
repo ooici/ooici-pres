@@ -75,7 +75,7 @@
       <div id="datatable">
       <h1>Data Resources</h1>
       <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0">
-       <thead><tr><th width="50%">Title</th><th>notificationSet</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+       <thead><tr><th>Title</th><th>Notification Set</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
         <tbody></tbody>
       </table>
 
@@ -148,14 +148,14 @@
               <tr>
                 <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td><label for="radioAllPubRes">All Registered Resources</label></td>
-                <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td><label for="radioMyPubRes">My Registered Resources</label></td>
-              </tr>
-              <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
                 <td><input id="radioMySub" title="<%= HELP.P1000_SP10 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td><label for="radioMySub">My Notification Settings</label></td>
+              </tr>
+              <tr>
+                <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
+                <td><label for="radioMyPubRes">My Registered Resources</label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
               </tr>
             </table>
           </form>
@@ -179,7 +179,9 @@
               <td><input id="radioRunEPU" title="<%= HELP.P1028_SP127 %>" class="admin_selector controlradios" name="group1" type="radio"/></td>
               <td><label for="radioRunEPU" title="<%= HELP.P1028_SP127 %>">Running EPUs</label></td>
               <td><input id="radioRegUsers" title="<%= HELP.P1028_SP126 %>" class="admin_selector controlradios" name="group1" type="radio"/></td>
-              <td><label for="radioRegUsers" title="<%= HELP.P1028_SP126 %>">Registered Users</label></td>
+              <td><label for="radioRegUsers" title="<%= HELP.P1028_SP126 %>">Registered Users</label></td
+            </tr>
+            <tr>
               <td><input id="radioDatasets" class="admin_selector controlradios" name="group1" type="radio"/></td>
               <td><label for="radioDatasets">Data Sets</label></td>
               <td><input id="radioDatasources" class="admin_selector controlradios" name="group1" type="radio"/></td>
