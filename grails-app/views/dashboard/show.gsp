@@ -46,7 +46,7 @@
   </script>
 </head>
 <body id="body">
-<div id="loading_message"><img src="images/I1131-OOI-Wave-Animated.png"><span class="msg">Loading...</span></div>
+<div id="loading_message"><img src="images/loading_wave.gif"><span class="msg">Loading...</span></div>
 
 <!-- Cheesy hack nodes that exist only for binding events, fix a better way later -->
 <div id="delegate-me-01">

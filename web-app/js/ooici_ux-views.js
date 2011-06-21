@@ -132,14 +132,14 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
-        var tr = $(e.target);
-        var data_resource_id = tr.parent().attr("id"); 
+        var tr_target = $(e.target).parents("tr");
+        var data_resource_id = tr_target.attr("id"); 
         $("#datatable_100 tr").removeClass("selected");
-        tr.parent().addClass("selected");
-        if (tr.hasClass("dataset_details")){
+        tr_target.addClass("selected");
+        if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
             $(".dataTables_wrapper").hide();
-            var nth_elem = $(e.target).parent().parent().index();
+            var nth_elem = tr_target.index();
             if (window.location.hash === ""){
                 window.location.hash += "#/"+nth_elem;
             } else {
@@ -764,17 +764,14 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
-        var tr = $(e.target);
-        var data_resource_id = tr.parent().attr("id"); 
-        if (data_resource_id == ""){
-            data_resource_id = tr.parent().parent().attr("id");  //click on the checkbox
-        }
+        var tr_target = $(e.target).parents("tr");
+        var data_resource_id = tr_target.attr("id"); 
         $("#datatable_106 tr").removeClass("selected");
-        tr.parent().addClass("selected");
-        if (tr.hasClass("dataset_details")){
+        tr_target.addClass("selected");
+        if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$(".dataTables_wrapper").hide();
-            var nth_elem = $(e.target).parent().parent().index();
+            var nth_elem = tr_target.index();
             window.location.hash += "/"+nth_elem;
         } else {
             this.show_detail(data_resource_id);
