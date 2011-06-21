@@ -28,18 +28,17 @@ body {
     display:none;
 }
 #loading_message span {
-    background-color:#FFF15F;
+    background-color:#FFF47F;
     font-weight:bold;
-    padding:4px;
-    padding-top:6px;
     position:relative;
-    padding-left:70px;
+    padding:4px 4px 2px 40px;
+    border-radius:2px;
 }
 #loading_message img {
     position:relative;
     z-index:3;
-    top:2px;
-    left:66px;
+    top:4px;
+    left:34px;
 }
 #top {
 	background: url("../images/G1107-Wire-Waves-White-Narrow.png") no-repeat 0px -15px;
@@ -124,8 +123,8 @@ tr.odd {
   background-color:#DDDDDD !important;
 }
 #resource_selector_view .selected {
-  background-color:#F5F5F5 !important;
-  color:#AAA;
+  background-color:#999 !important;
+  color:#F1F1F1 !important;
 }
 
 .hidden {
@@ -180,6 +179,7 @@ tr.odd {
   color:#bbb;
 }
 #resource_selector_view_spacer {
+  display:none;
   padding:0px 4px;
   color:#000;
   font-weight:bold;
@@ -190,6 +190,10 @@ tr.odd {
 }
 .resource_selector_tab {
     cursor:pointer;
+    padding:0px 3px;
+    background-color:#F0F0F0 !important;
+    color:#999 !important;
+    border-radius:2px;
 }
 #register_new {
   display:none;
