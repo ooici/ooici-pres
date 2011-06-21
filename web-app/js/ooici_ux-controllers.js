@@ -166,9 +166,12 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     datatable_select_buttons: function(){
       //TODO move into a View
       var self = this;
-      $(".select_button").click(function(){
+      $(".select_button").click(function(e){
         var button_id = $(this).attr("id");
-        var datatable_id = $(".datatable:visible").attr("id"); 
+        var datatable_id = "";
+        $.each($(".datatable:visible"), function(i, e){
+            if ($(e).attr("id") !== "") datatable_id = $(e).attr("id"); 
+        });
         if (document.location.hash.indexOf("notifications") > 0){
             var url = "subscription";
             var data_src_id_name = "data_src_id"; 
@@ -215,9 +218,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                     success: function(resp){
                         $.each(ds_delete_list, function(i, e){
                           if (url === "dataResource"){
-                            $(table_id).dataTable().fnDeleteRow($("#"+e).index());
+                            var elem = $("#"+e)[0];
+                            $(table_id).dataTable().fnDeleteRow(elem);
                           } else {
-                            $(table_id).dataTable().fnDeleteRow($("#"+e[data_src_id_name]).index());
+                            var elem = $("#"+e[data_src_id_name])[0];
+                            $(table_id).dataTable().fnDeleteRow(elem);
                           }
                         });
                         self.loading_dialog();
