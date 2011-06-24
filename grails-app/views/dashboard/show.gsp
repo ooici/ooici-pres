@@ -34,7 +34,7 @@
         window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
     } catch(err){ //For development:
         if (document.location.hostname === 'localhost'){
-            window.OOI_ROLES = ['USER', 'ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR'];
+            window.OOI_ROLES = ['USER', 'ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR', 'EARLY_ADOPTER'];
             window.REGISTERED = true;
             window.INSTRUMENT_MONITOR_URL = 'http://example.edu';
         } else {
@@ -239,22 +239,22 @@
         </div>
         <div class="boundingBoxControls">
           <span class="bb_direction Ntext">N</span>
-          <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Stext">S</span>
-          <input id="ge_bb_south" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_south" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Etext">E</span>
-          <input id="ge_bb_east" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_east" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Wtext">W</span>
-          <input id="ge_bb_west" title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_west" title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
           <span class="NSEWBackgroundBorder"></span>
         </div>
         <div class="altitudeControls">
             <span class="altitudeUpper"><div>Upper Bound</div>
-            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="10" maxlength="10"/>
-            <img  id="vertical_extent_above" class="vertical_extent_button" src="images/Above-Sea-Level-Simple.png">
+            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="6" maxlength="6"/>
+            <img  id="vertical_extent_above" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
             </span>
             <span class="altitudeLower"><div>Lower Bound</div>
-            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="10" maxlength="10"/>
+            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="6" maxlength="6"/>
             <img id="vertical_extent_below" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
             </span>
         </div>

@@ -178,6 +178,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
         });
         html += this.format_variables(resp.variable || {});
+        html += "<div class='detail'><strong>Dataset Id</strong><br>"+data_resource_id;
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -277,7 +278,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".east-south button").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
-        $(".notification_settings").hide();
+        $(".notification_settings, .dispatcher_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
@@ -354,6 +355,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
     setup_notifications: function(){
         $(".notification_settings input[type='checkbox']").removeAttr("checked");
+        $(".dispatcher_settings input[type='checkbox']").removeAttr("checked");
         $("#start_notifications, .notification_settings, .dispatcher_settings").show();
         $("#download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
@@ -804,6 +806,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
         });
         html += this.format_variables(resp.variable || {});
+        html += "<div class='detail'><strong>Dataset Id</strong><br>"+data_resource_id;
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -1206,6 +1209,9 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             $(".temporalExtentControls input").removeAttr("disabled");
           }
         });
+        $("#geospatialContainer .defined").trigger("click");
+        $("#geospatialContainer .all").trigger("click");
+        $(".temporalExtentControls input").attr("disabled", "disabled");
     }
 
 

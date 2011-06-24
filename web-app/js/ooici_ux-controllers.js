@@ -78,6 +78,9 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         if (!is_marine_op){
             $(".marine_op_role").hide();
         }
+
+        //XXX this.error_dialog("/dataResources", 400, "Resource id is invalid");
+        //XXX this.error_dialog("/dataResources", 500);
     },
 
     all_registered_resources: function(){
@@ -157,10 +160,23 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             elem.show().find(".msg").text(msg);
         }
     },
+    
+    error_dialog: function(path, error_type, error_msg){
+        var contact_msg = "Contact helpdesk@oceanobservatories.org";
+        if (error_type === 400){
+            var msg = error_msg + " '"+path+"'";
+        }
+
+        if (error_type === 500){
+            msg = "Error accessing: '"+path+"'";
+        }
+        msg += "\n\n"+contact_msg;
+        return alert(msg);
+    },
 
     datetime_selectors:function(){
         $("#te_from_input, #te_to_input").datetimepicker({
-            showSecond:true, dateFormat:'yy-mm-dd', timeFormat:'hh:mm:ssZ', separator: 'T'});
+            showSecond:true, showTimezone:true, timezone: "+0700", dateFormat:'yy-mm-dd', timeFormat:'hh:mm:ssZ', separator: 'T'});
     },
 
     datatable_select_buttons: function(){

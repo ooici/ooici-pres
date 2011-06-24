@@ -120,11 +120,9 @@ tr.odd {
 }
 .selected {
   font-weight:bold;
-  background-color:#DDDDDD !important;
 }
 #resource_selector_view .selected {
-  background-color:#999 !important;
-  color:#F1F1F1 !important;
+  color:#333333 !important;
 }
 
 .hidden {
@@ -167,21 +165,21 @@ tr.odd {
     margin-top:4px;
 }
 #te_to_input {
-    margin:8px 0px 8px 16px;
+    margin:8px 0px 8px 14px;
 }
 
 #resource_selector_view {
-  text-align:center;
   position:relative;
   top:-4px;
+  left:-12px;
+  margin-bottom:2px;
 }
 #resource_selector_view span {
   color:#bbb;
 }
 #resource_selector_view_spacer {
-  display:none;
   padding:0px 4px;
-  color:#000;
+  color:#777 !important;
   font-weight:bold;
 }
 #view_existing_tab {
@@ -191,8 +189,7 @@ tr.odd {
 .resource_selector_tab {
     cursor:pointer;
     padding:0px 3px;
-    background-color:#F0F0F0 !important;
-    color:#999 !important;
+    color:#777 !important;
     border-radius:2px;
 }
 #register_new {
