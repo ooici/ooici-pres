@@ -132,14 +132,14 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
-        var tr = $(e.target);
-        var data_resource_id = tr.parent().attr("id"); 
+        var tr_target = $(e.target).parents("tr");
+        var data_resource_id = tr_target.attr("id"); 
         $("#datatable_100 tr").removeClass("selected");
-        tr.parent().addClass("selected");
-        if (tr.hasClass("dataset_details")){
+        tr_target.addClass("selected");
+        if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
             $(".dataTables_wrapper").hide();
-            var nth_elem = $(e.target).parent().parent().index();
+            var nth_elem = tr_target.index();
             if (window.location.hash === ""){
                 window.location.hash += "#/"+nth_elem;
             } else {
@@ -178,6 +178,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
         });
         html += this.format_variables(resp.variable || {});
+        html += "<div class='detail'><strong>Dataset Id</strong><br>"+data_resource_id;
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -258,8 +259,10 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
-                $("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
-                $("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
+                //FIXME using: http://datatables.net/forums/comments.php?DiscussionID=1117
+                //$("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
+                //$("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
+                //$("table#datatable_100 tbody tr td").eq(3).css("width", "20%");
                 self.controller.loading_dialog();
             }
         });
@@ -275,7 +278,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".east-south button").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
-        $(".notification_settings").hide();
+        $(".notification_settings, .dispatcher_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
@@ -352,6 +355,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
     setup_notifications: function(){
         $(".notification_settings input[type='checkbox']").removeAttr("checked");
+        $(".dispatcher_settings input[type='checkbox']").removeAttr("checked");
         $("#start_notifications, .notification_settings, .dispatcher_settings").show();
         $("#download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
@@ -766,17 +770,14 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
-        var tr = $(e.target);
-        var data_resource_id = tr.parent().attr("id"); 
-        if (data_resource_id == ""){
-            data_resource_id = tr.parent().parent().attr("id");  //click on the checkbox
-        }
+        var tr_target = $(e.target).parents("tr");
+        var data_resource_id = tr_target.attr("id"); 
         $("#datatable_106 tr").removeClass("selected");
-        tr.parent().addClass("selected");
-        if (tr.hasClass("dataset_details")){
+        tr_target.addClass("selected");
+        if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$(".dataTables_wrapper").hide();
-            var nth_elem = $(e.target).parent().parent().index();
+            var nth_elem = tr_target.index();
             window.location.hash += "/"+nth_elem;
         } else {
             this.show_detail(data_resource_id);
@@ -809,6 +810,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
         });
         html += this.format_variables(resp.variable || {});
+        html += "<div class='detail'><strong>Dataset Id</strong><br>"+data_resource_id;
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -1232,6 +1234,9 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             $(".temporalExtentControls input").removeAttr("disabled");
           }
         });
+        $("#geospatialContainer .defined").trigger("click");
+        $("#geospatialContainer .all").trigger("click");
+        $(".temporalExtentControls input").attr("disabled", "disabled");
     }
 
 

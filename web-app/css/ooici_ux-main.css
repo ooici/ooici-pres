@@ -28,18 +28,17 @@ body {
     display:none;
 }
 #loading_message span {
-    background-color:#FFF15F;
+    background-color:#FFF47F;
     font-weight:bold;
-    padding:4px;
-    padding-top:6px;
     position:relative;
-    padding-left:70px;
+    padding:4px 4px 2px 40px;
+    border-radius:2px;
 }
 #loading_message img {
     position:relative;
     z-index:3;
-    top:2px;
-    left:66px;
+    top:4px;
+    left:34px;
 }
 #top {
 	background: url("../images/G1107-Wire-Waves-White-Narrow.png") no-repeat 0px -15px;
@@ -107,10 +106,12 @@ table.datatable td, table.datatable th {
 tr.odd {
     background-color: #F5F5F5;
 }
+#datatable {
+}
 #datatable h1 {
     color: #00457C;
     font-size:13px;
-    border-bottom:1px solid #00457C;
+    border-bottom:1px solid #dddddd;
 }
 
 .bold {
@@ -119,11 +120,9 @@ tr.odd {
 }
 .selected {
   font-weight:bold;
-  background-color:#DDDDDD !important;
 }
 #resource_selector_view .selected {
-  background-color:#F5F5F5 !important;
-  color:#AAA;
+  color:#333333 !important;
 }
 
 .hidden {
@@ -166,20 +165,21 @@ tr.odd {
     margin-top:4px;
 }
 #te_to_input {
-    margin:8px 0px 8px 16px;
+    margin:8px 0px 8px 14px;
 }
 
 #resource_selector_view {
-  text-align:center;
   position:relative;
   top:-4px;
+  left:-12px;
+  margin-bottom:2px;
 }
 #resource_selector_view span {
   color:#bbb;
 }
 #resource_selector_view_spacer {
   padding:0px 4px;
-  color:#000;
+  color:#777 !important;
   font-weight:bold;
 }
 #view_existing_tab {
@@ -188,6 +188,9 @@ tr.odd {
 }
 .resource_selector_tab {
     cursor:pointer;
+    padding:0px 3px;
+    color:#777 !important;
+    border-radius:2px;
 }
 #register_new {
   display:none;
@@ -273,6 +276,12 @@ tr.odd {
 .west-center {
     border:none;
     background-color:#F5F5F5;
+    overflow-x:hidden;
+}
+
+.west-center .ui-widget-content {
+    white-space:nowrap;
+    font-size:11px;
 }
 
 .ui-accordion .ui-accordion-header {

@@ -35,7 +35,7 @@
         window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
     } catch(err){ //For development:
         if (document.location.hostname === 'localhost'){
-            window.OOI_ROLES = ['USER', 'ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR'];
+            window.OOI_ROLES = ['USER', 'ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR', 'EARLY_ADOPTER'];
             window.REGISTERED = true;
             window.CERTIFICATE_TIMEOUT_SECS = 0;
             window.INSTRUMENT_MONITOR_URL = 'http://example.edu';
@@ -48,7 +48,7 @@
   </script>
 </head>
 <body id="body">
-<div id="loading_message"><img src="images/I1131-OOI-Wave-Animated.png"><span class="msg">Loading...</span></div>
+<div id="loading_message"><img src="images/loading_wave.gif"><span class="msg">Loading...</span></div>
 
 <!-- Cheesy hack nodes that exist only for binding events, fix a better way later -->
 <div id="delegate-me-01">
@@ -77,7 +77,7 @@
       <div id="datatable">
       <h1>Data Resources</h1>
       <table id="datatable_100" class="datatable" cellpadding="0" cellspacing="0" border="0">
-       <thead><tr><th width="50%">Title</th><th>notificationSet</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
+       <thead><tr><th>Title</th><th>Notification Set</th><th>Provider</th><th>Type</th><th>Date Registered</th><th>Details</th> </tr></thead>
         <tbody></tbody>
       </table>
 
@@ -150,14 +150,14 @@
               <tr>
                 <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td><label for="radioAllPubRes">All Registered Resources</label></td>
-                <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td><label for="radioMyPubRes">My Registered Resources</label></td>
-              </tr>
-              <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
                 <td><input id="radioMySub" title="<%= HELP.P1000_SP10 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td><label for="radioMySub">My Notification Settings</label></td>
+              </tr>
+              <tr>
+                <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
+                <td><label for="radioMyPubRes">My Registered Resources</label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
               </tr>
             </table>
           </form>
@@ -181,7 +181,9 @@
               <td><input id="radioRunEPU" title="<%= HELP.P1028_SP127 %>" class="admin_selector controlradios" name="group1" type="radio"/></td>
               <td><label for="radioRunEPU" title="<%= HELP.P1028_SP127 %>">Running EPUs</label></td>
               <td><input id="radioRegUsers" title="<%= HELP.P1028_SP126 %>" class="admin_selector controlradios" name="group1" type="radio"/></td>
-              <td><label for="radioRegUsers" title="<%= HELP.P1028_SP126 %>">Registered Users</label></td>
+              <td><label for="radioRegUsers" title="<%= HELP.P1028_SP126 %>">Registered Users</label></td
+            </tr>
+            <tr>
               <td><input id="radioDatasets" class="admin_selector controlradios" name="group1" type="radio"/></td>
               <td><label for="radioDatasets">Data Sets</label></td>
               <td><input id="radioDatasources" class="admin_selector controlradios" name="group1" type="radio"/></td>
@@ -239,22 +241,22 @@
         </div>
         <div class="boundingBoxControls">
           <span class="bb_direction Ntext">N</span>
-          <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_north" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Stext">S</span>
-          <input id="ge_bb_south" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_south" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Etext">E</span>
-          <input id="ge_bb_east" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_east" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Wtext">W</span>
-          <input id="ge_bb_west" title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="5" maxlength="5"/>
+          <input id="ge_bb_west" title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
           <span class="NSEWBackgroundBorder"></span>
         </div>
         <div class="altitudeControls">
             <span class="altitudeUpper"><div>Upper Bound</div>
-            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="10" maxlength="10"/>
-            <img  id="vertical_extent_above" class="vertical_extent_button" src="images/Above-Sea-Level-Simple.png">
+            <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP25 %>" class="textfield" name="altUpper" type="text" size="6" maxlength="6"/>
+            <img  id="vertical_extent_above" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
             </span>
             <span class="altitudeLower"><div>Lower Bound</div>
-            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="10" maxlength="10"/>
+            <input id="ge_altitude_lb" title="<%= HELP.P1001_SP24 %>" class="textfield" name="altLower" type="text" size="6" maxlength="6"/>
             <img id="vertical_extent_below" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
             </span>
         </div>

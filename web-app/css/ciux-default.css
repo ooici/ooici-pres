@@ -129,6 +129,10 @@ Geospatial Extent
 	height:130px;
 }
 
+#temporalExtent input {
+   border: 1px solid #DDDDDD; 
+}
+
 .geoIconDropdown {
 	position:absolute;
 	top: -5px;
@@ -173,8 +177,8 @@ div#icons {
 
 .Ntext {
 	position:inherit;
-	top:-8px;
-	left:84px;
+	top:-6px;
+	left:88px;
 	font-weight:bold;
 	z-index:4;
 }
@@ -182,14 +186,14 @@ div#icons {
 .north {
 	position: inherit;
 	top: 13px;
-	left: 73px;
+	left:60px;
 	z-index: 4;
 }
 
 .Stext {
 	position:inherit;
 	top:68px;
-	left:86px;
+	left:89px;
 	font-weight:bold;
 	z-index:4;
 }
@@ -199,14 +203,14 @@ div#icons {
     height: 14px;
 	width: 50px;
 	top: 50px;
-	left: 73px;
+	left:60px;
 	z-index: 4;
 }
 
 .Wtext {
 	position:inherit;
-	top:29px;
-	left:3px;
+	top:31px;
+	left:4px;
 	font-weight:bold;
 	z-index:4;
 }
@@ -222,8 +226,8 @@ div#icons {
 
 .Etext {
 	position:inherit;
-	top:29px;
-	left:162px;
+	top:31px;
+	left:168px;
 	font-weight:bold;
 	z-index:4;
 }
@@ -233,17 +237,17 @@ div#icons {
     width: 50px;
 	position:inherit;
 	top: 31px;
-	left:124px;
+	left:95px;
 	z-index: 4;
 }
 
 .NSEWBackgroundBorder {
-	border: 1px solid #0000cc;
-    height: 36px;
-    width: 100px;
+	border:1px solid #DDDDDD;
+    height:51px;
+    width:140px;
 	position:inherit;
-	top: 20px;
-	left: 40px;
+	top:13px;
+	left:23px;
 	z-index:1;
 }
 
@@ -279,8 +283,17 @@ div#icons {
 }
 
 .textfield {
-	height: 8px;
-	width: 30px;
+	height:12px;
+	width: 66px;
+    padding:1px;
+    border:1px solid #DDDDDD;
+}
+
+#ge_altitude_ub {
+    width:40px;
+}
+#ge_altitude_lb {
+    width:40px;
 }
 
 /*
