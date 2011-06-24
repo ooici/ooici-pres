@@ -79,6 +79,9 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         if (!is_marine_op){
             $(".marine_op_role").hide();
         }
+
+        //XXX this.error_dialog("/dataResources", 400, "Resource id is invalid");
+        //XXX this.error_dialog("/dataResources", 500);
     },
 
     all_registered_resources: function(){
@@ -142,6 +145,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             "iDisplayLength":20,
             "aLengthMenu": [[10, 20, 25, 50, -1], [10, 20, 25, 50, "All"]],
             "aaData":[_.map(_.range(columns), function(x){return null;})],
+            //"sScrollY":540,
+            "sScrollX":"100%",
             "bJQueryUI": true, 
             "sPaginationType": "full_numbers"
         });
@@ -156,18 +161,34 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             elem.show().find(".msg").text(msg);
         }
     },
+    
+    error_dialog: function(path, error_type, error_msg){
+        var contact_msg = "Contact helpdesk@oceanobservatories.org";
+        if (error_type === 400){
+            var msg = error_msg + " '"+path+"'";
+        }
+
+        if (error_type === 500){
+            msg = "Error accessing: '"+path+"'";
+        }
+        msg += "\n\n"+contact_msg;
+        return alert(msg);
+    },
 
     datetime_selectors:function(){
         $("#te_from_input, #te_to_input").datetimepicker({
-            showSecond:true, dateFormat:'yy-mm-dd', timeFormat:'hh:mm:ssZ', separator: 'T'});
+            showSecond:true, showTimezone:true, timezone: "+0700", dateFormat:'yy-mm-dd', timeFormat:'hh:mm:ssZ', separator: 'T'});
     },
 
     datatable_select_buttons: function(){
       //TODO move into a View
       var self = this;
-      $(".select_button").click(function(){
+      $(".select_button").click(function(e){
         var button_id = $(this).attr("id");
-        var datatable_id = $(".datatable:visible").attr("id"); 
+        var datatable_id = "";
+        $.each($(".datatable:visible"), function(i, e){
+            if ($(e).attr("id") !== "") datatable_id = $(e).attr("id"); 
+        });
         if (document.location.hash.indexOf("notifications") > 0){
             var url = "subscription";
             var data_src_id_name = "data_src_id"; 
@@ -214,9 +235,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                     success: function(resp){
                         $.each(ds_delete_list, function(i, e){
                           if (url === "dataResource"){
-                            $(table_id).dataTable().fnDeleteRow($("#"+e).index());
+                            var elem = $("#"+e)[0];
+                            $(table_id).dataTable().fnDeleteRow(elem);
                           } else {
-                            $(table_id).dataTable().fnDeleteRow($("#"+e[data_src_id_name]).index());
+                            var elem = $("#"+e[data_src_id_name])[0];
+                            $(table_id).dataTable().fnDeleteRow(elem);
                           }
                         });
                         self.loading_dialog();
