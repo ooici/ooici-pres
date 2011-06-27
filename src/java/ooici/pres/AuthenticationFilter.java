@@ -200,6 +200,7 @@ public class AuthenticationFilter implements Filter {
 		session.setAttribute(OOI_ID_KEY, ooi_id);
 		String expiryValSecs = "" + (currentDateMS/1000 + expiry);
 		session.setAttribute(EXPIRY_KEY, expiryValSecs);
+		session.setMaxInactiveInterval(expiry);
 		session.setAttribute(USER_ALREADY_REGISTERED_KEY,true);
 
 		// Programmatically add credential for principal (OOI_ID)

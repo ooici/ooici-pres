@@ -121,8 +121,10 @@ public class SuccessServlet extends PortalAbstractServlet {
 				if (ooi_id.length() != 0) {
 					session.setAttribute(OOI_ID_KEY, ooi_id);
 					session.setAttribute(EXPIRY_KEY, "" + expirationDateMS/1000);
+					session.setMaxInactiveInterval((int)(expirationDateMS - currentDateMS)/1000);
 				}
 				System.out.println("SuccessServlet: OOI ID for <" + subjectDN + ">: " + ooi_id);
+				System.out.println("SuccessServlet: Certificate duration (sec) <" + (expirationDateMS - currentDateMS)/1000 + ">");
 
 				String authorityRole = "ROLE_USER";
 				if (userIsAdmin) {
