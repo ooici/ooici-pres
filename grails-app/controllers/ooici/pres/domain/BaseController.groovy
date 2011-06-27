@@ -39,8 +39,8 @@ abstract class BaseController {
 		
 		// Reload page if session expired
 		if (!ooiidFound || !expiryFound) {
-			System.out.println("Session timeout: reloading as guest user")
-			redirect(uri:"/dashboard")
+			System.out.println("Session timeout: redirecting to landing page")
+			redirect(uri:"/index.html")
 			return
 		}
 	
