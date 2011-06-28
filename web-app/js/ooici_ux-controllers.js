@@ -140,14 +140,26 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 	},
 
     datatable_init: function(id, columns){
+        switch (id){
+            case "#datatable_100":
+                var aoColumns = [{sWidth:'30%'}, {sWidth:'12%'}, {sWidth:'25%'}, {sWidth:'10%'}, {sWidth:'13%'}, {sWidth:'10%'}];
+                break;
+            case "#datatable_104":
+                var aoColumns = [{sWidth: '50px'}, {sWidth: '100px'}, {sWidth: '120px'}, {sWidth: '30px'}, {sWidth: '50px'}];
+                break;
+            case "#datatable_106":
+                var aoColumns = [{sWidth:'5%'}, {sWidth:'10%'}, {sWidth:'8%'}, {sWidth:'27%'}, {sWidth:'25%'}, {sWidth:'15%'}, {sWidth:'10%'}];
+                break;
+            default: break;
+        }
         var oTable = $(id).dataTable({
             "iDisplayLength":20,
             "aLengthMenu": [[10, 20, 25, 50, -1], [10, 20, 25, 50, "All"]],
             "aaData":[_.map(_.range(columns), function(x){return null;})],
-            //"sScrollY":540,
             "sScrollX":"100%",
             "bJQueryUI": true, 
-            "sPaginationType": "full_numbers"
+            "sPaginationType": "full_numbers",
+            "aoColumns": aoColumns
         });
         return oTable;
     },

@@ -95,7 +95,7 @@ body {
 }
 
 table.datatable {
-    width: 100%;
+    width:99.9% !important;
 }
 table.datatable tr {
     cursor:pointer;
@@ -106,7 +106,7 @@ table.datatable td, table.datatable th {
 tr.odd {
     background-color: #F5F5F5;
 }
-#datatable {
+#datatable { 
 }
 #datatable h1 {
     color: #00457C;

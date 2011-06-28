@@ -287,7 +287,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         }
 		$('.instrument_agent').hide();
         $("h3.data_sources").show();
-        $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notification Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $(".my_resources_sidebar").hide();
     }
@@ -345,9 +344,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                     $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.subscriptionInfo.data_src_id);
                 });
                 $("#datatable_select_buttons").show();
-                //$.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")});
-                //$("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%");
-                $("table#datatable_104 tbody tr").find("td:not(:first)").css("width", "25%");
                 self.controller.loading_dialog();
             }
         });
