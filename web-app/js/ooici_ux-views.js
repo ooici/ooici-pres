@@ -1034,7 +1034,6 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 		$(".dataTables_wrapper").hide();
         this.$tableWrapper.show();
 		$(".east-south button").hide();
-        $("#save_myresources_changes").show();
         $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
@@ -1057,6 +1056,13 @@ OOI.Views.Workflow109EPUs = OOI.Views.Workflow109.extend({
 OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 	  resourceType: 'identities'
 	, tableTitle: 'Registered Users'
+
+	, presentation: function() {
+		OOI.Views.Workflow109.prototype.presentation.call(this);
+
+		$('#east_sidebar').show();
+		$('.user_button').show();
+	}
 });
 OOI.Views.Workflow109Datasets = OOI.Views.Workflow109.extend({
 	  resourceType: 'datasets'

@@ -401,6 +401,8 @@
       <button id="agent_sampling_start" class="agent_button" style="display: none;">Start Sampling</button>
       <button id="agent_sampling_stop" class="agent_button" style="display: none;">Stop Sampling</button>
       <button id="agent_sample_monitor" class="agent_button" style="display: none;">Sample Monitor</button>
+
+      <button id="save_user_changes" class="user_button" style="display: none;">Save Changes</button>
    </div><!-- end .east-south -->
 
   </div><!-- end .ui-layout-east -->
