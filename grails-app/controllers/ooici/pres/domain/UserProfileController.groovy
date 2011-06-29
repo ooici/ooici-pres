@@ -30,4 +30,13 @@ class UserProfileController extends BaseController {
 		
 		sendReceive(RequestType.UPDATE_USER_PROFILE)
 	}
+
+	def setRole = {
+		
+		preProcessRequest(true)
+		
+		params.put("user_ooi_id", ooi_id)
+		
+		sendReceive(RequestType.SET_USER_ROLE)
+	}
 }
