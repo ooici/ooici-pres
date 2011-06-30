@@ -199,6 +199,15 @@ tr.odd {
 #register_resource_button {
   display:none;
 }
+#data_resource_url_text {
+    position:relative;
+    top:-45px;
+}
+#data_resource_url {
+    height: 55px;
+    margin-left: 10px;
+    width: 229px;
+}
 #datatable_select_buttons {
   display:none;
 }

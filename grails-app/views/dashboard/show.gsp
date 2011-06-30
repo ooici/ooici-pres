@@ -163,8 +163,7 @@
 
         <div id="register_new">
             <table>
-              <tr><td>Source URL:&nbsp;<input id="data_resource_url" size='27' type="text"/></td></tr>
-              <!-- <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button disabled="disabled" style="float:right;margin-left:2px">Look Up</button></td></tr> -->
+              <tr><td><span id="data_resource_url_text">Source URL:</span><textarea id="data_resource_url"></textarea></td></tr>
               <tr><td>Visualization URL:&nbsp;<input size='22' type="text"/></td></tr>
             </table>
         </div>
