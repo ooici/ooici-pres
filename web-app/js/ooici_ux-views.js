@@ -278,7 +278,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".east-south button").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
-        $(".notification_settings, .dispatcher_settings").hide();
+        $(".notification_settings, .dispatcher_settings, .user_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
@@ -506,7 +506,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 	presentation: function(){
 		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
-        $(".notification_settings").hide();
+        $(".notification_settings, .user_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("Notification Settings");
         $(".data_sources").hide();
@@ -901,12 +901,11 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_106_wrapper").show();
 		$(".east-south button").hide();
         $("#save_myresources_changes").show();
-        $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("My Registered Resources");
         $("#save_notification_settings, #start_notifications").hide(); //button
-        $(".notification_settings").hide();
+        $(".notification_settings, .user_settings").hide();
 		$('.instrument_agent').hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
@@ -1034,17 +1033,15 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 		$(".dataTables_wrapper").hide();
         this.$tableWrapper.show();
 		$(".east-south button").hide();
-        $("#save_myresources_changes").show();
-        $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text(this.tableTitle);
         $("#save_notification_settings").hide(); //button
-        $(".notification_settings").hide();
+		$(".notification_settings, .dispatcher_settings, .user_settings").hide();
 		$('.instrument_agent').hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide();
-        $("h3.my_resources_sidebar").show();
+        $("#east_sidebar h3").hide();
 		$("#datatable_select_buttons").hide();
     }
 
@@ -1057,6 +1054,58 @@ OOI.Views.Workflow109EPUs = OOI.Views.Workflow109.extend({
 OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 	  resourceType: 'identities'
 	, tableTitle: 'Registered Users'
+
+	, initialize: function() {
+        OOI.Views.Workflow109.prototype.initialize.call(this);
+
+        var roleNameToVal = this.roleNameToVal = {};
+		var roleValToName = this.roleValToName = {};
+		$('#user_setting_role option').each(function(i,v) {
+			roleValToName[$(v).val()] = $(v).text();
+			roleNameToVal[$(v).text()] = $(v).val();
+		});
+
+		$('#save_user_changes').click(_.bind(this.save_user, this));
+	}
+
+	, show_detail_clicked: function(e) {
+		OOI.Views.Workflow109.prototype.show_detail_clicked.call(this, e);
+
+		var $td = this.$roleTd = $(e.target);
+		// TODO: This should probably be a lookup into a data Model once we get there
+		var roleName = $td.closest('tr').find('td').eq(-2).text();
+		var roleVal = this.roleNameToVal[roleName];
+
+		this.ooi_id = $td.closest('tr').find('td').eq(0).text();
+		$('#user_setting_role').val(roleVal);
+		$('.user_settings').show();
+	}
+
+	, save_user: function(e) {
+		var role = $('#user_setting_role').val();
+		var self = this;
+
+		self.controller.loading_dialog('Saving user role...');
+		var data = {action: 'setRole', user_ooi_id: this.ooi_id, role: role};
+        $.ajax({url: 'userProfile', type: 'POST', data: data,
+            success: function(resp){
+                self.controller.loading_dialog();
+				self.$roleTd.text(self.roleValToName[role]);
+            },
+            error: function(jqXHR, textStatus, error){
+                self.controller.loading_dialog();
+                alert('Error saving user role');
+            }
+        });
+	}
+
+	, presentation: function() {
+		OOI.Views.Workflow109.prototype.presentation.call(this);
+
+		$('#east_sidebar').show();
+		$('.user_button').show();
+		$('.user_settings').hide();
+	}
 });
 OOI.Views.Workflow109Datasets = OOI.Views.Workflow109.extend({
 	  resourceType: 'datasets'
