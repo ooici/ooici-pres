@@ -153,9 +153,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     show_detail: function(data_resource_id){
         $("#download_dataset_button, #setup_notifications").show();
         $("#start_notifications").hide();
-        self = this;
         $("#datatable_details_container").html("<p>Loading dataset details...</p>");
         this.controller.loading_dialog("Loading dataset details...");
+        var self = this;
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);

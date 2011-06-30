@@ -88,11 +88,12 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     all_registered_resources_details: function(nth_dataset){
-        var model = this.resource_collection.models[nth_dataset];
-        if (typeof model === "undefined"){
+        //var model = this.resource_collection.models[nth_dataset];
+        if (isNaN(parseInt(nth_dataset))){
             window.location.hash = "#/0";
         } else {
-            var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
+            //var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
+            var data_resource_id = $("#datatable_100 tbody tr:nth("+nth_dataset+")").attr("id");
             this.workflow100.show_detail(data_resource_id);
         }
     },
