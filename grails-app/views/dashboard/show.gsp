@@ -97,7 +97,7 @@
        </table>
 
        <table id="datatable_109_users" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>OOI ID</th><th>Name</th><th>Email</th><th>Institution</th><th>Subject</th><th>Details</th></tr></thead>
+          <thead><tr><th>OOI ID</th><th>Name</th><th>Email</th><th>Institution</th><th>Subject</th><th>Role</th><th>Details</th></tr></thead>
           <tbody></tbody>
        </table>
 
@@ -383,6 +383,18 @@
 
       <h3 class="instrument_agent"><a href="#">Instrument Agent Details</a></h3>
       <div class="instrument_agent" id="instrument_agent_details">&nbsp;</div>
+
+      <h3 class="user_settings"><a href="#">User Role Settings</a></h3>
+      <div class="user_settings" id="user_role_panel">
+        <label for="user_setting_role">Role: </label>
+        <select id="user_setting_role" name="user_setting_role">
+          <option value="AUTHENTICATED">User</option>
+          <option value="DATA_PROVIDER">Data Provider</option>
+          <option value="MARINE_OPERATOR">Marine Operator</option>
+          <option value="EARLY_ADOPTER">Early Adopter</option>
+          <option value="ADMIN">Administrator</option>
+        </select>
+      </div>
 
     </div><!-- end #eastMultiOpenAccordion -->
    </div><!-- end .east-center -->

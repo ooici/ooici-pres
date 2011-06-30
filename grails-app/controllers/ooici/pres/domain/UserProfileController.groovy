@@ -35,8 +35,6 @@ class UserProfileController extends BaseController {
 		
 		preProcessRequest(true)
 		
-		params.put("user_ooi_id", ooi_id)
-		
 		sendReceive(RequestType.SET_USER_ROLE)
 	}
 }
