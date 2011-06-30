@@ -1514,6 +1514,7 @@ OOI.Views.Layout = Backbone.View.extend({
     events: {},
 
     initialize: function() {
+        this.controller = this.options.controller;
         this.layout = this.layout_main_init();
         this.layout_center_inner = this.layout_center_inner_init();
         this.layout_west_inner = this.layout_west_inner_init();
@@ -1531,26 +1532,33 @@ OOI.Views.Layout = Backbone.View.extend({
     layout_main_init: function(){
         //  set a 'fixed height' on the container so it does not collapse...
         //$(this.el).height($(window).height() - $(this.el).offset().top);
+        var self = this;
         var layout_main = $(this.el).layout({
             resizerClass: 'ui-state-default',
             north__resizable: false,
             north__closable: false,
             north__size: 60,
             west__size: 350,
-            east__size: 350
+            east__size: 350,
+            onresize:function(){self.controller.datatable_resizer();},
         });
         return layout_main;
     },
     layout_west_inner_init: function(){
+        var self = this;
         var layout_west_inner = $("div.ui-layout-west").layout({
             minSize: 50,
             center__paneSelector:".west-center",
             south__paneSelector: ".west-south",
+            onresize:function(){self.controller.datatable_resizer();},
+            onopen:function(){self.controller.datatable_resizer();},
+            onclose:function(){self.controller.datatable_resizer();}
         });
         return layout_west_inner;
     },
 
     layout_center_inner_init: function(){
+        var self = this;
         var layout_center_inner = $("div.ui-layout-center").layout({
             minSize: 50,
             center__paneSelector:".center-center",
@@ -1560,10 +1568,14 @@ OOI.Views.Layout = Backbone.View.extend({
     },
 
     layout_east_inner_init: function(){
+        var self = this;
         var layout_east_inner = $("div.ui-layout-east").layout({
             minSize: 50,
             center__paneSelector:".east-center",
             south__paneSelector: ".east-south",
+            onresize:function(){self.controller.datatable_resizer();},
+            onopen:function(){self.controller.datatable_resizer();},
+            onclose:function(){self.controller.datatable_resizer();}
         });
         return layout_east_inner;
     }

@@ -107,6 +107,7 @@ tr.odd {
     background-color: #F5F5F5;
 }
 #datatable { 
+    overflow-x:auto;
 }
 #datatable h1 {
     color: #00457C;

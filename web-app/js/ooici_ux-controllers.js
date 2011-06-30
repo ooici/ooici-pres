@@ -19,7 +19,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         _.bindAll(this, "all_registered_resources", "all_registered_resources_details", "my_notification_settings", "my_registered_resources",
 				"running_epus", "registered_users", "datasets", "datasources", "register_dataset", "instrument_list", "instrument_new");
 
-        this.layout = new OOI.Views.Layout({"el":"#layoutContainer"}); 
+        this.layout = new OOI.Views.Layout({"el":"#layoutContainer", controller:this}); 
 
         this.resource_collection = new OOI.Collections.Resources();
         this.my_resources_collection = new OOI.Collections.MyResources();
@@ -143,10 +143,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     datatable_init: function(id, columns){
         switch (id){
             case "#datatable_100":
-                var aoColumns = [{sWidth:'30%'}, {sWidth:'12%'}, {sWidth:'25%'}, {sWidth:'10%'}, {sWidth:'13%'}, {sWidth:'10%'}];
+                var aoColumns = [{sWidth:'15%'}, {sWidth:'20%'}, {sWidth:'15%'}, {sWidth:'10%'}, {sWidth:'20%'}, {sWidth:'15%'}];
                 break;
             case "#datatable_104":
-                var aoColumns = [{sWidth: '50px'}, {sWidth: '100px'}, {sWidth: '120px'}, {sWidth: '30px'}, {sWidth: '50px'}];
+                var aoColumns = [{sWidth:'8%'}, {sWidth:'23%'}, {sWidth:'23%'}, {sWidth:'23%'}, {sWidth:'23%'}];
                 break;
             case "#datatable_106":
                 var aoColumns = [{sWidth:'5%'}, {sWidth:'10%'}, {sWidth:'8%'}, {sWidth:'27%'}, {sWidth:'25%'}, {sWidth:'15%'}, {sWidth:'10%'}];
@@ -157,12 +157,27 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             "iDisplayLength":20,
             "aLengthMenu": [[10, 20, 25, 50, -1], [10, 20, 25, 50, "All"]],
             "aaData":[_.map(_.range(columns), function(x){return null;})],
-            "sScrollX":"100%",
             "bJQueryUI": true, 
+            "bAutoWidth":true,
             "sPaginationType": "full_numbers",
             "aoColumns": aoColumns
         });
         return oTable;
+    },
+
+    datatable_resizer: function(dobind){
+        var _resizer = function(){
+            var datatable_id = "";
+            $.each($(".datatable").filter(":visible"), function(i, e){
+                if ($(e).attr("id") != "") datatable_id = $(e).attr("id");
+            });
+            $("#"+datatable_id).dataTable().fnAdjustColumnSizing();;  
+        };
+        if (dobind){
+            $(window).bind('resize',function(){_resizer();});
+        } else {
+            _resizer();
+        }
     },
 
     loading_dialog: function(msg){
