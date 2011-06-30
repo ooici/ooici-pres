@@ -1079,6 +1079,8 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 		this.ooi_id = $td.closest('tr').find('td').eq(0).text();
 		$('#user_setting_role').val(roleVal);
 		$('.user_settings').show();
+
+		$('#save_user_changes').attr('disabled', false);
 	}
 
 	, save_user: function(e) {
@@ -1105,6 +1107,7 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 		$('#east_sidebar').show();
 		$('.user_button').show();
 		$('.user_settings').hide();
+		$('#save_user_changes').attr('disabled', true);
 	}
 });
 OOI.Views.Workflow109Datasets = OOI.Views.Workflow109.extend({
