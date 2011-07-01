@@ -15,10 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 /**
  * Servlet filter facilitating the redirection to the CILogon authentication
@@ -204,10 +200,8 @@ public class AuthenticationFilter implements Filter {
 		session.setAttribute(USER_ALREADY_REGISTERED_KEY,true);
 
 		// Programmatically add credential for principal (OOI_ID)
-		String authorityRole = "ROLE_USER";
 		for (int i = 0; i < roles.length; i++) {
 			if (roles[i].equals("admin")) {
-				authorityRole = "ROLE_ADMIN";
 				session.setAttribute(USER_IS_ADMIN_KEY, true);
 				continue;
 			}
@@ -229,11 +223,6 @@ public class AuthenticationFilter implements Filter {
 		}
 
 		session.setAttribute(USER_ALREADY_REGISTERED_KEY, true);
-
-		PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
-				ooi_id, new GrantedAuthority[] { new GrantedAuthorityImpl(authorityRole) });
-		token.setAuthenticated(true);
-		SecurityContextHolder.getContext().setAuthentication(token);
 	}
 
 	@Override

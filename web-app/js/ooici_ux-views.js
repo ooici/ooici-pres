@@ -153,9 +153,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     show_detail: function(data_resource_id){
         $("#download_dataset_button, #setup_notifications").show();
         $("#start_notifications").hide();
-        self = this;
         $("#datatable_details_container").html("<p>Loading dataset details...</p>");
         this.controller.loading_dialog("Loading dataset details...");
+        var self = this;
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);
@@ -287,7 +287,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         }
 		$('.instrument_agent').hide();
         $("h3.data_sources").show();
-        $("table#datatable_100 thead tr:first").find("th:eq(0)").text("Title").end().find("th:eq(1)").text("Notification Set").end().find("th:eq(2)").text("Provider").end().find("th:eq(3)").text("Type").end().find("th:eq(4)").text("Date Registered"); //TODO: put logic into template
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $(".my_resources_sidebar").hide();
     }
@@ -345,9 +344,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                     $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.subscriptionInfo.data_src_id);
                 });
                 $("#datatable_select_buttons").show();
-                //$.each($("table#datatable_104 tbody tr"), function(i, e){$(e).find("td:first").css("width", "4% !important")});
-                //$("table#datatable_104 tbody tr").not(":first").find("td:not(:first)").css("width", "25%");
-                $("table#datatable_104 tbody tr").find("td:not(:first)").css("width", "25%");
                 self.controller.loading_dialog();
             }
         });
@@ -710,6 +706,9 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 		$el.find('.field').hide();
 		$el.find('.loading:first').show();
 			$.colorbox({ inline: true, href: '#register-resource-complete', transition: 'none', opacity: 0.7 });
+			$('#register-resource-complete').find('.modal_close').one('click', function(e) {
+				 window.location.reload();
+			});
 		});
 	}
 });
@@ -1595,6 +1594,7 @@ OOI.Views.Layout = Backbone.View.extend({
     events: {},
 
     initialize: function() {
+        this.controller = this.options.controller;
         this.layout = this.layout_main_init();
         this.layout_center_inner = this.layout_center_inner_init();
         this.layout_west_inner = this.layout_west_inner_init();
@@ -1612,26 +1612,33 @@ OOI.Views.Layout = Backbone.View.extend({
     layout_main_init: function(){
         //  set a 'fixed height' on the container so it does not collapse...
         //$(this.el).height($(window).height() - $(this.el).offset().top);
+        var self = this;
         var layout_main = $(this.el).layout({
             resizerClass: 'ui-state-default',
             north__resizable: false,
             north__closable: false,
             north__size: 60,
             west__size: 350,
-            east__size: 350
+            east__size: 350,
+            onresize:function(){self.controller.datatable_resizer();},
         });
         return layout_main;
     },
     layout_west_inner_init: function(){
+        var self = this;
         var layout_west_inner = $("div.ui-layout-west").layout({
             minSize: 50,
             center__paneSelector:".west-center",
             south__paneSelector: ".west-south",
+            onresize:function(){self.controller.datatable_resizer();},
+            onopen:function(){self.controller.datatable_resizer();},
+            onclose:function(){self.controller.datatable_resizer();}
         });
         return layout_west_inner;
     },
 
     layout_center_inner_init: function(){
+        var self = this;
         var layout_center_inner = $("div.ui-layout-center").layout({
             minSize: 50,
             center__paneSelector:".center-center",
@@ -1641,10 +1648,14 @@ OOI.Views.Layout = Backbone.View.extend({
     },
 
     layout_east_inner_init: function(){
+        var self = this;
         var layout_east_inner = $("div.ui-layout-east").layout({
             minSize: 50,
             center__paneSelector:".east-center",
             south__paneSelector: ".east-south",
+            onresize:function(){self.controller.datatable_resizer();},
+            onopen:function(){self.controller.datatable_resizer();},
+            onclose:function(){self.controller.datatable_resizer();}
         });
         return layout_east_inner;
     }

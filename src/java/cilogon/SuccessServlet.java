@@ -20,10 +20,6 @@ import org.cilogon.portal.util.PortalCredentials;
 import org.cilogon.util.SecurityUtil;
 import org.codehaus.groovy.grails.commons.ConfigurationHolder;
 import org.codehaus.groovy.grails.web.json.JSONObject;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -126,9 +122,7 @@ public class SuccessServlet extends PortalAbstractServlet {
 				System.out.println("SuccessServlet: OOI ID for <" + subjectDN + ">: " + ooi_id);
 				System.out.println("SuccessServlet: Certificate duration (sec) <" + (expirationDateMS - currentDateMS)/1000 + ">");
 
-				String authorityRole = "ROLE_USER";
 				if (userIsAdmin) {
-					authorityRole = "ROLE_ADMIN";
 					session.setAttribute(USER_IS_ADMIN_KEY, true);
 					System.out.println("SuccessServlet: <" + subjectDN + "> isAdmin: True");
 				}
@@ -172,11 +166,6 @@ public class SuccessServlet extends PortalAbstractServlet {
 					session.setAttribute(USER_ALREADY_REGISTERED_KEY, false);
 					System.out.println("SuccessServlet: <" + subjectDN + "> isAlreadyRegistered: False");
 				}
-
-				PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
-						ooi_id, new GrantedAuthority[] { new GrantedAuthorityImpl(authorityRole) });
-				token.setAuthenticated(true);
-				SecurityContextHolder.getContext().setAuthentication(token);
 
 				Map map = ConfigurationHolder.getConfig().flatten();
 				String mainUrl = (String)map.get("ioncore.mainurl");

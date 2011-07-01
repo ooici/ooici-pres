@@ -28,9 +28,9 @@ ioncore.instrument_monitor_url=INSTRUMENT_MONITOR_URL
 #          CILogon will be inhibited and authentication will be set
 # ioncore.testmode.ooiid=3f27a744-2c3e-4d2a-a98c-050b246334a3
 # ioncore.testmode.expiry=<seconds>
-# ioncore.testmode.authorityrole=<not defined|user|admin>
+# ioncore.testmode.authorityrole=<not defined|user|admin|earlyadopter|marineoperator|dataprovider|combinations of values separated by spaces>
 #
 ioncore.testmode=BYPASSAUTHENTICATIONMODE
 ioncore.testmode.ooiid=A7B44115-34BC-4553-B51E-1D87617F12E0
 ioncore.testmode.expiry=43200
-ioncore.testmode.authorityrole=admin
+ioncore.testmode.authorityrole=admin earlyadopter marineoperator dataprovider

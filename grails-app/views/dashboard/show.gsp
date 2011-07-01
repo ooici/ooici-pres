@@ -165,9 +165,7 @@
 
         <div id="register_new">
             <table>
-              <tr><td>Source URL:&nbsp;<input id="data_resource_url" size='27' type="text"/></td></tr>
-              <!-- <tr><td>THREDDS Catalog:&nbsp;<input size='12' type="text"/><button disabled="disabled" style="float:right;margin-left:2px">Look Up</button></td></tr> -->
-              <!-- <tr><td>Visualization URL:&nbsp;<input id="visualization_url" size='22' type="text"/></td></tr> -->
+              <tr><td><span id="data_resource_url_text">Source URL:</span><textarea id="data_resource_url"></textarea></td></tr>
             </table>
         </div>
 
@@ -276,9 +274,9 @@
         </form>
       <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
-        <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="20" maxlength="20"/>
+        <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="21" maxlength="21"/>
         <br><span class="te-to boldText">To:</span>
-        <input id="te_to_input" name="te_to_input" type="text" size="20" maxlength="20"/>
+        <input id="te_to_input" name="te_to_input" type="text" size="21" maxlength="21"/>
         <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC</div>
       </div><!-- end .temporalExtentControls -->
       </div>
