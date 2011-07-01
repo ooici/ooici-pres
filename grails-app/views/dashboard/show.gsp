@@ -273,9 +273,9 @@
         </form>
       <div class="temporalExtentControls">
         <span class="te-from boldText">From:</span>
-        <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="20" maxlength="20"/>
+        <input id="te_from_input" title="<%= HELP.P1003_SP37 %>" name="te_from_input" type="text" size="21" maxlength="21"/>
         <br><span class="te-to boldText">To:</span>
-        <input id="te_to_input" name="te_to_input" type="text" size="20" maxlength="20"/>
+        <input id="te_to_input" name="te_to_input" type="text" size="21" maxlength="21"/>
         <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC</div>
       </div><!-- end .temporalExtentControls -->
       </div>
