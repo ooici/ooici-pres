@@ -254,7 +254,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.controller.resource_collection.add(elem);
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
+                    var details_image = "<img class='dataset_details' title='Show details' src='images/I1136-Details-List.png'>";
                     var notification_check = elem.notificationSet ? "<img class='dataset_details' src='images/G1110-Checkbox-Tick-White.png'>" : "";
                     self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
@@ -755,7 +755,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
                     var active = "Off";
-                    var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
+                    var details_image = "<img class='dataset_details' title='Show details' src='images/I1136-Details-List.png'>";
                     if (elem.update_interval_seconds !== 0) active = "On";
                     self.datatable.fnAddData([cb, active, elem.activation_state, elem.ion_title, elem.title, pretty_date, details_image]);
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
@@ -847,10 +847,11 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         }
         
         function renderFields() {
-        	var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='30' maxlength='50'/>" +
-        			"<br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>" +
-					"<br><br><span style='position:relative;top:-32px'>Visualization URL:</span><textarea style='width:167px' id='resource_registration_visualization_url'>"+ion_visualization_url+"</textarea>";
-    		$("#ds_title").html(ds_title_forms);
+        	var $rrContents = $('#templates #template-register-resource').clone();
+        	$rrContents.find('#resource_registration_title').val(ion_title);
+        	$rrContents.find('#resource_registration_description').text(ion_description);
+        	$rrContents.find('#resource_registration_visualization_url').text(ion_visualization_url);
+        	$("#ds_title").empty().append($rrContents);
     		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b> "+ion_email+"<br><b>Contact Institution:</b> "+ion_institution;
     		$("#ds_publisher_contact").html(ds_publisher_contact);
     		var ds_source = "<b>Title:</b> "+data.title;
@@ -949,7 +950,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
             success: function(data){
 				$.each(data.resources, function(i, elem){
                 	// Automatically add all of the columns in the middle
-					var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
+					var details_image = "<img class='dataset_details' title='Show details' src='images/I1136-Details-List.png'>";
 					var columns = [details_image];
 					var resourceCols = elem.attribute.slice();
 					while (resourceCols.length < (self.columnCount - columns.length)) resourceCols.push('');
