@@ -260,13 +260,14 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 }
                 $.ajax({url:url, type:"POST", data:data, 
                     success: function(resp){
+                        var datatable_inst = $(table_id).dataTable();
                         $.each(ds_delete_list, function(i, e){
                           if (url === "dataResource"){
-                            var elem = $("#"+e)[0];
-                            $(table_id).dataTable().fnDeleteRow(elem);
+                            var idx = datatable_inst.fnGetPosition($("#"+e)[0]);
+                            datatable_inst.fnDeleteRow(idx);
                           } else {
-                            var elem = $("#"+e[data_src_id_name])[0];
-                            $(table_id).dataTable().fnDeleteRow(elem);
+                            var idx = datatable_inst.fnGetPosition($("#"+e[data_src_id_name])[0]);
+                            datatable_inst.fnDeleteRow(idx);
                           }
                         });
                         self.loading_dialog();
