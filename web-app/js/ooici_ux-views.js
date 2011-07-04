@@ -1045,7 +1045,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
         "click .vertical_extent_button":"vertical_extent_direction_toggle",
         "click .bb_direction":"bounding_box_direction_toggle",
-        "keyup input[type='text']":"validate_input_values"
+        "keyup input[type='text']":"validate_input_values",
     },
 
     initialize: function() {
@@ -1053,7 +1053,32 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         this.controller = this.options.controller;
         this.init_geo(); //'el' property doesn't encapsulate properly ... fixme
         this.init_bounding(); //'el' property doesn't encapsulate properly.. fixme
+        this.apply_filter(); //'el' property doesn't encapsulate properly.. fixme
         $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").attr("checked", "checked");
+    },
+
+    apply_filter:function(){
+        $("#geospatialContainer input").change(function(){
+            $("#apply_filter_button").removeAttr("disabled");
+        });
+        $("#apply_filter_button").click(function(){
+            var current_view = $("#view_existing input[type='radio']:checked").attr("id");
+            switch(current_view){
+                case "radioAllPubRes":
+                    $("#"+current_view).trigger("click");
+                    break;
+
+                case "radioMySub":
+                    $("#"+current_view).trigger("click");
+                    break;
+
+                case "radioMyPubRes":
+                    $("#"+current_view).trigger("click");
+                    break;
+
+                default:break;
+            }
+        });
     },
 
     validate_input_values: function(e){

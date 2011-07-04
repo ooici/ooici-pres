@@ -284,6 +284,7 @@
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
       <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
+      <button id="apply_filter_button" disabled="disabled">Apply Filter</button>
       <button id="register_resource_button">Validate Resource</button>
    </div><!-- end .west-south -->
 
