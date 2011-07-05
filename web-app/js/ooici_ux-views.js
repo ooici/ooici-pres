@@ -642,11 +642,12 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 
     events: {
         "click #save_myresources_changes":"save_myresources_changes",
-		"click #save_register_resource":"save_register_resource"
+		"click #save_register_resource":"save_register_resource",
     },
 
     initialize: function() {
         _.bindAll(this, "save_myresources_changes"); 
+        this.validate_polling_interval();
         this.controller = this.options.controller;
     },
 
@@ -686,7 +687,32 @@ OOI.Views.ResourceActions = Backbone.View.extend({
             }
         });
 	},
- 
+
+    validate_polling_interval:function(){
+        $("#polling_time").bind("keyup", function(e){
+            var val = $(e.target).val();
+            var nums = val.split(":");
+            if (nums.length != 3){
+                $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+            } else {
+                var n0 = nums[0], n1 = nums[1], n2 = nums[2];
+                if ( n0.length != 2 || n0 == "" || isNaN(n0) || n1.length != 2 || n1 == "" || isNaN(n1) || n2.length != 2 || n2 == "" || isNaN(n2)  ){
+                    $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+                } else {
+                    $(e.target).attr("style", "");
+                }
+            }
+        });
+        $(".polling_radio").bind("click", function(e){
+            var elem_id = $(e.target).attr("id");
+            if (elem_id === "polling_radio_yes"){
+                $("#polling_time").removeAttr("disabled");
+            } else {
+                $("#polling_time").attr("disabled", "disabled");
+            }
+        });
+    },
+
     save_myresources_changes:function(){
         var data_set_resource_id = $("#datatable_106 tr.selected").attr("id");
 		this.save_resource('update', data_set_resource_id);
@@ -835,8 +861,10 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         var update_interval_seconds_pretty = "00:00:0" + (update_interval_seconds / 60); //TODO: make work for all vals
         if (update_interval_seconds > 0 ) {
             $("#polling_time").val(update_interval_seconds_pretty);
+            $("#polling_time").removeAttr("disabled");
         } else {
             $("#polling_time").val("");
+            $("#polling_time").attr("disabled", "disabled");
         }
 
 		var ion_title = '', ion_description = '', ion_name = '', ion_email = '', ion_institution = '';
