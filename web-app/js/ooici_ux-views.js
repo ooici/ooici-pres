@@ -503,7 +503,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 	presentation: function(){
 		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
-        $(".notification_settings").hide();
+        $(".notification_settings, .dispatcher_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("Notification Settings");
         $(".data_sources").hide();
@@ -654,8 +654,9 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 
 	save_resource: function(action, data_set_resource_id, dataset_url, callback) {
 		if ($("#polling_radio_yes").is(":checked")){
-            var polling_time = parseInt($("#polling_time").val().split(":")[2]); //XXX generalize
-            var update_interval_seconds = polling_time*60;
+            var polling_vals = $("#polling_time").val().split(":");
+            var days = parseInt(polling_vals[0]), hours = parseInt(polling_vals[1]), mins = parseInt(polling_vals[2]);
+            var update_interval_seconds = (days * 24 * 60 * 60) + (hours * 60 * 60) + (mins * 60); 
         } else {
             var update_interval_seconds = 0;
         }
@@ -853,6 +854,48 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         return html;
     },
 
+    interval_seconds_pretty: function(seconds){
+        // put 'seconds' into form: 'DD:HH:MM'.
+
+        var days_in_seconds = 24 * 60 * 60;
+        if (seconds > days_in_seconds){
+            var days = Math.floor(seconds / days_in_seconds);
+            var days_string = days+"";
+            if (days_string.length == 1){
+                days_string = "0"+days_string;
+            }
+            seconds = seconds % days_in_seconds; //remaining
+        } else {
+            days_string = "00";
+        }
+
+        var hours_in_seconds = 60 * 60;
+        
+        if (seconds > hours_in_seconds){
+            var hours = Math.floor(seconds / hours_in_seconds);
+            var hours_string = hours + "";
+            if (hours_string.length == 1){
+                hours_string = "0" + hours_string;
+            }
+            seconds = seconds % hours_in_seconds; //remaining
+        } else {
+            hours_string = "00";
+        }
+
+        var mins_in_seconds = 60;
+        if (seconds > mins_in_seconds){
+            var mins = Math.floor(seconds / mins_in_seconds)
+            var mins_string = mins+"";
+            if (mins_string.length == 1){
+                mins_string = "0" + mins_string;
+            }
+        } else {
+            mins_string = "00";
+        }
+
+        return days_string + ":" + hours_string + ":" + mins_string;
+    },
+
     dataset_sidebar: function(resp, data_resource_id, self){
         var data = resp.dataResourceSummary;
         $(self.datatable.fnSettings().aoData).each(function () {
@@ -868,7 +911,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("input[name='availability_radio']").eq(active_check_elem_num).attr("checked", "checked");
         var update_interval_seconds_num = (update_interval_seconds > 0) ? 0 : 1;
         $("input[name='polling_radio']").eq(update_interval_seconds_num).attr("checked", "checked");
-        var update_interval_seconds_pretty = "00:00:0" + (update_interval_seconds / 60); //TODO: make work for all vals
+        var update_interval_seconds_pretty = this.interval_seconds_pretty(parseInt(update_interval_seconds));
         if (update_interval_seconds > 0 ) {
             $("#polling_time").val(update_interval_seconds_pretty);
             $("#polling_time").removeAttr("disabled");
@@ -911,7 +954,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_106_wrapper").show();
 		$(".east-south button").hide();
         $("#save_myresources_changes").show();
-        $(".notification_settings").hide();
+        $(".notification_settings, .dispatcher_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("My Registered Resources");
