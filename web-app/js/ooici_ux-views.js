@@ -160,6 +160,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);
                 self.dataset_sidebar(resp, self);
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -259,11 +262,10 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
-                //FIXME using: http://datatables.net/forums/comments.php?DiscussionID=1117
-                //$("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
-                //$("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
-                //$("table#datatable_100 tbody tr td").eq(3).css("width", "20%");
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -345,6 +347,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                 });
                 $("#datatable_select_buttons").show();
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -450,16 +455,13 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
                 self.controller.loading_dialog();
-                 alert("Notification saved");
+                alert("Notification saved");
                 //setTimeout(function(){document.location="/";}, 100);
             },
-            error: function(jqXHR, textStatus, error){
-                self.controller.loading_dialog();
-                alert("Notification error");
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
-
-
     },
 
     save_notifications_changes: function(){
@@ -492,9 +494,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                 alert("Notification saved");
                 //setTimeout(function(){document.location="/";}, 100);
             },
-            error: function(jqXHR, textStatus, error){
-                self.controller.loading_dialog();
-                alert("Notification error");
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -684,6 +685,9 @@ OOI.Views.ResourceActions = Backbone.View.extend({
             success: function(resp){
                 self.controller.loading_dialog();
 				if (callback) callback(resp);
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
 	},
@@ -783,6 +787,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                 $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "15%");
                 $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:eq(4)").css("width", "30%")});
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -810,6 +817,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);
                 self.dataset_sidebar(resp, data_resource_id, self);
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -962,6 +972,9 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 				var colWidth = (100.0/self.columnCount) + '%';
                 self.$table.find("tr").find("td, th").css("width", colWidth);
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("resource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -999,6 +1012,9 @@ OOI.Views.Workflow109 = Backbone.View.extend({
             success: function(resp){
                 self.show_detail_all(resp, ooi_id);
                 //self.dataset_sidebar(resp, ooi_id, self);
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("resource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -1184,6 +1200,9 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
                 });
                 $("table#datatable_100 tbody tr td").css("width", "30%");
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
         return this;
@@ -1316,10 +1335,14 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         var profileJson = JSON.stringify(profileData);
         var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile": profileJson};
         $("#account_settings_done").text("Saving...");
+        var self = this;
         $.ajax({url:"userProfile", type:"POST", data:data,
             success: function(resp){
                 $("#account_settings_done").text("Done");
                 $(".modal_close").trigger("click");
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("userProfile", xhr.status, xhr.responseText);
             }
         });
     },
@@ -1482,6 +1505,9 @@ OOI.Views.InstrumentList = Backbone.View.extend({
                 self.datatable.find("thead th:eq(0), tbody tr td:eq(0)").css("width", "260px");
 				//self.datatable.find("thead th:eq(1), tbody tr td:eq(1)").css("width", "20%");
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("instrument", xhr.status, xhr.responseText);
             }
         });
     },

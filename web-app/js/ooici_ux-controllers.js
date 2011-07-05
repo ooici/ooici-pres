@@ -190,16 +190,16 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
     
     error_dialog: function(path, error_type, error_msg){
+        this.loading_dialog();
         var contact_msg = "Contact helpdesk@oceanobservatories.org";
         if (error_type === 400){
             var msg = error_msg + " '"+path+"'";
         }
-
         if (error_type === 500){
             msg = "Error accessing: '"+path+"'";
         }
         msg += "\n\n"+contact_msg;
-        return alert(msg);
+        setTimeout(function(){alert(msg)}, 100); //setTimeout needed for loading_dialog to correctly be closed.
     },
 
     datetime_selectors:function(){
