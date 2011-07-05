@@ -200,7 +200,7 @@ tr.even {
 	background-color: white;
 }
 tr.selected {
-	background-color: #CCC;
+	background-color: #CCC !important;
 }
 
 
