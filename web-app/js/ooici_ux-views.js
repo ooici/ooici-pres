@@ -1104,7 +1104,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 		// The CSS here should be moved into one of the stylesheets; doing inline here to avoid interfering with Alex's work
 		var labelCss = {display: 'block', float: 'left', width: '24em', margin: 0};
 		var fieldCss = {display: 'block', float: 'left', width: '20em', margin: '0 1.5em 0 0'};
-		var fieldsetCss = {width: '100%', fontSize: '1.25em', margin: 0, padding: '1.5em', border: 0};
+		var fieldsetCss = {fontSize: '1.25em', margin: 0, padding: '1.5em', border: 0};
 
 		var $fieldset = $('<fieldset/>').css(fieldsetCss);
 		$(resp.resource).each(function(i,v) {
