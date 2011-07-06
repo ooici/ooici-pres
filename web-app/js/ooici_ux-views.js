@@ -373,7 +373,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e){
-        $(".notification_settings").show();
+        $(".notification_settings, .dispatcher_settings").show();
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
         if (data_resource_id == ""){
@@ -512,7 +512,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $(".notification_settings, .dispatcher_settings, .user_settings").hide();
         $(".notification_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
-        $("#datatable h1").text("Notification Settings");
+        $("#datatable h1").text("My Notification Settings");
         $(".data_sources").hide();
 		$('.instrument_agent').hide();
         $("#geospatial_selection_button").hide();
