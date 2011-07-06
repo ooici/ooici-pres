@@ -143,6 +143,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#datatable_100 tr").removeClass("selected");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
+            $("#datatable h1").text("Metadata");
             $("#datatable_details_scroll, #datatable_details_container").show();
             $("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
@@ -174,7 +175,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail_all: function(resp, data_resource_id) {
-        $("#datatable h1").text("Metadata");
         var html = "";
         var dataResourceSummary = resp.dataResourceSummary;
         $.each(dataResourceSummary, function(v){
@@ -815,6 +815,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_106 tr").removeClass("selected");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
+            $("#datatable h1").text("Metadata");
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
@@ -840,7 +841,6 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail_all: function(resp, data_resource_id) {
-        $("#datatable h1").text("Metadata");
         var html = "";
         var dataResourceSummary = resp.dataResourceSummary;
         $.each(dataResourceSummary, function(v){
