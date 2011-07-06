@@ -87,7 +87,7 @@
        </table>
 
        <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
-            <thead><tr><th>&nbsp;</th><th>Active</th><th>Avail.</th><th>My Registration Title</th><th>Original Source Title</th><th>Publication Date</th><th>Details</th></tr></thead>
+            <thead><tr><th>&nbsp;</th><th>Active</th><th>Availability</th><th>My Registration Title</th><th>Original Source Title</th><th>Publication Date</th><th>Details</th></tr></thead>
             <tbody></tbody>
        </table>
 
@@ -303,18 +303,18 @@
         <div id="ds_title"></div><br>
       </div>
 
-      <h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
+      <h3 class="data_sources"><a href="#">Resource Registration Contact Information</a></h3>
       <div class="data_sources registered_registration_contact_editable">
         <div id="ds_publisher_contact"></div><br>
       </div>
 
-      <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Availability Settings</a></h3>
+      <h3 class="data_sources my_resources_sidebar"><a href="#">Resource Availability Settings</a></h3>
       <div class="data_sources registered_registration_availability_editable my_resources_sidebar">
         <div><input id="availability_radio_private" title="<%= HELP.P1064_SP255 %>" name="availability_radio" type="radio"/><label for="availability_radio_private" title="<%= HELP.P1064_SP255 %>">Resource is private and available to me only</label></div>
         <div><input id="availability_radio_public" title="<%= HELP.P1064_SP255 %>" name="availability_radio" type="radio"/><label for="availability_radio_public" title="<%= HELP.P1064_SP255 %>">Resource is publically available</label></div>
       </div>
 
-      <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Polling Settings</a></h3>
+      <h3 class="data_sources my_resources_sidebar"><a href="#">Resource Polling Settings</a></h3>
       <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
         <div><strong>Polling Interval</strong></div>
         <div><input id="polling_radio_yes" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_yes" title="<%= HELP.P1064_SP196 %>">Poll resource every: </label><input id="polling_time" title="<%= HELP.P1064_SP197 %>" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
