@@ -83,9 +83,15 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
     scroll_left: function(e){
         var hash_args = document.location.hash.split("/");
         var nth_elem = parseInt(hash_args[1]); 
-        if (nth_elem < 1){
-            //TODO: find dataset models length (N) and use for hash: #/N.
-            document.location.hash = hash_args[0]+"/0";
+        if (nth_elem <= 0){
+            var current = hash_args[0];
+            if (current == "" || current == "#" ){
+                var end_num = this.controller.resource_collection.models.length-1;
+            }
+            if (current == "#registered"){
+                var end_num = this.controller.my_resources_collection.models.length-1;
+            }
+            document.location.hash = hash_args[0]+"/"+end_num;
         } else {
             var next_n = nth_elem - 1;
             document.location.hash = hash_args[0]+"/"+next_n;
@@ -138,7 +144,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
-            $(".dataTables_wrapper").hide();
+            $("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
             if (window.location.hash === ""){
                 window.location.hash += "#/"+nth_elem;
@@ -248,7 +254,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         var data = $.extend(geo_data, {"action":"find"});
         $.ajax({url:"dataResource", type:"GET", data:data, dataType:"json",
             success: function(data){
-                $("#datatable_select_buttons").hide();
                 self.controller.resource_collection.remove_all();
                 if (typeof data.dataResourceSummary === "undefined"){
                     data["dataResourceSummary"] = [];
@@ -277,6 +282,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         }
 		$(".dataTables_wrapper").hide();
         $("#datatable_100_wrapper").show();
+        $("#datatable_select_buttons").hide();
         $(".east-south button").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
@@ -802,7 +808,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
-			$(".dataTables_wrapper").hide();
+			$("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
             window.location.hash += "/"+nth_elem;
         } else {
