@@ -82,7 +82,7 @@
       </table>
 
        <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>Resource Title</th><th>Source</th><th>Notification Initiated</th><th>Details</th> </tr></thead>
+          <thead><tr><th>&nbsp;</th><th>Resource Title</th><th>Source</th><th>Notification Initiated</th></tr></thead>
           <tbody></tbody>
        </table>
 
@@ -289,6 +289,7 @@
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
       <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
+      <button id="apply_filter_button" disabled="disabled">Apply Filter</button>
       <button id="register_resource_button" title="<%= HELP.P1062_SP190 %>">Validate Resource</button>
    </div><!-- end .west-south -->
 

@@ -75,6 +75,9 @@ class DataResource(Resource):
     def render_GET(self, request):
         import time; time.sleep(0.8) #mock out real latency
         action = request.args["action"][0]
+        #request.setResponseCode(400)
+        #return "Bad stuff happened"
+        #error_test = this_will_cause_a_500_error
         if action == "detail":
             self.DATA["source"]["ion_description"] = request.args["data_resource_id"][0]
             self.DATA.update({"dataResourceSummary":self.dataResourceSummary_one})
