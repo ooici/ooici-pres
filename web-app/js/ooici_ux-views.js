@@ -83,9 +83,15 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
     scroll_left: function(e){
         var hash_args = document.location.hash.split("/");
         var nth_elem = parseInt(hash_args[1]); 
-        if (nth_elem < 1){
-            //TODO: find dataset models length (N) and use for hash: #/N.
-            document.location.hash = hash_args[0]+"/0";
+        if (nth_elem <= 0){
+            var current = hash_args[0];
+            if (current == "" || current == "#" ){
+                var end_num = this.controller.resource_collection.models.length-1;
+            }
+            if (current == "#registered"){
+                var end_num = this.controller.my_resources_collection.models.length-1;
+            }
+            document.location.hash = hash_args[0]+"/"+end_num;
         } else {
             var next_n = nth_elem - 1;
             document.location.hash = hash_args[0]+"/"+next_n;
@@ -138,7 +144,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
-            $(".dataTables_wrapper").hide();
+            $("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
             if (window.location.hash === ""){
                 window.location.hash += "#/"+nth_elem;
@@ -160,6 +166,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);
                 self.dataset_sidebar(resp, self);
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -245,7 +254,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         var data = $.extend(geo_data, {"action":"find"});
         $.ajax({url:"dataResource", type:"GET", data:data, dataType:"json",
             success: function(data){
-                $("#datatable_select_buttons").hide();
                 self.controller.resource_collection.remove_all();
                 if (typeof data.dataResourceSummary === "undefined"){
                     data["dataResourceSummary"] = [];
@@ -259,11 +267,10 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
                 });
-                //FIXME using: http://datatables.net/forums/comments.php?DiscussionID=1117
-                //$("table#datatable_100 tbody tr td").eq(0).css("width", "30%");
-                //$("table#datatable_100 tbody tr td").eq(1).css("width", "10%");
-                //$("table#datatable_100 tbody tr td").eq(3).css("width", "20%");
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -275,6 +282,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         }
 		$(".dataTables_wrapper").hide();
         $("#datatable_100_wrapper").show();
+        $("#datatable_select_buttons").hide();
         $(".east-south button").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
@@ -307,7 +315,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "render", "show_detail_clicked", "setup_notifications", "start_notifications", "save_notifications_changes"); 
         this.controller = this.options.controller;
-        this.datatable = this.controller.datatable_init("#datatable_104", 5);
+        this.datatable = this.controller.datatable_init("#datatable_104", 4);
         var self = this;
     },
 
@@ -340,11 +348,14 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                     self.controller.my_notifications_collection.add(model_info);
                     var new_date = new Date(elem.subscriptionInfo.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    self.datatable.fnAddData([cb, elem.datasetMetadata.title, elem.datasetMetadata.source, pretty_date, "Details"]);
+                    self.datatable.fnAddData([cb, elem.datasetMetadata.title, elem.datasetMetadata.source, pretty_date]);
                     $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.subscriptionInfo.data_src_id);
                 });
                 $("#datatable_select_buttons").show();
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -450,16 +461,13 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $.ajax({url:"subscription", type:"POST", data:data, 
             success: function(resp){
                 self.controller.loading_dialog();
-                 alert("Notification saved");
+                alert("Notification saved");
                 //setTimeout(function(){document.location="/";}, 100);
             },
-            error: function(jqXHR, textStatus, error){
-                self.controller.loading_dialog();
-                alert("Notification error");
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
-
-
     },
 
     save_notifications_changes: function(){
@@ -492,9 +500,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                 alert("Notification saved");
                 //setTimeout(function(){document.location="/";}, 100);
             },
-            error: function(jqXHR, textStatus, error){
-                self.controller.loading_dialog();
-                alert("Notification error");
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -502,7 +509,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 	presentation: function(){
 		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
-        $(".notification_settings, .user_settings").hide();
+        $(".notification_settings, .dispatcher_settings, .user_settings").hide();
+        $(".notification_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("Notification Settings");
         $(".data_sources").hide();
@@ -644,18 +652,20 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 
     events: {
         "click #save_myresources_changes":"save_myresources_changes",
-		"click #save_register_resource":"save_register_resource"
+		"click #save_register_resource":"save_register_resource",
     },
 
     initialize: function() {
         _.bindAll(this, "save_myresources_changes"); 
+        this.validate_polling_interval();
         this.controller = this.options.controller;
     },
 
 	save_resource: function(action, data_set_resource_id, dataset_url, callback) {
 		if ($("#polling_radio_yes").is(":checked")){
-            var polling_time = parseInt($("#polling_time").val().split(":")[2]); //XXX generalize
-            var update_interval_seconds = polling_time*60;
+            var polling_vals = $("#polling_time").val().split(":");
+            var days = parseInt(polling_vals[0]), hours = parseInt(polling_vals[1]), mins = parseInt(polling_vals[2]);
+            var update_interval_seconds = (days * 24 * 60 * 60) + (hours * 60 * 60) + (mins * 60); 
         } else {
             var update_interval_seconds = 0;
         }
@@ -687,10 +697,38 @@ OOI.Views.ResourceActions = Backbone.View.extend({
             success: function(resp){
                 self.controller.loading_dialog();
 				if (callback) callback(resp);
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
 	},
- 
+
+    validate_polling_interval:function(){
+        $("#polling_time").bind("keyup", function(e){
+            var val = $(e.target).val();
+            var nums = val.split(":");
+            if (nums.length != 3){
+                $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+            } else {
+                var n0 = nums[0], n1 = nums[1], n2 = nums[2];
+                if ( n0.length != 2 || n0 == "" || isNaN(n0) || n1.length != 2 || n1 == "" || isNaN(n1) || n2.length != 2 || n2 == "" || isNaN(n2)  ){
+                    $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+                } else {
+                    $(e.target).attr("style", "");
+                }
+            }
+        });
+        $(".polling_radio").bind("click", function(e){
+            var elem_id = $(e.target).attr("id");
+            if (elem_id === "polling_radio_yes"){
+                $("#polling_time").removeAttr("disabled");
+            } else {
+                $("#polling_time").attr("disabled", "disabled");
+            }
+        });
+    },
+
     save_myresources_changes:function(){
         var data_set_resource_id = $("#datatable_106 tr.selected").attr("id");
 		this.save_resource('update', data_set_resource_id);
@@ -764,6 +802,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                 $("table#datatable_106 tbody tr").not(":first").find("td:not(:first)").css("width", "15%");
                 $.each($("table#datatable_106 tbody tr"), function(i, e){$(e).find("td:eq(4)").css("width", "30%")});
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -775,7 +816,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
-			$(".dataTables_wrapper").hide();
+			$("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
             window.location.hash += "/"+nth_elem;
         } else {
@@ -791,6 +832,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);
                 self.dataset_sidebar(resp, data_resource_id, self);
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -824,6 +868,48 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         return html;
     },
 
+    interval_seconds_pretty: function(seconds){
+        // put 'seconds' into form: 'DD:HH:MM'.
+
+        var days_in_seconds = 24 * 60 * 60;
+        if (seconds > days_in_seconds){
+            var days = Math.floor(seconds / days_in_seconds);
+            var days_string = days+"";
+            if (days_string.length == 1){
+                days_string = "0"+days_string;
+            }
+            seconds = seconds % days_in_seconds; //remaining
+        } else {
+            days_string = "00";
+        }
+
+        var hours_in_seconds = 60 * 60;
+        
+        if (seconds > hours_in_seconds){
+            var hours = Math.floor(seconds / hours_in_seconds);
+            var hours_string = hours + "";
+            if (hours_string.length == 1){
+                hours_string = "0" + hours_string;
+            }
+            seconds = seconds % hours_in_seconds; //remaining
+        } else {
+            hours_string = "00";
+        }
+
+        var mins_in_seconds = 60;
+        if (seconds > mins_in_seconds){
+            var mins = Math.floor(seconds / mins_in_seconds)
+            var mins_string = mins+"";
+            if (mins_string.length == 1){
+                mins_string = "0" + mins_string;
+            }
+        } else {
+            mins_string = "00";
+        }
+
+        return days_string + ":" + hours_string + ":" + mins_string;
+    },
+
     dataset_sidebar: function(resp, data_resource_id, self){
         var data = resp.dataResourceSummary;
         $(self.datatable.fnSettings().aoData).each(function () {
@@ -839,11 +925,13 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("input[name='availability_radio']").eq(active_check_elem_num).attr("checked", "checked");
         var update_interval_seconds_num = (update_interval_seconds > 0) ? 0 : 1;
         $("input[name='polling_radio']").eq(update_interval_seconds_num).attr("checked", "checked");
-        var update_interval_seconds_pretty = "00:00:0" + (update_interval_seconds / 60); //TODO: make work for all vals
+        var update_interval_seconds_pretty = this.interval_seconds_pretty(parseInt(update_interval_seconds));
         if (update_interval_seconds > 0 ) {
             $("#polling_time").val(update_interval_seconds_pretty);
+            $("#polling_time").removeAttr("disabled");
         } else {
             $("#polling_time").val("");
+            $("#polling_time").attr("disabled", "disabled");
         }
         
         function renderFields() {
@@ -901,6 +989,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_106_wrapper").show();
 		$(".east-south button").hide();
         $("#save_myresources_changes").show();
+        $(".notification_settings, .dispatcher_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("My Registered Resources");
@@ -962,6 +1051,9 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 				var colWidth = (100.0/self.columnCount) + '%';
                 self.$table.find("tr").find("td, th").css("width", colWidth);
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("resource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -999,6 +1091,9 @@ OOI.Views.Workflow109 = Backbone.View.extend({
             success: function(resp){
                 self.show_detail_all(resp, ooi_id);
                 //self.dataset_sidebar(resp, ooi_id, self);
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("resource", xhr.status, xhr.responseText);
             }
         });
     },
@@ -1126,7 +1221,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
         "click .vertical_extent_button":"vertical_extent_direction_toggle",
         "click .bb_direction":"bounding_box_direction_toggle",
-        "keyup input[type='text']":"validate_input_values"
+        "keyup input[type='text']":"validate_input_values",
     },
 
     initialize: function() {
@@ -1134,7 +1229,32 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         this.controller = this.options.controller;
         this.init_geo(); //'el' property doesn't encapsulate properly ... fixme
         this.init_bounding(); //'el' property doesn't encapsulate properly.. fixme
+        this.apply_filter(); //'el' property doesn't encapsulate properly.. fixme
         $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").attr("checked", "checked");
+    },
+
+    apply_filter:function(){
+        $("#geospatialContainer input").change(function(){
+            $("#apply_filter_button").removeAttr("disabled");
+        });
+        $("#apply_filter_button").click(function(){
+            var current_view = $("#view_existing input[type='radio']:checked").attr("id");
+            switch(current_view){
+                case "radioAllPubRes":
+                    $("#"+current_view).trigger("click");
+                    break;
+
+                case "radioMySub":
+                    $("#"+current_view).trigger("click");
+                    break;
+
+                case "radioMyPubRes":
+                    $("#"+current_view).trigger("click");
+                    break;
+
+                default:break;
+            }
+        });
     },
 
     validate_input_values: function(e){
@@ -1212,6 +1332,9 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
                 });
                 $("table#datatable_100 tbody tr td").css("width", "30%");
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("dataResource", xhr.status, xhr.responseText);
             }
         });
         return this;
@@ -1344,10 +1467,14 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         var profileJson = JSON.stringify(profileData);
         var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile": profileJson};
         $("#account_settings_done").text("Saving...");
+        var self = this;
         $.ajax({url:"userProfile", type:"POST", data:data,
             success: function(resp){
                 $("#account_settings_done").text("Done");
                 $(".modal_close").trigger("click");
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("userProfile", xhr.status, xhr.responseText);
             }
         });
     },
@@ -1510,6 +1637,9 @@ OOI.Views.InstrumentList = Backbone.View.extend({
                 self.datatable.find("thead th:eq(0), tbody tr td:eq(0)").css("width", "260px");
 				//self.datatable.find("thead th:eq(1), tbody tr td:eq(1)").css("width", "20%");
                 self.controller.loading_dialog();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                self.controller.error_dialog("instrument", xhr.status, xhr.responseText);
             }
         });
     },

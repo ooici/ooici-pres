@@ -119,11 +119,9 @@ tr.odd {
   font-weight:bold;
   color:#362B36 !important;
 }
-.selected {
-  font-weight:bold;
-}
 #resource_selector_view .selected {
   color:#333333 !important;
+  font-weight:bold;
 }
 
 .hidden {

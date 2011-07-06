@@ -147,7 +147,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 var aoColumns = [{sWidth:'15%'}, {sWidth:'20%'}, {sWidth:'15%'}, {sWidth:'10%'}, {sWidth:'20%'}, {sWidth:'15%'}];
                 break;
             case "#datatable_104":
-                var aoColumns = [{sWidth:'8%'}, {sWidth:'23%'}, {sWidth:'23%'}, {sWidth:'23%'}, {sWidth:'23%'}];
+                var aoColumns = [{sWidth:'6%'}, {sWidth:'32%'}, {sWidth:'32%'}, {sWidth:'30%'}];
                 break;
             case "#datatable_106":
                 var aoColumns = [{sWidth:'5%'}, {sWidth:'10%'}, {sWidth:'8%'}, {sWidth:'27%'}, {sWidth:'25%'}, {sWidth:'15%'}, {sWidth:'10%'}];
@@ -191,16 +191,16 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
     
     error_dialog: function(path, error_type, error_msg){
+        this.loading_dialog();
         var contact_msg = "Contact helpdesk@oceanobservatories.org";
         if (error_type === 400){
             var msg = error_msg + " '"+path+"'";
         }
-
         if (error_type === 500){
             msg = "Error accessing: '"+path+"'";
         }
         msg += "\n\n"+contact_msg;
-        return alert(msg);
+        setTimeout(function(){alert(msg)}, 100); //setTimeout needed for loading_dialog to correctly be closed.
     },
 
     datetime_selectors:function(){
@@ -261,13 +261,14 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 }
                 $.ajax({url:url, type:"POST", data:data, 
                     success: function(resp){
+                        var datatable_inst = $(table_id).dataTable();
                         $.each(ds_delete_list, function(i, e){
                           if (url === "dataResource"){
-                            var elem = $("#"+e)[0];
-                            $(table_id).dataTable().fnDeleteRow(elem);
+                            var idx = datatable_inst.fnGetPosition($("#"+e)[0]);
+                            datatable_inst.fnDeleteRow(idx);
                           } else {
-                            var elem = $("#"+e[data_src_id_name])[0];
-                            $(table_id).dataTable().fnDeleteRow(elem);
+                            var idx = datatable_inst.fnGetPosition($("#"+e[data_src_id_name])[0]);
+                            datatable_inst.fnDeleteRow(idx);
                           }
                         });
                         self.loading_dialog();
