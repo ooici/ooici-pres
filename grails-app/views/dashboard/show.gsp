@@ -289,12 +289,8 @@
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
       <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
-<<<<<<< HEAD
       <button id="apply_filter_button" disabled="disabled">Apply Filter</button>
-      <button id="register_resource_button">Validate Resource</button>
-=======
       <button id="register_resource_button" title="<%= HELP.P1062_SP190 %>">Validate Resource</button>
->>>>>>> upstream-master
    </div><!-- end .west-south -->
 
  </div> <!-- end .ui-layout-west -->
@@ -321,13 +317,8 @@
       <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Polling Settings</a></h3>
       <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
         <div><strong>Polling Interval</strong></div>
-<<<<<<< HEAD
-        <div><input id="polling_radio_yes" class="polling_radio" name="polling_radio" type="radio"/><label for="polling_radio_yes">Poll resource every: </label><input id="polling_time" name="" type="text" size="8" maxlength="8" disabled="disabled"/> DD:HH:MM</div>
-        <div><input id="polling_radio_no" class="polling_radio" name="polling_radio" type="radio"/><label for="polling_radio_no">Do not poll the resource</label></div>
-=======
         <div><input id="polling_radio_yes" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_yes" title="<%= HELP.P1064_SP196 %>">Poll resource every: </label><input id="polling_time" title="<%= HELP.P1064_SP197 %>" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
         <div><input id="polling_radio_no" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_no" title="<%= HELP.P1064_SP196 %>">Do not poll the resource</label></div>
->>>>>>> upstream-master
       </div>
 
       <h3 class="data_sources"><a href="#">Original Source Description</a></h3>
