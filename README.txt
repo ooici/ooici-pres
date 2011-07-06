@@ -36,6 +36,8 @@ during deployment.
 topic host: localhost
 topic port: 5672
 sysname: username
+username: guest
+password: guest
 exchange name: magnet.topic
 
 Make the Grails directory

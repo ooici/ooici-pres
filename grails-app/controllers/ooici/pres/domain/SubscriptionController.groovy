@@ -1,6 +1,7 @@
 package ooici.pres.domain
 
 import org.codehaus.groovy.grails.web.json.JSONArray;
+import org.codehaus.groovy.grails.web.json.JSONObject;
 
 import grails.converters.JSON
 import ion.integration.ais.AppIntegrationService;
@@ -75,7 +76,7 @@ class SubscriptionController extends BaseController {
 
 			params.put("subscriptionInfo",subscriptionInfoJSON)
 		}
-		
+
 		if (params.get("datasetMetadata") != null) {
 			params.put("datasetMetadata",JSON.parse(params.get("datasetMetadata")))
 		}

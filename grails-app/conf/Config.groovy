@@ -1,5 +1,3 @@
-import grails.plugins.springsecurity.SecurityConfigType
-
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
@@ -82,39 +80,3 @@ log4j = {
 
     warn   'org.mortbay.log'
 }
-
-// Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'ooici.pres.domain.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'ooici.pres.domain.UserRole'
-grails.plugins.springsecurity.authority.className = 'ooici.pres.domain.Role'
-
-grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/home'
-
-grails.plugins.springsecurity.useBasicAuth = false
-grails.plugins.springsecurity.basic.realmName = "OOICI - LCA Demo"
-
-// For securing URLs
-grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
-
-// Logout URL
-logout.afterLogoutUrl = '/'
-
-// Password protecting these URIs 
-grails.plugins.springsecurity.interceptUrlMap = [
-//	'/instrument/**':        ['IS_AUTHENTICATED_FULLY'],
-//	'/dataproduct/**':       ['IS_AUTHENTICATED_FULLY'],
-//	'/service/**':           ['IS_AUTHENTICATED_FULLY'],
-//	'/home/**':              ['IS_AUTHENTICATED_FULLY']
-]
-
-
-//   '/user/**':              ['IS_AUTHENTICATED_FULLY'],
-//   '/securityInfo/**':      ['IS_AUTHENTICATED_FULLY'],
-//   '/role/**':              ['IS_AUTHENTICATED_FULLY'],
-//   '/registrationCode/**':  ['IS_AUTHENTICATED_FULLY'],
-//   '/register/**':          ['IS_AUTHENTICATED_FULLY'],
-//   '/persistentLogin/**':   ['IS_AUTHENTICATED_FULLY'],
-//   '/aclSid/**':            ['IS_AUTHENTICATED_FULLY'],
-//   '/aclObjectIdentity/**': ['IS_AUTHENTICATED_FULLY'],
-//   '/aclEntry/**':          ['IS_AUTHENTICATED_FULLY'],
-//   '/aclClass/**':          ['IS_AUTHENTICATED_FULLY']

@@ -18,9 +18,12 @@ abstract class BaseController {
 
 	String OOI_ID_KEY = "IONCOREOOIID"
 	String EXPIRY_KEY = "IONCOREEXPIRY"
+	
+	def ooiidFound = session.getAttribute(OOI_ID_KEY) != null;
+	def expiryFound = session.getAttribute(EXPIRY_KEY) != null;
 
 	def ooi_id = session.getAttribute(OOI_ID_KEY) == null ? "ANONYMOUS" : session.getAttribute(OOI_ID_KEY)
-	def expiry = session.getAttribute(EXPIRY_KEY) == null ? "ANONYMOUS" : session.getAttribute(EXPIRY_KEY)
+	def expiry = session.getAttribute(EXPIRY_KEY) == null ? "0" : session.getAttribute(EXPIRY_KEY)
 	
 	def reqController = params.get("controller")
 	def reqAction = params.get("action")
@@ -33,21 +36,30 @@ abstract class BaseController {
 	def preProcessRequest(boolean redirectOnUnauthenticated) {
 		
 		System.out.println("Request params: " + params)
+		
+		// Reload page if session expired
+		if (!ooiidFound || !expiryFound) {
+			System.out.println("Session timeout: redirecting to landing page")
+			redirect(uri:"/index.html")
+			return
+		}
 	
 		if (redirectOnUnauthenticated) {
-			if (ooi_id == null || ooi_id.equals("ANONYMOUS")) {
-				System.out.println("Redirecting: " + reqController + "." + reqAction + " requires user to login")
+			if (ooi_id.equals("ANONYMOUS")) {
+				String errorMsg = "{\"ErrorCode\": 401, \"ErrorMessage\": \"Unauthorized: " + reqController + "." + reqAction + " requires user to login\"}"
+				System.out.println(errorMsg)
 				response.setStatus(401)
-				redirect(uri:"/")
-				return
+				def jsonArray = JSON.parse(errorMsg)
+				render jsonArray as JSON
 			}
 			
 			long currentDateSec = System.currentTimeMillis()/1000
 			if (currentDateSec > new Long(expiry)) {
-				System.out.println("Redirecting: User authentication expired while attempting to process " + reqController + "." + reqAction)
+				String errorMsg = "{\"ErrorCode\": 401, \"ErrorMessage\": \"Unauthorized: User authentication expired while attempting to process " + reqController + "." + reqAction + "\"}"
+				System.out.println(errorMsg)
 				response.setStatus(401)
-				redirect(uri:"/")
-				return
+				def jsonArray = JSON.parse(errorMsg)
+				render jsonArray as JSON
 			}
 		}
 
@@ -62,6 +74,8 @@ abstract class BaseController {
 		System.out.println("Modified request params for " + reqController + "." + reqAction + " before conversion: " + params)
 
 		def requestString = new JSON(params).toString()
+		// This is a hack to handle undefined numeric fields
+		requestString = requestString.replaceAll("\"NaN\"","NaN")
 		
 		System.out.println("Request string for " + reqController + "." + reqAction + " for user <" + ooi_id + ">: " + requestString)
 

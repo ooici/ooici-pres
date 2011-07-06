@@ -212,7 +212,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
              $('h3.data_sources').trigger('click');
         }
 		if (resp.source) {
-			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description;
+			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description+"<br><br><b>Visualization URL:</b><br><a style='text-decoration:underline' target='_blank' href='"+resp.source.visualization_url+"'>"+resp.source.visualization_url+"</a>";
 			$("#ds_title").html(ds_title);
 			var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
 			$("#ds_publisher_contact").html(ds_publisher_contact);
@@ -262,7 +262,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
                     self.controller.resource_collection.add(elem);
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
+                    var details_image = "<img class='dataset_details' title='Show details' src='images/I1136-Details-List.png'>";
                     var notification_check = elem.notificationSet ? "<img class='dataset_details' src='images/G1110-Checkbox-Tick-White.png'>" : "";
                     self.datatable.fnAddData([elem.datasetMetadata.title, notification_check, elem.datasetMetadata.institution, elem.datasetMetadata.source, pretty_date, details_image]);
                     $($("#datatable_100").dataTable().fnGetNodes(i)).attr("id", elem.datasetMetadata.data_resource_id);
@@ -286,7 +286,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".east-south button").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text("All Registered Resources");
-        $(".notification_settings, .dispatcher_settings").hide();
+        $(".notification_settings, .dispatcher_settings, .user_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
@@ -509,7 +509,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 	presentation: function(){
 		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
-        $(".notification_settings, .dispatcher_settings").hide();
+        $(".notification_settings, .dispatcher_settings, .user_settings").hide();
+        $(".notification_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("Notification Settings");
         $(".data_sources").hide();
@@ -599,6 +600,8 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         });
 
         var data_resource_url = $("#data_resource_url").val();
+        // var visualization_url = $("#visualization_url").val();
+        // $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url, "visualization_url":visualization_url}, dataType:"json",
         $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url}, dataType:"json",
             success: _.bind(function(data){
 				this.show_validate_response($el, data_resource_url, data);
@@ -668,15 +671,17 @@ OOI.Views.ResourceActions = Backbone.View.extend({
         }
         var ion_title = $("#resource_registration_title").val();
         var ion_description = $("#resource_registration_description").val();
+        var ion_visualization_url = $("#resource_registration_visualization_url").val();
         if ($("#availability_radio_private").is(":checked")){
             var is_public = false;
         } else {
             var is_public = true;
         }
         var max_ingest_millis = update_interval_seconds * 1000;
-        var update_start_datetime_millis = (new Date()).getTime()*1000;
+        var update_start_datetime_millis = (new Date()).getTime();
         var data = {"action":action, "update_interval_seconds":update_interval_seconds,
-            "ion_title":ion_title, "ion_description":ion_description, "is_public":is_public, "max_ingest_millis":max_ingest_millis,
+            "ion_title":ion_title, "ion_description":ion_description, "visualization_url":ion_visualization_url,
+            "is_public":is_public, "max_ingest_millis":max_ingest_millis,
             "update_start_datetime_millis":update_start_datetime_millis};
 		if (action === 'create') {
 			data['source_type'] = 'NETCDF_S';
@@ -739,6 +744,9 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 		$el.find('.field').hide();
 		$el.find('.loading:first').show();
 			$.colorbox({ inline: true, href: '#register-resource-complete', transition: 'none', opacity: 0.7 });
+			$('#register-resource-complete').find('.modal_close').one('click', function(e) {
+				 window.location.reload();
+			});
 		});
 	}
 });
@@ -785,7 +793,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
                     var active = "Off";
-                    var details_image = "<img class='dataset_details' src='images/I1136-Details-List.png'>";
+                    var details_image = "<img class='dataset_details' title='Show details' src='images/I1136-Details-List.png'>";
                     if (elem.update_interval_seconds !== 0) active = "On";
                     self.datatable.fnAddData([cb, active, elem.activation_state, elem.ion_title, elem.title, pretty_date, details_image]);
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
@@ -925,31 +933,52 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             $("#polling_time").val("");
             $("#polling_time").attr("disabled", "disabled");
         }
+        
+        function renderFields() {
+        	var $rrContents = $('#templates #template-register-resource').clone();
+        	$rrContents.find('#resource_registration_title').val(ion_title);
+        	$rrContents.find('#resource_registration_description').text(ion_description);
+        	$rrContents.find('#resource_registration_visualization_url').text(ion_visualization_url);
+        	$("#ds_title").empty().append($rrContents);
+    		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b> "+ion_email+"<br><b>Contact Institution:</b> "+ion_institution;
+    		$("#ds_publisher_contact").html(ds_publisher_contact);
+    		var ds_source = "<b>Title:</b> "+data.title;
+    		if (data.summary) ds_source += "<br><br><b>Description:</b><br>"+data.summary;
+            $("#ds_source").html(ds_source);
+    		var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
+            $("#ds_source_contact").html(ds_source_contact);
+            $("#ds_variables").html(self.format_variables(resp.variable || {}));
+            $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+            $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
+            $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
+            $(".data_sources").show();
+            $(".notification_settings, .dispatcher_settings").hide();
+            $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
+        }
 
-		var ion_title = '', ion_description = '', ion_name = '', ion_email = '', ion_institution = '';
+		var ion_title = '', ion_description = '', ion_name = '', ion_email = '', ion_institution = '', ion_visualization_url = '';
 		if (resp.source) {
 			ion_title = resp.source.ion_title;
 			ion_description = resp.source.ion_description;
+			ion_visualization_url = resp.source.visualization_url;
 			ion_name = resp.source.ion_name;
 			ion_email = resp.source.ion_email;
 			ion_institution = resp.source.ion_institution;
+			
+			renderFields();
 		}
-		var ds_title_forms = "Title: <input id='resource_registration_title' value='"+ion_title+"' name='resource_registration_title' type='text' size='30' maxlength='50'/><br><br><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description'>"+ion_description+"</textarea>";
-		$("#ds_title").html(ds_title_forms);
-		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b>"+ion_email+"<br><b>Contact Institution:</b>"+ion_institution;
-		$("#ds_publisher_contact").html(ds_publisher_contact);
-		var ds_source = "<b>Title:</b> "+data.title;
-		if (data.summary) ds_source += "<br><br><b>Description:</b><br>"+data.summary;
-        $("#ds_source").html(ds_source);
-		var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
-        $("#ds_source_contact").html(ds_source_contact);
-        $("#ds_variables").html(self.format_variables(resp.variable || {}));
-        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
-        $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-        $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
-        $(".data_sources").show();
-        $(".notification_settings, .dispatcher_settings").hide();
-        $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
+		else {
+			$.ajax({url:"userProfile", type:"GET", data:{action:"get"}, dataType:"json",
+				success: function(profile_resp){
+					ion_name = profile_resp.name;
+					ion_institution = profile_resp.institution;
+					ion_email = profile_resp.email_address;
+
+					renderFields();
+				}
+			});
+		}
+		
     },
 
     presentation: function(){
@@ -965,7 +994,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_details_container").hide();
         $("#datatable h1").text("My Registered Resources");
         $("#save_notification_settings, #start_notifications").hide(); //button
-        $(".notification_settings").hide();
+        $(".notification_settings, .user_settings").hide();
 		$('.instrument_agent').hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
@@ -1010,7 +1039,8 @@ OOI.Views.Workflow109 = Backbone.View.extend({
             success: function(data){
 				$.each(data.resources, function(i, elem){
                 	// Automatically add all of the columns in the middle
-					var columns = ["Details"];
+					var details_image = "<img class='dataset_details' title='Show details' src='images/I1136-Details-List.png'>";
+					var columns = [details_image];
 					var resourceCols = elem.attribute.slice();
 					while (resourceCols.length < (self.columnCount - columns.length)) resourceCols.push('');
 					Array.prototype.splice.apply(columns, [0, 0].concat(resourceCols));
@@ -1031,10 +1061,10 @@ OOI.Views.Workflow109 = Backbone.View.extend({
     show_detail_clicked: function(e) {
 		var self = this;
         var tr = $(e.target);
-        var ooi_id = tr.parent().attr("id");
+        var ooi_id = tr.parent().attr('id') || tr.parent().parent().attr('id');
         this.$table.find("tr").removeClass("selected");
         tr.parent().addClass("selected");
-        if (tr.text() == "Details"){
+        if (tr.hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$('#dataset_scroll_left, #dataset_scroll_right').hide();
 			$('#dataset_return_button').unbind('click').one('click', function(e) {
@@ -1098,17 +1128,15 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 		$(".dataTables_wrapper").hide();
         this.$tableWrapper.show();
 		$(".east-south button").hide();
-        $("#save_myresources_changes").show();
-        $(".notification_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#datatable_details_container").hide();
         $("#datatable h1").text(this.tableTitle);
         $("#save_notification_settings").hide(); //button
-        $(".notification_settings").hide();
+		$(".notification_settings, .dispatcher_settings, .user_settings").hide();
 		$('.instrument_agent').hide();
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide();
-        $("h3.my_resources_sidebar").show();
+        $("#east_sidebar h3").hide();
 		$("#datatable_select_buttons").hide();
     }
 
@@ -1121,6 +1149,61 @@ OOI.Views.Workflow109EPUs = OOI.Views.Workflow109.extend({
 OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 	  resourceType: 'identities'
 	, tableTitle: 'Registered Users'
+
+	, initialize: function() {
+        OOI.Views.Workflow109.prototype.initialize.call(this);
+
+        var roleNameToVal = this.roleNameToVal = {};
+		var roleValToName = this.roleValToName = {};
+		$('#user_setting_role option').each(function(i,v) {
+			roleValToName[$(v).val()] = $(v).text();
+			roleNameToVal[$(v).text()] = $(v).val();
+		});
+
+		$('#save_user_changes').click(_.bind(this.save_user, this));
+	}
+
+	, show_detail_clicked: function(e) {
+		OOI.Views.Workflow109.prototype.show_detail_clicked.call(this, e);
+
+		var $td = this.$roleTd = $(e.target);
+		// TODO: This should probably be a lookup into a data Model once we get there
+		var roleName = $td.closest('tr').find('td').eq(-2).text();
+		var roleVal = this.roleNameToVal[roleName];
+
+		this.ooi_id = $td.closest('tr').find('td').eq(0).text();
+		$('#user_setting_role').val(roleVal);
+		$('.user_settings').show();
+
+		$('#save_user_changes').attr('disabled', false);
+	}
+
+	, save_user: function(e) {
+		var role = $('#user_setting_role').val();
+		var self = this;
+
+		self.controller.loading_dialog('Saving user role...');
+		var data = {action: 'setRole', user_ooi_id: this.ooi_id, role: role};
+        $.ajax({url: 'userProfile', type: 'POST', data: data,
+            success: function(resp){
+                self.controller.loading_dialog();
+				self.$roleTd.text(self.roleValToName[role]);
+            },
+            error: function(jqXHR, textStatus, error){
+                self.controller.loading_dialog();
+                alert('Error saving user role');
+            }
+        });
+	}
+
+	, presentation: function() {
+		OOI.Views.Workflow109.prototype.presentation.call(this);
+
+		$('#east_sidebar').show();
+		$('.user_button').show();
+		$('.user_settings').hide();
+		$('#save_user_changes').attr('disabled', true);
+	}
 });
 OOI.Views.Workflow109Datasets = OOI.Views.Workflow109.extend({
 	  resourceType: 'datasets'
@@ -1706,6 +1789,26 @@ OOI.Views.Layout = Backbone.View.extend({
             onclose:function(){self.controller.datatable_resizer();}
         });
         return layout_east_inner;
+    }
+});
+
+
+OOI.Views.SessionMgr = Backbone.View.extend({
+    events: {},
+
+    initialize: function() {
+    	if (CERTIFICATE_TIMEOUT_SECS > 0) {
+    		setTimeout(function() {
+    			var selector = '#certificate-timeout', $el = $(selector);
+    			var $dlg = $.colorbox({inline: true, href: selector, transition: 'none', opacity: 0.7});
+    			$el.find('.guest').one('click', function(e) {
+    				window.location.reload();
+    			});
+    			$el.find('.login').one('click', function(e) {
+    				window.location.href = "login";
+    			});
+    		}, CERTIFICATE_TIMEOUT_SECS * 1000);
+    	}
     }
 });
 

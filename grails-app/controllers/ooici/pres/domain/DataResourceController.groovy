@@ -1,6 +1,9 @@
 package ooici.pres.domain
 
+import org.codehaus.groovy.grails.web.json.JSONArray;
+
 import ion.integration.ais.AppIntegrationService.RequestType
+import grails.converters.JSON
 
 class DataResourceController extends BaseController {
 
@@ -59,6 +62,10 @@ class DataResourceController extends BaseController {
 		
 		preProcessRequest(true)
 		
+		String resourceIdStrings = params.get("data_set_resource_id")
+		JSONArray resourceIdArray = (JSONArray)JSON.parse(resourceIdStrings)
+		params.put("data_set_resource_id",resourceIdArray)
+
 		sendReceive(RequestType.DELETE_DATA_RESOURCE)
 	}
 	
