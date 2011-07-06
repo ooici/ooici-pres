@@ -51,6 +51,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
         if (OOI_ROLES.length === 0) {
             $("#radioMyPubRes, #radioMySub").attr("disabled", "disabled");
+            $(".non_guest").css("color", "#AAAAAA");
             $("#setup_notifications").hide();//TODO: put this in
         }
 

@@ -151,11 +151,11 @@
                 <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td><label for="radioAllPubRes" title="<%= HELP.P1000_SP8 %>">All Registered Resources</label></td>
                 <td><input id="radioMySub" title="<%= HELP.P1000_SP10 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td><label for="radioMySub" title="<%= HELP.P1000_SP10 %>">My Notification Settings</label></td>
+                <td><label class="non_guest" for="radioMySub" title="<%= HELP.P1000_SP10 %>">My Notification Settings</label></td>
               </tr>
               <tr>
                 <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td><label for="radioMyPubRes" title="<%= HELP.P1000_SP9 %>">My Registered Resources</label></td>
+                <td><label class="non_guest" for="radioMyPubRes" title="<%= HELP.P1000_SP9 %>">My Registered Resources</label></td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
               </tr>
