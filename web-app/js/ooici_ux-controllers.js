@@ -161,7 +161,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             "bJQueryUI": true, 
             "bAutoWidth":true,
             "sPaginationType": "full_numbers",
-            "aoColumns": aoColumns
+            "aoColumns": aoColumns,
+            "oLanguage":{"sSearch":"Filter:"}
         });
         return oTable;
     },
