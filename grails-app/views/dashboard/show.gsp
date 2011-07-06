@@ -341,45 +341,23 @@
 
     <br>
     <h3 id="notification_settings" class="notification_settings"><a href="#">Notification Settings</a></h3>
-      <div class="notification_settings" style="padding-left: 10px; padding-right: 10px;">
+      <div class="notification_settings">
         <form action="">
+          <p>Send notifications when:</p>
           <p id="notification_details"></p>
-          <table>
-            <thead>
-            <tr><th width="50%">Send notifications when:</th></tr>
-            </thead>
-            <tr>
-              <td><input id="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td style="padding-right: 30px;"><label for="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update When Available</label></td>
-            </tr>
-            <tr>
-              <td><input id="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td><label for="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></td>
-            </tr>
-          </table>
+          <p><input id="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update when available</label></p>
+        <p><input id="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></p>
         </form>
       </div><!-- end #notification_settings -->
 
     <h3 id="dispatcher_settings" class="dispatcher_settings early_adopter"><a href="#">Dispatcher Settings</a></h3>
-      <div class="dispatcher_settings early_adopter" style="padding-left: 10px; padding-right: 10px;">
+      <div class="dispatcher_settings early_adopter">
         <form action="">
-          <p  style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Notification Triggers</p>
-          <table>
-            <thead>
-            <tr>
-              <th width="50%">Send notifications when:</th>
-            </tr>
-            </thead>
-            <tr>
-              <td><input id="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td style="padding-right: 30px;"><label for="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update When Available</label></td>
-            </tr>
-            <tr>
-              <td><input id="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td><label for="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></td>
-            </tr>
-          </table>
-          <p style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Dispatcher Script</p>
+          <p class="dispatcher_details">Notification Triggers</p>
+          <p>Send notifications when:</p>
+          <p><input id="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update when available</label></p>
+          <p><input id="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></p>
+          <p class="dispatcher_details">Dispatcher Script</p>
           Dispatcher Script Path: <input id="dispatcher_script_path" title="<%= HELP.P1067_SP125 %>" type="text"/>
         </form>
       </div><!-- end #dispatcher_settings -->

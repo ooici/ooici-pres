@@ -230,6 +230,10 @@ tr.odd {
 .dispatcher_settings {
   display:none;
 }
+.dispatcher_details {
+    font-weight:bold;
+    border-bottom:1px solid #555;
+}
 #start_notifications {
   display:none;
 }
