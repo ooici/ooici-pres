@@ -80,7 +80,7 @@
       </table>
 
        <table id="datatable_104" class="datatable" cellpadding="0" cellspacing="0" border="0">
-          <thead><tr><th>&nbsp;</th><th>Resource Title</th><th>Source</th><th>Notification Initiated</th><th>Details</th> </tr></thead>
+          <thead><tr><th>&nbsp;</th><th>Resource Title</th><th>Source</th><th>Notification Initiated</th></tr></thead>
           <tbody></tbody>
        </table>
 

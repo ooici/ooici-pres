@@ -146,7 +146,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 var aoColumns = [{sWidth:'15%'}, {sWidth:'20%'}, {sWidth:'15%'}, {sWidth:'10%'}, {sWidth:'20%'}, {sWidth:'15%'}];
                 break;
             case "#datatable_104":
-                var aoColumns = [{sWidth:'8%'}, {sWidth:'23%'}, {sWidth:'23%'}, {sWidth:'23%'}, {sWidth:'23%'}];
+                var aoColumns = [{sWidth:'6%'}, {sWidth:'32%'}, {sWidth:'32%'}, {sWidth:'30%'}];
                 break;
             case "#datatable_106":
                 var aoColumns = [{sWidth:'5%'}, {sWidth:'10%'}, {sWidth:'8%'}, {sWidth:'27%'}, {sWidth:'25%'}, {sWidth:'15%'}, {sWidth:'10%'}];

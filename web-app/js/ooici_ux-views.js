@@ -309,7 +309,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "render", "show_detail_clicked", "setup_notifications", "start_notifications", "save_notifications_changes"); 
         this.controller = this.options.controller;
-        this.datatable = this.controller.datatable_init("#datatable_104", 5);
+        this.datatable = this.controller.datatable_init("#datatable_104", 4);
         var self = this;
     },
 
@@ -342,7 +342,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
                     self.controller.my_notifications_collection.add(model_info);
                     var new_date = new Date(elem.subscriptionInfo.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    self.datatable.fnAddData([cb, elem.datasetMetadata.title, elem.datasetMetadata.source, pretty_date, "Details"]);
+                    self.datatable.fnAddData([cb, elem.datasetMetadata.title, elem.datasetMetadata.source, pretty_date]);
                     $($("#datatable_104").dataTable().fnGetNodes(i)).attr("id", elem.subscriptionInfo.data_src_id);
                 });
                 $("#datatable_select_buttons").show();
