@@ -143,6 +143,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#datatable_100 tr").removeClass("selected");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
+            $("#datatable h1").text("Metadata");
             $("#datatable_details_scroll, #datatable_details_container").show();
             $("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
@@ -174,7 +175,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail_all: function(resp, data_resource_id) {
-        $("#datatable h1").text("Metadata");
         var html = "";
         var dataResourceSummary = resp.dataResourceSummary;
         $.each(dataResourceSummary, function(v){
@@ -373,7 +373,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e){
-        $(".notification_settings").show();
+        $(".notification_settings, .dispatcher_settings").show();
         var tr = $(e.target);
         var data_resource_id = tr.parent().attr("id"); 
         if (data_resource_id == ""){
@@ -512,7 +512,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $(".notification_settings, .dispatcher_settings, .user_settings").hide();
         $(".notification_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
-        $("#datatable h1").text("Notification Settings");
+        $("#datatable h1").text("My Notification Settings");
         $(".data_sources").hide();
 		$('.instrument_agent').hide();
         $("#geospatial_selection_button").hide();
@@ -815,6 +815,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#datatable_106 tr").removeClass("selected");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
+            $("#datatable h1").text("Metadata");
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
@@ -840,7 +841,6 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail_all: function(resp, data_resource_id) {
-        $("#datatable h1").text("Metadata");
         var html = "";
         var dataResourceSummary = resp.dataResourceSummary;
         $.each(dataResourceSummary, function(v){
@@ -1104,7 +1104,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 		// The CSS here should be moved into one of the stylesheets; doing inline here to avoid interfering with Alex's work
 		var labelCss = {display: 'block', float: 'left', width: '24em', margin: 0};
 		var fieldCss = {display: 'block', float: 'left', width: '20em', margin: '0 1.5em 0 0'};
-		var fieldsetCss = {width: '100%', fontSize: '1.25em', margin: 0, padding: '1.5em', border: 0};
+		var fieldsetCss = {fontSize: '1.25em', margin: 0, padding: '1.5em', border: 0};
 
 		var $fieldset = $('<fieldset/>').css(fieldsetCss);
 		$(resp.resource).each(function(i,v) {

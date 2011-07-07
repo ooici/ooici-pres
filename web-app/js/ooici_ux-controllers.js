@@ -51,6 +51,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
         if (OOI_ROLES.length === 0) {
             $("#radioMyPubRes, #radioMySub").attr("disabled", "disabled");
+            $(".non_guest").css("color", "#AAAAAA");
             $("#setup_notifications").hide();//TODO: put this in
         }
 
@@ -161,7 +162,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             "bJQueryUI": true, 
             "bAutoWidth":true,
             "sPaginationType": "full_numbers",
-            "aoColumns": aoColumns
+            "aoColumns": aoColumns,
+            "oLanguage":{"sSearch":"Filter:"}
         });
         return oTable;
     },
