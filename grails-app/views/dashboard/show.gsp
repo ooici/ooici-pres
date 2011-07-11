@@ -367,8 +367,7 @@
       <h3 class="user_settings"><a href="#">User Role Settings</a></h3>
       <div class="user_settings" id="user_role_panel">
         <label for="user_setting_role">Role: </label>
-        <select id="user_setting_role" name="user_setting_role">
-          <option value="AUTHENTICATED">User</option>
+        <select id="user_setting_role" name="user_setting_role" multiple size="4">
           <option value="DATA_PROVIDER">Data Provider</option>
           <option value="MARINE_OPERATOR">Marine Operator</option>
           <option value="EARLY_ADOPTER">Early Adopter</option>

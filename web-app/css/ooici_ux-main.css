@@ -410,4 +410,10 @@ tr.odd {
 .ui-timepicker-div dl dd{ margin: -25px 10px 10px 65px; }
 .ui-timepicker-div td { font-size: 90%; }
 
+#user_role_panel label {
+    display: block;
+    float: left;
+    margin-right: 0.5em;
+}
+
 
