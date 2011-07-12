@@ -1230,6 +1230,9 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         $("#geospatialContainer input").change(function(){
             $("#apply_filter_button").removeAttr("disabled");
         });
+        $("#temporalExtent input").change(function(){
+            $("#apply_filter_button").removeAttr("disabled");
+        });
         $("#apply_filter_button").click(function(){
             var current_view = $("#view_existing input[type='radio']:checked").attr("id");
             switch(current_view){
