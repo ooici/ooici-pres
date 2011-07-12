@@ -87,7 +87,7 @@
        </table>
 
        <table id="datatable_106" class="datatable" cellpadding="0" cellspacing="0" border="0">
-            <thead><tr><th>&nbsp;</th><th>Active</th><th>Avail.</th><th>My Registration Title</th><th>Original Source Title</th><th>Publication Date</th><th>Details</th></tr></thead>
+            <thead><tr><th>&nbsp;</th><th>Active</th><th>Availability</th><th>My Registration Title</th><th>Original Source Title</th><th>Publication Date</th><th>Details</th></tr></thead>
             <tbody></tbody>
        </table>
 
@@ -151,11 +151,11 @@
                 <td><input id="radioAllPubRes" title="<%= HELP.P1000_SP8 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
                 <td><label for="radioAllPubRes" title="<%= HELP.P1000_SP8 %>">All Registered Resources</label></td>
                 <td><input id="radioMySub" title="<%= HELP.P1000_SP10 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td><label for="radioMySub" title="<%= HELP.P1000_SP10 %>">My Notification Settings</label></td>
+                <td><label class="non_guest" for="radioMySub" title="<%= HELP.P1000_SP10 %>">My Notification Settings</label></td>
               </tr>
               <tr>
                 <td><input id="radioMyPubRes" title="<%= HELP.P1000_SP9 %>" class="resource_selector controlradios" name="group1" type="radio"/></td>
-                <td><label for="radioMyPubRes" title="<%= HELP.P1000_SP9 %>">My Registered Resources</label></td>
+                <td><label class="non_guest" for="radioMyPubRes" title="<%= HELP.P1000_SP9 %>">My Registered Resources</label></td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
               </tr>
@@ -303,22 +303,21 @@
         <div id="ds_title"></div><br>
       </div>
 
-      <h3 class="data_sources"><a href="#">Resources Registration Contact Information</a></h3>
+      <h3 class="data_sources"><a href="#">Resource Registration Contact Information</a></h3>
       <div class="data_sources registered_registration_contact_editable">
         <div id="ds_publisher_contact"></div><br>
       </div>
 
-      <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Availability Settings</a></h3>
+      <h3 class="data_sources my_resources_sidebar"><a href="#">Resource Availability Settings</a></h3>
       <div class="data_sources registered_registration_availability_editable my_resources_sidebar">
         <div><input id="availability_radio_private" title="<%= HELP.P1064_SP255 %>" name="availability_radio" type="radio"/><label for="availability_radio_private" title="<%= HELP.P1064_SP255 %>">Resource is private and available to me only</label></div>
         <div><input id="availability_radio_public" title="<%= HELP.P1064_SP255 %>" name="availability_radio" type="radio"/><label for="availability_radio_public" title="<%= HELP.P1064_SP255 %>">Resource is publically available</label></div>
       </div>
 
-      <h3 class="data_sources my_resources_sidebar"><a href="#">Resources Polling Settings</a></h3>
+      <h3 class="data_sources my_resources_sidebar"><a href="#">Resource Activation Settings</a></h3>
       <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
-        <div><strong>Polling Interval</strong></div>
-        <div><input id="polling_radio_yes" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_yes" title="<%= HELP.P1064_SP196 %>">Poll resource every: </label><input id="polling_time" title="<%= HELP.P1064_SP197 %>" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</div>
-        <div><input id="polling_radio_no" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_no" title="<%= HELP.P1064_SP196 %>">Do not poll the resource</label></div>
+        <div><input id="polling_radio_yes" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_yes" title="<%= HELP.P1064_SP196 %>">Activate resource <br><span style="margin-left:40px">Poll every: </label><input id="polling_time" title="<%= HELP.P1064_SP197 %>" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</span></div>
+        <div><input id="polling_radio_no" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_no" title="<%= HELP.P1064_SP196 %>">Deactivate resource</label></div>
       </div>
 
       <h3 class="data_sources"><a href="#">Original Source Description</a></h3>
@@ -341,45 +340,23 @@
 
     <br>
     <h3 id="notification_settings" class="notification_settings"><a href="#">Notification Settings</a></h3>
-      <div class="notification_settings" style="padding-left: 10px; padding-right: 10px;">
+      <div class="notification_settings">
         <form action="">
+          <p>Send notifications when:</p>
           <p id="notification_details"></p>
-          <table>
-            <thead>
-            <tr><th width="50%">Send notifications when:</th></tr>
-            </thead>
-            <tr>
-              <td><input id="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td style="padding-right: 30px;"><label for="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update When Available</label></td>
-            </tr>
-            <tr>
-              <td><input id="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td><label for="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></td>
-            </tr>
-          </table>
+          <p><input id="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update when available</label></p>
+        <p><input id="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></p>
         </form>
       </div><!-- end #notification_settings -->
 
     <h3 id="dispatcher_settings" class="dispatcher_settings early_adopter"><a href="#">Dispatcher Settings</a></h3>
-      <div class="dispatcher_settings early_adopter" style="padding-left: 10px; padding-right: 10px;">
+      <div class="dispatcher_settings early_adopter">
         <form action="">
-          <p  style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Notification Triggers</p>
-          <table>
-            <thead>
-            <tr>
-              <th width="50%">Send notifications when:</th>
-            </tr>
-            </thead>
-            <tr>
-              <td><input id="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td style="padding-right: 30px;"><label for="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update When Available</label></td>
-            </tr>
-            <tr>
-              <td><input id="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/></td>
-              <td><label for="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></td>
-            </tr>
-          </table>
-          <p style="font-weight:bold;border-bottom:1px solid #555" class="dispatcher_details">Dispatcher Script</p>
+          <p class="dispatcher_details">Notification Triggers</p>
+          <p>Send notifications when:</p>
+          <p><input id="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update when available</label></p>
+          <p><input id="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></p>
+          <p class="dispatcher_details">Dispatcher Script</p>
           Dispatcher Script Path: <input id="dispatcher_script_path" title="<%= HELP.P1067_SP125 %>" type="text"/>
         </form>
       </div><!-- end #dispatcher_settings -->
@@ -390,8 +367,7 @@
       <h3 class="user_settings"><a href="#">User Role Settings</a></h3>
       <div class="user_settings" id="user_role_panel">
         <label for="user_setting_role">Role: </label>
-        <select id="user_setting_role" name="user_setting_role">
-          <option value="AUTHENTICATED">User</option>
+        <select id="user_setting_role" name="user_setting_role" multiple size="4">
           <option value="DATA_PROVIDER">Data Provider</option>
           <option value="MARINE_OPERATOR">Marine Operator</option>
           <option value="EARLY_ADOPTER">Early Adopter</option>

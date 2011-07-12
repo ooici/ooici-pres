@@ -230,6 +230,10 @@ tr.odd {
 .dispatcher_settings {
   display:none;
 }
+.dispatcher_details {
+    font-weight:bold;
+    border-bottom:1px solid #555;
+}
 #start_notifications {
   display:none;
 }
@@ -405,5 +409,11 @@ tr.odd {
 .ui-timepicker-div dl dt{ height: 25px; }
 .ui-timepicker-div dl dd{ margin: -25px 10px 10px 65px; }
 .ui-timepicker-div td { font-size: 90%; }
+
+#user_role_panel label {
+    display: block;
+    float: left;
+    margin-right: 0.5em;
+}
 
 
