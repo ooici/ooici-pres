@@ -102,6 +102,13 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
         var hash_args = document.location.hash.split("/");
         var nth_elem = parseInt(hash_args[1]); 
         var next_n = nth_elem + 1;
+        var current = hash_args[0];
+        if (current == "" || current == "#" ){
+            if (next_n > this.controller.resource_collection.models.length - 1) next_n = 0;
+        }
+        if (current == "#registered"){
+            if (next_n > this.controller.my_resources_collection.models.length - 1) next_n = 0;
+        }
         document.location.hash = hash_args[0]+"/"+next_n;
     },
 
