@@ -229,6 +229,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
+        if (OOI_ROLES.length === 0) { //Guest User
+            $("#setup_notifications").attr("disabled", "disabled");
+        }
         //XXX should this be hidden? $(".my_resources_sidebar").hide();
         $("#download_dataset_button").unbind('click').click(function(e) {
 		var url = 'http://thredds.oceanobservatories.org/thredds/dodsC/ooiciData/' + resp.data_resource_id + '.ncml.html';
@@ -290,9 +293,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#datatable_details_scroll").hide();
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
-        if (OOI_ROLES.length === 0) {
-            $("#setup_notifications").hide();
-        }
 		$('.instrument_agent').hide();
         $("h3.data_sources").show();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
