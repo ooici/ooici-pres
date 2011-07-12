@@ -232,17 +232,10 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if (OOI_ROLES.length === 0) { //Guest User
             $("#setup_notifications").attr("disabled", "disabled");
         }
-        //XXX should this be hidden? $(".my_resources_sidebar").hide();
         $("#download_dataset_button").unbind('click').click(function(e) {
-		var url = 'http://thredds.oceanobservatories.org/thredds/dodsC/ooiciData/' + resp.data_resource_id + '.ncml.html';
-		//url = 'http://geoport.whoi.edu/thredds/dodsC/waves/ww3_multi/at_4m_all.html';
-
-		var $frame = $('<iframe class="thredds-frame" border="0"></iframe').attr('src', url);
-		var $cont = $('<div class="thredds-container"></div>').append($frame);
-		var $closeBtn = $('<button class="frame-close">Close Download</button>').appendTo($cont).click(function(e) {
-			$cont.remove();
-		});
-		$('.ui-layout-center:first').append($cont);
+            var model = self.controller.resource_collection.get_by_dataset_id(resp.data_resource_id);
+            var url = model.get("datasetMetadata").download_url;
+            window.open(url);
 	    });
         self.controller.loading_dialog();
         $(".my_resources_sidebar").hide();
