@@ -19,6 +19,9 @@ body {
     overflow:hidden;
     background-color:#15151F;
 }
+.center-south {
+    overflow-y:hidden;
+}
 #loading_message {
     position:absolute;
     margin:0 auto;
