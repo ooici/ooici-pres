@@ -1142,6 +1142,19 @@ OOI.Views.Workflow109 = Backbone.View.extend({
 
 });
 
+/**
+ * Super-efficient string trim, taken from:
+ * http://flesler.blogspot.com/2008/11/fast-trim-function-for-javascript.html
+ *
+ * @param {Object} str - The string to trim
+ */
+function trim(str) {
+        var start = -1, end = str.length;
+        while (str.charCodeAt(--end) < 33) {;};
+        while (str.charCodeAt(++start) < 33) {;};
+        return str.slice(start, end + 1);
+};
+
 OOI.Views.Workflow109EPUs = OOI.Views.Workflow109.extend({
 	  resourceType: 'epucontrollers'
 	, tableTitle: 'Running EPUs'
@@ -1169,21 +1182,25 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 		var $td = this.$roleTd = $(e.target);
 		// TODO: This should probably be a lookup into a data Model once we get there
 		var roleName = $td.closest('tr').find('td').eq(-2).text();
-		var roleVal = this.roleNameToVal[roleName];
+		var roleNameToVal = this.roleNameToVal;
+		var roleVals = _.map(roleName.split(','), function(roleName) {
+			return roleNameToVal[trim(roleName)];
+		});
 
 		this.ooi_id = $td.closest('tr').find('td').eq(0).text();
-		$('#user_setting_role').val(roleVal);
+		$('#user_setting_role').val(roleVals);
 		$('.user_settings').show();
 
 		$('#save_user_changes').attr('disabled', false);
 	}
 
 	, save_user: function(e) {
-		var role = $('#user_setting_role').val();
+		var roles = $('#user_setting_role').val();
+		if (roles === null || roles.length == 0) roles = ['AUTHENTICATED'];
 		var self = this;
 
 		self.controller.loading_dialog('Saving user role...');
-		var data = {action: 'setRole', user_ooi_id: this.ooi_id, role: role};
+		var data = {action: 'setRole', user_ooi_id: this.ooi_id, role: roles.join(',')};
         $.ajax({url: 'userProfile', type: 'POST', data: data,
             success: function(resp){
                 self.controller.loading_dialog();
