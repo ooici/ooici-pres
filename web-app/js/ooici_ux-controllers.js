@@ -195,7 +195,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     error_dialog: function(path, error_type, error_msg){
         this.loading_dialog();
         var contact_msg = "Contact helpdesk@oceanobservatories.org";
-        if (error_type === 400){
+        if ((error_type+"").slice(0,2) === "40"){ //Trigger on all 40x errors
             var msg = error_msg + " '"+path+"'";
         }
         if (error_type === 500){
