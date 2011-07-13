@@ -102,6 +102,13 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
         var hash_args = document.location.hash.split("/");
         var nth_elem = parseInt(hash_args[1]); 
         var next_n = nth_elem + 1;
+        var current = hash_args[0];
+        if (current == "" || current == "#" ){
+            if (next_n > this.controller.resource_collection.models.length - 1) next_n = 0;
+        }
+        if (current == "#registered"){
+            if (next_n > this.controller.my_resources_collection.models.length - 1) next_n = 0;
+        }
         document.location.hash = hash_args[0]+"/"+next_n;
     },
 
@@ -229,17 +236,13 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
-        //XXX should this be hidden? $(".my_resources_sidebar").hide();
+        if (OOI_ROLES.length === 0) { //Guest User
+            $("#setup_notifications").attr("disabled", "disabled");
+        }
         $("#download_dataset_button").unbind('click').click(function(e) {
-		var url = 'http://thredds.oceanobservatories.org/thredds/dodsC/ooiciData/' + resp.data_resource_id + '.ncml.html';
-		//url = 'http://geoport.whoi.edu/thredds/dodsC/waves/ww3_multi/at_4m_all.html';
-
-		var $frame = $('<iframe class="thredds-frame" border="0"></iframe').attr('src', url);
-		var $cont = $('<div class="thredds-container"></div>').append($frame);
-		var $closeBtn = $('<button class="frame-close">Close Download</button>').appendTo($cont).click(function(e) {
-			$cont.remove();
-		});
-		$('.ui-layout-center:first').append($cont);
+            var model = self.controller.resource_collection.get_by_dataset_id(resp.data_resource_id);
+            var url = model.get("datasetMetadata").download_url;
+            window.open(url);
 	    });
         self.controller.loading_dialog();
         $(".my_resources_sidebar").hide();
@@ -290,9 +293,6 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#datatable_details_scroll").hide();
         $("#geospatial_selection_button").show();
         $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
-        if (OOI_ROLES.length === 0) {
-            $("#setup_notifications").hide();
-        }
 		$('.instrument_agent').hide();
         $("h3.data_sources").show();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
@@ -1252,6 +1252,9 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
 
     apply_filter:function(){
         $("#geospatialContainer input").change(function(){
+            $("#apply_filter_button").removeAttr("disabled");
+        });
+        $("#temporalExtent input").change(function(){
             $("#apply_filter_button").removeAttr("disabled");
         });
         $("#apply_filter_button").click(function(){
