@@ -424,6 +424,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var dispatcher_alerts_filter = model.get("dispatcher_alerts_filter");
         var dispatcher_script_path = model.get("dispatcher_script_path");
         if (subscription_type === "EMAIL" || subscription_type === "EMAILANDDISPATCHER"){
+            $("#updateWhenAvailable, #datasourceIsOffline").removeAttr("checked");
             switch (email_alerts_filter){
                 case "UPDATES":
                     $("#updateWhenAvailable").attr("checked", "checked");
@@ -441,6 +442,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         }
         if (subscription_type === "DISPATCHER" || subscription_type === "EMAILANDDISPATCHER"){
             $("#dispatcher_script_path").val(dispatcher_script_path);
+            $("#dispatcher_updateWhenAvailable, #dispatcher_datasourceIsOffline").removeAttr("checked");
             switch (dispatcher_alerts_filter){
                 case "UPDATES":
                     $("#dispatcher_updateWhenAvailable").attr("checked", "checked");
