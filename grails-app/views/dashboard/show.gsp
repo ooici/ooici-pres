@@ -616,6 +616,104 @@
      	<br/><br/><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description' title='<%= HELP.P1064_SP258 %>'></textarea>
 		<br/><br/><span style='position:relative;top:-32px'>Visualization URL:</span><textarea style='width:167px' id='resource_registration_visualization_url' title='<%= HELP.P1064_SP256 %>'></textarea>
 	</div>
+
+	<div id="template-dataset-details">
+
+     <div class="dataset-detail">
+        <div class="name">Ion title:</div>
+        <div class="value">{{ ion_title }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Ion description:</div>
+        <div class="value">{{ ion_description }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Visulization url:</div>
+        <div class="value">{{ visualization_url }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Ion name:</div>
+        <div class="value">{{ ion_name }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Ion email:</div>
+        <div class="value">{{ ion_email }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Ion institution:</div>
+        <div class="value">{{ ion_institution }}</div>
+     </div>
+
+     <br>
+
+     <div class="dataset-detail">
+        <div class="name">Title:</div>
+        <div class="value">{{ title }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Institution:</div>
+        <div class="value">{{ institution }}</div>
+     </div>
+
+     <br>
+    
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lat min:</div>
+        <div class="value">{{ ion_geospatial_lat_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lat max:</div>
+        <div class="value">{{ ion_geospatial_lat_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lon min:</div>
+        <div class="value">{{ ion_geospatial_lon_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lon max:</div>
+        <div class="value">{{ ion_geospatial_lon_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical min:</div>
+        <div class="value">{{ ion_geospatial_vertical_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical max:</div>
+        <div class="value">{{ ion_geospatial_vertical_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical positive:</div>
+        <div class="value">{{ ion_geospatial_vertical_positive }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion time coverage start:</div>
+        <div class="value">{{ ion_time_coverage_start }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion time coverage end:</div>
+        <div class="value">{{ ion_time_coverage_end }}</div>
+    </div>
+
+    <div class="dataset-detail">
+        <div class="name">Source:</div>
+        <div class="value">{{ source }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Base url:</div>
+        <div class="value">{{ base_url }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">References:</div>
+        <div class="value">{{ references }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Station id:</div>
+        <div class="value">{{ station_id }}</div>
+    </div>
+
+    <br> {{ dimensions }} <br> {{ variables }} <br> {{ other_attributes }} <br>
+
+    </div>
 </div>
 
 </body>

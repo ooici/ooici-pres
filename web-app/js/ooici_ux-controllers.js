@@ -21,6 +21,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
         this.layout = new OOI.Views.Layout({"el":"#layoutContainer", controller:this}); 
 
+        _.templateSettings = {interpolate : /\{\{(.+?)\}\}/g}; //underscore.js templates
+
         this.resource_collection = new OOI.Collections.Resources();
         this.my_resources_collection = new OOI.Collections.MyResources();
         this.my_notifications_collection = new OOI.Collections.MyNotifications();
