@@ -145,6 +145,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
+        if ( $(e.target).hasClass("dataTables_empty") ) return;
         var tr_target = $(e.target).parents("tr");
         var data_resource_id = tr_target.attr("id"); 
         $("#datatable_100 tr").removeClass("selected");
@@ -408,8 +409,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e){
-        $(".notification_settings, .dispatcher_settings").show();
         var tr = $(e.target);
+        if ( tr.hasClass("dataTables_empty") ) return;
+        $(".notification_settings, .dispatcher_settings").show();
         var data_resource_id = tr.parent().attr("id"); 
         if (data_resource_id == ""){
             data_resource_id = tr.parent().parent().attr("id");  //click on the checkbox
@@ -845,6 +847,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
+        if ( $(e.target).hasClass("dataTables_empty") ) return;
         var tr_target = $(e.target).parents("tr");
         var data_resource_id = tr_target.attr("id"); 
         $("#datatable_106 tr").removeClass("selected");
