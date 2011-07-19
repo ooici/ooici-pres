@@ -762,12 +762,15 @@ OOI.Views.ResourceActions = Backbone.View.extend({
             var nums = val.split(":");
             if (nums.length != 3){
                 $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+                $("#save_myresources_changes").attr("disabled", "disabled");
             } else {
                 var n0 = nums[0], n1 = nums[1], n2 = nums[2];
                 if ( n0.length != 2 || n0 == "" || isNaN(n0) || n1.length != 2 || n1 == "" || isNaN(n1) || n2.length != 2 || n2 == "" || isNaN(n2)  ){
                     $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+                    $("#save_myresources_changes").attr("disabled", "disabled");
                 } else {
                     $(e.target).attr("style", "");
+                    $("#save_myresources_changes").removeAttr("disabled");
                 }
             }
         });
@@ -1098,7 +1101,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $("h3.my_resources_sidebar").show();
-        //$("h3.data_sources").show();
+        $("h3.data_sources").show();
     }
 
 });
@@ -1381,8 +1384,10 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var val = $(e.target).val();
         if (isNaN(val) && val !== ""){
             $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+            $("#apply_filter_button").attr("disabled", "disabled");
         } else {
             $(e.target).attr("style", "");
+            $("#apply_filter_button").removeAttr("disabled");
         }
     },
 
