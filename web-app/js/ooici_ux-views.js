@@ -185,7 +185,9 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     show_detail_all: function(resp, data_resource_id) {
         var dataResourceSummary = resp.dataResourceSummary, source = resp.source || {};
 
-        $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
+        if ( $("#datatable_details_container").is(":visible") ) { //only if view dataset details:
+            $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
+        }
         
         var tmpl_str = $("#template-dataset-details").html();
 
@@ -895,7 +897,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     show_detail_all: function(resp, data_resource_id) {
         var dataResourceSummary = resp.dataResourceSummary, source = resp.source || {};
         
-        $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
+        if ( $("#datatable_details_container").is(":visible")) { //only if view dataset details:
+            $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
+        }
 
         var tmpl_str = $("#template-dataset-details").html();
 
