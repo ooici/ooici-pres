@@ -617,6 +617,20 @@
 		<br/><br/><span style='position:relative;top:-32px'>Visualization URL:</span><textarea style='width:167px' id='resource_registration_visualization_url' title='<%= HELP.P1064_SP256 %>'></textarea>
 	</div>
 
+    <div id="template-bounding-box">
+        <div class="boundingBoxControlsSidebar">
+          <span class="bb_direction Ntext" title="<%= HELP.P1001_SP26 %>">N</span>
+          <input id="ge_bb_north" value="{{ north }}" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Stext" title="<%= HELP.P1001_SP26 %>">S</span>
+          <input id="ge_bb_south" value="{{ south }}" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Etext" title="<%= HELP.P1001_SP26 %>">E</span>
+          <input id="ge_bb_east" value="{{ east }}" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Wtext" title="<%= HELP.P1001_SP26 %>">W</span>
+          <input id="ge_bb_west" value="{{ west }}"  title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
+          <span class="NSEWBackgroundBorder"></span>
+        </div>
+    </div>
+
 	<div id="template-dataset-details">
 
      <div class="dataset-detail">
