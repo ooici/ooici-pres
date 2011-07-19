@@ -169,7 +169,7 @@ div#icons {
 .boundingBoxControls {
 	position:absolute;
 	top:77px;
-	left:15px;
+	left:-10px;
 	/*background-color:#cccccc;*/
 	width:180px;
 	height: 85px;
@@ -179,7 +179,7 @@ div#icons {
 }
 .boundingBoxControlsSidebar {
 	position:absolute;
-	left:-10px;
+	left:15px;
 	/*background-color:#cccccc;*/
 	width:180px;
 	height: 85px;

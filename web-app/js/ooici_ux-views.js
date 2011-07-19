@@ -267,7 +267,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#ds_source_contact").html(ds_source_contact);
         $("#ds_variables").html(self.format_variables(resp.variable || {}));
         var geo_html = this.format_geospatial(data);
-        $("#ds_geospatial_coverage").html(geo_html); //"lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+        $("#ds_geospatial_coverage").html(geo_html); 
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
         $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
         $(".data_sources").show();
@@ -1032,7 +1032,8 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     		var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
             $("#ds_source_contact").html(ds_source_contact);
             $("#ds_variables").html(self.format_variables(resp.variable || {}));
-            $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+            var geo_html = self.format_geospatial(data);
+            $("#ds_geospatial_coverage").html(geo_html);
             $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
             $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
             $(".data_sources").show();
@@ -1063,6 +1064,13 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 			});
 		}
 		
+    },
+
+    format_geospatial:function(data){
+        var tmpl_str = $("#template-bounding-box").html();
+        var tmpl_vals = {"north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max};
+        var html = _.template(tmpl_str, tmpl_vals);
+        return html;
     },
 
     presentation: function(){
