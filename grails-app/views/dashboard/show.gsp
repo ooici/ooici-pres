@@ -262,6 +262,7 @@
             <img id="vertical_extent_below" title="<%= HELP.P1001_SP28 %>" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
             </span>
         </div>
+        <div style="color:#aaa" class="ge-footer-text">Format: DD.DDDD<br>Decimal Degrees</div>
       </div>
       <h3 class="view_existing"><a href="#">Temporal Extent</a></h3>
       <div id="temporalExtent" class="temporalExtentContainer view_existing">

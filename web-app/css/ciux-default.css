@@ -168,7 +168,7 @@ div#icons {
 
 .boundingBoxControls {
 	position:absolute;
-	top:77px;
+	top:52px;
 	left:-10px;
 	/*background-color:#cccccc;*/
 	width:180px;
@@ -264,7 +264,7 @@ div#icons {
 
 .altitudeControls {
 	position:absolute;
-	top:25px;
+	top:-2px;
 	left:159px;
 	/*background-color:#cccccc;*/
 	width:150px;
@@ -358,6 +358,12 @@ Temporal Extent
 	width:110px;
 }
 
+.ge-footer-text {
+    position:relative;
+    top:130px;
+    left:35px;
+	width:100%;
+}
 .te-footer-text {
 	position:inherit;
 	top:20px;
