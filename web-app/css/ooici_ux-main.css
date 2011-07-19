@@ -334,6 +334,12 @@ tr.odd {
     top:0px;
 }
 
+.ui-accordion .accordion-inactive a {
+    cursor:default;
+}
+.ui-accordion .accordion-inactive span { /* +/- element */
+    display:none;
+}
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
     background: url("images/FIXME.png") repeat-x scroll 50% 50% #F5F5F5;

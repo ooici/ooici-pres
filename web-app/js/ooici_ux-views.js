@@ -149,6 +149,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         var tr_target = $(e.target).parents("tr");
         var data_resource_id = tr_target.attr("id"); 
         $("#datatable_100 tr").removeClass("selected");
+        $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
             $("#datatable_details_scroll, #datatable_details_container").show();
@@ -417,6 +418,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e){
+        $(".notification_settings, .dispatcher_settings").show();
+        $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         var tr = $(e.target);
         if ( tr.hasClass("dataTables_empty") ) return;
         $(".notification_settings, .dispatcher_settings").show();
@@ -861,6 +864,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         var tr_target = $(e.target).parents("tr");
         var data_resource_id = tr_target.attr("id"); 
         $("#datatable_106 tr").removeClass("selected");
+        $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
             $("#datatable h1").text("Metadata");
@@ -1036,7 +1040,6 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             $("#ds_geospatial_coverage").html(geo_html);
             $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
             $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
-            $(".data_sources").show();
             $(".notification_settings, .dispatcher_settings").hide();
             $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
         }
@@ -1091,6 +1094,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $("h3.my_resources_sidebar").show();
+        //$("h3.data_sources").show();
     }
 
 });

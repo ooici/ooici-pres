@@ -88,6 +88,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     all_registered_resources: function(){
+        this.reset_sidebar();
         this.workflow100.render();
     },
 
@@ -103,10 +104,12 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     my_notification_settings: function(){
+        this.reset_sidebar();
         this.workflow104.render();
     },
 
     my_registered_resources: function(){
+        this.reset_sidebar();
         this.workflow106.render();
     },
 
@@ -168,6 +171,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             "oLanguage":{"sSearch":"Filter:"}
         });
         return oTable;
+    },
+
+    reset_sidebar: function(){
+        $("#eastMultiOpenAccordion h3").addClass("accordion-inactive");
     },
 
     datatable_resizer: function(dobind){
