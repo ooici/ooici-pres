@@ -241,7 +241,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         html = "<div class='detail'><strong>Variables</strong>";
         $.each(data, function(v){
             var vari = data[v];
-            var var_string = vari.name + " (" + vari.units +") [" + vari.standard_name +"]";
+            var var_string = (vari.name?vari.name:"N/A") + " (" + (vari.units?vari.units:"N/A") +") [" + (vari.standard_name?vari.standard_name:"N/A") +"]";
             html += "<div>"+var_string+"</div>";
         });
         html += "</div>";
@@ -956,7 +956,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         html = "<div class='detail'><strong>Variables</strong>";
         $.each(data, function(v){
             var vari = data[v];
-            var var_string = vari.name + " (" + vari.units +") [" + vari.standard_name +"]";
+            var var_string = (vari.name?vari.name:"N/A") + " (" + (vari.units?vari.units:"N/A") +") [" + (vari.standard_name?vari.standard_name:"N/A") +"]";
             html += "<div>"+var_string+"</div>";
         });
         html += "</div>";
