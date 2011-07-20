@@ -1478,12 +1478,15 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             data["minLongitude"] = minLongitude;
             data["maxLongitude"] = maxLongitude;
         }
+        var default_minVertical = false, default_maxVertical = false;
         if ($("#radioAltitudeDefined").is(":checked")){
             if (minVertical === "" && maxVertical === ""){
                 minVertical = -99999; //default 'highest possible atmosphere height'
+                default_minVertical = true;
             }
             if (minVertical !== "" && maxVertical === ""){
                 maxVertical = 99999; //default 'lowest possible ocean depth'
+                default_maxVertical = true;
             }
             minVertical = parseInt(minVertical), maxVertical = parseInt(maxVertical);
             if ($("#vertical_extent_units_toggle").text() === "ft"){
@@ -1491,8 +1494,16 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             }
             var upper_sign = ($("#vertical_extent_above").attr("src").indexOf("Above") > 0) ? -1 : 1;
             var lower_sign = ($("#vertical_extent_below").attr("src").indexOf("Above") > 0) ? -1 : 1;
-            data["minVertical"] = minVertical * upper_sign;
-            data["maxVertical"] = maxVertical * lower_sign;
+            if (default_minVertical) {
+                data["minVertical"] = minVertical;
+            } else {
+                data["minVertical"] = minVertical * upper_sign;
+            }
+            if (default_maxVertical) {
+                data["maxVertical"] = maxVertical;
+            } else {
+                data["maxVertical"] = maxVertical * lower_sign;
+            }
             data["posVertical"] = posVertical;
         }
         if ($("#TE_timeRange_defined").is(":checked")){
