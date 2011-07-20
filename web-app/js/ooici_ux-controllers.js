@@ -21,6 +21,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
         this.layout = new OOI.Views.Layout({"el":"#layoutContainer", controller:this}); 
 
+        _.templateSettings = {interpolate : /\{\{(.+?)\}\}/g}; //underscore.js templates
+
         this.resource_collection = new OOI.Collections.Resources();
         this.my_resources_collection = new OOI.Collections.MyResources();
         this.my_notifications_collection = new OOI.Collections.MyNotifications();
@@ -86,6 +88,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     all_registered_resources: function(){
+        this.reset_sidebar();
         this.workflow100.render();
     },
 
@@ -101,10 +104,12 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     my_notification_settings: function(){
+        this.reset_sidebar();
         this.workflow104.render();
     },
 
     my_registered_resources: function(){
+        this.reset_sidebar();
         this.workflow106.render();
     },
 
@@ -166,6 +171,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             "oLanguage":{"sSearch":"Filter:"}
         });
         return oTable;
+    },
+
+    reset_sidebar: function(){
+        $("#eastMultiOpenAccordion h3").addClass("accordion-inactive");
     },
 
     datatable_resizer: function(dobind){
