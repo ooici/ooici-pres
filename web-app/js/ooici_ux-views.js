@@ -145,12 +145,13 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
+        if ( $(e.target).hasClass("dataTables_empty") ) return;
         var tr_target = $(e.target).parents("tr");
         var data_resource_id = tr_target.attr("id"); 
         $("#datatable_100 tr").removeClass("selected");
+        $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
-            $("#datatable h1").text("Metadata");
             $("#datatable_details_scroll, #datatable_details_container").show();
             $("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();
@@ -182,19 +183,57 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     show_detail_all: function(resp, data_resource_id) {
-        var html = "";
-        var dataResourceSummary = resp.dataResourceSummary;
-        $.each(dataResourceSummary, function(v){
-            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
-            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+dataResourceSummary[v]+"</div></div>";
+        var dataResourceSummary = resp.dataResourceSummary, source = resp.source || {};
+
+        if ( $("#datatable_details_container").is(":visible") ) { //only if view dataset details:
+            $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
+        }
+        
+        var tmpl_str = $("#template-dataset-details").html();
+
+        var dims = "<h3>Dimensions:</h3>";
+        dims += "<div>" + resp.dimensions[0].name + " = " +  resp.dimensions[0].length;
+
+        var vars = "<h3>Variables:</h3>";
+        $.each(resp.variable, function(i, obj){ 
+            if (obj.dimensions) {
+                vars += "<div class='vars0'>" + obj.name + "("; 
+                $.each(obj.dimensions, function(i, e){ 
+                    vars += e.name + "=" + e.length;
+                });
+                vars += ")</div>";
+            } else {
+                vars += "<div class='vars0'>" + obj.name + "</div>";
+            }
+            if (obj.units) vars += "<div class='vars1'>Units = " + obj.units + "</div>";
+            if (obj.standard_name) vars += "<div class='vars1'>Standard name = " + obj.standard_name + "</div>";
+            if (obj.other_attributes){
+                $.each(obj.other_attributes, function(i, e){ 
+                    vars += "<div class='vars1'>" + e.name + " = " + e.value + "</div>";
+                });
+            }
         });
-        var source = resp.source || {};
-        $.each(source, function(v){
-            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
-            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
+
+        var other_attrs = "<h3>Other Attributes:</h3>"
+        $.each(resp.other_attributes, function(i, obj){ 
+            other_attrs += "<div class='other-attributes'>" + obj.name + " = " + obj.value + "</div>";
         });
-        html += this.format_variables(resp.variable || {});
-        html += "<div class='detail'><strong>Dataset Id</strong><br>"+data_resource_id;
+        var tmpl_vals = {
+            ion_title:source.ion_title, ion_description:source.ion_description, visualization_url:source.visualization_url,
+            ion_name:source.ion_name, ion_email:source.ion_email, ion_institution:source.ion_institution,
+            title:dataResourceSummary.title, institution:dataResourceSummary.institution,
+            ion_geospatial_lat_min:dataResourceSummary.ion_geospatial_lat_min, ion_geospatial_lat_max:dataResourceSummary.ion_geospatial_lat_max,
+            ion_geospatial_lon_min:dataResourceSummary.ion_geospatial_lon_min, ion_geospatial_lon_max:dataResourceSummary.ion_geospatial_lon_max,
+            ion_geospatial_vertical_min:dataResourceSummary.ion_geospatial_vertical_min, 
+            ion_geospatial_vertical_max:dataResourceSummary.ion_geospatial_vertical_max, 
+            ion_geospatial_vertical_positive:dataResourceSummary.ion_geospatial_vertical_positive, 
+            ion_time_coverage_start:dataResourceSummary.ion_time_coverage_start, 
+            ion_time_coverage_end:dataResourceSummary.ion_time_coverage_end,base_url:dataResourceSummary.base_url,
+            source:dataResourceSummary.source, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id,
+            dimensions:dims, variables:vars, other_attributes:other_attrs
+        }
+        var html = _.template(tmpl_str, tmpl_vals);
+        html += "<h3>Dataset Id:</h3><div>"+data_resource_id+"</div><br>";
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -202,7 +241,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         html = "<div class='detail'><strong>Variables</strong>";
         $.each(data, function(v){
             var vari = data[v];
-            var var_string = vari.units + " = " + vari.standard_name + " = " + vari.long_name;
+            var var_string = (vari.name?vari.name:"N/A") + " (" + (vari.units?vari.units:"N/A") +") [" + (vari.standard_name?vari.standard_name:"N/A") +"]";
             html += "<div>"+var_string+"</div>";
         });
         html += "</div>";
@@ -230,7 +269,8 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
         $("#ds_source_contact").html(ds_source_contact);
         $("#ds_variables").html(self.format_variables(resp.variable || {}));
-        $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+        var geo_html = this.format_geospatial(data);
+        $("#ds_geospatial_coverage").html(geo_html); 
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
         $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
         $(".data_sources").show();
@@ -246,6 +286,18 @@ OOI.Views.Workflow100 = Backbone.View.extend({
 	    });
         self.controller.loading_dialog();
         $(".my_resources_sidebar").hide();
+    },
+
+    format_geospatial:function(data){
+        var tmpl_str = $("#template-bounding-box").html();
+        //data.ion_geospatial_vertical_positive
+        var tmpl_vals = {
+            "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
+            "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
+            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min
+        };
+        var html = _.template(tmpl_str, tmpl_vals);
+        return html;
     },
 
     populate_table: function(){
@@ -374,7 +426,10 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
     show_detail_clicked: function(e){
         $(".notification_settings, .dispatcher_settings").show();
+        $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         var tr = $(e.target);
+        if ( tr.hasClass("dataTables_empty") ) return;
+        $(".notification_settings, .dispatcher_settings").show();
         var data_resource_id = tr.parent().attr("id"); 
         if (data_resource_id == ""){
             data_resource_id = tr.parent().parent().attr("id");  //click on the checkbox
@@ -387,6 +442,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var dispatcher_alerts_filter = model.get("dispatcher_alerts_filter");
         var dispatcher_script_path = model.get("dispatcher_script_path");
         if (subscription_type === "EMAIL" || subscription_type === "EMAILANDDISPATCHER"){
+            $("#updateWhenAvailable, #datasourceIsOffline").removeAttr("checked");
             switch (email_alerts_filter){
                 case "UPDATES":
                     $("#updateWhenAvailable").attr("checked", "checked");
@@ -404,6 +460,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         }
         if (subscription_type === "DISPATCHER" || subscription_type === "EMAILANDDISPATCHER"){
             $("#dispatcher_script_path").val(dispatcher_script_path);
+            $("#dispatcher_updateWhenAvailable, #dispatcher_datasourceIsOffline").removeAttr("checked");
             switch (dispatcher_alerts_filter){
                 case "UPDATES":
                     $("#dispatcher_updateWhenAvailable").attr("checked", "checked");
@@ -710,12 +767,15 @@ OOI.Views.ResourceActions = Backbone.View.extend({
             var nums = val.split(":");
             if (nums.length != 3){
                 $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+                $("#save_myresources_changes").attr("disabled", "disabled");
             } else {
                 var n0 = nums[0], n1 = nums[1], n2 = nums[2];
                 if ( n0.length != 2 || n0 == "" || isNaN(n0) || n1.length != 2 || n1 == "" || isNaN(n1) || n2.length != 2 || n2 == "" || isNaN(n2)  ){
                     $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+                    $("#save_myresources_changes").attr("disabled", "disabled");
                 } else {
                     $(e.target).attr("style", "");
+                    $("#save_myresources_changes").removeAttr("disabled");
                 }
             }
         });
@@ -792,9 +852,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                     var cb = "<input type='checkbox'/>";
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    var active = "Off";
+                    var active = "";
                     var details_image = "<img class='dataset_details' title='Show details' src='images/I1136-Details-List.png'>";
-                    if (elem.update_interval_seconds !== 0) active = "On";
+                    if (elem.update_interval_seconds !== 0) active = '<img src="images/G1110-Checkbox-Tick-White.png">';
                     self.datatable.fnAddData([cb, active, elem.activation_state, elem.ion_title, elem.title, pretty_date, details_image]);
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
@@ -810,9 +870,11 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e) {
+        if ( $(e.target).hasClass("dataTables_empty") ) return;
         var tr_target = $(e.target).parents("tr");
         var data_resource_id = tr_target.attr("id"); 
         $("#datatable_106 tr").removeClass("selected");
+        $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
             $("#datatable h1").text("Metadata");
@@ -841,19 +903,57 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     show_detail_all: function(resp, data_resource_id) {
-        var html = "";
-        var dataResourceSummary = resp.dataResourceSummary;
-        $.each(dataResourceSummary, function(v){
-            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
-            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+dataResourceSummary[v]+"</div></div>";
+        var dataResourceSummary = resp.dataResourceSummary, source = resp.source || {};
+        
+        if ( $("#datatable_details_container").is(":visible")) { //only if view dataset details:
+            $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
+        }
+
+        var tmpl_str = $("#template-dataset-details").html();
+
+        var dims = "<h3>Dimensions:</h3>";
+        dims += "<div>" + resp.dimensions[0].name + " = " +  resp.dimensions[0].length;
+
+        var vars = "<h3>Variables:</h3>";
+        $.each(resp.variable, function(i, obj){ 
+            if (obj.dimensions) {
+                vars += "<div class='vars0'>" + obj.name + "("; 
+                $.each(obj.dimensions, function(i, e){ 
+                    vars += e.name + "=" + e.length;
+                });
+                vars += ")</div>";
+            } else {
+                vars += "<div class='vars0'>" + obj.name + "</div>";
+            }
+            if (obj.units) vars += "<div class='vars1'>Units = " + obj.units + "</div>";
+            if (obj.standard_name) vars += "<div class='vars1'>Standard name = " + obj.standard_name + "</div>";
+            if (obj.other_attributes){
+                $.each(obj.other_attributes, function(i, e){ 
+                    vars += "<div class='vars1'>" + e.name + " = " + e.value + "</div>";
+                });
+            }
         });
-        var source = resp.source || {};
-        $.each(source, function(v){
-            var allcaps = _.map(v.split("_"), function(s){return s.charAt(0).toUpperCase() + s.slice(1);})
-            html += "<div class='detail'><strong>"+allcaps.join(" ")+"</strong><div>"+source[v]+"</div></div>";
+
+        var other_attrs = "<h3>Other Attributes:</h3>"
+        $.each(resp.other_attributes, function(i, obj){ 
+            other_attrs += "<div class='other-attributes'>" + obj.name + " = " + obj.value + "</div>";
         });
-        html += this.format_variables(resp.variable || {});
-        html += "<div class='detail'><strong>Dataset Id</strong><br>"+data_resource_id;
+        var tmpl_vals = {
+            ion_title:source.ion_title, ion_description:source.ion_description, visualization_url:source.visualization_url,
+            ion_name:source.ion_name, ion_email:source.ion_email, ion_institution:source.ion_institution,
+            title:dataResourceSummary.title, institution:dataResourceSummary.institution,
+            ion_geospatial_lat_min:dataResourceSummary.ion_geospatial_lat_min, ion_geospatial_lat_max:dataResourceSummary.ion_geospatial_lat_max,
+            ion_geospatial_lon_min:dataResourceSummary.ion_geospatial_lon_min, ion_geospatial_lon_max:dataResourceSummary.ion_geospatial_lon_max,
+            ion_geospatial_vertical_min:dataResourceSummary.ion_geospatial_vertical_min, 
+            ion_geospatial_vertical_max:dataResourceSummary.ion_geospatial_vertical_max, 
+            ion_geospatial_vertical_positive:dataResourceSummary.ion_geospatial_vertical_positive, 
+            ion_time_coverage_start:dataResourceSummary.ion_time_coverage_start, 
+            ion_time_coverage_end:dataResourceSummary.ion_time_coverage_end,base_url:dataResourceSummary.base_url,
+            source:dataResourceSummary.source, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id,
+            dimensions:dims, variables:vars, other_attributes:other_attrs
+        }
+        var html = _.template(tmpl_str, tmpl_vals);
+        html += "<h3>Dataset Id:</h3><div>"+data_resource_id+"</div><br>";
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
@@ -861,7 +961,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         html = "<div class='detail'><strong>Variables</strong>";
         $.each(data, function(v){
             var vari = data[v];
-            var var_string = vari.units + " = " + vari.standard_name + " = " + vari.long_name;
+            var var_string = (vari.name?vari.name:"N/A") + " (" + (vari.units?vari.units:"N/A") +") [" + (vari.standard_name?vari.standard_name:"N/A") +"]";
             html += "<div>"+var_string+"</div>";
         });
         html += "</div>";
@@ -948,10 +1048,10 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     		var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
             $("#ds_source_contact").html(ds_source_contact);
             $("#ds_variables").html(self.format_variables(resp.variable || {}));
-            $("#ds_geospatial_coverage").html("lat_min:"+data.ion_geospatial_lat_min + ", lat_max:"+data.ion_geospatial_lat_max+", lon_min"+data.ion_geospatial_lon_min+", lon_max:"+data.ion_geospatial_lon_max + ", vertical_min:" + data.ion_geospatial_vertical_min + ", vertical_max:" + data.ion_geospatial_vertical_max + " vertical_positive: " + data.ion_geospatial_vertical_positive);
+            var geo_html = self.format_geospatial(data);
+            $("#ds_geospatial_coverage").html(geo_html);
             $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
             $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
-            $(".data_sources").show();
             $(".notification_settings, .dispatcher_settings").hide();
             $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
         }
@@ -981,6 +1081,18 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 		
     },
 
+    format_geospatial:function(data){
+        var tmpl_str = $("#template-bounding-box").html();
+        //data.ion_geospatial_vertical_positive
+        var tmpl_vals = {
+            "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
+            "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
+            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min
+        };
+        var html = _.template(tmpl_str, tmpl_vals);
+        return html;
+    },
+
     presentation: function(){
         if ($("h3.data_sources:first").hasClass("ui-state-active")){
             $(".data_sources").trigger("click");
@@ -999,6 +1111,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $("h3.my_resources_sidebar").show();
+        $("h3.data_sources").show();
     }
 
 });
@@ -1281,8 +1394,10 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var val = $(e.target).val();
         if (isNaN(val) && val !== ""){
             $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+            $("#apply_filter_button").attr("disabled", "disabled");
         } else {
             $(e.target).attr("style", "");
+            $("#apply_filter_button").removeAttr("disabled");
         }
     },
 
@@ -1373,12 +1488,15 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             data["minLongitude"] = minLongitude;
             data["maxLongitude"] = maxLongitude;
         }
+        var default_minVertical = false, default_maxVertical = false;
         if ($("#radioAltitudeDefined").is(":checked")){
             if (minVertical === "" && maxVertical === ""){
                 minVertical = -99999; //default 'highest possible atmosphere height'
+                default_minVertical = true;
             }
             if (minVertical !== "" && maxVertical === ""){
                 maxVertical = 99999; //default 'lowest possible ocean depth'
+                default_maxVertical = true;
             }
             minVertical = parseInt(minVertical), maxVertical = parseInt(maxVertical);
             if ($("#vertical_extent_units_toggle").text() === "ft"){
@@ -1386,13 +1504,29 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             }
             var upper_sign = ($("#vertical_extent_above").attr("src").indexOf("Above") > 0) ? -1 : 1;
             var lower_sign = ($("#vertical_extent_below").attr("src").indexOf("Above") > 0) ? -1 : 1;
-            data["minVertical"] = minVertical * upper_sign;
-            data["maxVertical"] = maxVertical * lower_sign;
+            if (default_minVertical) {
+                data["minVertical"] = minVertical;
+            } else {
+                data["minVertical"] = minVertical * upper_sign;
+            }
+            if (default_maxVertical) {
+                data["maxVertical"] = maxVertical;
+            } else {
+                data["maxVertical"] = maxVertical * lower_sign;
+            }
             data["posVertical"] = posVertical;
         }
         if ($("#TE_timeRange_defined").is(":checked")){
-            data["minTime"] = minTime;
-            data["maxTime"] = maxTime;
+            if (minTime) {
+                data["minTime"] = minTime;
+            } else {
+                data["minTime"] = "1970-01-01T00:00:00Z"; // Epoch
+            }
+            if (maxTime) {
+                data["maxTime"] = maxTime;
+            } else {
+                data["maxTime"] = "2111-01-01T00:00:00Z"; // "Forever" in the future
+            }
         }
         return data;
     },
