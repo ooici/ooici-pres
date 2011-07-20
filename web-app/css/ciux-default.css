@@ -170,7 +170,6 @@ div#icons {
 	position:absolute;
 	top:52px;
 	left:-10px;
-	/*background-color:#cccccc;*/
 	width:180px;
 	height: 85px;
 }
@@ -180,10 +179,15 @@ div#icons {
 .boundingBoxControlsSidebar {
 	position:absolute;
 	left:15px;
-	/*background-color:#cccccc;*/
 	width:180px;
 	height: 85px;
     margin-bottom:20px;
+}
+.altitudeControlsSidebar {
+	position:absolute;
+	top:-52px;
+	left:170px;
+	width:150px;
 }
 
 .Ntext {
