@@ -847,9 +847,9 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                     var cb = "<input type='checkbox'/>";
                     var new_date = new Date(elem.date_registered);
                     var pretty_date = new_date.getFullYear()+"-"+(new_date.getMonth()+1)+"-"+new_date.getDate();
-                    var active = "Off";
+                    var active = "";
                     var details_image = "<img class='dataset_details' title='Show details' src='images/I1136-Details-List.png'>";
-                    if (elem.update_interval_seconds !== 0) active = "On";
+                    if (elem.update_interval_seconds !== 0) active = '<img src="images/G1110-Checkbox-Tick-White.png">';
                     self.datatable.fnAddData([cb, active, elem.activation_state, elem.ion_title, elem.title, pretty_date, details_image]);
                     $($("#datatable_106").dataTable().fnGetNodes(i)).attr("id", elem.data_resource_id);
                 });
