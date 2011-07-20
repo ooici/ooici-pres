@@ -1507,8 +1507,16 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
             data["posVertical"] = posVertical;
         }
         if ($("#TE_timeRange_defined").is(":checked")){
-            data["minTime"] = minTime;
-            data["maxTime"] = maxTime;
+            if (minTime) {
+                data["minTime"] = minTime;
+            } else {
+                data["minTime"] = "1970-01-01T00:00:00Z"; // Epoch
+            }
+            if (maxTime) {
+                data["maxTime"] = maxTime;
+            } else {
+                data["maxTime"] = "2111-01-01T00:00:00Z"; // "Forever" in the future
+            }
         }
         return data;
     },
