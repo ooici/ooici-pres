@@ -1700,9 +1700,11 @@ OOI.Views.AccountSettings = Backbone.View.extend({
                 $("#authenticating_organization").text(resp.authenticating_organization);
                 $("#loading_account_settings").remove();
                 $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
-                $.each(resp.profile, function(i, v){
-                    $("#account_"+v.name).val(v.value);
-                });
+                if (resp.profile){
+                    $.each(resp.profile, function(i, v){
+                        $("#account_"+v.name).val(v.value);
+                    });
+                }
             }
         });
     }
