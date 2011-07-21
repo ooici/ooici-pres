@@ -1710,25 +1710,40 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 	        var fw_version = $("#instrument_fw_version").val();
 			var regData = {action: "create", "name": name, "description": description, "manufacturer": manufacturer, "model": model, "serial_number": serial_number, "fw_version": fw_version};
 			
-			$.ajax({url:"instrument", type:"POST", data:regData, dataType:"json",
-				success: function(data) {
-					self.controller.loading_dialog('Starting instrument agent...');
-					var startData = {action: "startAgent", name: manufacturer, model: model, instrument_resource_id: data.instrument_resource_id};
-					$.ajax({url:"instrument", type:"POST", data:startData, dataType:"json",
-						success: function(data) {
-							close();
-						}, error: function() {
-							close();
-							self.controller.loading_dialog('Failed to start instrument agent.');
-							setTimeout(function() { self.controller.loading_dialog(); }, 5000);
-						}
-					});
-				}, error: function() {
-					close();
-					self.controller.loading_dialog('Failed to register instrument.');
-					setTimeout(function() { self.controller.loading_dialog(); }, 5000);
-				}
-			});
+                        $.ajax({url:"instrument", type:"POST", data:regData, dataType:"json",
+                                success: function(data) {
+                                    var instrument_id = data.instrument_resource_id
+                                    self.controller.loading_dialog('Starting instrument agent...');
+                                    var startData = {action: "startAgent", name: manufacturer, model: model, instrument_resource_id: instrument_id};
+                                    $.ajax({url:"instrument", type:"POST", data:startData, dataType:"json",
+                                        success: function(data) {
+                                            if (model == "NMEA0183") {
+                                                var props = {"gpgga":"ON", "gpgll":"OFF", "gprmc":"OFF", "pgrmf":"OFF", "pgrmc":"OFF", "fix_mode":"A", "alt_msl":0.0, "earth_datum":100, "diffmode":"A"}
+                                                var propsJson = JSON.stringify(props);
+
+                                                var setStateData = {action: "setState", instrument_resource_id: instrument_id, properties: propsJson};
+                                                $.ajax({url:"instrument", type:"POST", data:setStateData, dataType:"json",
+                                                    success: function(data) {
+                                                    }, error: function() {
+                                                         close();
+                                                         self.controller.loading_dialog('Failed to configure instrument.');
+                                                         setTimeout(function() { self.controller.loading_dialog(); }, 5000);
+                                                    }
+                                                });
+                                            }
+                                            close();
+                                        }, error: function() {
+                                            close();
+                                            self.controller.loading_dialog('Failed to start instrument agent.');
+                                            setTimeout(function() { self.controller.loading_dialog(); }, 5000);
+                                        }
+                                    });
+                                }, error: function() {
+                                        close();
+                                        self.controller.loading_dialog('Failed to register instrument.');
+                                        setTimeout(function() { self.controller.loading_dialog(); }, 5000);
+                                }
+                        });
 		}
 		$el.find('#register-instrument-form:first').one('submit', submit);
 		$el.find('.register_instrument_ok:first').one('click', submit);
