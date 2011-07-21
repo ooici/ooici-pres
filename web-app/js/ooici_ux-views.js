@@ -649,6 +649,7 @@ OOI.Views.Workflow105 = Backbone.View.extend({
 				$(".dataTables_wrapper").hide();
 				$('.east-south button').hide();
 				$('#save_register_resource').show();
+                $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
 
 				 $('#save_register_resource').data('dataset_url', data_resource_url);
 				var data_resource_id = 'register-dataset';
@@ -680,7 +681,6 @@ OOI.Views.Workflow105 = Backbone.View.extend({
             summary:dataResourceSummary.summary, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id,
         }
         var html = _.template(tmpl_str, tmpl_vals);
-        html += "<h3>Dataset Id:</h3><div>"+data_resource_id+"</div><br>";
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
     },
 
