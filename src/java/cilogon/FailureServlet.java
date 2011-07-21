@@ -15,8 +15,8 @@ public class FailureServlet extends PortalAbstractServlet {
         PrintWriter printWriter = httpServletResponse.getWriter();
         printWriter.println("<html>\n" +
                 "<head><title>Failure</title></head>\n" +
-                "<body><h1>Uh-oh...</h1>" +
-                "<p>There was an error processing your request.</p>" + 
+                "<body><h1>Authentication Failure</h1>" +
+                "<p>There was an error processing your CILogon authentication request.</p>" + 
                 "<form name=\"input\" action=\"");
         printWriter.println(httpServletRequest.getContextPath() + "/\" method=\"get\">");
         printWriter.println("Click to go back to the main page<br><br>\n" +
