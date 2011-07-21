@@ -570,8 +570,8 @@
         -->
         <div class="field clearfix"><label>Name:</label><input type="text" class="value" id="instrument_name" value="" /></div>
         <div class="field clearfix"><label>Description:</label><input type="text" class="value" id="instrument_description" value="" /></div>
-        <div class="field clearfix"><label>Manufacturer:</label><select id="instrument_manufacturer"><option value="SeaBird Electronics">SeaBird Electronics</option></select></div>
-        <div class="field clearfix"><label>Model:</label><select id="instrument_model"><option value="SBE37">SBE37</option></select></div>
+        <div class="field clearfix"><label>Manufacturer:</label><select id="instrument_manufacturer"><option value="NMEA0183">NMEA0183</option><option value="SeaBird Electronics">SeaBird Electronics</option></select></div>
+        <div class="field clearfix"><label>Model:</label><select id="instrument_model"><option value="NMEA0183">NMEA0183</option><option value="SBE37">SBE37</option></select></div>
         <div class="field clearfix"><label>Serial Number:</label><input type="text" class="value" id="instrument_serial_num" value="" /></div>
         <div class="field clearfix"><label>Firmware Version:</label><input type="text" class="value" id="instrument_fw_version" value="" /></div>
       </form>

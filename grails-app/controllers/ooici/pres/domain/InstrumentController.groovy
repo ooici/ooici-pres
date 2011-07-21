@@ -1,5 +1,7 @@
 package ooici.pres.domain
 
+import org.codehaus.groovy.grails.web.json.JSONException;
+
 import grails.converters.JSON
 import ion.integration.ais.AppIntegrationService;
 import ion.integration.ais.AppIntegrationService.RequestType;
@@ -68,18 +70,48 @@ class InstrumentController extends BaseController {
 		def propertiesJSON = params.get("properties")
 
 		// Special handle numeric and boolean params
-		if (propertiesJSON.get("navg") != null)
-			propertiesJSON.put("navg",propertiesJSON.int("navg"))
-		if (propertiesJSON.get("interval") != null)
-			propertiesJSON.put("interval",propertiesJSON.int("interval"))
-		if (propertiesJSON.get("outputsv") != null)
-			propertiesJSON.put("outputsv",propertiesJSON.boolean("outputsv"))
-		if (propertiesJSON.get("outputsal") != null)
-			propertiesJSON.put("outputsal",propertiesJSON.int("outputsal"))
-		if (propertiesJSON.get("txrealtime") != null)
-			propertiesJSON.put("txrealtime",propertiesJSON.int("txrealtime"))
-		if (propertiesJSON.get("storetime") != null)
-			propertiesJSON.put("storetime",propertiesJSON.int("storetime"))
+		try {
+			if (propertiesJSON.get("navg") != null)
+				propertiesJSON.put("navg",propertiesJSON.int("navg"))
+		}
+		catch(JSONException e) {
+			// Ignore
+		}
+		try {
+			if (propertiesJSON.get("interval") != null)
+				propertiesJSON.put("interval",propertiesJSON.int("interval"))
+		}
+		catch(JSONException e) {
+			// Ignore
+		}
+		try {
+			if (propertiesJSON.get("outputsv") != null)
+				propertiesJSON.put("outputsv",propertiesJSON.boolean("outputsv"))
+		}
+		catch(JSONException e) {
+			// Ignore
+		}
+		try {
+			if (propertiesJSON.get("outputsal") != null)
+				propertiesJSON.put("outputsal",propertiesJSON.int("outputsal"))
+		}
+		catch(JSONException e) {
+			// Ignore
+		}
+		try {
+			if (propertiesJSON.get("txrealtime") != null)
+				propertiesJSON.put("txrealtime",propertiesJSON.int("txrealtime"))
+		}
+		catch(JSONException e) {
+			// Ignore
+		}
+		try {
+			if (propertiesJSON.get("storetime") != null)
+				propertiesJSON.put("storetime",propertiesJSON.int("storetime"))
+		}
+		catch(JSONException e) {
+			// Ignore
+		}
 
 		params.put("properties",propertiesJSON)
 	}
