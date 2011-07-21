@@ -296,6 +296,11 @@ div#icons {
 	top:85px;
 	right:1px;
 }
+.verticalPositive {
+	position:relative;	
+	top:125px;
+	right:1px;
+}
 
 .textfield {
 	height:12px;
