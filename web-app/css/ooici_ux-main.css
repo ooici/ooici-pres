@@ -254,6 +254,19 @@ tr.odd {
 #datatable_details_scroll .arrow {
   font-weight:bold;
 }
+.dataset-detail {
+    margin-bottom:10px;
+}
+.dataset-detail .name {
+  font-weight:bold;
+}
+.vars0 {
+    margin-left:10px;
+    margin-top:5px;
+}
+.vars1 {
+    margin-left:20px;
+}
 #loading_account_settings {
     position:relative;
     top:275px;
@@ -321,6 +334,12 @@ tr.odd {
     top:0px;
 }
 
+.ui-accordion .accordion-inactive a {
+    cursor:default;
+}
+.ui-accordion .accordion-inactive span { /* +/- element */
+    display:none;
+}
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
     background: url("images/FIXME.png") repeat-x scroll 50% 50% #F5F5F5;

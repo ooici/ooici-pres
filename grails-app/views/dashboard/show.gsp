@@ -262,6 +262,7 @@
             <img id="vertical_extent_below" title="<%= HELP.P1001_SP28 %>" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
             </span>
         </div>
+        <div style="color:#aaa" class="ge-footer-text">Format: DD.DDDD<br>Decimal Degrees</div>
       </div>
       <h3 class="view_existing"><a href="#">Temporal Extent</a></h3>
       <div id="temporalExtent" class="temporalExtentContainer view_existing">
@@ -298,48 +299,48 @@
   <div id="east_sidebar" class="ui-layout-east hidden">
    <div class="east-center">
     <div id="eastMultiOpenAccordion">
-      <h3 class="data_sources "><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>
+      <h3 class="data_sources accordion-inactive"><a id="rp_dsTitle" href="#">Resource Registration Description</a></h3>
       <div class="data_sources registered_resource_editable">
         <div id="ds_title"></div><br>
       </div>
 
-      <h3 class="data_sources"><a href="#">Resource Registration Contact Information</a></h3>
+      <h3 class="data_sources accordion-inactive"><a href="#">Resource Registration Contact Information</a></h3>
       <div class="data_sources registered_registration_contact_editable">
         <div id="ds_publisher_contact"></div><br>
       </div>
 
-      <h3 class="data_sources my_resources_sidebar"><a href="#">Resource Availability Settings</a></h3>
+      <h3 class="data_sources my_resources_sidebar accordion-inactive"><a href="#">Resource Availability Settings</a></h3>
       <div class="data_sources registered_registration_availability_editable my_resources_sidebar">
         <div><input id="availability_radio_private" title="<%= HELP.P1064_SP255 %>" name="availability_radio" type="radio"/><label for="availability_radio_private" title="<%= HELP.P1064_SP255 %>">Resource is private and available to me only</label></div>
         <div><input id="availability_radio_public" title="<%= HELP.P1064_SP255 %>" name="availability_radio" type="radio"/><label for="availability_radio_public" title="<%= HELP.P1064_SP255 %>">Resource is publically available</label></div>
       </div>
 
-      <h3 class="data_sources my_resources_sidebar"><a href="#">Resource Activation Settings</a></h3>
+      <h3 class="data_sources my_resources_sidebar accordion-inactive"><a href="#">Resource Activation Settings</a></h3>
       <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
         <div><input id="polling_radio_yes" class="polling_radio" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_yes" title="<%= HELP.P1064_SP196 %>">Activate resource <br><span style="margin-left:40px">Poll every: </label><input id="polling_time" title="<%= HELP.P1064_SP197 %>" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</span></div>
         <div><input id="polling_radio_no" class="polling_radio" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_no" title="<%= HELP.P1064_SP196 %>">Deactivate resource</label></div>
       </div>
 
-      <h3 class="data_sources"><a href="#">Original Source Description</a></h3>
+      <h3 class="data_sources accordion-inactive"><a href="#">Original Source Description</a></h3>
       <div class="data_sources" id="ds_source"></div>
 
-      <h3 class="data_sources"><a href="#">Original Source Contact Information</a></h3>
+      <h3 class="data_sources accordion-inactive"><a href="#">Original Source Contact Information</a></h3>
       <div class="data_sources" id="ds_source_contact"></div>
 
-      <h3 class="data_sources"><a href="#">Geospatial Coverage</a></h3>
+      <h3 class="data_sources accordion-inactive"><a href="#">Geospatial Coverage</a></h3>
       <div class="data_sources" id="ds_geospatial_coverage"></div>
 
-      <h3 class="data_sources"><a href="#">Temporal Coverage</a></h3>
+      <h3 class="data_sources accordion-inactive"><a href="#">Temporal Coverage</a></h3>
       <div class="data_sources" id="ds_temporal_coverage"></div>
 
-      <h3 class="data_sources"><a href="#">Variables</a></h3>
+      <h3 class="data_sources accordion-inactive"><a href="#">Variables</a></h3>
       <div class="data_sources" id="ds_variables">Variables</div>
 
-      <h3 class="data_sources"><a href="#">References</a></h3>
+      <h3 class="data_sources accordion-inactive"><a href="#">References</a></h3>
       <div class="data_sources" id="ds_references">References</div>
 
     <br>
-    <h3 id="notification_settings" class="notification_settings"><a href="#">Notification Settings</a></h3>
+    <h3 id="notification_settings" class="notification_settings accordion-inactive"><a href="#">Notification Settings</a></h3>
       <div class="notification_settings">
         <form action="">
           <p>Send notifications when:</p>
@@ -349,7 +350,7 @@
         </form>
       </div><!-- end #notification_settings -->
 
-    <h3 id="dispatcher_settings" class="dispatcher_settings early_adopter"><a href="#">Dispatcher Settings</a></h3>
+    <h3 id="dispatcher_settings" class="dispatcher_settings early_adopter accordion-inactive"><a href="#">Dispatcher Settings</a></h3>
       <div class="dispatcher_settings early_adopter">
         <form action="">
           <p class="dispatcher_details">Notification Triggers</p>
@@ -361,10 +362,10 @@
         </form>
       </div><!-- end #dispatcher_settings -->
 
-      <h3 class="instrument_agent"><a href="#">Instrument Agent Details</a></h3>
+      <h3 class="instrument_agent accordion-inactive"><a href="#">Instrument Agent Details</a></h3>
       <div class="instrument_agent" id="instrument_agent_details">&nbsp;</div>
 
-      <h3 class="user_settings"><a href="#">User Role Settings</a></h3>
+      <h3 class="user_settings accordian-inactive"><a href="#">User Role Settings</a></h3>
       <div class="user_settings" id="user_role_panel">
         <label for="user_setting_role">Role: </label>
         <select id="user_setting_role" name="user_setting_role" multiple size="4">
@@ -616,6 +617,127 @@
      	<br/><br/><span style='position:relative;top:-32px'>Description:</span><textarea style='width:167px' id='resource_registration_description' title='<%= HELP.P1064_SP258 %>'></textarea>
 		<br/><br/><span style='position:relative;top:-32px'>Visualization URL:</span><textarea style='width:167px' id='resource_registration_visualization_url' title='<%= HELP.P1064_SP256 %>'></textarea>
 	</div>
+
+    <div id="template-bounding-box">
+      <div class="boundingBoxControlsSidebar">
+          <span class="bb_direction Ntext" title="<%= HELP.P1001_SP26 %>">N</span>
+          <input id="ge_bb_north" value="{{ north }}" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Stext" title="<%= HELP.P1001_SP26 %>">S</span>
+          <input id="ge_bb_south" value="{{ south }}" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Etext" title="<%= HELP.P1001_SP26 %>">E</span>
+          <input id="ge_bb_east" value="{{ east }}" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Wtext" title="<%= HELP.P1001_SP26 %>">W</span>
+          <input id="ge_bb_west" value="{{ west }}"  title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
+          <span class="NSEWBackgroundBorder"></span>
+        <div class="altitudeControlsSidebar">
+          <span class="altitudeUpper"><div>Upper Bound</div>
+          <input type="text" value="{{ upper }}" maxlength="6" size="6" name="altUpper" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_ub">
+          </span>
+          <span class="altitudeLower"><div>Lower Bound</div>
+          <input type="text" value="{{ lower }}" maxlength="6" size="6" name="altLower" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_lb">
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+	<div id="template-dataset-details">
+
+     <div class="dataset-detail">
+        <div class="name">Ion title:</div>
+        <div class="value">{{ ion_title }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Ion description:</div>
+        <div class="value">{{ ion_description }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Visulization url:</div>
+        <div class="value">{{ visualization_url }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Ion name:</div>
+        <div class="value">{{ ion_name }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Ion email:</div>
+        <div class="value">{{ ion_email }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Ion institution:</div>
+        <div class="value">{{ ion_institution }}</div>
+     </div>
+
+     <br>
+
+     <div class="dataset-detail">
+        <div class="name">Title:</div>
+        <div class="value">{{ title }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Institution:</div>
+        <div class="value">{{ institution }}</div>
+     </div>
+
+     <br>
+    
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lat min:</div>
+        <div class="value">{{ ion_geospatial_lat_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lat max:</div>
+        <div class="value">{{ ion_geospatial_lat_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lon min:</div>
+        <div class="value">{{ ion_geospatial_lon_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lon max:</div>
+        <div class="value">{{ ion_geospatial_lon_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical min:</div>
+        <div class="value">{{ ion_geospatial_vertical_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical max:</div>
+        <div class="value">{{ ion_geospatial_vertical_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical positive:</div>
+        <div class="value">{{ ion_geospatial_vertical_positive }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion time coverage start:</div>
+        <div class="value">{{ ion_time_coverage_start }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion time coverage end:</div>
+        <div class="value">{{ ion_time_coverage_end }}</div>
+    </div>
+
+    <div class="dataset-detail">
+        <div class="name">Source:</div>
+        <div class="value">{{ source }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Base url:</div>
+        <div class="value">{{ base_url }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">References:</div>
+        <div class="value">{{ references }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Station id:</div>
+        <div class="value">{{ station_id }}</div>
+    </div>
+
+    <br> {{ dimensions }} <br> {{ variables }} <br> {{ other_attributes }} <br>
+
+    </div>
 </div>
 
 </body>

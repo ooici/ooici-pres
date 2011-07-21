@@ -24,25 +24,30 @@
 				$this.children('div').each(function(){
 					$(this).addClass('ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom');
 				});
-				$h3.click(function(){
+				$h3.click(function(e){
+                    e.preventDefault();
+                    ev = e;
+                    
 					var $this = $(this);
 					var $span = $this.children('span.ui-icon');
 					var $div = $this.next();
 					
-					if ($this.hasClass('ui-state-default')) {
-						$this.removeClass('ui-state-default ui-corner-all').addClass('ui-state-active ui-corner-top');
-						$span.removeClass('ui-icon-triangle-1-e').addClass('ui-icon-triangle-1-s');
-						$div.slideDown('fast', function(){
-							$div.addClass('ui-accordion-content-active');
-						});
-					}
-					else {
-						$this.removeClass('ui-state-active ui-corner-top').addClass('ui-state-default ui-corner-all');
-						$span.removeClass('ui-icon-triangle-1-s').addClass('ui-icon-triangle-1-e');
-						$div.slideUp('fast', function(){
-							$div.removeClass('ui-accordion-content-active');
-						});
-					}
+                        if ($this.hasClass('ui-state-default')) {
+                          if (!$this.hasClass('accordion-inactive')){
+                            $this.removeClass('ui-state-default ui-corner-all').addClass('ui-state-active ui-corner-top');
+                            $span.removeClass('ui-icon-triangle-1-e').addClass('ui-icon-triangle-1-s');
+                            $div.slideDown('fast', function(){
+                                $div.addClass('ui-accordion-content-active');
+                            });
+                          }
+                        }
+                        else {
+                            $this.removeClass('ui-state-active ui-corner-top').addClass('ui-state-default ui-corner-all');
+                            $span.removeClass('ui-icon-triangle-1-s').addClass('ui-icon-triangle-1-e');
+                            $div.slideUp('fast', function(){
+                                $div.removeClass('ui-accordion-content-active');
+                            });
+                        }
 				});
 				$h3.hover(
 					function() {
