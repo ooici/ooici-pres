@@ -636,6 +636,7 @@
           <span class="altitudeLower"><div>Lower Bound</div>
           <input type="text" value="{{ lower }}" maxlength="6" size="6" name="altLower" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_lb">
           </span>
+          <div class="verticalPositive">Vertical Positive: {{ vertical_positive }}</div>
         </div>
       </div>
 
@@ -738,6 +739,77 @@
     <br> {{ dimensions }} <br> {{ variables }} <br> {{ other_attributes }} <br>
 
     </div>
+
+	<div id="template-dataset-details-resourcesummary">
+
+     <div class="dataset-detail">
+        <div class="name">Title:</div>
+        <div class="value">{{ title }}</div>
+     </div>
+     <div class="dataset-detail">
+        <div class="name">Institution:</div>
+        <div class="value">{{ institution }}</div>
+     </div>
+
+     <br>
+    
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lat min:</div>
+        <div class="value">{{ ion_geospatial_lat_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lat max:</div>
+        <div class="value">{{ ion_geospatial_lat_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lon min:</div>
+        <div class="value">{{ ion_geospatial_lon_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial lon max:</div>
+        <div class="value">{{ ion_geospatial_lon_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical min:</div>
+        <div class="value">{{ ion_geospatial_vertical_min }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical max:</div>
+        <div class="value">{{ ion_geospatial_vertical_max }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion geospatial vertical positive:</div>
+        <div class="value">{{ ion_geospatial_vertical_positive }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion time coverage start:</div>
+        <div class="value">{{ ion_time_coverage_start }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Ion time coverage end:</div>
+        <div class="value">{{ ion_time_coverage_end }}</div>
+    </div>
+
+    <div class="dataset-detail">
+        <div class="name">Summary:</div>
+        <div class="value">{{ summary }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Base url:</div>
+        <div class="value">{{ base_url }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">References:</div>
+        <div class="value">{{ references }}</div>
+    </div>
+    <div class="dataset-detail">
+        <div class="name">Station id:</div>
+        <div class="value">{{ station_id }}</div>
+    </div>
+
+    </div>
+
+
 </div>
 
 </body>

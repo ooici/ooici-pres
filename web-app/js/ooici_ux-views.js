@@ -191,33 +191,47 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         
         var tmpl_str = $("#template-dataset-details").html();
 
-        var dims = "<h3>Dimensions:</h3>";
-        dims += "<div>" + resp.dimensions[0].name + " = " +  resp.dimensions[0].length;
+        if (resp.dimensions) {
+            var dims = "<h3>Dimensions:</h3>";
+        
+            $.each(resp.dimensions, function(i, e){ 
+                dims += "<div>" + e.name + " = " +  e.length;
+            });
+        }
 
-        var vars = "<h3>Variables:</h3>";
-        $.each(resp.variable, function(i, obj){ 
-            if (obj.dimensions) {
-                vars += "<div class='vars0'>" + obj.name + "("; 
-                $.each(obj.dimensions, function(i, e){ 
-                    vars += e.name + "=" + e.length;
-                });
-                vars += ")</div>";
-            } else {
-                vars += "<div class='vars0'>" + obj.name + "</div>";
-            }
-            if (obj.units) vars += "<div class='vars1'>Units = " + obj.units + "</div>";
-            if (obj.standard_name) vars += "<div class='vars1'>Standard name = " + obj.standard_name + "</div>";
-            if (obj.other_attributes){
-                $.each(obj.other_attributes, function(i, e){ 
-                    vars += "<div class='vars1'>" + e.name + " = " + e.value + "</div>";
-                });
-            }
-        });
+        if (resp.variable) {
+            var vars = "<h3>Variables:</h3>";
+            $.each(resp.variable, function(i, obj){ 
+                if (obj.dimensions) {
+                    var dim_length = obj.dimensions.length;
+                    vars += "<div class='vars0'>" + obj.name + "("; 
+                    $.each(obj.dimensions, function(i, e){ 
+                        if (i == (dim_length - 1)){
+                            vars += e.name + "=" + e.length;
+                        } else {
+                            vars += e.name + "=" + e.length + ", ";
+                        }
+                    });
+                    vars += ")</div>";
+                } else {
+                    vars += "<div class='vars0'>" + obj.name + "</div>";
+                }
+                if (obj.units) vars += "<div class='vars1'>Units = " + obj.units + "</div>";
+                if (obj.standard_name) vars += "<div class='vars1'>Standard name = " + obj.standard_name + "</div>";
+                if (obj.other_attributes){
+                    $.each(obj.other_attributes, function(i, e){ 
+                        vars += "<div class='vars1'>" + e.name + " = " + e.value + "</div>";
+                    });
+                }
+            });
+        }
 
-        var other_attrs = "<h3>Other Attributes:</h3>"
-        $.each(resp.other_attributes, function(i, obj){ 
-            other_attrs += "<div class='other-attributes'>" + obj.name + " = " + obj.value + "</div>";
-        });
+        if (resp.other_attributes) {
+            var other_attrs = "<h3>Other Attributes:</h3>"
+            $.each(resp.other_attributes, function(i, obj){ 
+                other_attrs += "<div class='other-attributes'>" + obj.name + " = " + obj.value + "</div>";
+            });
+        }
         var tmpl_vals = {
             ion_title:source.ion_title, ion_description:source.ion_description, visualization_url:source.visualization_url,
             ion_name:source.ion_name, ion_email:source.ion_email, ion_institution:source.ion_institution,
@@ -290,11 +304,11 @@ OOI.Views.Workflow100 = Backbone.View.extend({
 
     format_geospatial:function(data){
         var tmpl_str = $("#template-bounding-box").html();
-        //data.ion_geospatial_vertical_positive
         var tmpl_vals = {
             "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
             "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
-            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min
+            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min,
+            "vertical_positive":data.ion_geospatial_vertical_positive
         };
         var html = _.template(tmpl_str, tmpl_vals);
         return html;
@@ -638,12 +652,37 @@ OOI.Views.Workflow105 = Backbone.View.extend({
 
 				 $('#save_register_resource').data('dataset_url', data_resource_url);
 				var data_resource_id = 'register-dataset';
+				self.show_detail_all(data, data_resource_id);
 				var workflow = self.controller.workflow106;
-				workflow.show_detail_all(data, data_resource_id);
                 workflow.dataset_sidebar(data, data_resource_id, workflow);
 			});
 		}
 	},
+
+    show_detail_all:function(data, data_resource_id){
+        var dataResourceSummary = data.dataResourceSummary;
+
+        if ( $("#datatable_details_container").is(":visible") ) { //only if view dataset details:
+            $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
+        }
+        
+        var tmpl_str = $("#template-dataset-details-resourcesummary").html();
+
+        var tmpl_vals = {
+            title:dataResourceSummary.title, institution:dataResourceSummary.institution,
+            ion_geospatial_lat_min:dataResourceSummary.ion_geospatial_lat_min, ion_geospatial_lat_max:dataResourceSummary.ion_geospatial_lat_max,
+            ion_geospatial_lon_min:dataResourceSummary.ion_geospatial_lon_min, ion_geospatial_lon_max:dataResourceSummary.ion_geospatial_lon_max,
+            ion_geospatial_vertical_min:dataResourceSummary.ion_geospatial_vertical_min, 
+            ion_geospatial_vertical_max:dataResourceSummary.ion_geospatial_vertical_max, 
+            ion_geospatial_vertical_positive:dataResourceSummary.ion_geospatial_vertical_positive, 
+            ion_time_coverage_start:dataResourceSummary.ion_time_coverage_start, 
+            ion_time_coverage_end:dataResourceSummary.ion_time_coverage_end,base_url:dataResourceSummary.base_url,
+            summary:dataResourceSummary.summary, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id,
+        }
+        var html = _.template(tmpl_str, tmpl_vals);
+        html += "<h3>Dataset Id:</h3><div>"+data_resource_id+"</div><br>";
+        $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
+    },
 
     register_resource:function(){
 		var selector = '#validate-resource-dialog', $el = $(selector);
@@ -904,40 +943,54 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 
     show_detail_all: function(resp, data_resource_id) {
         var dataResourceSummary = resp.dataResourceSummary, source = resp.source || {};
-        
-        if ( $("#datatable_details_container").is(":visible")) { //only if view dataset details:
+
+        if ( $("#datatable_details_container").is(":visible") ) { //only if view dataset details:
             $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
         }
-
+        
         var tmpl_str = $("#template-dataset-details").html();
 
-        var dims = "<h3>Dimensions:</h3>";
-        dims += "<div>" + resp.dimensions[0].name + " = " +  resp.dimensions[0].length;
+        if (resp.dimensions) {
+            var dims = "<h3>Dimensions:</h3>";
+        
+            $.each(resp.dimensions, function(i, e){ 
+                dims += "<div>" + e.name + " = " +  e.length;
+            });
+        }
 
-        var vars = "<h3>Variables:</h3>";
-        $.each(resp.variable, function(i, obj){ 
-            if (obj.dimensions) {
-                vars += "<div class='vars0'>" + obj.name + "("; 
-                $.each(obj.dimensions, function(i, e){ 
-                    vars += e.name + "=" + e.length;
-                });
-                vars += ")</div>";
-            } else {
-                vars += "<div class='vars0'>" + obj.name + "</div>";
-            }
-            if (obj.units) vars += "<div class='vars1'>Units = " + obj.units + "</div>";
-            if (obj.standard_name) vars += "<div class='vars1'>Standard name = " + obj.standard_name + "</div>";
-            if (obj.other_attributes){
-                $.each(obj.other_attributes, function(i, e){ 
-                    vars += "<div class='vars1'>" + e.name + " = " + e.value + "</div>";
-                });
-            }
-        });
+        if (resp.variable) {
+            var vars = "<h3>Variables:</h3>";
+            $.each(resp.variable, function(i, obj){ 
+                if (obj.dimensions) {
+                    var dim_length = obj.dimensions.length;
+                    vars += "<div class='vars0'>" + obj.name + "("; 
+                    $.each(obj.dimensions, function(i, e){ 
+                        if (i == (dim_length - 1)){
+                            vars += e.name + "=" + e.length;
+                        } else {
+                            vars += e.name + "=" + e.length + ", ";
+                        }
+                    });
+                    vars += ")</div>";
+                } else {
+                    vars += "<div class='vars0'>" + obj.name + "</div>";
+                }
+                if (obj.units) vars += "<div class='vars1'>Units = " + obj.units + "</div>";
+                if (obj.standard_name) vars += "<div class='vars1'>Standard name = " + obj.standard_name + "</div>";
+                if (obj.other_attributes){
+                    $.each(obj.other_attributes, function(i, e){ 
+                        vars += "<div class='vars1'>" + e.name + " = " + e.value + "</div>";
+                    });
+                }
+            });
+        }
 
-        var other_attrs = "<h3>Other Attributes:</h3>"
-        $.each(resp.other_attributes, function(i, obj){ 
-            other_attrs += "<div class='other-attributes'>" + obj.name + " = " + obj.value + "</div>";
-        });
+        if (resp.other_attributes) {
+            var other_attrs = "<h3>Other Attributes:</h3>"
+            $.each(resp.other_attributes, function(i, obj){ 
+                other_attrs += "<div class='other-attributes'>" + obj.name + " = " + obj.value + "</div>";
+            });
+        }
         var tmpl_vals = {
             ion_title:source.ion_title, ion_description:source.ion_description, visualization_url:source.visualization_url,
             ion_name:source.ion_name, ion_email:source.ion_email, ion_institution:source.ion_institution,
