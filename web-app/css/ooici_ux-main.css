@@ -255,10 +255,12 @@ tr.odd {
   font-weight:bold;
 }
 .dataset-detail {
-    margin-bottom:10px;
+    margin-bottom:4px;
 }
 .dataset-detail .name {
-  font-weight:bold;
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
 }
 .vars0 {
     margin-left:10px;
