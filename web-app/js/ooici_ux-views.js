@@ -1665,10 +1665,10 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         var email = $("#account_email").val();
         var mobilephone = $("#account_mobilephone").val();
         var twitter = $("#account_twitter").val();
-        var system_change_str = $("#system_change").is(":checked") ? "true" : "false";
-        var project_update_str = $("#project_update").is(":checked") ? "true" : "false";
-        var ocean_leadership_news_str = $("#ocean_leadership_news").is(":checked") ? "true" : "false";
-        var ooi_participate_str = $("#ooi_participate").is(":checked") ? "true" : "false";
+        var system_change_str = $("#account_system_change").is(":checked") ? "true" : "false";
+        var project_update_str = $("#account_project_update").is(":checked") ? "true" : "false";
+        var ocean_leadership_news_str = $("#account_ocean_leadership_news").is(":checked") ? "true" : "false";
+        var ooi_participate_str = $("#account_ooi_participate").is(":checked") ? "true" : "false";
 //        var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
         var profileData = [{"name": "mobilephone","value": mobilephone}, {"name": "twitter","value": twitter}, {"name": "system_change","value": system_change_str}, {"name": "project_update","value": project_update_str}, {"name": "ocean_leadership_news","value": ocean_leadership_news_str}, {"name": "ooi_participate","value": ooi_participate_str}];
         var profileJson = JSON.stringify(profileData);
@@ -1815,6 +1815,14 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 		});
 		$('#agent_sample_monitor').unbind('click').click(function(e) {
 			var url = INSTRUMENT_MONITOR_URL;
+			if (data.properties.navg) {
+				// Sea Bird Instrument
+				url += "?SeaBird"
+			}
+			else if (data.properties.diffmode) {
+				// NMEA Instrument
+				url += "?NMEA"
+			}
 			window.open(url, '_blank');
 		});
 
