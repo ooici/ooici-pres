@@ -443,16 +443,16 @@
       <p>You have established an ION Account with the following settings:</p>
       <table width="100%" cellspacing="0" cellpadding="5px" border="0" class="table-text">
         <tbody><tr>
-          <td width="120px">Name:</td>
-          <td><input id="account_name" class="colorbox_textinput" type="text"/></td>
+          <td width="120px">Name:<span class="required_text">(required)</span></td>
+          <td><input id="account_name" class="required_settings colorbox_textinput" type="text"/></td>
         </tr>
         <tr>
-          <td>Institution:</td>
-          <td><input id="account_institution" class="colorbox_textinput" type="text"/></td>
+          <td>Institution:<span class="required_text">(required)</span></td>
+          <td><input id="account_institution" class="required_settings colorbox_textinput" type="text"/></td>
         </tr>
         <tr>
-          <td>Email:</td>
-          <td><input id="account_email" class="colorbox_textinput" type="text"/></td>
+          <td>Email:<span class="required_text">(required)</span></td>
+          <td><input id="account_email" class="required_settings colorbox_textinput" type="text"/></td>
         </tr>
         <tr>
           <td>Identity provider:</td>
