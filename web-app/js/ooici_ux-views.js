@@ -375,7 +375,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         "click #setup_notifications":"setup_notifications", //XXX part of Workflow100 really...
         "click #start_notifications":"start_notifications",
         "click #save_notifications_changes":"save_notifications_changes",
-        "change input.notifications_dispatcher":"notifications_dispatcher"
     },
 
     initialize: function() {
@@ -391,9 +390,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         return this;
     },
  
-    notifications_dispatcher: function(){
-        $("#save_notifications_changes").attr("disabled", "");
-    },
 
     populate_table: function(){
         this.controller.loading_dialog("Loading notifications...");
@@ -430,6 +426,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $(".notification_settings input[type='checkbox']").removeAttr("checked");
         $(".dispatcher_settings input[type='checkbox']").removeAttr("checked");
         $("#start_notifications, .notification_settings, .dispatcher_settings").show();
+        $("#start_notifications").attr("disabled", "disabled");
         $("#download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
         var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
@@ -474,7 +471,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
             }
         }
         if (subscription_type === "DISPATCHER" || subscription_type === "EMAILANDDISPATCHER"){
-            $("#dispatcher_script_path").val(dispatcher_script_path);
+            $("#dispatcher_script_path").val(dispatcher_script_path).attr("style", "");
             $("#dispatcher_updateWhenAvailable, #dispatcher_datasourceIsOffline").removeAttr("checked");
             switch (dispatcher_alerts_filter){
                 case "UPDATES":
