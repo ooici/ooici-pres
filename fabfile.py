@@ -141,7 +141,7 @@ def startWebApp(localDeployment, useTomcat):
     else:
         global webAppHost
         if webAppHost is None:
-            webAppHost = prompt('Please enter fully qualified web application host name:', default='grails.oceanobservatories.org')
+            webAppHost = prompt('Please enter fully qualified web application host name:', default='ion-test.oceanobservatories.org')
         if useTomcat:
             if tomcatDir is None:
                 tomcatDir = prompt('Please enter fully qualified Tomcat install directory:', default='/opt/tomcat')
@@ -185,7 +185,7 @@ def deployOfficial():
     global topicExchange
     global instrumentMonitorURL
     global debugMode
-    webAppHost = 'ion.oceanobservatories.org'
+    webAppHost = 'ion-test.oceanobservatories.org'
     webAppName = 'ooici-pres-0.1' 
     webAppPort = '443' 
     topicHost = 'rabbitmq.oceanobservatories.org'
@@ -196,7 +196,7 @@ def deployOfficial():
     topicExchange = 'magnet.topic'
     instrumentMonitorURL = 'http://pubdebug01.oceanobservatories.org:9998'
     debugMode = 'disabled'
-    buildWebApp(False)
+    buildWebApp(False,True)
     startWebAppOfficial(False)
 
 def deployAmoeba():
@@ -227,6 +227,34 @@ def deployAmoeba():
     buildWebApp(False,True)
     startWebApp(False,True)
 
+def deployTest():
+    global webAppHost
+    global webAppName
+    global webAppPort
+    global topicHost
+    global topicSysname
+    global topicPort
+    global topicUsername
+    global topicPassword
+    global topicExchange
+    global instrumentMonitorURL
+    global debugMode
+    global tomcatDir
+    webAppHost = 'buildbot.oceanobservatories.org'
+    webAppName = 'ooici-pres-0.1' 
+    webAppPort = '8443' 
+    topicHost = 'amoeba.ucsd.edu'
+    topicSysname = 'buildbot'
+    topicPort = '5672'
+    topicUsername = 'guest'
+    topicPassword = 'guest'
+    topicExchange = 'magnet.topic'
+    instrumentMonitorURL = 'http://buildbot.oceanobservatories.org:9998'
+    debugMode = 'force'
+    tomcatDir = '/var/lib/jenkins/apache-tomcat-6.0.32'
+    buildWebApp(True,True)
+    startWebApp(True,True)
+
 def deployRemoteTomcat():
     buildWebApp(False,True)
     startWebApp(False,True)
@@ -235,6 +263,6 @@ def deployLocalTomcat():
     buildWebApp(True,True)
     startWebApp(True,True)
 
-def deployLocalGrails():
+def deployLocal():
     buildWebApp(True,False)
     startWebApp(True,False)
