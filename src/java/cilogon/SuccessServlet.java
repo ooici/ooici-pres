@@ -44,6 +44,7 @@ public class SuccessServlet extends PortalAbstractServlet {
 	final String USER_IS_DATA_PROVIDER_KEY = "user_is_data_provider";
 	final String USER_IS_MARINE_OPERATOR_KEY = "user_is_marine_operator";
 	final String USER_ALREADY_REGISTERED_KEY = "user_already_registered";
+	final int SESSION_TIMEOUT_BUFFER = 60;
 
 	protected void doIt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Throwable {
 
@@ -117,9 +118,12 @@ public class SuccessServlet extends PortalAbstractServlet {
 				if (ooi_id.length() != 0) {
 					session.setAttribute(OOI_ID_KEY, ooi_id);
 					session.setAttribute(EXPIRY_KEY, "" + expirationDateMS/1000);
-					session.setMaxInactiveInterval((int)(expirationDateMS - currentDateMS)/1000);
+					// Set session lifespan to certificate duration minus a buffer to try and force session timeout
+					// condition vs having a failure in the CC policy layer.
+					session.setMaxInactiveInterval((int)(expirationDateMS - currentDateMS)/1000 - SESSION_TIMEOUT_BUFFER);
 				}
 				System.out.println("SuccessServlet: OOI ID for <" + subjectDN + ">: " + ooi_id);
+				System.out.println("SuccessServlet: Certificate expiry time <" + expirationDateMS + ">");
 				System.out.println("SuccessServlet: Certificate duration (sec) <" + (expirationDateMS - currentDateMS)/1000 + ">");
 
 				if (userIsAdmin) {
