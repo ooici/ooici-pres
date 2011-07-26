@@ -48,6 +48,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
 
         this.datatable_select_buttons();
         this.datetime_selectors();
+        this.notifications_dispatcher_check_init();
+        this.dispatcher_script_path_check_init();
         
         //TODO: the below should go in a self contained view:
 
@@ -217,6 +219,43 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     datetime_selectors:function(){
         $("#te_from_input, #te_to_input").datetimepicker({
             showSecond:true, showTimezone:true, timezone: "+0700", dateFormat:'yy-mm-dd', timeFormat:'hh:mm:ssZ', separator: 'T'});
+    },
+
+    notifications_dispatcher_check_init: function(){
+        $("input.notifications_dispatcher").bind("change", function(e){
+            if ($(".notifications_dispatcher:checked").length === 0){
+                    $("#start_notifications, #save_notifications_changes").attr("disabled", "disabled");
+                } else {
+                    if ($("div.dispatcher_settings .notifications_dispatcher:checked").length > 0){
+                        var script_path_elem = $("#dispatcher_script_path");
+                        if (script_path_elem.val() === ""){
+                            script_path_elem.css("border", "1px solid #ff0000"); 
+                            $("#start_notifications, #save_notifications_changes").attr("disabled", "disabled");
+                        } else {
+                            script_path_elem.attr("style", "");
+                            $("#start_notifications, #save_notifications_changes").attr("disabled", "");
+                        }
+                    } else {
+                        $("#start_notifications, #save_notifications_changes").attr("disabled", "");
+                        $("#dispatcher_script_path").attr("style", "");
+                    }
+                }
+         });
+    },
+
+    dispatcher_script_path_check_init: function(){
+        $("#dispatcher_script_path").bind("keyup", function(e){
+            if ($("div.dispatcher_settings .notifications_dispatcher:checked").length > 0){
+                var script_path_elem = $("#dispatcher_script_path");
+                if (script_path_elem.val() === ""){
+                    script_path_elem.css("border", "1px solid #ff0000"); 
+                    $("#save_notifications_changes").attr("disabled", "disabled");
+                } else {
+                    script_path_elem.attr("style", "");
+                    $("#save_notifications_changes").attr("disabled", "");
+                }
+            } 
+        });
     },
 
     datatable_select_buttons: function(){
