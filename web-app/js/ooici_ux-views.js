@@ -375,7 +375,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         "click #setup_notifications":"setup_notifications", //XXX part of Workflow100 really...
         "click #start_notifications":"start_notifications",
         "click #save_notifications_changes":"save_notifications_changes",
-        "change input.notifications_dispatcher":"notifications_dispatcher"
     },
 
     initialize: function() {
@@ -391,9 +390,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         return this;
     },
  
-    notifications_dispatcher: function(){
-        $("#save_notifications_changes").attr("disabled", "");
-    },
 
     populate_table: function(){
         this.controller.loading_dialog("Loading notifications...");
@@ -430,6 +426,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $(".notification_settings input[type='checkbox']").removeAttr("checked");
         $(".dispatcher_settings input[type='checkbox']").removeAttr("checked");
         $("#start_notifications, .notification_settings, .dispatcher_settings").show();
+        $("#start_notifications").attr("disabled", "disabled");
         $("#download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
         var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
@@ -439,6 +436,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     show_detail_clicked: function(e){
+        if ( $(e.target).hasClass("dataTables_empty") ) return;
         $(".notification_settings, .dispatcher_settings").show();
         $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         var tr = $(e.target);
@@ -473,7 +471,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
             }
         }
         if (subscription_type === "DISPATCHER" || subscription_type === "EMAILANDDISPATCHER"){
-            $("#dispatcher_script_path").val(dispatcher_script_path);
+            $("#dispatcher_script_path").val(dispatcher_script_path).attr("style", "");
             $("#dispatcher_updateWhenAvailable, #dispatcher_datasourceIsOffline").removeAttr("checked");
             switch (dispatcher_alerts_filter){
                 case "UPDATES":
@@ -695,7 +693,7 @@ OOI.Views.Workflow105 = Backbone.View.extend({
             opacity: 0.7
         });
 
-        var data_resource_url = $("#data_resource_url").val();
+        var data_resource_url = $.trim($("#data_resource_url").val());
         // var visualization_url = $("#visualization_url").val();
         // $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url, "visualization_url":visualization_url}, dataType:"json",
         $.ajax({url:"dataResource", type:"POST", data:{action:"validate", "data_resource_url":data_resource_url}, dataType:"json",
@@ -1140,7 +1138,8 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         var tmpl_vals = {
             "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
             "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
-            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min
+            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min,
+            "vertical_positive":data.ion_geospatial_vertical_positive
         };
         var html = _.template(tmpl_str, tmpl_vals);
         return html;
@@ -1630,10 +1629,11 @@ OOI.Views.AccountSettings = Backbone.View.extend({
 
     events: {
         "click #account_settings_done":"account_settings_done",
+        "keyup .required_settings":"required_settings"
     },
 
     initialize: function() {
-        _.bindAll(this, "account_settings_done"); 
+        _.bindAll(this, "account_settings", "account_settings_done", "required_settings"); 
         this.controller = this.options.controller;
         this.modal_dialogs();
     },
@@ -1658,23 +1658,49 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         }
     },
 
+    required_settings:function(e){
+        if (typeof e === "string"){
+            var elem = $(e);
+        } else {
+            var elem = $(e.target);
+        }
+        var text = elem.val();
+        if (text === ""){
+            $("#account_settings_done").addClass("account_settings_invalid");
+            elem.css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
+        } else {
+            $("#account_settings_done").removeClass("account_settings_invalid");
+            elem.attr("style", "").parent().parent().find(".required_text").hide();
+        }
+        if (elem.attr("id") == "account_email"){
+            var email_regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (email_regex.test(text)){
+                $("#account_settings_done").removeClass("account_settings_invalid");
+                elem.attr("style", "").parent().parent().find(".required_text").hide();
+            } else {
+                $("#account_settings_done").addClass("account_settings_invalid");
+                elem.css("border", "1px solid #ff0000")
+                elem.css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
+            }
+        }
+    },
+
     account_settings_done: function(e){
         e.preventDefault();
+        if ($("#account_settings_done").hasClass("account_settings_invalid"))return false;
         var name = $("#account_name").val();
         var institution = $("#account_institution").val();
         var email = $("#account_email").val();
         var mobilephone = $("#account_mobilephone").val();
         var twitter = $("#account_twitter").val();
-        var system_change_str = $("#account_system_change").is(":checked") ? "true" : "false";
-        var project_update_str = $("#account_project_update").is(":checked") ? "true" : "false";
-        var ocean_leadership_news_str = $("#account_ocean_leadership_news").is(":checked") ? "true" : "false";
-        var ooi_participate_str = $("#account_ooi_participate").is(":checked") ? "true" : "false";
-//        var name = $("#account_name").val(), institution = $("#account_institution").val(), email = $("#account_email").val(), mobilephone = $("#account_mobilephone").val(), twitter = $("#account_twitter").val(), system_change = $("#system_change").is(":checked"), project_update = $("#project_update").is(":checked"), ocean_leadership_news = $("#ocean_leadership_news").is(":checked"), ooi_participate = $("#ooi_participate").is(":checked");
+        var system_change_str = $("#system_change").is(":checked") ? "true" : "false";
+        var project_update_str = $("#project_update").is(":checked") ? "true" : "false";
+        var ocean_leadership_news_str = $("#ocean_leadership_news").is(":checked") ? "true" : "false";
+        var ooi_participate_str = $("#ooi_participate").is(":checked") ? "true" : "false";
         var profileData = [{"name": "mobilephone","value": mobilephone}, {"name": "twitter","value": twitter}, {"name": "system_change","value": system_change_str}, {"name": "project_update","value": project_update_str}, {"name": "ocean_leadership_news","value": ocean_leadership_news_str}, {"name": "ooi_participate","value": ooi_participate_str}];
         var profileJson = JSON.stringify(profileData);
         var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile": profileJson};
         $("#account_settings_done").text("Saving...");
-        var self = this;
         $.ajax({url:"userProfile", type:"POST", data:data,
             success: function(resp){
                 $("#account_settings_done").text("Done");
@@ -1690,6 +1716,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         //TODO clear out modal form data
         $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
         $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
+        var self = this;
         $.ajax({url:"userProfile", type:"GET", data:{action:"get"}, dataType:"json",
             success: function(resp){
                 $("#account_name").val(resp.name);
@@ -1698,9 +1725,17 @@ OOI.Views.AccountSettings = Backbone.View.extend({
                 $("#authenticating_organization").text(resp.authenticating_organization);
                 $("#loading_account_settings").remove();
                 $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
-                $.each(resp.profile, function(i, v){
-                    $("#account_"+v.name).val(v.value);
-                });
+                if (resp.profile){
+                    $.each(resp.profile, function(i, v){
+                        $("#account_"+v.name).val(v.value);
+                    });
+                }
+                if (resp.name === "" || resp.institution === "" || resp.email_address === ""){
+                    $("#account_settings_done").addClass("account_settings_invalid");
+                    if (resp.name === "") $("#account_name").css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
+                    if (resp.institution === "") $("#account_institution").css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
+                    if (resp.email_address === "") $("#account_email").css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
+                }
             }
         });
     }

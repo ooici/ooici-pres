@@ -274,6 +274,16 @@ tr.odd {
     top:275px;
     text-align:center;
 }
+.account_settings_invalid {
+    color:#ccc;
+    border-color:#ccc;
+    cursor:auto;
+}
+.required_text {
+    margin-left:4px;
+    color:#ff0000;
+    display:none;
+}
 #datatable_details_container {
     line-height:100%;
     font-size:130%;
