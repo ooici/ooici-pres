@@ -1850,6 +1850,14 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 		});
 		$('#agent_sample_monitor').unbind('click').click(function(e) {
 			var url = INSTRUMENT_MONITOR_URL;
+			if (data.properties.navg) {
+				// Sea Bird Instrument
+				url += "?SeaBird"
+			}
+			else if (data.properties.diffmode) {
+				// NMEA Instrument
+				url += "?NMEA"
+			}
 			window.open(url, '_blank');
 		});
 

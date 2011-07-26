@@ -474,19 +474,19 @@
       <p>Send email when there is:</p>
       <table width="100%" cellspacing="0" cellpadding="3px" border="0" style="margin-left:132px; margin-bottom:10px" class="table-text">
         <tbody><tr>
-          <td width="10px"><input id="system_change" type="checkbox" class="colorbox_checkbox"/></td>
+          <td width="10px"><input id="account_system_change" type="checkbox" class="colorbox_checkbox"/></td>
           <td>OOI System change Information</td>
         </tr>
         <tr>
-          <td><input id="project_update" type="checkbox" class="colorbox_checkbox"/></td>
+          <td><input id="account_project_update" type="checkbox" class="colorbox_checkbox"/></td>
           <td>OOI Project Update</td>
         </tr>
         <tr>
-          <td><input id="ocean_leadership_news", type="checkbox" class="colorbox_checkbox"/></td>
+          <td><input id="account_ocean_leadership_news", type="checkbox" class="colorbox_checkbox"/></td>
           <td>Ocean Leadership News</td>
         </tr>
         <tr>
-          <td><input id="ooi_participate" type="checkbox" class="colorbox_checkbox"/></td>
+          <td><input id="account_ooi_participate" type="checkbox" class="colorbox_checkbox"/></td>
           <td>Opportunity to participate in the OOI User Experience Improvement Program</td>
         </tr>
       </tbody></table>
