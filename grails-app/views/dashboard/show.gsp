@@ -381,7 +381,7 @@
 
    <div class="east-south">
       <button id="download_dataset_button" title="<%= HELP.P1073_SP63 %>" disabled="disabled">Download</button>
-      <button id="setup_notifications" title="<%= HELP.P1073_SP64 %>" disabled="disabled">Setup Notifications</button>
+      <button id="setup_notifications" title="<%= HELP.P1073_SP64 %>" disabled="disabled">Set Up Notifications</button>
       <button id="start_notifications" title="<%= HELP.P1072_SP211 %>">Start Notifications</button>
       <button id="save_myresources_changes" title="<%= HELP.P1065_SP198 %>" disabled="disabled">Save Changes</button>
       <button id="save_notifications_changes" title="<%= HELP.P1065_SP198 %>" title="<%= HELP.P1065_SP198 %>" disabled="disabled">Save Changes</button>
