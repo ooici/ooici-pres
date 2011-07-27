@@ -421,8 +421,9 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     setup_notifications: function(){
-        $(".notification_settings input[type='checkbox']").removeAttr("checked");
-        $(".dispatcher_settings input[type='checkbox']").removeAttr("checked");
+        $(".notification_settings input[type='checkbox']").removeAttr("checked");//clear out old vals
+        $(".dispatcher_settings input[type='checkbox']").removeAttr("checked");//clear out old vals
+        $("#dispatcher_script_path").val("");//clear out old vals
         $("#start_notifications, .notification_settings, .dispatcher_settings").show();
         $("#start_notifications").attr("disabled", "disabled");
         $("#download_dataset_button, #setup_notifications").hide();

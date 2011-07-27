@@ -249,10 +249,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 var script_path_elem = $("#dispatcher_script_path");
                 if (script_path_elem.val() === ""){
                     script_path_elem.css("border", "1px solid #ff0000"); 
-                    $("#save_notifications_changes").attr("disabled", "disabled");
+                    $("#start_notifications, #save_notifications_changes").attr("disabled", "disabled");
                 } else {
                     script_path_elem.attr("style", "");
-                    $("#save_notifications_changes").attr("disabled", "");
+                    $("#start_notifications, #save_notifications_changes").attr("disabled", "");
                 }
             } 
         });
