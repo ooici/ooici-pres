@@ -271,6 +271,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         if(!$("h3.data_sources").hasClass("ui-state-active")){
              $('h3.data_sources').trigger('click');
         }
+        $('h3.data_sources span').removeClass("ui-icon-triangle-1-e").addClass("ui-icon-triangle-1-s");
 		if (resp.source) {
 			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description+"<br><br><b>Visualization URL:</b><br><a style='text-decoration:underline' target='_blank' href='"+resp.source.visualization_url+"'>"+resp.source.visualization_url+"</a>";
 			$("#ds_title").html(ds_title);
@@ -345,10 +346,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     },
 
     presentation: function(){
-        //TODO need to "broadcast presentation events" instead of couple style with workflows so directly.
-        if ($("h3.data_sources:first").hasClass("ui-state-active")){
-            $(".data_sources").trigger("click");
-        }
+        $("h3.data_sources").filter(".ui-state-active").trigger("click");
 		$(".dataTables_wrapper").hide();
         $("#datatable_100_wrapper").show();
         $("#datatable_select_buttons").hide();
@@ -1069,6 +1067,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         if(!$("h3.data_sources").hasClass("ui-state-active")){
              $('h3.data_sources').trigger('click');
         }
+        $('h3.data_sources span').removeClass("ui-icon-triangle-1-e").addClass("ui-icon-triangle-1-s");
         var my_resource_model = self.controller.my_resources_collection.get_by_dataset_id(data_resource_id);
         var activation_state = (my_resource_model) ? my_resource_model.get("activation_state") : 'Private';
         var update_interval_seconds = (my_resource_model) ? my_resource_model.get("update_interval_seconds") : 0;
@@ -1146,9 +1145,10 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     },
 
     presentation: function(){
-        if ($("h3.data_sources:first").hasClass("ui-state-active")){
+        /*if ($("h3.data_sources:first").hasClass("ui-state-active")){
             $(".data_sources").trigger("click");
-        }
+        }*/
+        $("h3.data_sources").filter(".ui-state-active").trigger("click");
 		$(".dataTables_wrapper").hide();
         $("#datatable_106_wrapper").show();
 		$(".east-south button").hide();
