@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="css/colorbox.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/ooici_ux-main.css"/>
 
-  <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+  <script src="js/jquery-1.6.2.min.js" type="text/javascript"></script>
   <script src="js/jquery-ui-1.8.6.custom.min.js" type="text/javascript"></script>
   <script src="js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
   <script src="js/jquery.layout.min.js" type="text/javascript"></script>
