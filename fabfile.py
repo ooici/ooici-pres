@@ -244,7 +244,7 @@ def deployTest():
     global tomcatDir
     webAppHost = 'buildbot.oceanobservatories.org'
     webAppName = 'ooici-pres-0.1' 
-    webAppPort = '8443' 
+    webAppPort = '8080' 
     topicHost = 'amoeba.ucsd.edu'
     topicSysname = 'buildbot'
     topicPort = '5672'
