@@ -1369,7 +1369,10 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
         $.ajax({url: 'userProfile', type: 'POST', data: data,
             success: function(resp){
                 self.controller.loading_dialog();
-				self.$roleTd.text(self.roleValToName[role]);
+				var roleCsv = _.map(roles, function(role) {
+					return self.roleValToName[trim(role)];
+				}).join(', ');
+				self.$roleTd.text(roleCsv);
             },
             error: function(jqXHR, textStatus, error){
                 self.controller.loading_dialog();
