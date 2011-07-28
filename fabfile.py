@@ -124,18 +124,20 @@ def buildWebApp(localDeployment, useTomcat):
 
 sshUser = None
 tomcatDir = None
-def startWebApp(localDeployment, useTomcat):
+def startWebApp(localDeployment, useTomcat, restartTomcat):
     if localDeployment:
         if useTomcat:
             global tomcatDir
             if tomcatDir is None:
                 tomcatDir = prompt('Please enter fully qualified Tomcat install directory:', default='/opt/tomcat')
-            local('%s/bin/shutdown.sh' % (tomcatDir))
-            print 'Waiting for application to fully stop'
-            time.sleep(10);
+            if restartTomcat:
+                local('%s/bin/shutdown.sh' % (tomcatDir))
+                print 'Waiting for application to fully stop'
+                time.sleep(10);
             local('rm -rf %s/webapps/%s*' % (tomcatDir, webAppName))
             local('cp target/%s.war %s/webapps' % (webAppName, tomcatDir))
-            local('%s/bin/startup.sh' % (tomcatDir))
+            if restartTomcat:
+               local('%s/bin/startup.sh' % (tomcatDir))
         else:
             local('grails run-app')
     else:
@@ -188,8 +190,8 @@ def deployOfficial():
     webAppHost = 'ion-test.oceanobservatories.org'
     webAppName = 'ooici-pres-0.1' 
     webAppPort = '443' 
-    topicHost = 'rabbitmq.oceanobservatories.org'
-    topicSysname = 'R1_TEST_SYSTEM2'
+    topicHost = 'rabbitmq-test.oceanobservatories.org'
+    topicSysname = 'R1_TEST_SYSTEM1'
     topicPort = '5672'
     topicUsername = 'guest'
     topicPassword = 'guest'
@@ -225,7 +227,7 @@ def deployAmoeba():
     debugMode = 'disabled'
     tomcatDir = '/opt/apache-tomcat-6.0.32'
     buildWebApp(False,True)
-    startWebApp(False,True)
+    startWebApp(False,True,True)
 
 def deployTest():
     global webAppHost
@@ -253,16 +255,16 @@ def deployTest():
     debugMode = 'force'
     tomcatDir = '/var/lib/jenkins/apache-tomcat-6.0.32'
     buildWebApp(True,True)
-    startWebApp(True,True)
+    startWebApp(True,True,False)
 
 def deployRemoteTomcat():
     buildWebApp(False,True)
-    startWebApp(False,True)
+    startWebApp(False,True,True)
 
 def deployLocalTomcat():
     buildWebApp(True,True)
-    startWebApp(True,True)
+    startWebApp(True,True,True)
 
 def deployLocal():
     buildWebApp(True,False)
-    startWebApp(True,False)
+    startWebApp(True,False,True)
