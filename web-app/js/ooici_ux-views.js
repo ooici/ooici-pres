@@ -913,7 +913,6 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         tr_target.addClass("selected");
         if ($(e.target).hasClass("dataset_details")){
-            $("#datatable h1").text("Metadata");
             $("#datatable_details_scroll, #datatable_details_container").show();
 			$("#datatable_select_buttons, .dataTables_wrapper").hide();
             var nth_elem = tr_target.index();

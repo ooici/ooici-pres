@@ -95,14 +95,21 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     all_registered_resources_details: function(nth_dataset){
-        //var model = this.resource_collection.models[nth_dataset];
-        if (isNaN(parseInt(nth_dataset))){
-            window.location.hash = "#/0";
+        if (this.resource_collection.models.length === 0){
+            var self = this;
+            $.when(this.all_registered_resources()).then(setTimeout(function(){
+                $("#datatable_details_scroll, #datatable_details_container").show();
+                $("#datatable_select_buttons, .dataTables_wrapper").hide();
+                self._all_registered_resources_details(nth_dataset)
+            }, 1000));
         } else {
-            //var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
-            var data_resource_id = $("#datatable_100 tbody tr:nth("+nth_dataset+")").attr("id");
-            this.workflow100.show_detail(data_resource_id);
+            this._all_registered_resources_details(nth_dataset);
         }
+    },
+
+    _all_registered_resources_details: function(nth_dataset){
+        var data_resource_id = $("#datatable_100 tbody tr:nth("+nth_dataset+")").attr("id");
+        this.workflow100.show_detail(data_resource_id);
     },
 
     my_notification_settings: function(){
@@ -116,13 +123,21 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     my_registered_resources_details: function(nth_dataset){
-        var model = this.my_resources_collection.models[nth_dataset];
-        if (typeof model === "undefined"){
-            window.location.hash = "#registered/0";
+        if (this.my_resources_collection.models.length === 0){
+            var self = this;
+            $.when(this.my_registered_resources()).then(setTimeout(function(){
+                self._my_registered_resources_details(nth_dataset)
+                $("#datatable_details_scroll, #datatable_details_container").show();
+                $("#datatable_select_buttons, .dataTables_wrapper").hide();
+            }, 1000));
         } else {
-            var data_resource_id = model.get("data_resource_id");
-            this.workflow106.show_detail(data_resource_id);
+            this._my_registered_resources_details(nth_dataset);
         }
+    },
+
+    _my_registered_resources_details: function(nth_dataset){
+        var data_resource_id = $("#datatable_106 tbody tr:nth("+nth_dataset+")").attr("id");
+        this.workflow106.show_detail(data_resource_id);
     },
 
     running_epus: function(){
