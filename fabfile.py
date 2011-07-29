@@ -12,6 +12,7 @@ import time
 webAppHost = None
 webAppName = None 
 webAppPort = None 
+context = None
 def ciLogonConfig(localDeployment):
     global webAppHost
     if webAppHost is None:
@@ -28,8 +29,21 @@ def ciLogonConfig(localDeployment):
     # Perform value substitution in CILogon config file
     o = open('web-app/WEB-INF/cfg.rdf', 'w')
     cilogonCfg = open('config/cfg.rdf.template').read()
-    cilogonCfg = re.sub('APPNAME', webAppName, cilogonCfg)
-    cilogonCfg = re.sub('HOSTNAME', webAppHost, cilogonCfg)
+
+    global context
+    if context is None:
+        readyURL = 'https://' + webAppHost + ':' + webAppPort + '/' + webAppName + '/ready'
+        failureURL = 'https://' + webAppHost + ':' + webAppPort + '/' + webAppName + '/failure'
+        successURL = 'https://' + webAppHost + ':' + webAppPort + '/' + webAppName + '/SuccessServlet'
+    else:
+        readyURL = 'https://' + webAppHost + ':' + webAppPort + '/ready'
+        failureURL = 'https://' + webAppHost + ':' + webAppPort + '/failure'
+        successURL = 'https://' + webAppHost + ':' + webAppPort + '/SuccessServlet'
+
+    cilogonCfg = re.sub('READY', readyURL, cilogonCfg)
+    cilogonCfg = re.sub('FAILURE', failureURL, cilogonCfg)
+    cilogonCfg = re.sub('SUCCESS', successURL, cilogonCfg)
+
     o.write( re.sub('PORT', webAppPort, cilogonCfg) )
     o.close()
 
@@ -172,12 +186,13 @@ def startWebAppOfficial(localDeployment):
         print 'Waiting for application to fully stop'
         time.sleep(10);
         local('ssh %s@%s -t sudo rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, webAppName))
-        local('scp target/%s.war %s@%s:/opt/tomcat/webapps' % (webAppName, sshUser, webAppHost))
+        local('scp target/%s.war %s@%s:/opt/tomcat/webapps/%s.war' % (webAppName, sshUser, webAppHost, context))
         local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
 
 def deployOfficial():
     global webAppHost
     global webAppName
+    global context
     global webAppPort
     global topicHost
     global topicSysname
@@ -189,6 +204,7 @@ def deployOfficial():
     global debugMode
     webAppHost = 'ion-test.oceanobservatories.org'
     webAppName = 'ooici-pres-0.1' 
+    context = 'ROOT'
     webAppPort = '443' 
     topicHost = 'rabbitmq-test.oceanobservatories.org'
     topicSysname = 'R1_TEST_SYSTEM1'
