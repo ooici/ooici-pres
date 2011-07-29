@@ -105,13 +105,13 @@
 		<!--<dependency>-->
 			<!--<artifactId>cilogon-portal</artifactId>-->
 			<!--<groupId>org.cilogon</groupId>-->
-			<!--<version>1.0</version>-->
+			<!--<version>1.1</version>-->
 		<!--</dependency>-->
 
 		<!--<dependency>-->
 			<!--<artifactId>cilogon-common</artifactId>-->
 			<!--<groupId>org.cilogon</groupId>-->
-			<!--<version>1.0</version>-->
+			<!--<version>1.1</version>-->
 		<!--</dependency>-->
 	</dependencies>
 

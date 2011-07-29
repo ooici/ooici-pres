@@ -17,9 +17,11 @@ import ooici.pres.BootstrapIONService;
 
 import org.cilogon.portal.CILogonService;
 import org.cilogon.portal.util.PortalCredentials;
-import org.cilogon.util.SecurityUtil;
 import org.codehaus.groovy.grails.commons.ConfigurationHolder;
 import org.codehaus.groovy.grails.web.json.JSONObject;
+
+import static edu.uiuc.ncsa.csd.security.CertUtil.toPEM;
+import static edu.uiuc.ncsa.csd.security.KeyUtil.toPKCS1PEM;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -74,12 +76,12 @@ public class SuccessServlet extends PortalAbstractServlet {
 			// Authenticate user with ION
 			// Unfortunately, the strings returned from the util need a bit of massaging
 			// to make them valid Json to pass to ION
-			String certificateString = getSecurityUtil().toPEM(certificate);
-			certificateString = certificateString.substring(0, certificateString.lastIndexOf("\n"));
+			String certificateString = toPEM(certificate);
+//			certificateString = certificateString.substring(0, certificateString.lastIndexOf("\n"));
 			certificateString = certificateString.replace("\r", "");
 			certificateString = certificateString.replace("\n", "\\n");
 
-			String privateKeyString = getSecurityUtil().toPEM(credential.getPrivateKey());
+			String privateKeyString = toPKCS1PEM(credential.getPrivateKey());
 			privateKeyString = privateKeyString.replace("\r", "");
 			privateKeyString = privateKeyString.replace("\n", "\\n");
 
@@ -200,15 +202,5 @@ public class SuccessServlet extends PortalAbstractServlet {
 			httpServletResponse.sendRedirect(redirectUri.toString());
 		}
 	}
-
-	public SecurityUtil getSecurityUtil() {
-		if (securityUtil == null) {
-			securityUtil = new SecurityUtil();
-		}
-		return securityUtil;
-	}
-
-	SecurityUtil securityUtil;
-
 
 }
