@@ -190,7 +190,7 @@ def startWebAppOfficial(localDeployment):
         local('ssh %s@%s -t chmod 666 /opt/tomcat/webapps/%s.war' % (sshUser, webAppHost, context))
         local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
 
-def deployOfficial():
+def deployIon():
     global webAppHost
     global webAppName
     global context
@@ -218,12 +218,33 @@ def deployOfficial():
     buildWebApp(False,True)
     startWebAppOfficial(False)
 
+def deployIonTest():
+    global webAppHost
+    global webAppName
+    global context
+    global webAppPort
+    global topicHost
+    global topicSysname
+    global topicPort
+    global topicUsername
+    global topicPassword
+    global topicExchange
+    global instrumentMonitorURL
+    global debugMode
     webAppHost = 'ion-test.oceanobservatories.org'
+    webAppName = 'ooici-pres-0.1' 
+    context = 'ROOT'
+    webAppPort = '443' 
     topicHost = 'rabbitmq-test.oceanobservatories.org'
     topicSysname = 'R1_TEST_SYSTEM1'
+    topicPort = '5672'
+    topicUsername = 'guest'
+    topicPassword = 'guest'
+    topicExchange = 'magnet.topic'
+    instrumentMonitorURL = 'http://pubdebug01.oceanobservatories.org:9998'
+    debugMode = 'disabled'
     buildWebApp(False,True)
     startWebAppOfficial(False)
-
 
 def deployAmoeba():
     global webAppHost
