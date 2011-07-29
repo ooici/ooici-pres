@@ -203,12 +203,12 @@ def deployOfficial():
     global topicExchange
     global instrumentMonitorURL
     global debugMode
-    webAppHost = 'ion-test.oceanobservatories.org'
+    webAppHost = 'ion.oceanobservatories.org'
     webAppName = 'ooici-pres-0.1' 
     context = 'ROOT'
     webAppPort = '443' 
-    topicHost = 'rabbitmq-test.oceanobservatories.org'
-    topicSysname = 'R1_TEST_SYSTEM1'
+    topicHost = 'rabbitmq.oceanobservatories.org'
+    topicSysname = 'R1_TEST_SYSTEM2'
     topicPort = '5672'
     topicUsername = 'guest'
     topicPassword = 'guest'
@@ -217,6 +217,13 @@ def deployOfficial():
     debugMode = 'disabled'
     buildWebApp(False,True)
     startWebAppOfficial(False)
+
+    webAppHost = 'ion-test.oceanobservatories.org'
+    topicHost = 'rabbitmq-test.oceanobservatories.org'
+    topicSysname = 'R1_TEST_SYSTEM1'
+    buildWebApp(False,True)
+    startWebAppOfficial(False)
+
 
 def deployAmoeba():
     global webAppHost
