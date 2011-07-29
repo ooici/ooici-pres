@@ -36,7 +36,7 @@ class Notifications(Resource):
 
 class UserProfile(Resource):
 
-    DATA = {"name": "MyOOICI","institution":"","email_address":"myooici@gmail.com", "authenticating_organization":"Google", "profile":[{"name":"twitter", "value":"twitter.com/ooi"}, {"name":"mobilephone", "value":"555-555-5555"}]}
+    DATA = {"name": "MyOOICI","institution":"UCSD","email_address":"myooici@gmail.com", "authenticating_organization":"Google", "profile":[{"name":"twitter", "value":"twitter.com/ooi"}, {"name":"mobilephone", "value":"555-555-5555"}, {"name":"project_update","value":"true"}, {"name":"ocean_leadership_news","value":"true"}]}
 
     def render_GET(self, request):
         import time; time.sleep(0.5) #mock out real latency

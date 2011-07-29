@@ -1693,10 +1693,10 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         var email = $("#account_email").val();
         var mobilephone = $("#account_mobilephone").val();
         var twitter = $("#account_twitter").val();
-        var system_change_str = $("#system_change").is(":checked") ? "true" : "false";
-        var project_update_str = $("#project_update").is(":checked") ? "true" : "false";
-        var ocean_leadership_news_str = $("#ocean_leadership_news").is(":checked") ? "true" : "false";
-        var ooi_participate_str = $("#ooi_participate").is(":checked") ? "true" : "false";
+        var system_change_str = $("#account_system_change").is(":checked") ? "true" : "false";
+        var project_update_str = $("#account_project_update").is(":checked") ? "true" : "false";
+        var ocean_leadership_news_str = $("#account_ocean_leadership_news").is(":checked") ? "true" : "false";
+        var ooi_participate_str = $("#account_ooi_participate").is(":checked") ? "true" : "false";
         var profileData = [{"name": "mobilephone","value": mobilephone}, {"name": "twitter","value": twitter}, {"name": "system_change","value": system_change_str}, {"name": "project_update","value": project_update_str}, {"name": "ocean_leadership_news","value": ocean_leadership_news_str}, {"name": "ooi_participate","value": ooi_participate_str}];
         var profileJson = JSON.stringify(profileData);
         var data = {"action":"update", "name":name, "institution":institution, "email_address":email, "profile": profileJson};
@@ -1713,7 +1713,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
     },
 
     account_settings: function(){
-        //TODO clear out modal form data
+        $("#account_settings_content input[type='checkbox']").attr("checked", false);
         $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
         $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
         var self = this;
@@ -1727,9 +1727,23 @@ OOI.Views.AccountSettings = Backbone.View.extend({
                 $("#account_settings_content, #account_settings_bottom").css("opacity", "1");
                 if (resp.profile){
                     $.each(resp.profile, function(i, v){
-                        $("#account_"+v.name).val(v.value);
+                        var elem = $("#account_"+v.name);
+                        if (elem.length){
+                            if (v.value === "true") {
+                                elem.attr("checked", true);
+                            }
+                            if (v.value === "false"){
+                                elem.attr("checked", false);
+                            } else {
+                                elem.val(v.value);
+                            }
+                        }
                     });
                 }
+                //reset error msgs:
+                $("#account_settings_done").removeClass("account_settings_invalid");
+                $("#account_name, #account_institution, #account_email").attr("style", "");
+                $(".required_text").hide();
                 if (resp.name === "" || resp.institution === "" || resp.email_address === ""){
                     $("#account_settings_done").addClass("account_settings_invalid");
                     if (resp.name === "") $("#account_name").css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
