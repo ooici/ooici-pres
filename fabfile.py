@@ -185,8 +185,9 @@ def startWebAppOfficial(localDeployment):
         local('ssh %s@%s -t sudo /etc/init.d/grails stop' % (sshUser, webAppHost))
         print 'Waiting for application to fully stop'
         time.sleep(10);
-        local('ssh %s@%s -t sudo rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, webAppName))
+        local('ssh %s@%s -t sudo rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, context))
         local('scp target/%s.war %s@%s:/opt/tomcat/webapps/%s.war' % (webAppName, sshUser, webAppHost, context))
+        local('ssh %s@%s -t chmod 666 /opt/tomcat/webapps/%s.war' % (sshUser, webAppHost, context))
         local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
 
 def deployOfficial():
