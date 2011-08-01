@@ -397,7 +397,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var datatable_id = this.datatable.attr("id");
         var self = this;
         var geo_data = this.controller.geospatial_container.get_form_data();
-        var data = $.extend(geo_data, {"action":"find"});
+        var geo_data_json = JSON.stringify(geo_data);
+        var data = {"action":"find", "dataBounds": geo_data_json};
         $.ajax({url:"subscription", type:"GET", data:data, dataType:"json",
             success: function(data){
                 var cb = "<input type='checkbox'/>";
@@ -1532,8 +1533,10 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
 
     get_form_data: function(){
         var data = {}
-        var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
-        var minLongitude = $("#ge_bb_west").val(), maxLongitude = $("#ge_bb_east").val();
+        var minLatitude = parseFloat($("#ge_bb_south").val());
+        var maxLatitude = parseFloat($("#ge_bb_north").val()); 
+        var minLongitude = parseFloat($("#ge_bb_west").val());
+        var maxLongitude = parseFloat($("#ge_bb_east").val());
         var minVertical = $("#ge_altitude_ub").val(), maxVertical = $("#ge_altitude_lb").val();
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var posVertical = "down";
@@ -1553,7 +1556,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
                 maxVertical = 99999; //default 'lowest possible ocean depth'
                 default_maxVertical = true;
             }
-            minVertical = parseInt(minVertical), maxVertical = parseInt(maxVertical);
+            minVertical = parseFloat(minVertical), maxVertical = parseFloat(maxVertical);
             if ($("#vertical_extent_units_toggle").text() === "ft"){
                 minVertical = (minVertical * 0.3048), maxVertical = (maxVertical * 0.3048); //convert to meters
             }

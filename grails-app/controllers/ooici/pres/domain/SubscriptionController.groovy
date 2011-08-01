@@ -12,6 +12,8 @@ class SubscriptionController extends BaseController {
 	def find = {
 		
 		preProcessRequest(true)
+		
+		specialPreProcessFindRequest()
 
 		params.put("user_ooi_id", ooi_id)
 		
@@ -55,6 +57,13 @@ class SubscriptionController extends BaseController {
 		sendReceive(RequestType.DELETE_DATA_RESOURCE_SUBSCRIPTION)
 	}
 	
+	def specialPreProcessFindRequest = {
+
+		if (params.get("dataBounds") != null) {
+			params.put("dataBounds",JSON.parse(params.get("dataBounds")))
+		}
+	}
+
 	def specialPreProcessRequest = {
 		
 		if (params.get("subscriptionInfo") != null) {
