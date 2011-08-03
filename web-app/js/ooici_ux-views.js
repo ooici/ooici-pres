@@ -925,7 +925,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     show_detail: function(data_resource_id){
         this.controller.loading_dialog("Loading dataset details...");
         $("#datatable_details_container").html("<p>Loading dataset details...</p>");
-        self = this;
+        var self = this;
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:{"action":"detail", "data_resource_id":data_resource_id}, 
             success: function(resp){
                 self.show_detail_all(resp, data_resource_id);
@@ -937,7 +937,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         });
     },
 
-    show_detail_all: function(resp, data_resource_id) {
+    show_detail_all: function(resp, data_resource_id){
         var dataResourceSummary = resp.dataResourceSummary, source = resp.source || {};
 
         if ( $("#datatable_details_container").is(":visible") ) { //only if view dataset details:
@@ -982,13 +982,12 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         }
 
         if (resp.other_attributes) {
-            var other_attrs = "<h3>Other Attributes:</h3>"
+            var other_attrs = "<h3>Other Attributes:</h3>";
             $.each(resp.other_attributes, function(i, obj){ 
                 other_attrs += "<div class='other-attributes'>" + obj.name + " = " + obj.value + "</div>";
             });
         }
-        var tmpl_vals = {
-            ion_title:source.ion_title, ion_description:source.ion_description, visualization_url:source.visualization_url,
+        var tmpl_vals = {ion_title:source.ion_title, ion_description:source.ion_description, visualization_url:source.visualization_url,
             ion_name:source.ion_name, ion_email:source.ion_email, ion_institution:source.ion_institution,
             title:dataResourceSummary.title, institution:dataResourceSummary.institution,
             ion_geospatial_lat_min:dataResourceSummary.ion_geospatial_lat_min, ion_geospatial_lat_max:dataResourceSummary.ion_geospatial_lat_max,
@@ -999,8 +998,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
             ion_time_coverage_start:dataResourceSummary.ion_time_coverage_start, 
             ion_time_coverage_end:dataResourceSummary.ion_time_coverage_end,base_url:dataResourceSummary.base_url,
             source:dataResourceSummary.source, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id,
-            dimensions:dims, variables:vars, other_attributes:other_attrs
-        }
+            dimensions:dims, variables:vars, other_attributes:other_attrs};
         var html = _.template(tmpl_str, tmpl_vals);
         html += "<h3>Dataset Id:</h3><div>"+data_resource_id+"</div><br>";
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
@@ -1509,7 +1507,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         if (posVertical) data.posVertical = posVertical;
         if (minTime) data.minTime = minTime;
         if (maxTime) data.maxTime = maxTime
-        self = this;
+        var self = this;
         self.controller.loading_dialog("Loading datatable...");
         $.ajax({url:"dataResource", type:"GET", dataType:"json", data:data, 
             success: function(resp){
@@ -1794,7 +1792,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
     },
 
     show_detail: function(instrument_resource_id){
-        self = this;
+        var self = this;
 		$('.agent_button').attr('disabled', 'disabled');
 		$("#instrument_agent_details").text('Loading instrument details...');
         this.controller.loading_dialog("Loading instrument details...");
