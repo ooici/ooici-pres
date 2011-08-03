@@ -295,6 +295,15 @@ tr.odd {
 }
 
 
+.input_error {
+    border:1px solid #ff0000;
+}
+.polling_input_error {
+    border:1px solid #ff0000;
+    padding:3px;
+}
+
+
 
 /* sidebar widget containers */
 

@@ -802,15 +802,15 @@ OOI.Views.ResourceActions = Backbone.View.extend({
             var val = $(e.target).val();
             var nums = val.split(":");
             if (nums.length != 3){
-                $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+                $(e.target).addClass("polling_input_error");
                 $("#save_myresources_changes").attr("disabled", "disabled");
             } else {
                 var n0 = nums[0], n1 = nums[1], n2 = nums[2];
                 if ( n0.length != 2 || n0 == "" || isNaN(n0) || n1.length != 2 || n1 == "" || isNaN(n1) || n2.length != 2 || n2 == "" || isNaN(n2)  ){
-                    $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+                    $(e.target).addClass("polling_input_error");
                     $("#save_myresources_changes").attr("disabled", "disabled");
                 } else {
-                    $(e.target).attr("style", "");
+                    $(e.target).removeClass("polling_input_error");
                     $("#save_myresources_changes").removeAttr("disabled");
                 }
             }
@@ -1443,10 +1443,10 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
     validate_input_values: function(e){
         var val = $(e.target).val();
         if (isNaN(val) && val !== ""){
-            $(e.target).css("border", "1px solid #ff0000").css("padding", "3px");
+            $(e.target).addClass("input_error");
             $("#apply_filter_button").attr("disabled", "disabled");
         } else {
-            $(e.target).attr("style", "");
+            $(e.target).removeClass("input_error");
             $("#apply_filter_button").removeAttr("disabled");
         }
     },
@@ -1665,20 +1665,19 @@ OOI.Views.AccountSettings = Backbone.View.extend({
         var text = elem.val();
         if (text === ""){
             $("#account_settings_done").addClass("account_settings_invalid");
-            elem.css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
+            elem.addClass("input_error").parent().parent().find(".required_text").show();
         } else {
             $("#account_settings_done").removeClass("account_settings_invalid");
-            elem.attr("style", "").parent().parent().find(".required_text").hide();
+            elem.removeClass("input_error").parent().parent().find(".required_text").hide();
         }
         if (elem.attr("id") == "account_email"){
             var email_regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             if (email_regex.test(text)){
                 $("#account_settings_done").removeClass("account_settings_invalid");
-                elem.attr("style", "").parent().parent().find(".required_text").hide();
+                elem.removeClass("input_error").parent().parent().find(".required_text").hide();
             } else {
                 $("#account_settings_done").addClass("account_settings_invalid");
-                elem.css("border", "1px solid #ff0000")
-                elem.css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
+                elem.addClass("input_error").parent().parent().find(".required_text").show();
             }
         }
     },
@@ -1740,13 +1739,13 @@ OOI.Views.AccountSettings = Backbone.View.extend({
                 }
                 //reset error msgs:
                 $("#account_settings_done").removeClass("account_settings_invalid");
-                $("#account_name, #account_institution, #account_email").attr("style", "");
+                $("#account_name, #account_institution, #account_email").removeClass("input_error");
                 $(".required_text").hide();
                 if (resp.name === "" || resp.institution === "" || resp.email_address === ""){
                     $("#account_settings_done").addClass("account_settings_invalid");
-                    if (resp.name === "") $("#account_name").css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
-                    if (resp.institution === "") $("#account_institution").css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
-                    if (resp.email_address === "") $("#account_email").css("border", "1px solid #ff0000").parent().parent().find(".required_text").show();
+                    if (resp.name === "") $("#account_name").addClass("input_error").parent().parent().find(".required_text").show();
+                    if (resp.institution === "") $("#account_institution").addClass("input_error").parent().parent().find(".required_text").show();
+                    if (resp.email_address === "") $("#account_email").addClass("input_error").parent().parent().find(".required_text").show();
                 }
             }
         });
