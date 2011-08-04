@@ -113,6 +113,8 @@ root.putChild("subscription", Notifications())
 root.putChild("createDownloadUrl", DownloadData())
 root.putChild("userProfile", UserProfile())
 
+
+
 application = service.Application("ux_dummmy_server")
-service = internet.TCPServer(8080, Site(root))
+service = internet.TCPServer(8080, Site(root)) #For LAN testing user: ,interface="x.x.x.x")
 service.setServiceParent(application)

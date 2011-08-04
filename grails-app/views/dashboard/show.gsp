@@ -62,13 +62,13 @@
   <div id="top" class="ui-layout-north">
     <div id="branding">
     </div>
-    <div id="userbar">
-      <a id="login_link" title="<%= HELP.P1097_SP277 %>" href="login">Sign In&nbsp;&nbsp;&nbsp;</a>
-      <a id="logout_link" title="<%= HELP.P1084_SP244 %>" href="logout">Sign Out&nbsp;&nbsp;&nbsp;</a>
-      <a id="registration_link" title="<%= HELP.P1097_SP278 %>" href="#">Create an Account&nbsp;</a>
-      <a id="account_settings_link" title="<%= HELP.P1084_SP242 %>" href="#">Account Settings&nbsp;&nbsp;&nbsp;&nbsp;</a>
-      <a id="help_link" title="<%= HELP.P1084_SP243 %>" href="static/IONHelpContent.pdf">Help&nbsp;</a>
-    </div>
+    <ul id="userbar">
+      <li><a id="login_link" href="login" title="<%= HELP.P1097_SP277 %>"></a></li>
+      <li><a id="logout_link" href="logout" title="<%= HELP.P1084_SP244 %>"></a></li>
+      <li><a id="registration_link" href="#" title="<%= HELP.P1097_SP278 %>"></a></li>
+      <li><a id="account_settings_link" href="#" title="<%= HELP.P1084_SP242 %>"></a></li>
+      <li><a id="help_link" href="static/IONHelpContent.pdf" title="<%= HELP.P1084_SP243 %>"></a></li>
+    </ul>
   </div><!-- end .ui-layout-north -->
 
   <div class="ui-layout-center hidden">

@@ -68,33 +68,43 @@ body {
 #userbar {
     float:right;
     position:relative;
-    top:-65px;
+    top:-85px;
+}
+#userbar li {
+    display:inline;
+    list-style:none;
 }
 #userbar a {
-    color:transparent; /* FIXME */
     text-decoration:none;
     padding:4px;
+    display:block;
+    float:left;
+    text-decoration:none;
+    height:12px;
 }
 #userbar a:hover {
-    text-decoration:underline;
+    text-decoration:none;
 }
-#registration_link {
-	background: url("../images/G1135-Script-Create-Account.png") no-repeat 0px 0px;
-}
-#login_link {
+a#login_link {
 	background: url("../images/G1134-Script-Sign-In.png") no-repeat 0px 0px;
+    width:70px;
 }
-#logout_link {
+a#logout_link {
 	background: url("../images/G1115-Script-Sign-Out.png") no-repeat 0px 0px;
+    width:70px;
 }
-#account_settings_link {
+a#registration_link {
+	background: url("../images/G1135-Script-Create-Account.png") no-repeat 0px 0px;
+    width:120px;
+}
+a#account_settings_link {
 	background: url("../images/G1106-Script-Account-Settings.png") no-repeat 0px 0px;
+    width:120px;
 }
-#logout_link {
-	background: url("../images/G1115-Script-Sign-Out.png") no-repeat 0px 0px;
-}
-#help_link {
+
+a#help_link {
 	background: url("../images/G1114-Script-Help.png") no-repeat 0px 0px;
+    width:50px;
 }
 
 table.datatable {
