@@ -1533,18 +1533,26 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
 
     get_form_data: function(){
         var data = {}
-        var minLatitude = parseFloat($("#ge_bb_south").val());
-        var maxLatitude = parseFloat($("#ge_bb_north").val()); 
-        var minLongitude = parseFloat($("#ge_bb_west").val());
-        var maxLongitude = parseFloat($("#ge_bb_east").val());
+        var minLatitude = $("#ge_bb_south").val();
+        var maxLatitude = $("#ge_bb_north").val(); 
+        var minLongitude = $("#ge_bb_west").val();
+        var maxLongitude = $("#ge_bb_east").val();
         var minVertical = $("#ge_altitude_ub").val(), maxVertical = $("#ge_altitude_lb").val();
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var posVertical = "down";
         if ($("#radioBoundingDefined").is(":checked")){
-            data["minLatitude"] = minLatitude;
-            data["maxLatitude"] = maxLatitude;
-            data["minLongitude"] = minLongitude;
-            data["maxLongitude"] = maxLongitude;
+        	if (minLatitude !== "") {
+                data["minLatitude"] = parseFloat(minLatitude);
+        	}
+        	if (maxLatitude !== "") {
+        		data["maxLatitude"] = parseFloat(maxLatitude);
+        	}
+            if (minLongitude !== "") {
+            	data["minLongitude"] = parseFloat(minLongitude);
+            }
+        	if (maxLongitude !== "") {
+        		data["maxLongitude"] = parseFloat(maxLongitude);
+        	}
         }
         var default_minVertical = false, default_maxVertical = false;
         if ($("#radioAltitudeDefined").is(":checked")){
