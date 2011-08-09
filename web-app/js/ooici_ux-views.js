@@ -1345,9 +1345,10 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 	, show_detail_clicked: function(e) {
 		OOI.Views.Workflow109.prototype.show_detail_clicked.call(this, e);
 
-		var $td = this.$roleTd = $(e.target);
+		var $td = $(e.target), $tr = $td.closest('tr');
 		// TODO: This should probably be a lookup into a data Model once we get there
-		var roleName = $td.closest('tr').find('td').eq(-2).text();
+		this.$roleTd = $tr.find('td').eq(-2)
+		var roleName = this.$roleTd.text();
 		var roleNameToVal = this.roleNameToVal;
 		var roleVals = _.map(roleName.split(','), function(roleName) {
 			return roleNameToVal[trim(roleName)];
