@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="css/colorbox.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/ooici_ux-main.css"/>
 
-  <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+  <script src="js/jquery-1.6.2.min.js" type="text/javascript"></script>
   <script src="js/jquery-ui-1.8.6.custom.min.js" type="text/javascript"></script>
   <script src="js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
   <script src="js/jquery.layout.min.js" type="text/javascript"></script>
@@ -34,7 +34,7 @@
         window.CERTIFICATE_TIMEOUT_SECS = JSON.parse('<%= CERTIFICATE_TIMEOUT_SECS %>');
         window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
     } catch(err){ //For development:
-        if (document.location.hostname === 'localhost'){
+        if (true) { //document.location.hostname === 'localhost' || document.location.hostname.indexOf("localtunnel.com") > 0 ){
             window.OOI_ROLES = ['USER', 'ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR', 'EARLY_ADOPTER'];
             window.REGISTERED = true;
             window.CERTIFICATE_TIMEOUT_SECS = 0;
@@ -62,13 +62,13 @@
   <div id="top" class="ui-layout-north">
     <div id="branding">
     </div>
-    <div id="userbar">
-      <a id="login_link" title="<%= HELP.P1097_SP277 %>" href="login">Sign In&nbsp;&nbsp;&nbsp;</a>
-      <a id="logout_link" title="<%= HELP.P1084_SP244 %>" href="logout">Sign Out&nbsp;&nbsp;&nbsp;</a>
-      <a id="registration_link" title="<%= HELP.P1097_SP278 %>" href="#">Create an Account&nbsp;</a>
-      <a id="account_settings_link" title="<%= HELP.P1084_SP242 %>" href="#">Account Settings&nbsp;&nbsp;&nbsp;&nbsp;</a>
-      <a id="help_link" title="<%= HELP.P1084_SP243 %>" href="static/IONHelpContent.pdf">Help&nbsp;</a>
-    </div>
+    <ul id="userbar">
+      <li><a id="login_link" href="login" title="<%= HELP.P1097_SP277 %>"></a></li>
+      <li><a id="logout_link" href="logout" title="<%= HELP.P1084_SP244 %>"></a></li>
+      <li><a id="registration_link" href="#" title="<%= HELP.P1097_SP278 %>"></a></li>
+      <li><a id="account_settings_link" href="#" title="<%= HELP.P1084_SP242 %>"></a></li>
+      <li><a id="help_link" href="static/IONHelpContent.pdf" title="<%= HELP.P1084_SP243 %>"></a></li>
+    </ul>
   </div><!-- end .ui-layout-north -->
 
   <div class="ui-layout-center hidden">
@@ -381,7 +381,7 @@
 
    <div class="east-south">
       <button id="download_dataset_button" title="<%= HELP.P1073_SP63 %>" disabled="disabled">Download</button>
-      <button id="setup_notifications" title="<%= HELP.P1073_SP64 %>" disabled="disabled">Setup Notifications</button>
+      <button id="setup_notifications" title="<%= HELP.P1073_SP64 %>" disabled="disabled">Set Up Notifications</button>
       <button id="start_notifications" title="<%= HELP.P1072_SP211 %>">Start Notifications</button>
       <button id="save_myresources_changes" title="<%= HELP.P1065_SP198 %>" disabled="disabled">Save Changes</button>
       <button id="save_notifications_changes" title="<%= HELP.P1065_SP198 %>" title="<%= HELP.P1065_SP198 %>" disabled="disabled">Save Changes</button>

@@ -90,39 +90,57 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     all_registered_resources: function(){
+        $("#radioAllPubRes").attr("checked", true);
         this.reset_sidebar();
         this.workflow100.render();
     },
 
     all_registered_resources_details: function(nth_dataset){
-        //var model = this.resource_collection.models[nth_dataset];
-        if (isNaN(parseInt(nth_dataset))){
-            window.location.hash = "#/0";
+        if (this.resource_collection.models.length === 0){
+            var self = this;
+            $.when(this.all_registered_resources()).then(setTimeout(function(){
+                $("#datatable_details_scroll, #datatable_details_container").show();
+                $("#datatable_select_buttons, .dataTables_wrapper").hide();
+                self._all_registered_resources_details(nth_dataset)
+            }, 1000));
         } else {
-            //var data_resource_id = model.get("datasetMetadata")["data_resource_id"];
-            var data_resource_id = $("#datatable_100 tbody tr:nth("+nth_dataset+")").attr("id");
-            this.workflow100.show_detail(data_resource_id);
+            this._all_registered_resources_details(nth_dataset);
         }
     },
 
+    _all_registered_resources_details: function(nth_dataset){
+        var data_resource_id = $("#datatable_100 tbody tr:nth("+nth_dataset+")").attr("id");
+        this.workflow100.show_detail(data_resource_id);
+    },
+
     my_notification_settings: function(){
+        $("#radioMySub").attr("checked", true);
         this.reset_sidebar();
         this.workflow104.render();
     },
 
     my_registered_resources: function(){
+        $("#radioMyPubRes").attr("checked", true);
         this.reset_sidebar();
         this.workflow106.render();
     },
 
     my_registered_resources_details: function(nth_dataset){
-        var model = this.my_resources_collection.models[nth_dataset];
-        if (typeof model === "undefined"){
-            window.location.hash = "#registered/0";
+        if (this.my_resources_collection.models.length === 0){
+            var self = this;
+            $.when(this.my_registered_resources()).then(setTimeout(function(){
+                self._my_registered_resources_details(nth_dataset)
+                $("#datatable_details_scroll, #datatable_details_container").show();
+                $("#datatable_select_buttons, .dataTables_wrapper").hide();
+            }, 1000));
         } else {
-            var data_resource_id = model.get("data_resource_id");
-            this.workflow106.show_detail(data_resource_id);
+            this._my_registered_resources_details(nth_dataset);
         }
+    },
+
+    _my_registered_resources_details: function(nth_dataset){
+        var data_resource_id = $("#datatable_106 tbody tr:nth("+nth_dataset+")").attr("id");
+        this.workflow106.show_detail(data_resource_id);
     },
 
     running_epus: function(){
@@ -249,10 +267,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 var script_path_elem = $("#dispatcher_script_path");
                 if (script_path_elem.val() === ""){
                     script_path_elem.css("border", "1px solid #ff0000"); 
-                    $("#save_notifications_changes").attr("disabled", "disabled");
+                    $("#start_notifications, #save_notifications_changes").attr("disabled", "disabled");
                 } else {
                     script_path_elem.attr("style", "");
-                    $("#save_notifications_changes").attr("disabled", "");
+                    $("#start_notifications, #save_notifications_changes").attr("disabled", "");
                 }
             } 
         });
@@ -311,7 +329,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 }
                 $.ajax({url:url, type:"POST", data:data, 
                     success: function(resp){
-                        var datatable_inst = $(table_id).dataTable();
+                        $("#radioMySub").trigger("click"); //HACK to refresh current Notifications correctly
+                        /*var datatable_inst = $(table_id).dataTable();
                         $.each(ds_delete_list, function(i, e){
                           if (url === "dataResource"){
                             var idx = datatable_inst.fnGetPosition($("#"+e)[0]);
@@ -320,7 +339,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                             var idx = datatable_inst.fnGetPosition($("#"+e[data_src_id_name])[0]);
                             datatable_inst.fnDeleteRow(idx);
                           }
-                        });
+                        });*/
                         self.loading_dialog();
                     }
                 });
