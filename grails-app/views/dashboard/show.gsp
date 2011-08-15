@@ -34,7 +34,7 @@
         window.CERTIFICATE_TIMEOUT_SECS = JSON.parse('<%= CERTIFICATE_TIMEOUT_SECS %>');
         window.INSTRUMENT_MONITOR_URL = '<%= INSTRUMENT_MONITOR_URL %>';
     } catch(err){ //For development:
-        if (document.location.hostname === 'localhost'){
+        if (true) { //document.location.hostname === 'localhost' || document.location.hostname.indexOf("localtunnel.com") > 0 ){
             window.OOI_ROLES = ['USER', 'ADMIN', 'DATA_PROVIDER', 'MARINE_OPERATOR', 'EARLY_ADOPTER'];
             window.REGISTERED = true;
             window.CERTIFICATE_TIMEOUT_SECS = 0;
