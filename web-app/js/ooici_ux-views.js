@@ -442,7 +442,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         if ( tr.hasClass("dataTables_empty") ) return;
         $(".notification_settings, .dispatcher_settings").show();
         var data_resource_id = tr.parent().attr("id"); 
-        if (data_resource_id == ""){
+        if (data_resource_id === "" || data_resource_id === undefined){
             data_resource_id = tr.parent().parent().attr("id");  //click on the checkbox
         }
         $("#datatable_104 tr").removeClass("selected");

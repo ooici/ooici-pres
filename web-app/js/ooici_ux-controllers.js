@@ -90,6 +90,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     all_registered_resources: function(){
+        $("#radioAllPubRes").attr("checked", true);
         this.reset_sidebar();
         this.workflow100.render();
     },
@@ -113,11 +114,13 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     my_notification_settings: function(){
+        $("#radioMySub").attr("checked", true);
         this.reset_sidebar();
         this.workflow104.render();
     },
 
     my_registered_resources: function(){
+        $("#radioMyPubRes").attr("checked", true);
         this.reset_sidebar();
         this.workflow106.render();
     },
@@ -326,7 +329,8 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 }
                 $.ajax({url:url, type:"POST", data:data, 
                     success: function(resp){
-                        var datatable_inst = $(table_id).dataTable();
+                        $("#radioMySub").trigger("click"); //HACK to refresh current Notifications correctly
+                        /*var datatable_inst = $(table_id).dataTable();
                         $.each(ds_delete_list, function(i, e){
                           if (url === "dataResource"){
                             var idx = datatable_inst.fnGetPosition($("#"+e)[0]);
@@ -335,7 +339,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                             var idx = datatable_inst.fnGetPosition($("#"+e[data_src_id_name])[0]);
                             datatable_inst.fnDeleteRow(idx);
                           }
-                        });
+                        });*/
                         self.loading_dialog();
                     }
                 });
