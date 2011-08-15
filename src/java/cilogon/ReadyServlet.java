@@ -1,28 +1,28 @@
 package cilogon;
 
-import net.oauth.OAuth;
-import net.oauth.OAuthMessage;
+import edu.uiuc.ncsa.csd.delegation.client.request.CallbackRequest;
+import edu.uiuc.ncsa.csd.delegation.client.request.CallbackResponse;
+import edu.uiuc.ncsa.csd.delegation.client.request.DelegatedAssetRequest;
+import edu.uiuc.ncsa.csd.delegation.client.request.DelegatedAssetResponse;
+import edu.uiuc.ncsa.csd.delegation.client.server.CallbackServer;
+import edu.uiuc.ncsa.csd.delegation.storage.impl.ClientTransaction;
+import edu.uiuc.ncsa.csd.util.Benchmarker;
+import org.apache.commons.codec.binary.Base64;
 import org.cilogon.portal.CILogonService;
 import org.cilogon.portal.util.CreateCertRequestThread;
-import org.cilogon.portal.util.OAuthUtilities;
-import org.cilogon.portal.util.PortalTransaction;
-import org.cilogon.util.Benchmarker;
-import org.cilogon.util.CILogonProperties;
-import org.cilogon.util.SecurityUtil;
 import org.cilogon.util.exceptions.CILogonException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
+import java.util.HashMap;
 
-import static net.oauth.OAuth.*;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.cilogon.portal.CILogonService.MAX_CERT_REQUEST_THREAD_WAIT;
 import static org.cilogon.portal.util.CreateCertRequestThread.*;
-import static org.cilogon.util.CILogon.*;
+import static org.cilogon.util.CILogon.CERT_REQUEST_PARAMETER;
 
 /**
  * Servlet that is the target of the callback.
@@ -32,65 +32,54 @@ import static org.cilogon.util.CILogon.*;
 public class ReadyServlet extends PortalAbstractServlet {
 
     protected void doIt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        // This servlet is being invoked as a callback from the service.
+        // This servlet is being invoked as a callback from the server.
         // Its first job is to store the verifier and return with an success code.
         try {
-            Benchmarker bm = new Benchmarker(this);
-            debug("6.b. Callback from" + httpServletRequest.getRequestURI());
-            String tc = OAuth.decodePercent(httpServletRequest.getParameter(OAuth.OAUTH_TOKEN));
-            URI tempCred = URI.create(tc);
-            //debug("Got temp cred = " + tempCred);
-            PortalTransaction t = (PortalTransaction) getStore().getByTempCred(tempCred);
-            bm.msg("got portal transaction = " + t);
+            info("Got callback request, processing...");
+            CallbackServer callbackServer = getPortalEnvironment().getCallbackServer();
+            CallbackRequest cbReq = new CallbackRequest(httpServletRequest);
+            // send this to the callback server which will process the request.
+            CallbackResponse cResp = (CallbackResponse) callbackServer.process(cbReq);
+            ClientTransaction t = (ClientTransaction) getStore().get(cResp.getAuthorizationGrant());
             if (t == null) {
-                debug("NO TRANSACTION for this temp cred!");
+                debug("NO TRANSACTION for authz grant =\"" + cResp.getAuthorizationGrant() + "\"");
                 httpServletResponse.setStatus(SC_NOT_FOUND);
                 return;
             }
-            String v = OAuth.decodePercent(httpServletRequest.getParameter(OAuth.OAUTH_VERIFIER));
-            t.setVerifier(URI.create(v));
-            t.save();
-            bm.msg("6.b. Saved transaction");
+
+            t.setVerifier(cResp.getVerifier());
+            info("Saving verifier: " + cResp.getVerifier());
+            getStore().save(t);
             httpServletResponse.setStatus(SC_OK);
+
             // now we have to get the rest of the chain started.
-            // This servlet now will do calls to get the access token then get the assests from the service.
+            // This servlet now will do calls to get the access token then get the assests from the server.
             DoRestThread doRestThread = new DoRestThread(t);
             doRestThread.start();
-            bm.msg("6.c. Successfully completed callback.");
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException("Error", e);
         }
     }
 
-    public SecurityUtil getSecurityUtil() {
-        if (securityUtil == null) {
-            securityUtil = new SecurityUtil();
-        }
-        return securityUtil;
-    }
-
-    SecurityUtil securityUtil;
 
     public class DoRestThread extends Thread {
-        public DoRestThread(PortalTransaction portalTransaction) {
-            this.portalTransaction = portalTransaction;
+        public DoRestThread(ClientTransaction clientTransaction) {
+            this.clientTransaction = clientTransaction;
         }
 
-        public PortalTransaction getPortalTransaction() {
-            return portalTransaction;
+        public ClientTransaction getClientTransaction() {
+            return clientTransaction;
         }
 
-        public void setPortalTransaction(PortalTransaction portalTransaction) {
-            this.portalTransaction = portalTransaction;
+        public void setClientTransaction(ClientTransaction clientTransaction) {
+            this.clientTransaction = clientTransaction;
         }
 
-        PortalTransaction portalTransaction;
+        ClientTransaction clientTransaction;
 
         @Override
         public void run() {
-
             try {
                 doRest();
             } catch (Exception e) {
@@ -102,20 +91,8 @@ public class ReadyServlet extends PortalAbstractServlet {
 
         protected void doRest() throws Exception {
             Benchmarker bm = new Benchmarker(ReadyServlet.this);
-            PortalTransaction t = getPortalTransaction();
-            // Exchange the temp cred for access tokens
+            ClientTransaction t = getClientTransaction();
             debug("6.d. starting temp cred and access token exchange.");
-            CILogonProperties props = new CILogonProperties();
-            props.setURI(OAUTH_VERIFIER, t.getVerifier());
-            props.setURI(OAUTH_TOKEN, t.getTempCred());
-            props.setURI(OAUTH_TOKEN_SECRET, t.getTempCredSS());
-            OAuthUtilities oAuthUtilities = new OAuthUtilities(getPortalEnvironment());
-            OAuthMessage message = oAuthUtilities.getAccessToken(props, CILOGON_ACCESS_TOKEN_URI);
-            long currentTime = System.currentTimeMillis();
-            t.setAccessToken(URI.create(message.getParameter(OAUTH_TOKEN)));
-            t.setAccessTokenSS(URI.create(message.getParameter(OAUTH_TOKEN_SECRET)));
-            t.save();
-            bm.msg("6.e. Got & saved access token");
 
             // Next bit of logic gets the cert request from the thread that created it.
             // It is *possible* that the thread is not quite done, albeit unlikely.
@@ -157,19 +134,20 @@ public class ReadyServlet extends PortalAbstractServlet {
                         throw new CILogonException("Error: cert request in unknown state. Cannot continue");
                 }
             }
-            byte[] derencodedCertReq = t.getCertReqBytes();
-            props = new CILogonProperties();
-            props.setBytes(CERT_REQUEST_PARAMETER, derencodedCertReq);
-            // say("bytes encoded as " + props.getString(CERT_REQUEST_PARAMETER));
-            props.setURI(OAUTH_TOKEN, t.getAccessToken());
-            props.setURI(OAUTH_TOKEN_SECRET, t.getAccessTokenSS());
-            currentTime = System.currentTimeMillis();
-            bm.msg("6.f. Stored transaction, got cert request. Preparing to get assets");
-            message = oAuthUtilities.getAssets(props, CILOGON_X509_URI);
-            bm.msg("6.j Got cert, starting to save it");
-            t.setX509Certificate(getSecurityUtil().fromPEM(message.getBodyAsStream()));
+            HashMap props = new HashMap();
+            props.put(CERT_REQUEST_PARAMETER, Base64.encodeBase64String(t.getCertReqBytes()));
+
+            DelegatedAssetRequest daReq = new DelegatedAssetRequest();
+            daReq.setClient(getPortalEnvironment().getClient());
+            daReq.setAuthorizationGrant(t.getAuthorizationGrant());
+            daReq.setVerifier(t.getVerifier());
+            daReq.setAssetParameters(props);
+
+            DelegatedAssetResponse daResp = (DelegatedAssetResponse) getDelegationService().process(daReq);
+
+            t.setProtectedAsset(daResp.getProtectedAsset());
             t.setComplete(true);
-            t.save();
+            getStore().save(t);
             bm.msg("6.j. Cert saved.");
         }
 

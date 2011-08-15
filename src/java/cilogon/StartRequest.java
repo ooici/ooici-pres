@@ -1,7 +1,8 @@
 package cilogon;
 
+import edu.uiuc.ncsa.csd.util.Benchmarker;
+
 import org.cilogon.portal.CILogonService;
-import org.cilogon.util.Benchmarker;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;

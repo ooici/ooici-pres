@@ -56,6 +56,26 @@ To deploy and run the web application on your local machine, run the following c
 from the root of the repository:
 ooici-pres> fab deployLocal
 
+To deploy and run the web application on your local machine within a non-embedded Tomcat instance,
+run the following command from the root of the repository:
+ooici-pres> fab deployLocalTomcat
+
+To deploy and run the web application on a remote machine within a non-embedded Tomcat instance,
+run the following command from the root of the repository:
+ooici-pres> fab deployRemoteTomcat
+
+To deploy and run the web application on the official ion.oceanobservatories.org machine,
+run the following command from the root of the repository:
+ooici-pres> fab deployIon
+
+To deploy and run the web application on the official ion-test.oceanobservatories.org machine,
+run the following command from the root of the repository:
+ooici-pres> fab deployIonTest
+
+To deploy and run the web application on amoeba against the unofficial CC installation,
+run the following command from the root of the repository:
+ooici-pres> fab deployAmoeba
+
 
 Running
 ========

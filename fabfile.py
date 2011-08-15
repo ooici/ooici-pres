@@ -12,6 +12,7 @@ import time
 webAppHost = None
 webAppName = None 
 webAppPort = None 
+context = None
 def ciLogonConfig(localDeployment):
     global webAppHost
     if webAppHost is None:
@@ -28,8 +29,21 @@ def ciLogonConfig(localDeployment):
     # Perform value substitution in CILogon config file
     o = open('web-app/WEB-INF/cfg.rdf', 'w')
     cilogonCfg = open('config/cfg.rdf.template').read()
-    cilogonCfg = re.sub('APPNAME', webAppName, cilogonCfg)
-    cilogonCfg = re.sub('HOSTNAME', webAppHost, cilogonCfg)
+
+    global context
+    if context is None:
+        readyURL = 'https://' + webAppHost + ':' + webAppPort + '/' + webAppName + '/ready'
+        failureURL = 'https://' + webAppHost + ':' + webAppPort + '/' + webAppName + '/failure'
+        successURL = 'https://' + webAppHost + ':' + webAppPort + '/' + webAppName + '/SuccessServlet'
+    else:
+        readyURL = 'https://' + webAppHost + ':' + webAppPort + '/ready'
+        failureURL = 'https://' + webAppHost + ':' + webAppPort + '/failure'
+        successURL = 'https://' + webAppHost + ':' + webAppPort + '/SuccessServlet'
+
+    cilogonCfg = re.sub('READY', readyURL, cilogonCfg)
+    cilogonCfg = re.sub('FAILURE', failureURL, cilogonCfg)
+    cilogonCfg = re.sub('SUCCESS', successURL, cilogonCfg)
+
     o.write( re.sub('PORT', webAppPort, cilogonCfg) )
     o.close()
 
@@ -124,24 +138,26 @@ def buildWebApp(localDeployment, useTomcat):
 
 sshUser = None
 tomcatDir = None
-def startWebApp(localDeployment, useTomcat):
+def startWebApp(localDeployment, useTomcat, restartTomcat):
     if localDeployment:
         if useTomcat:
             global tomcatDir
             if tomcatDir is None:
                 tomcatDir = prompt('Please enter fully qualified Tomcat install directory:', default='/opt/tomcat')
-            local('%s/bin/shutdown.sh' % (tomcatDir))
-            print 'Waiting for application to fully stop'
-            time.sleep(10);
+            if restartTomcat:
+                local('%s/bin/shutdown.sh' % (tomcatDir))
+                print 'Waiting for application to fully stop'
+                time.sleep(10);
             local('rm -rf %s/webapps/%s*' % (tomcatDir, webAppName))
             local('cp target/%s.war %s/webapps' % (webAppName, tomcatDir))
-            local('%s/bin/startup.sh' % (tomcatDir))
+            if restartTomcat:
+               local('%s/bin/startup.sh' % (tomcatDir))
         else:
             local('grails run-app')
     else:
         global webAppHost
         if webAppHost is None:
-            webAppHost = prompt('Please enter fully qualified web application host name:', default='grails.oceanobservatories.org')
+            webAppHost = prompt('Please enter fully qualified web application host name:', default='ion-test.oceanobservatories.org')
         if useTomcat:
             if tomcatDir is None:
                 tomcatDir = prompt('Please enter fully qualified Tomcat install directory:', default='/opt/tomcat')
@@ -169,13 +185,15 @@ def startWebAppOfficial(localDeployment):
         local('ssh %s@%s -t sudo /etc/init.d/grails stop' % (sshUser, webAppHost))
         print 'Waiting for application to fully stop'
         time.sleep(10);
-        local('ssh %s@%s -t sudo rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, webAppName))
-        local('scp target/%s.war %s@%s:/opt/tomcat/webapps' % (webAppName, sshUser, webAppHost))
+        local('ssh %s@%s -t sudo rm -rf /opt/tomcat/webapps/%s*' % (sshUser, webAppHost, context))
+        local('scp target/%s.war %s@%s:/opt/tomcat/webapps/%s.war' % (webAppName, sshUser, webAppHost, context))
+        local('ssh %s@%s -t chmod 666 /opt/tomcat/webapps/%s.war' % (sshUser, webAppHost, context))
         local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
 
-def deployOfficial():
+def deployIon():
     global webAppHost
     global webAppName
+    global context
     global webAppPort
     global topicHost
     global topicSysname
@@ -187,6 +205,7 @@ def deployOfficial():
     global debugMode
     webAppHost = 'ion.oceanobservatories.org'
     webAppName = 'ooici-pres-0.1' 
+    context = 'ROOT'
     webAppPort = '443' 
     topicHost = 'rabbitmq.oceanobservatories.org'
     topicSysname = 'R1_TEST_SYSTEM2'
@@ -196,7 +215,35 @@ def deployOfficial():
     topicExchange = 'magnet.topic'
     instrumentMonitorURL = 'http://pubdebug01.oceanobservatories.org:9998'
     debugMode = 'disabled'
-    buildWebApp(False)
+    buildWebApp(False,True)
+    startWebAppOfficial(False)
+
+def deployIonTest():
+    global webAppHost
+    global webAppName
+    global context
+    global webAppPort
+    global topicHost
+    global topicSysname
+    global topicPort
+    global topicUsername
+    global topicPassword
+    global topicExchange
+    global instrumentMonitorURL
+    global debugMode
+    webAppHost = 'ion-test.oceanobservatories.org'
+    webAppName = 'ooici-pres-0.1' 
+    context = 'ROOT'
+    webAppPort = '443' 
+    topicHost = 'rabbitmq-test.oceanobservatories.org'
+    topicSysname = 'R1_TEST_SYSTEM1'
+    topicPort = '5672'
+    topicUsername = 'guest'
+    topicPassword = 'guest'
+    topicExchange = 'magnet.topic'
+    instrumentMonitorURL = 'http://pubdebug01.oceanobservatories.org:9998'
+    debugMode = 'disabled'
+    buildWebApp(False,True)
     startWebAppOfficial(False)
 
 def deployAmoeba():
@@ -225,16 +272,44 @@ def deployAmoeba():
     debugMode = 'disabled'
     tomcatDir = '/opt/apache-tomcat-6.0.32'
     buildWebApp(False,True)
-    startWebApp(False,True)
+    startWebApp(False,True,True)
+
+def deployTest():
+    global webAppHost
+    global webAppName
+    global webAppPort
+    global topicHost
+    global topicSysname
+    global topicPort
+    global topicUsername
+    global topicPassword
+    global topicExchange
+    global instrumentMonitorURL
+    global debugMode
+    global tomcatDir
+    webAppHost = 'buildbot.oceanobservatories.org'
+    webAppName = 'ooici-pres-0.1' 
+    webAppPort = '8080' 
+    topicHost = 'amoeba.ucsd.edu'
+    topicSysname = 'buildbot'
+    topicPort = '5672'
+    topicUsername = 'guest'
+    topicPassword = 'guest'
+    topicExchange = 'magnet.topic'
+    instrumentMonitorURL = 'http://buildbot.oceanobservatories.org:9998'
+    debugMode = 'force'
+    tomcatDir = '/var/lib/jenkins/apache-tomcat-6.0.32'
+    buildWebApp(True,True)
+    startWebApp(True,True,False)
 
 def deployRemoteTomcat():
     buildWebApp(False,True)
-    startWebApp(False,True)
+    startWebApp(False,True,True)
 
 def deployLocalTomcat():
     buildWebApp(True,True)
-    startWebApp(True,True)
+    startWebApp(True,True,True)
 
-def deployLocalGrails():
+def deployLocal():
     buildWebApp(True,False)
-    startWebApp(True,False)
+    startWebApp(True,False,True)

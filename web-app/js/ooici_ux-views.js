@@ -395,7 +395,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var datatable_id = this.datatable.attr("id");
         var self = this;
         var geo_data = this.controller.geospatial_container.get_form_data();
-        var data = $.extend(geo_data, {"action":"find"});
+        var geo_data_json = JSON.stringify(geo_data);
+        var data = {"action":"find", "dataBounds": geo_data_json};
         $.ajax({url:"subscription", type:"GET", data:data, dataType:"json",
             success: function(data){
                 var cb = "<input type='checkbox'/>";
@@ -1342,9 +1343,10 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 	, show_detail_clicked: function(e) {
 		OOI.Views.Workflow109.prototype.show_detail_clicked.call(this, e);
 
-		var $td = this.$roleTd = $(e.target);
+		var $td = $(e.target), $tr = $td.closest('tr');
 		// TODO: This should probably be a lookup into a data Model once we get there
-		var roleName = $td.closest('tr').find('td').eq(-2).text();
+		this.$roleTd = $tr.find('td').eq(-2)
+		var roleName = this.$roleTd.text();
 		var roleNameToVal = this.roleNameToVal;
 		var roleVals = _.map(roleName.split(','), function(roleName) {
 			return roleNameToVal[trim(roleName)];
@@ -1367,7 +1369,10 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
         $.ajax({url: 'userProfile', type: 'POST', data: data,
             success: function(resp){
                 self.controller.loading_dialog();
-				self.$roleTd.text(self.roleValToName[role]);
+				var roleCsv = _.map(roles, function(role) {
+					return self.roleValToName[trim(role)];
+				}).join(', ');
+				self.$roleTd.text(roleCsv);
             },
             error: function(jqXHR, textStatus, error){
                 self.controller.loading_dialog();
@@ -1527,16 +1532,26 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
 
     get_form_data: function(){
         var data = {}
-        var minLatitude = $("#ge_bb_south").val(), maxLatitude = $("#ge_bb_north").val(); 
-        var minLongitude = $("#ge_bb_west").val(), maxLongitude = $("#ge_bb_east").val();
+        var minLatitude = $("#ge_bb_south").val();
+        var maxLatitude = $("#ge_bb_north").val(); 
+        var minLongitude = $("#ge_bb_west").val();
+        var maxLongitude = $("#ge_bb_east").val();
         var minVertical = $("#ge_altitude_ub").val(), maxVertical = $("#ge_altitude_lb").val();
         var minTime = $("#te_from_input").val(), maxTime = $("#te_to_input").val();
         var posVertical = "down";
         if ($("#radioBoundingDefined").is(":checked")){
-            data["minLatitude"] = minLatitude;
-            data["maxLatitude"] = maxLatitude;
-            data["minLongitude"] = minLongitude;
-            data["maxLongitude"] = maxLongitude;
+        	if (minLatitude !== "") {
+                data["minLatitude"] = parseFloat(minLatitude);
+        	}
+        	if (maxLatitude !== "") {
+        		data["maxLatitude"] = parseFloat(maxLatitude);
+        	}
+            if (minLongitude !== "") {
+            	data["minLongitude"] = parseFloat(minLongitude);
+            }
+        	if (maxLongitude !== "") {
+        		data["maxLongitude"] = parseFloat(maxLongitude);
+        	}
         }
         var default_minVertical = false, default_maxVertical = false;
         if ($("#radioAltitudeDefined").is(":checked")){
@@ -1548,7 +1563,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
                 maxVertical = 99999; //default 'lowest possible ocean depth'
                 default_maxVertical = true;
             }
-            minVertical = parseInt(minVertical), maxVertical = parseInt(maxVertical);
+            minVertical = parseFloat(minVertical), maxVertical = parseFloat(maxVertical);
             if ($("#vertical_extent_units_toggle").text() === "ft"){
                 minVertical = (minVertical * 0.3048), maxVertical = (maxVertical * 0.3048); //convert to meters
             }
