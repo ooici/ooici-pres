@@ -422,8 +422,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
     },
 
     setup_notifications: function(){
-        $(".notification_settings input[type='checkbox']").removeAttr("checked");//clear out old vals
-        $(".dispatcher_settings input[type='checkbox']").removeAttr("checked");//clear out old vals
+        $(".notification_settings input[type='checkbox']").prop("checked", false);//clear out old vals
+        $(".dispatcher_settings input[type='checkbox']").prop("checked", false);//clear out old vals
         $("#dispatcher_script_path").val("");//clear out old vals
         $("#start_notifications, .notification_settings, .dispatcher_settings").show();
         $("#start_notifications").attr("disabled", "disabled");
@@ -437,6 +437,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 
     show_detail_clicked: function(e){
         if ( $(e.target).hasClass("dataTables_empty") ) return;
+        $("#save_notifications_changes").prop("disabled", true);
         $(".notification_settings, .dispatcher_settings").show();
         $("#eastMultiOpenAccordion .accordion-inactive").removeClass("accordion-inactive");
         var tr = $(e.target);
@@ -454,35 +455,35 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         var dispatcher_alerts_filter = model.get("dispatcher_alerts_filter");
         var dispatcher_script_path = model.get("dispatcher_script_path");
         if (subscription_type === "EMAIL" || subscription_type === "EMAILANDDISPATCHER"){
-            $("#updateWhenAvailable, #datasourceIsOffline").removeAttr("checked");
+            $("#updateWhenAvailable, #datasourceIsOffline").prop("checked", false);
             switch (email_alerts_filter){
                 case "UPDATES":
-                    $("#updateWhenAvailable").attr("checked", "checked");
+                    $("#updateWhenAvailable").prop("checked", true);
                     break;
                 case "DATASOURCEOFFLINE":
-                    $("#datasourceIsOffline").attr("checked", "checked");
+                    $("#datasourceIsOffline").prop("checked", true);
                     break;
                 case "UPDATESANDDATASOURCEOFFLINE":
-                    $("#updateWhenAvailable").attr("checked", "checked");
-                    $("#datasourceIsOffline").attr("checked", "checked");
+                    $("#updateWhenAvailable").prop("checked", true);
+                    $("#datasourceIsOffline").prop("checked", true);
                     break;
                 default:
                     break;
             }
         }
         if (subscription_type === "DISPATCHER" || subscription_type === "EMAILANDDISPATCHER"){
-            $("#dispatcher_script_path").val(dispatcher_script_path).attr("style", "");
-            $("#dispatcher_updateWhenAvailable, #dispatcher_datasourceIsOffline").removeAttr("checked");
+            $("#dispatcher_script_path").val(dispatcher_script_path);
+            $("#dispatcher_updateWhenAvailable, #dispatcher_datasourceIsOffline").prop("checked", false);
             switch (dispatcher_alerts_filter){
                 case "UPDATES":
-                    $("#dispatcher_updateWhenAvailable").attr("checked", "checked");
+                    $("#dispatcher_updateWhenAvailable").prop("checked", true);
                     break;
                 case "DATASOURCEOFFLINE":
-                    $("#dispatcher_datasourceIsOffline").attr("checked", "checked");
+                    $("#dispatcher_datasourceIsOffline").prop("checked", true);
                     break;
                 case "UPDATESANDDATASOURCEOFFLINE":
-                    $("#dispatcher_updateWhenAvailable").attr("checked", "checked");
-                    $("#dispatcher_datasourceIsOffline").attr("checked", "checked");
+                    $("#dispatcher_updateWhenAvailable").prop("checked", true);
+                    $("#dispatcher_datasourceIsOffline").prop("checked", true);
                     break;
                 default:
                     break;
