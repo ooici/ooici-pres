@@ -18,6 +18,7 @@
   <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
   <script src="js/jquery.colorbox.min.js" type="text/javascript"></script>
   <script src="js/jquery.multi-open-accordion.js" type="text/javascript"></script>
+  <script src="js/jquery.linkify-1.0-min.js" type="text/javascript"></script>
   <script src="js/jquery.tmpl.min.js" type="text/javascript"></script>
   <script src="js/json2.js" type="text/javascript"></script>
   <script src="js/underscore-min.js" type="text/javascript"></script>

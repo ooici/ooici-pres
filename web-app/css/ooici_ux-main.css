@@ -303,6 +303,9 @@ tr.odd {
 }
 #datatable_details_container {
 }
+#ds_references a {
+    text-decoration:underline;
+}
 
 
 .input_error {
@@ -312,7 +315,6 @@ tr.odd {
     border:1px solid #ff0000;
     padding:3px;
 }
-
 
 
 /* sidebar widget containers */

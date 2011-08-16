@@ -273,26 +273,33 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         }
         $('h3.data_sources span').removeClass("ui-icon-triangle-1-e").addClass("ui-icon-triangle-1-s");
 		if (resp.source) {
-			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description+"<br><br><b>Visualization URL:</b><br><a style='text-decoration:underline' target='_blank' href='"+resp.source.visualization_url+"'>"+resp.source.visualization_url+"</a>";
+            var visualization_url = "N/A";
+            if (resp.source.visualization_url !== undefined) visualization_url = resp.source.visualization_url;
+			var ds_title = "<b>Title:</b> "+resp.source.ion_title+"<br><br><b>Description:</b><br>"+resp.source.ion_description+"<br><br><b>Visualization URL:</b><br><a style='text-decoration:underline' target='_blank' href='"+visualization_url+"'>"+visualization_url+"</a>";
 			$("#ds_title").html(ds_title);
-			var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email:</b>"+resp.source.ion_email+"<br><b>Contact Institution:</b>"+resp.source.ion_institution;
+			var ds_publisher_contact = "<b>Contact Name:</b> "+resp.source.ion_name+"<br><b>Contact Email: </b>"+resp.source.ion_email+"<br><b>Contact Institution: </b>"+resp.source.ion_institution;
 			$("#ds_publisher_contact").html(ds_publisher_contact);
 		}
-
-        var ds_source = "<b>Title:</b> "+data.title+"<br><br><b>Description:</b><br>"+data.summary;
+        var orig_source_description = "N/A";
+        if (data.summary !== undefined) orig_source_description = data.summary;
+        var ds_source = "<b>Title: </b>"+data.title+"<br><br><b>Description:</b><br>"+orig_source_description;
         $("#ds_source").html(ds_source);
-        var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
+        var ds_source_contact = "<br><b>Contact Institution: </b>"+data.institution;
         $("#ds_source_contact").html(ds_source_contact);
         $("#ds_variables").html(self.format_variables(resp.variable || {}));
         var geo_html = this.format_geospatial(data);
         $("#ds_geospatial_coverage").html(geo_html); 
         $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-        $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
+        if (data.references == undefined){
+            $("#ds_references").html("<div>N/A</div>");
+        } else {
+            $("#ds_references").html(data.references).linkify().find("a").attr("target", "_blank");
+        }
         $(".data_sources").show();
         $(".notification_settings, .dispatcher_settings").hide();
         $("#download_dataset_button, #setup_notifications").removeAttr("disabled");
         if (OOI_ROLES.length === 0) { //Guest User
-            $("#setup_notifications").attr("disabled", "disabled");
+            $("#setup_notifications").prop("disabled", true);
         }
         $("#download_dataset_button").unbind('click').click(function(e) {
             var model = self.controller.resource_collection.get_by_dataset_id(resp.data_resource_id);
@@ -1072,59 +1079,64 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         var activation_state = (my_resource_model) ? my_resource_model.get("activation_state") : 'Private';
         var update_interval_seconds = (my_resource_model) ? my_resource_model.get("update_interval_seconds") : 0;
         var active_check_elem_num = (activation_state == "Private") ? 0 : 1;
-        $("input[name='availability_radio']").eq(active_check_elem_num).attr("checked", "checked");
+        $("input[name='availability_radio']").eq(active_check_elem_num).prop("checked", true);
         var update_interval_seconds_num = (update_interval_seconds > 0) ? 0 : 1;
-        $("input[name='polling_radio']").eq(update_interval_seconds_num).attr("checked", "checked");
+        $("input[name='polling_radio']").eq(update_interval_seconds_num).prop("checked", true);
         var update_interval_seconds_pretty = this.interval_seconds_pretty(parseInt(update_interval_seconds));
         if (update_interval_seconds > 0 ) {
             $("#polling_time").val(update_interval_seconds_pretty);
-            $("#polling_time").removeAttr("disabled");
+            $("#polling_time").prop("disabled", false);
         } else {
             $("#polling_time").val("");
-            $("#polling_time").attr("disabled", "disabled");
+            $("#polling_time").prop("disabled", true);
         }
         
-        function renderFields() {
+        function render_fields(data, resp_source) {
         	var $rrContents = $('#templates #template-register-resource').clone();
-        	$rrContents.find('#resource_registration_title').val(ion_title);
-        	$rrContents.find('#resource_registration_description').text(ion_description);
-        	$rrContents.find('#resource_registration_visualization_url').text(ion_visualization_url);
+        	$rrContents.find('#resource_registration_title').val(resp_source.ion_title);
+        	$rrContents.find('#resource_registration_description').text(resp_source.ion_description);
+            var visualization_url = "";
+            if (resp_source.ion_visualization_url !== undefined) visualization_url = resp_source.ion_visualization_url;
+        	$rrContents.find('#resource_registration_visualization_url').text(visualization_url);
         	$("#ds_title").empty().append($rrContents);
-    		var ds_publisher_contact = "<b>Contact Name:</b> "+ion_name+"<br><b>Contact Email:</b> "+ion_email+"<br><b>Contact Institution:</b> "+ion_institution;
+    		var ds_publisher_contact = "<b>Contact Name: </b>"+resp_source.ion_name+"<br><b>Contact Email: </b>"+resp_source.ion_email+"<br><b>Contact Institution: </b>"+resp_source.ion_institution;
     		$("#ds_publisher_contact").html(ds_publisher_contact);
-    		var ds_source = "<b>Title:</b> "+data.title;
-    		if (data.summary) ds_source += "<br><br><b>Description:</b><br>"+data.summary;
+    		var ds_source = "<b>Title: </b>"+data.title;
+            var orig_source_description = "N/A";
+            if (data.summary !== undefined) orig_source_description = data.summary;
+    		if (data.summary) ds_source += "<br><br><b>Description:</b><br>"+orig_source_description;
             $("#ds_source").html(ds_source);
-    		var ds_source_contact = "<br><b>Contact Institution:</b>"+data.institution;
+    		var ds_source_contact = "<br><b>Contact Institution: </b>"+data.institution;
             $("#ds_source_contact").html(ds_source_contact);
             $("#ds_variables").html(self.format_variables(resp.variable || {}));
             var geo_html = self.format_geospatial(data);
             $("#ds_geospatial_coverage").html(geo_html);
             $("#ds_temporal_coverage").html(data.ion_time_coverage_start + " - "+data.ion_time_coverage_end);
-            $("#ds_references").html("<a style='text-decoration:underline' target='_blank' href='"+data.references+"'>"+data.references+"</a>");
+            if (data.references == undefined){
+                $("#ds_references").html("<div>N/A</div>");
+            } else {
+                $("#ds_references").html(data.references).linkify().find("a").attr("target", "_blank");
+            }
             $(".notification_settings, .dispatcher_settings").hide();
-            $("#download_dataset_button, #setup_notifications, #save_myresources_changes").removeAttr("disabled"); self.controller.loading_dialog();
+            $("#download_dataset_button, #setup_notifications, #save_myresources_changes").prop("disabled", false);
+            self.controller.loading_dialog();
         }
 
 		var ion_title = '', ion_description = '', ion_name = '', ion_email = '', ion_institution = '', ion_visualization_url = '';
 		if (resp.source) {
-			ion_title = resp.source.ion_title;
 			ion_description = resp.source.ion_description;
 			ion_visualization_url = resp.source.visualization_url;
 			ion_name = resp.source.ion_name;
 			ion_email = resp.source.ion_email;
 			ion_institution = resp.source.ion_institution;
 			
-			renderFields();
+			render_fields(data, resp.source);
 		}
 		else {
 			$.ajax({url:"userProfile", type:"GET", data:{action:"get"}, dataType:"json",
 				success: function(profile_resp){
-					ion_name = profile_resp.name;
-					ion_institution = profile_resp.institution;
-					ion_email = profile_resp.email_address;
-
-					renderFields();
+                    var resp_source = {"ion_title":"", "ion_description":"", "ion_name":profile_resp.name, "ion_email":profile_resp.email_address, "ion_institution":profile_resp.institution, "ion_visualization_url":""};
+					render_fields(data, resp_source);
 				}
 			});
 		}
