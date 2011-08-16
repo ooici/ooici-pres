@@ -306,6 +306,9 @@ tr.odd {
 #ds_references a {
     text-decoration:underline;
 }
+#ds_variables .odd {
+    background-color:#efefef;
+}
 
 
 .input_error {

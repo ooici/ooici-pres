@@ -256,7 +256,11 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $.each(data, function(v){
             var vari = data[v];
             var var_string = (vari.name?vari.name:"N/A") + " (" + (vari.units?vari.units:"N/A") +") [" + (vari.standard_name?vari.standard_name:"N/A") +"]";
-            html += "<div>"+var_string+"</div>";
+            if (v % 2 === 0){
+                html += "<div class='even'>"+var_string+"</div>";
+            } else {
+                html += "<div class='odd'>"+var_string+"</div>";
+            }
         });
         html += "</div>";
         return html;

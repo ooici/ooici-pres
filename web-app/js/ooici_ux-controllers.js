@@ -102,7 +102,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 $("#datatable_details_scroll, #datatable_details_container").show();
                 $("#datatable_select_buttons, .dataTables_wrapper").hide();
                 self._all_registered_resources_details(nth_dataset)
-            }, 1000));
+            }, 2000));
         } else {
             this._all_registered_resources_details(nth_dataset);
         }
@@ -132,7 +132,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 self._my_registered_resources_details(nth_dataset)
                 $("#datatable_details_scroll, #datatable_details_container").show();
                 $("#datatable_select_buttons, .dataTables_wrapper").hide();
-            }, 1000));
+            }, 2000));
         } else {
             this._my_registered_resources_details(nth_dataset);
         }
