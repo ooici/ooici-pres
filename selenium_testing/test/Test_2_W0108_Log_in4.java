@@ -16,7 +16,7 @@ public class Test_2_W0108_Log_in4 extends SeleneseTestCase {
 	@Test
 	public void test_2_W0108_Log_in4() throws Exception {
 		selenium.open("/ooici-pres-0.1/");
-		selenium.click("//a/div");
+		selenium.click("login_button");
 		selenium.waitForPageToLoad("30000");
 		selenium.click("wayflogonbutton");
 		selenium.waitForPageToLoad("30000");

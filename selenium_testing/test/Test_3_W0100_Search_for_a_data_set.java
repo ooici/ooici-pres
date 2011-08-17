@@ -16,7 +16,7 @@ public class Test_3_W0100_Search_for_a_data_set extends SeleneseTestCase {
 	@Test
 	public void test_3_W0100_Search_for_a_data_set() throws Exception {
 		selenium.open("/ooici-pres-0.1/");
-		selenium.click("//a/div");
+		selenium.click("login_button");
 		selenium.waitForPageToLoad("30000");
 		selenium.click("wayflogonbutton");
 		selenium.waitForPageToLoad("30000");

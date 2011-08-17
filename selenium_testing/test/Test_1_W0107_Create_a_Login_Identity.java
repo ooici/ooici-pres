@@ -22,7 +22,8 @@ public class Test_1_W0107_Create_a_Login_Identity extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
 
-		selenium.click("//a/div");
+
+                selenium.click("login_button");
 		selenium.waitForPageToLoad("30000");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
