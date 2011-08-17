@@ -1,0 +1,60 @@
+<project name="tests" basedir="." default="main">
+ 
+ 
+        <property name="test.dir" value="generated_tests" />
+ 
+        <property name="build.dir" value="build" />
+        <property name="classes.dir" value="${build.dir}/classes" />
+        <property name="jar.dir" value="${build.dir}/jar" />
+        <property name="lib.dir" value="lib" />
+        <property name="report.dir" value="reports" />
+ 
+        <path id="classpath">
+                <fileset dir="${lib.dir}" includes="**/*.jar" />
+                <fileset dir="${lib.dir}" includes="**/junit/*.jar" />
+                <fileset dir="${lib.dir}" includes="**/commons/*.jar" />
+        </path>
+ 
+ 
+        <target name="clean">
+                <delete dir="${build.dir}" />
+        </target>
+ 
+        <target name="compile" depends="clean">
+                <mkdir dir="${classes.dir}" />
+                <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath" />
+        </target>
+ 
+        <target name="jar" depends="compile">
+                <mkdir dir="${jar.dir}" />
+                <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+                        <manifest>
+                        </manifest>
+                </jar>
+        </target>
+ 
+        <target name="junit" depends="jar">
+                <junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="true">
+                        <formatter type="xml" />
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+ 
+        <target name="junitreport">
+                <junitreport todir="${report.dir}">
+                        <fileset dir="${report.dir}" includes="TEST-*.xml" />
+                        <report todir="${report.dir}" />
+                </junitreport>
+        </target>
+ 
+</project>
+
