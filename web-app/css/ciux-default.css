@@ -183,6 +183,10 @@ div#icons {
 	height: 85px;
     margin-bottom:20px;
 }
+.boundingBoxControlsSidebar input {
+    color:#000;
+    background-color:#FFF;
+}
 .altitudeControlsSidebar {
 	position:absolute;
 	top:-52px;

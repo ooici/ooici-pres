@@ -54,7 +54,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         //TODO: the below should go in a self contained view:
 
         if (OOI_ROLES.length === 0) {
-            $("#radioMyPubRes, #radioMySub").attr("disabled", "disabled");
+            $("#radioMyPubRes, #radioMySub").prop("disabled", true);
             $(".non_guest").css("color", "#AAAAAA");
             $("#setup_notifications").hide();//TODO: put this in
         }
@@ -90,7 +90,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     all_registered_resources: function(){
-        $("#radioAllPubRes").attr("checked", true);
+        //$("#radioAllPubRes").prop("checked", true);
         this.reset_sidebar();
         this.workflow100.render();
     },
@@ -102,7 +102,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 $("#datatable_details_scroll, #datatable_details_container").show();
                 $("#datatable_select_buttons, .dataTables_wrapper").hide();
                 self._all_registered_resources_details(nth_dataset)
-            }, 1000));
+            }, 2000));
         } else {
             this._all_registered_resources_details(nth_dataset);
         }
@@ -114,13 +114,13 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     },
 
     my_notification_settings: function(){
-        $("#radioMySub").attr("checked", true);
+        //$("#radioMySub").prop("checked", true);
         this.reset_sidebar();
         this.workflow104.render();
     },
 
     my_registered_resources: function(){
-        $("#radioMyPubRes").attr("checked", true);
+        //$("#radioMyPubRes").prop("checked", true);
         this.reset_sidebar();
         this.workflow106.render();
     },
@@ -132,7 +132,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
                 self._my_registered_resources_details(nth_dataset)
                 $("#datatable_details_scroll, #datatable_details_container").show();
                 $("#datatable_select_buttons, .dataTables_wrapper").hide();
-            }, 1000));
+            }, 2000));
         } else {
             this._my_registered_resources_details(nth_dataset);
         }
@@ -242,20 +242,20 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
     notifications_dispatcher_check_init: function(){
         $("input.notifications_dispatcher").bind("change", function(e){
             if ($(".notifications_dispatcher:checked").length === 0){
-                    $("#start_notifications, #save_notifications_changes").attr("disabled", "disabled");
+                $("#start_notifications, #save_notifications_changes").prop("disabled", true);
                 } else {
                     if ($("div.dispatcher_settings .notifications_dispatcher:checked").length > 0){
                         var script_path_elem = $("#dispatcher_script_path");
                         if (script_path_elem.val() === ""){
-                            script_path_elem.css("border", "1px solid #ff0000"); 
-                            $("#start_notifications, #save_notifications_changes").attr("disabled", "disabled");
+                            script_path_elem.addClass("input_error"); 
+                            $("#start_notifications, #save_notifications_changes").prop("disabled", true);
                         } else {
-                            script_path_elem.attr("style", "");
-                            $("#start_notifications, #save_notifications_changes").attr("disabled", "");
+                            script_path_elem.removeClass("input_error");
+                            $("#start_notifications, #save_notifications_changes").prop("disabled", false);
                         }
                     } else {
-                        $("#start_notifications, #save_notifications_changes").attr("disabled", "");
-                        $("#dispatcher_script_path").attr("style", "");
+                        $("#start_notifications, #save_notifications_changes").prop("disabled", false);
+                        $("#dispatcher_script_path").removeClass("input_error");
                     }
                 }
          });
@@ -266,11 +266,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             if ($("div.dispatcher_settings .notifications_dispatcher:checked").length > 0){
                 var script_path_elem = $("#dispatcher_script_path");
                 if (script_path_elem.val() === ""){
-                    script_path_elem.css("border", "1px solid #ff0000"); 
-                    $("#start_notifications, #save_notifications_changes").attr("disabled", "disabled");
+                    script_path_elem.addClass("input_error"); 
+                    $("#start_notifications, #save_notifications_changes").prop("disabled", true);
                 } else {
-                    script_path_elem.attr("style", "");
-                    $("#start_notifications, #save_notifications_changes").attr("disabled", "");
+                    script_path_elem.removeClass("input_error");
+                    $("#start_notifications, #save_notifications_changes").prop("disabled", false);
                 }
             } 
         });
@@ -296,10 +296,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         }
         switch (button_id) {
           case "deselect_all":
-            $("#"+datatable_id+" input:checkbox").attr("checked", "");
+            $("#"+datatable_id+" input:checkbox").prop("checked", false);
             break;
           case "select_all":
-            $("#"+datatable_id+" input:checkbox").attr("checked", "checked");
+            $("#"+datatable_id+" input:checkbox").prop("checked", true);
             break;
           case "delete_selected":
             var ds_checked = $("#"+datatable_id+" input:checked");
