@@ -27,14 +27,16 @@ button {
 }
 #loading_message {
     position:absolute;
+    left:-60px;
+    top:6px;
     margin:0 auto;
     z-index:10;
     width:100%;
-    text-align:center;
+    text-align:right;
     display:none;
 }
 #loading_message span {
-    background-color:#FFF47F;
+    /*background-color:#FFF47F;*/
     font-weight:bold;
     position:relative;
     padding:4px 4px 2px 40px;

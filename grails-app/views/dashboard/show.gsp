@@ -215,7 +215,7 @@
             <table>
               <tr>
                 <td>&nbsp;</td>
-                <td><strong style="position:relative;left:-30px">Bounding Box:</strong></td>
+                <td><strong style="position:relative;left:-30px">Bounding Box</strong></td>
               </tr>
               <tr>
                 <td><input id="radioBoundingAll" title="<%= HELP.P1001_SP19 %>" class="all bounding" name="group1" type="radio"/>
@@ -270,7 +270,7 @@
         <form action="">
           <table>
             <tr>
-              <td class="boldText">Time Range:</td>
+              <td class="boldText">Time Range</td>
               <td><input id="TE_timeRange_all" title="<%= HELP.P1003_SP35 %>" class="all" name="group1" type="radio"/></td>
               <td><label for="TE_timeRange_all" title="<%= HELP.P1003_SP35 %>">All</label></td>
               <td><input id="TE_timeRange_defined" title="<%= HELP.P1003_SP36 %>" class="defined" name="group1" type="radio"/></td>
@@ -290,9 +290,8 @@
     </div>
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
-      <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
       <button id="apply_filter_button" disabled="disabled">Search</button>
-      <button id="register_resource_button" title="<%= HELP.P1062_SP190 %>">Validate Resource</button>
+      <button id="register_resource_button" title="<%= HELP.P1062_SP190 %>">Validate Source</button>
    </div><!-- end .west-south -->
 
  </div> <!-- end .ui-layout-west -->

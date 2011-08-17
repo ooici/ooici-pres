@@ -366,7 +366,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $("#datatable h1").text("All Registered Resources");
         $(".notification_settings, .dispatcher_settings, .user_settings").hide();
         $("#datatable_details_scroll").hide();
-        $("#geospatial_selection_button").show();
+        $("#apply_filter_button").show();
         $("#download_dataset_button, #setup_notifications").show().prop("disabled", true);
 		$('.instrument_agent').hide();
         $("h3.data_sources").show();
@@ -596,7 +596,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $("#datatable h1").text("My Notification Settings");
         $(".data_sources").hide();
 		$('.instrument_agent').hide();
-        $("#geospatial_selection_button").hide();
+        $("#apply_filter_button").hide();
         $(".east-south button").hide();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").show()
         var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
@@ -619,11 +619,23 @@ OOI.Views.Workflow105 = Backbone.View.extend({
 
     initialize: function() { 
         _.bindAll(this, "render", "resource_selector", "register_resource"); 
+        this.init_register_new();
         this.controller = this.options.controller;
     },
 
     render: function() {
         return this;
+    },
+
+    init_register_new:function(){
+        $("#register_resource_button").prop("disabled", true);
+        $("#data_resource_url").keyup(function(){
+            if ($(this).val() === ""){
+                $("#register_resource_button").prop("disabled", true);
+            } else {
+                $("#register_resource_button").prop("disabled", false);
+            }
+        });
     },
 
 	show_validate_response: function($el, data_resource_url, data) {
@@ -729,12 +741,12 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         var id = $(e.target).attr("id");
         $("#"+id).addClass("selected");
         if (id == "view_existing_tab"){
-            $("#geospatial_selection_button, #view_existing, .view_existing, .instrument_view").show();
+            $("#apply_filter_button, #view_existing, .view_existing, .instrument_view").show();
             $("#register_new, #register_resource_button").hide();
             $("#register_new_tab").removeClass("selected");
         } else {
             $("#register_new, #register_resource_button").show();
-            $("#geospatial_selection_button, #view_existing, .view_existing, .instrument_view").hide();
+            $("#apply_filter_button, #view_existing, .view_existing, .instrument_view").hide();
             $("#view_existing_tab").removeClass("selected");
         }
         //TODO: this 'role' type logic needs to be changed to a class based switch strategy:
@@ -1419,7 +1431,6 @@ OOI.Views.Workflow109Datasources = OOI.Views.Workflow109.extend({
 OOI.Views.GeospatialContainer = Backbone.View.extend({
 
     events: {
-        //TODO: "click #geospatial_selection_button":"render_geo"
         "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
         "click .vertical_extent_button":"vertical_extent_direction_toggle",
         "click .bb_direction":"bounding_box_direction_toggle",
@@ -1427,9 +1438,8 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
     },
 
     initialize: function() {
-        _.bindAll(this, "render_geo", "init_bounding", "vertical_extent_units_toggle", "vertical_extent_direction_toggle"); 
+        _.bindAll(this, "init_bounding", "vertical_extent_units_toggle", "vertical_extent_direction_toggle"); 
         this.controller = this.options.controller;
-        this.init_geo(); //'el' property doesn't encapsulate properly ... fixme
         this.init_bounding(); //'el' property doesn't encapsulate properly.. fixme
         this.apply_filter(); //'el' property doesn't encapsulate properly.. fixme
         $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").prop("checked", true);
@@ -1613,10 +1623,6 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         return data;
     },
 
-    init_geo:function(){
-        $("#geospatial_selection_button").click(this.render_geo);
-    },
-
     init_bounding:function(){
         $("#geospatialContainer .defined").click(function(){
           var is_bounding = $(this).hasClass("bounding");
@@ -1625,7 +1631,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
           } else {
             $(".altitudeControls input").prop("disabled", false);
           }
-          $("#geospatial_selection_button").prop("disabled", false);
+          //$("#apply_filter_button").prop("disabled", false);
         });
         $("#geospatialContainer .all").click(function(){
           var is_bounding = $(this).hasClass("bounding");
@@ -1634,7 +1640,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
           } else {
             $(".altitudeControls input").prop("disabled", true);
           }
-          $("#geospatial_selection_button").prop("disabled", false);
+          //$("#apply_filter_button").prop("disabled", false);
         });
 
         $(".temporalExtentContainer input[type='radio']").click(function(){
@@ -1950,7 +1956,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
         $("#datatable h1").text("All Instruments");
         $(".data_sources, .notification_settings, .dispatcher_settings").hide();
         $("#datatable_details_scroll").hide();
-        $("#geospatial_selection_button").show();
+        $("#apply_filter_button").show();
         $(".agent_button").show();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide();
         $(".my_resources_sidebar").hide();
