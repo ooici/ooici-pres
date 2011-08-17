@@ -256,7 +256,7 @@
         <div class="altitudeControls">
             <span class="altitudeUpper"><div>Upper Bound</div>
             <input  id="ge_altitude_ub" title="<%= HELP.P1001_SP28 %>" class="textfield" name="altUpper" type="text" size="6" maxlength="6"/>
-            <img  id="vertical_extent_above" title="<%= HELP.P1001_SP28 %>" class="vertical_extent_button" src="images/Below-Sea-Level-Simple.png">
+            <img  id="vertical_extent_above" title="<%= HELP.P1001_SP28 %>" class="vertical_extent_button" src="images/Above-Sea-Level-Simple.png">
             </span>
             <span class="altitudeLower"><div>Lower Bound</div>
             <input id="ge_altitude_lb" title="<%= HELP.P1001_SP28 %>" class="textfield" name="altLower" type="text" size="6" maxlength="6"/>
@@ -291,7 +291,7 @@
    </div><!-- end .west-center -->
    <div id="west_south" class="west-south">
       <!--<button id="geospatial_selection_button" disabled="disabled">Geospatial Selection Query</button>-->
-      <button id="apply_filter_button" disabled="disabled">Apply Filter</button>
+      <button id="apply_filter_button" disabled="disabled">Search</button>
       <button id="register_resource_button" title="<%= HELP.P1062_SP190 %>">Validate Resource</button>
    </div><!-- end .west-south -->
 
@@ -622,20 +622,20 @@
     <div id="template-bounding-box">
       <div class="boundingBoxControlsSidebar">
           <span class="bb_direction Ntext" title="<%= HELP.P1001_SP26 %>">N</span>
-          <input id="ge_bb_north" value="{{ north }}" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
+          <input id="ge_bb_north" disabled="disabled" value="{{ north }}" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Stext" title="<%= HELP.P1001_SP26 %>">S</span>
-          <input id="ge_bb_south" value="{{ south }}" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
+          <input id="ge_bb_south" disabled="disabled" value="{{ south }}" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Etext" title="<%= HELP.P1001_SP26 %>">E</span>
-          <input id="ge_bb_east" value="{{ east }}" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
+          <input id="ge_bb_east" disabled="disabled" value="{{ east }}" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
           <span class="bb_direction Wtext" title="<%= HELP.P1001_SP26 %>">W</span>
-          <input id="ge_bb_west" value="{{ west }}"  title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
+          <input id="ge_bb_west" disabled="disabled" value="{{ west }}"  title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
           <span class="NSEWBackgroundBorder"></span>
         <div class="altitudeControlsSidebar">
           <span class="altitudeUpper"><div>Upper Bound</div>
-          <input type="text" value="{{ upper }}" maxlength="6" size="6" name="altUpper" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_ub">
+          <input type="text" disabled="disabled" value="{{ upper }}" maxlength="6" size="6" name="altUpper" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_ub">
           </span>
           <span class="altitudeLower"><div>Lower Bound</div>
-          <input type="text" value="{{ lower }}" maxlength="6" size="6" name="altLower" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_lb">
+          <input type="text" disabled="disabled" value="{{ lower }}" maxlength="6" size="6" name="altLower" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_lb">
           </span>
           <div class="verticalPositive">Vertical Positive: {{ vertical_positive }}</div>
         </div>

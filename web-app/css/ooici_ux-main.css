@@ -8,6 +8,9 @@ body {
     margin:0px;
     padding:0px;
 }
+button {
+    cursor:pointer;
+}
 #layoutContainer {
     position: absolute;
     top: 0;
@@ -84,6 +87,10 @@ body {
 }
 #userbar a:hover {
     text-decoration:none;
+    background-position:0px -20.5px;
+}
+#userbar a:active {
+    background-position:0px -40.5px;
 }
 a#login_link {
 	background: url("../images/G1134-Script-Sign-In.png") no-repeat 0px 0px;

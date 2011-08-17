@@ -296,10 +296,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         }
         switch (button_id) {
           case "deselect_all":
-            $("#"+datatable_id+" input:checkbox").attr("checked", "");
+            $("#"+datatable_id+" input:checkbox").prop("checked", false);
             break;
           case "select_all":
-            $("#"+datatable_id+" input:checkbox").attr("checked", "checked");
+            $("#"+datatable_id+" input:checkbox").prop("checked", true);
             break;
           case "delete_selected":
             var ds_checked = $("#"+datatable_id+" input:checked");

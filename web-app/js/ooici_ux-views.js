@@ -367,7 +367,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         $(".notification_settings, .dispatcher_settings, .user_settings").hide();
         $("#datatable_details_scroll").hide();
         $("#geospatial_selection_button").show();
-        $("#download_dataset_button, #setup_notifications").show().attr("disabled", "disabled");
+        $("#download_dataset_button, #setup_notifications").show().prop("disabled", true);
 		$('.instrument_agent').hide();
         $("h3.data_sources").show();
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
@@ -437,7 +437,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         $(".dispatcher_settings input[type='checkbox']").prop("checked", false);//clear out old vals
         $("#dispatcher_script_path").val("");//clear out old vals
         $("#start_notifications, .notification_settings, .dispatcher_settings").show();
-        $("#start_notifications").attr("disabled", "disabled");
+        $("#start_notifications").prop("disabled", true);
         $("#download_dataset_button, #setup_notifications").hide();
         $(".data_sources").hide();
         var is_early_adopter = _.any(OOI_ROLES, function(role){return role === "EARLY_ADOPTER"});
@@ -816,12 +816,12 @@ OOI.Views.ResourceActions = Backbone.View.extend({
             var nums = val.split(":");
             if (nums.length != 3){
                 $(e.target).addClass("polling_input_error");
-                $("#save_myresources_changes").attr("disabled", "disabled");
+                $("#save_myresources_changes").prop("disabled", true);
             } else {
                 var n0 = nums[0], n1 = nums[1], n2 = nums[2];
                 if ( n0.length != 2 || n0 == "" || isNaN(n0) || n1.length != 2 || n1 == "" || isNaN(n1) || n2.length != 2 || n2 == "" || isNaN(n2)  ){
                     $(e.target).addClass("polling_input_error");
-                    $("#save_myresources_changes").attr("disabled", "disabled");
+                    $("#save_myresources_changes").prop("disabled", true);
                 } else {
                     $(e.target).removeClass("polling_input_error");
                     $("#save_myresources_changes").removeAttr("disabled");
@@ -833,7 +833,7 @@ OOI.Views.ResourceActions = Backbone.View.extend({
             if (elem_id === "polling_radio_yes"){
                 $("#polling_time").removeAttr("disabled");
             } else {
-                $("#polling_time").attr("disabled", "disabled");
+                $("#polling_time").prop("disabled", true);
             }
         });
     },
@@ -1176,7 +1176,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $("#save_notification_settings, #start_notifications").hide(); //button
         $(".notification_settings, .user_settings").hide();
 		$('.instrument_agent').hide();
-        $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
+        $("#download_dataset_button, #setup_notifications").hide().prop("disabled", true);
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide()
         $("h3.my_resources_sidebar").show();
         $("h3.data_sources").show();
@@ -1315,7 +1315,7 @@ OOI.Views.Workflow109 = Backbone.View.extend({
         $("#save_notification_settings").hide(); //button
 		$(".notification_settings, .dispatcher_settings, .user_settings").hide();
 		$('.instrument_agent').hide();
-        $("#download_dataset_button, #setup_notifications").hide().attr("disabled", "disabled");
+        $("#download_dataset_button, #setup_notifications").hide().prop("disabled", true);
         $("#save_notifications_changes, #notification_settings, #dispatcher_settings").hide();
         $("#east_sidebar h3").hide();
 		$("#datatable_select_buttons").hide();
@@ -1373,7 +1373,7 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 		$('#user_setting_role').val(roleVals);
 		$('.user_settings').show();
 
-		$('#save_user_changes').attr('disabled', false);
+		$('#save_user_changes').prop('disabled', false);
 	}
 
 	, save_user: function(e) {
@@ -1404,7 +1404,7 @@ OOI.Views.Workflow109Users = OOI.Views.Workflow109.extend({
 		$('#east_sidebar').show();
 		$('.user_button').show();
 		$('.user_settings').hide();
-		$('#save_user_changes').attr('disabled', true);
+		$('#save_user_changes').prop('disabled', true);
 	}
 });
 OOI.Views.Workflow109Datasets = OOI.Views.Workflow109.extend({
@@ -1432,15 +1432,15 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         this.init_geo(); //'el' property doesn't encapsulate properly ... fixme
         this.init_bounding(); //'el' property doesn't encapsulate properly.. fixme
         this.apply_filter(); //'el' property doesn't encapsulate properly.. fixme
-        $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").attr("checked", "checked");
+        $("#radioBoundingAll, #radioAltitudeAll, #TE_timeRange_all").prop("checked", true);
     },
 
     apply_filter:function(){
         $("#geospatialContainer input").change(function(){
-            $("#apply_filter_button").removeAttr("disabled");
+            $("#apply_filter_button").prop("disabled", false);
         });
         $("#temporalExtent input").change(function(){
-            $("#apply_filter_button").removeAttr("disabled");
+            $("#apply_filter_button").prop("disabled", false);
         });
         $("#apply_filter_button").click(function(){
             var current_view = $("#view_existing input[type='radio']:checked").attr("id");
@@ -1466,10 +1466,10 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var val = $(e.target).val();
         if (isNaN(val) && val !== ""){
             $(e.target).addClass("input_error");
-            $("#apply_filter_button").attr("disabled", "disabled");
+            $("#apply_filter_button").prop("disabled", true);
         } else {
             $(e.target).removeClass("input_error");
-            $("#apply_filter_button").removeAttr("disabled");
+            $("#apply_filter_button").prop("disabled", false);
         }
     },
 
@@ -1621,33 +1621,33 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         $("#geospatialContainer .defined").click(function(){
           var is_bounding = $(this).hasClass("bounding");
           if (is_bounding){
-            $(".boundingBoxControls input").removeAttr("disabled");
+            $(".boundingBoxControls input").prop("disabled", false);
           } else {
-            $(".altitudeControls input").removeAttr("disabled");
+            $(".altitudeControls input").prop("disabled", false);
           }
-          $("#geospatial_selection_button").removeAttr("disabled");
+          $("#geospatial_selection_button").prop("disabled", false);
         });
         $("#geospatialContainer .all").click(function(){
           var is_bounding = $(this).hasClass("bounding");
           if (is_bounding){
-            $(".boundingBoxControls input").attr("disabled", "disabled");
+            $(".boundingBoxControls input").prop("disabled", true);
           } else {
-            $(".altitudeControls input").attr("disabled", "disabled");
+            $(".altitudeControls input").prop("disabled", true);
           }
-          $("#geospatial_selection_button").removeAttr("disabled");
+          $("#geospatial_selection_button").prop("disabled", false);
         });
 
         $(".temporalExtentContainer input[type='radio']").click(function(){
           var is_all = $(this).hasClass("all");
           if (is_all){
-            $(".temporalExtentControls input").attr("disabled", "disabled");
+            $(".temporalExtentControls input").prop("disabled", true);
           } else {
-            $(".temporalExtentControls input").removeAttr("disabled");
+            $(".temporalExtentControls input").prop("disabled", false);
           }
         });
         $("#geospatialContainer .defined").trigger("click");
         $("#geospatialContainer .all").trigger("click");
-        $(".temporalExtentControls input").attr("disabled", "disabled");
+        $(".temporalExtentControls input").prop("disabled", true);
     }
 
 
@@ -1742,7 +1742,7 @@ OOI.Views.AccountSettings = Backbone.View.extend({
     },
 
     account_settings: function(){
-        $("#account_settings_content input[type='checkbox']").attr("checked", false);
+        $("#account_settings_content input[type='checkbox']").prop("checked", false);
         $("#account_settings_content, #account_settings_bottom").css("opacity", "0");
         $("#account_settings").prepend($("<div>").attr("id", "loading_account_settings").text("Loading Acccount Settings..."));
         var self = this;
@@ -1759,10 +1759,10 @@ OOI.Views.AccountSettings = Backbone.View.extend({
                         var elem = $("#account_"+v.name);
                         if (elem.length){
                             if (v.value === "true") {
-                                elem.attr("checked", true);
+                                elem.prop("checked", true);
                             }
                             if (v.value === "false"){
-                                elem.attr("checked", false);
+                                elem.prop("checked", false);
                             } else {
                                 elem.val(v.value);
                             }
@@ -1809,7 +1809,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
         this.populate_table();
         this.presentation();
         $('.ui-layout-center, .ui-layout-east').show();
-		$('.agent_button').attr('disabled', 'disabled');
+		$('.agent_button').prop('disabled', true);
         return this;
     },
 
@@ -1824,7 +1824,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 
     show_detail: function(instrument_resource_id){
         var self = this;
-		$('.agent_button').attr('disabled', 'disabled');
+		$('.agent_button').prop('disabled', true);
 		$("#instrument_agent_details").text('Loading instrument details...');
         this.controller.loading_dialog("Loading instrument details...");
         $.ajax({url:"instrument", type:"POST", dataType:"json", data:{action: "getState", instrument_resource_id:instrument_resource_id},
@@ -1884,7 +1884,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 			}});
 		}
 
-		$('.agent_button').attr('disabled', false);
+		$('.agent_button').prop('disabled', false);
 		$('#agent_sampling_start').unbind('click').click(function(e) {
 			toggleSampleState('start');
 		});
