@@ -8,6 +8,9 @@ body {
     margin:0px;
     padding:0px;
 }
+button {
+    cursor:pointer;
+}
 #layoutContainer {
     position: absolute;
     top: 0;
@@ -24,14 +27,16 @@ body {
 }
 #loading_message {
     position:absolute;
+    left:-60px;
+    top:6px;
     margin:0 auto;
     z-index:10;
     width:100%;
-    text-align:center;
+    text-align:right;
     display:none;
 }
 #loading_message span {
-    background-color:#FFF47F;
+    /*background-color:#FFF47F;*/
     font-weight:bold;
     position:relative;
     padding:4px 4px 2px 40px;
@@ -84,6 +89,10 @@ body {
 }
 #userbar a:hover {
     text-decoration:none;
+    background-position:0px -20.5px;
+}
+#userbar a:active {
+    background-position:0px -40.5px;
 }
 a#login_link {
 	background: url("../images/G1134-Script-Sign-In.png") no-repeat 0px 0px;
@@ -303,6 +312,12 @@ tr.odd {
 }
 #datatable_details_container {
 }
+#ds_references a {
+    text-decoration:underline;
+}
+#ds_variables .odd {
+    background-color:#efefef;
+}
 
 
 .input_error {
@@ -312,7 +327,6 @@ tr.odd {
     border:1px solid #ff0000;
     padding:3px;
 }
-
 
 
 /* sidebar widget containers */
