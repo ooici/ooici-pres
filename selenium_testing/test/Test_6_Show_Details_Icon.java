@@ -33,8 +33,8 @@ public class Test_6_Show_Details_Icon extends SeleneseTestCase {
 		}
 
 		selenium.uncheck("id=PersistentCookie");
-		selenium.type("id=Email", "U_S_E_R-N_A_M_E");
-		selenium.type("id=Passwd", "P_A_S_S-W_O_R_D");
+		selenium.type("id=Email", "U_S_E_R-N_A_M_E_1");
+		selenium.type("id=Passwd", "P_A_S_S-W_O_R_D_1");
 		selenium.click("id=signIn");
 		selenium.waitForPageToLoad("30000");
 		for (int second = 0;; second++) {
