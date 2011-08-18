@@ -50,6 +50,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.datetime_selectors();
         this.notifications_dispatcher_check_init();
         this.dispatcher_script_path_check_init();
+        this.add_dynamic_tooltips();
         
         //TODO: the below should go in a self contained view:
 
@@ -232,6 +233,10 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         }
         msg += "\n\n"+contact_msg;
         setTimeout(function(){alert(msg)}, 100); //setTimeout needed for loading_dialog to correctly be closed.
+    },
+
+    add_dynamic_tooltips: function(){
+        $(".dataTables_filter input").attr("title", "Display only rows that contain text matching filter content")
     },
 
     datetime_selectors:function(){
