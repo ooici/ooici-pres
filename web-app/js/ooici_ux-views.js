@@ -319,7 +319,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         var tmpl_vals = {
             "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
             "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
-            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min,
+            "upper":data.ion_geospatial_vertical_min, "lower":data.ion_geospatial_vertical_max,
             "vertical_positive":data.ion_geospatial_vertical_positive
         };
         var html = _.template(tmpl_str, tmpl_vals);
@@ -1165,11 +1165,10 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 
     format_geospatial:function(data){
         var tmpl_str = $("#template-bounding-box").html();
-        //data.ion_geospatial_vertical_positive
         var tmpl_vals = {
             "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
             "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
-            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min,
+            "upper":data.ion_geospatial_vertical_min, "lower":data.ion_geospatial_vertical_max,
             "vertical_positive":data.ion_geospatial_vertical_positive
         };
         var html = _.template(tmpl_str, tmpl_vals);
