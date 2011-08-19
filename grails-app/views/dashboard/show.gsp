@@ -283,7 +283,7 @@
         <input id="te_from_input" title="<%= HELP.P1003_SP17 %>" name="te_from_input" type="text" size="21" maxlength="21"/>
         <br><span class="te-to boldText">To:</span>
         <input id="te_to_input" title="<%= HELP.P1003_SP17 %>" name="te_to_input" type="text" size="21" maxlength="21"/>
-        <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC</div>
+        <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC<br>yyyy-mm-ddThh:mm:ssZ</div>
       </div><!-- end .temporalExtentControls -->
       </div>
 

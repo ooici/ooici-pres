@@ -590,8 +590,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 	presentation: function(){
 		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
+		$('#east_sidebar').show();
         $(".notification_settings, .dispatcher_settings, .user_settings").hide();
-        $(".notification_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("My Notification Settings");
         $(".data_sources").hide();
@@ -604,7 +604,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
             $(".early_adopter").hide();
         }
     }
-
 });
 
 
@@ -1571,16 +1570,24 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var posVertical = "down";
         if ($("#radioBoundingDefined").is(":checked")){
         	if (minLatitude !== "") {
-                data["minLatitude"] = parseFloat(minLatitude);
+                var minLatVal = parseFloat(minLatitude);
+                if ($("#geospatialContainer .Stext").text() === "S") minLatVal = -1*minLatVal;
+                data["minLatitude"] = minLatVal;
         	}
         	if (maxLatitude !== "") {
-        		data["maxLatitude"] = parseFloat(maxLatitude);
+                var maxLatVal = parseFloat(maxLatitude);
+                if ($("#geospatialContainer .Ntext").text() === "S") maxLatVal = -1*maxLatVal;
+        		data["maxLatitude"] = maxLatVal;
         	}
             if (minLongitude !== "") {
-            	data["minLongitude"] = parseFloat(minLongitude);
+                var minLonVal = parseFloat(minLongitude);
+                if ($("#geospatialContainer .Wtext").text() === "W") minLonVal = -1*minLonVal;
+            	data["minLongitude"] = minLonVal;
             }
         	if (maxLongitude !== "") {
-        		data["maxLongitude"] = parseFloat(maxLongitude);
+                var maxLonVal = parseFloat(maxLongitude);
+                if ($("#geospatialContainer .Etext").text() === "W") maxLonVal = -1*maxLonVal;
+        		data["maxLongitude"] = maxLonVal;
         	}
         }
         var default_minVertical = false, default_maxVertical = false;
