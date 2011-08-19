@@ -300,7 +300,7 @@ def deployTest():
     debugMode = 'force'
     tomcatDir = '/var/lib/jenkins/apache-tomcat-6.0.32'
     buildWebApp(True,True)
-    startWebApp(True,True,True)
+    startWebApp(True,True,False)
 
 def deployRemoteTomcat():
     buildWebApp(False,True)
