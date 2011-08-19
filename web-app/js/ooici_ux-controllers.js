@@ -50,6 +50,7 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         this.datetime_selectors();
         this.notifications_dispatcher_check_init();
         this.dispatcher_script_path_check_init();
+        this.add_dynamic_tooltips();
         
         //TODO: the below should go in a self contained view:
 
@@ -234,9 +235,37 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
         setTimeout(function(){alert(msg)}, 100); //setTimeout needed for loading_dialog to correctly be closed.
     },
 
+    add_dynamic_tooltips: function(){
+        $(".dataTables_filter input").attr("title", "Display only rows that contain text matching filter content")
+    },
+
     datetime_selectors:function(){
-        $("#te_from_input, #te_to_input").datetimepicker({
-            showSecond:true, showTimezone:true, timezone: "+0700", dateFormat:'yy-mm-dd', timeFormat:'hh:mm:ssZ', separator: 'T'});
+        $("#te_from_input, #te_to_input").datetimepicker({showSecond:true, dateFormat:'yy-mm-dd', timeFormat:'hh-mm-ss', separator:'-'});
+
+        var date_with_utc_offset = function(current_date){
+            var utcoffset_mins = (new Date).getTimezoneOffset();
+            var val_parts = current_date.split("-");
+            var year=val_parts[0], month=val_parts[1], day=val_parts[2], hours=val_parts[3], mins=val_parts[4], secs=val_parts[5];
+            var current_date = new Date(year, month, day, hours, mins, secs);
+            var new_date = new Date(current_date.setMinutes(current_date.getMinutes() + utcoffset_mins));
+            var pretty_month = new_date.getMonth()+"";
+            if (pretty_month.length == 1) pretty_month = "0"+pretty_month;
+            var pretty_day = new_date.getDate()+"";
+            if (pretty_day.length == 1) pretty_day = "0"+pretty_day;
+            var pretty_hours = new_date.getHours()+"";
+            if (pretty_hours.length == 1) pretty_hours = "0"+pretty_hours;
+            var pretty_mins = new_date.getMinutes()+"";
+            if (pretty_mins.length == 1) pretty_mins = "0"+pretty_mins;
+            var pretty_secs = new_date.getSeconds()+"";
+            if (pretty_secs.length == 1) pretty_secs = "0"+pretty_secs;
+            var pretty_new_date = new_date.getFullYear()+"-"+pretty_month+"-"+pretty_day+"T"+pretty_hours+":"+pretty_mins+":"+pretty_secs+"Z";
+            return pretty_new_date;
+        };
+
+        $("#te_from_input, #te_to_input").change(function(){
+            var new_date = date_with_utc_offset($(this).val());
+            $(this).val(new_date);
+        });
     },
 
     notifications_dispatcher_check_init: function(){
