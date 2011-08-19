@@ -318,7 +318,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         var tmpl_str = $("#template-bounding-box").html();
         var tmpl_vals = {
             "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
-            "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
+            "east":data.ion_geospatial_lon_max, "west":data.ion_geospatial_lon_min,
             "upper":data.ion_geospatial_vertical_min, "lower":data.ion_geospatial_vertical_max,
             "vertical_positive":data.ion_geospatial_vertical_positive
         };
@@ -1166,7 +1166,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         var tmpl_str = $("#template-bounding-box").html();
         var tmpl_vals = {
             "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
-            "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
+            "east":data.ion_geospatial_lon_max, "west":data.ion_geospatial_lon_min,
             "upper":data.ion_geospatial_vertical_min, "lower":data.ion_geospatial_vertical_max,
             "vertical_positive":data.ion_geospatial_vertical_positive
         };
@@ -1178,6 +1178,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         /*if ($("h3.data_sources:first").hasClass("ui-state-active")){
             $(".data_sources").trigger("click");
         }*/
+        $('#east_sidebar').show();
         $("h3.data_sources").filter(".ui-state-active").trigger("click");
 		$(".dataTables_wrapper").hide();
         $("#datatable_106_wrapper").show();
