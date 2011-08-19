@@ -72,7 +72,7 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
     events: {
         "click #dataset_scroll_left":"scroll_left",
         "click #dataset_scroll_right":"scroll_right",
-        "click #dataset_return_button":"return_to_dataset_listing",
+        "click #dataset_return_button":"return_to_dataset_listing"
     },
 
     initialize: function() {
@@ -319,7 +319,7 @@ OOI.Views.Workflow100 = Backbone.View.extend({
         var tmpl_vals = {
             "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
             "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
-            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min,
+            "upper":data.ion_geospatial_vertical_min, "lower":data.ion_geospatial_vertical_max,
             "vertical_positive":data.ion_geospatial_vertical_positive
         };
         var html = _.template(tmpl_str, tmpl_vals);
@@ -383,7 +383,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         "click #datatable_104 tbody tr":"show_detail_clicked",
         "click #setup_notifications":"setup_notifications", //XXX part of Workflow100 really...
         "click #start_notifications":"start_notifications",
-        "click #save_notifications_changes":"save_notifications_changes",
+        "click #save_notifications_changes":"save_notifications_changes"
     },
 
     initialize: function() {
@@ -590,8 +590,8 @@ OOI.Views.Workflow104 = Backbone.View.extend({
 	presentation: function(){
 		$(".dataTables_wrapper").hide();
         $("#datatable_104_wrapper").show();
+		$('#east_sidebar').show();
         $(".notification_settings, .dispatcher_settings, .user_settings").hide();
-        $(".notification_settings").hide();
         $("#datatable_details_container, #datatable_details_scroll").hide();
         $("#datatable h1").text("My Notification Settings");
         $(".data_sources").hide();
@@ -604,7 +604,6 @@ OOI.Views.Workflow104 = Backbone.View.extend({
             $(".early_adopter").hide();
         }
     }
-
 });
 
 
@@ -700,7 +699,7 @@ OOI.Views.Workflow105 = Backbone.View.extend({
             ion_geospatial_vertical_positive:dataResourceSummary.ion_geospatial_vertical_positive, 
             ion_time_coverage_start:dataResourceSummary.ion_time_coverage_start, 
             ion_time_coverage_end:dataResourceSummary.ion_time_coverage_end,base_url:dataResourceSummary.base_url,
-            summary:dataResourceSummary.summary, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id,
+            summary:dataResourceSummary.summary, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id
         }
         var html = _.template(tmpl_str, tmpl_vals);
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
@@ -770,7 +769,7 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 
     events: {
         "click #save_myresources_changes":"save_myresources_changes",
-		"click #save_register_resource":"save_register_resource",
+		"click #save_register_resource":"save_register_resource"
     },
 
     initialize: function() {
@@ -1034,7 +1033,11 @@ OOI.Views.Workflow106 = Backbone.View.extend({
         $.each(data, function(v){
             var vari = data[v];
             var var_string = (vari.name?vari.name:"N/A") + " (" + (vari.units?vari.units:"N/A") +") [" + (vari.standard_name?vari.standard_name:"N/A") +"]";
-            html += "<div>"+var_string+"</div>";
+            if (v % 2 === 0){
+                html += "<div class='even'>"+var_string+"</div>";
+            } else {
+                html += "<div class='odd'>"+var_string+"</div>";
+            }
         });
         html += "</div>";
         return html;
@@ -1161,11 +1164,10 @@ OOI.Views.Workflow106 = Backbone.View.extend({
 
     format_geospatial:function(data){
         var tmpl_str = $("#template-bounding-box").html();
-        //data.ion_geospatial_vertical_positive
         var tmpl_vals = {
             "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
             "east":data.ion_geospatial_lon_min, "west":data.ion_geospatial_lon_max,
-            "upper":data.ion_geospatial_vertical_max, "lower":data.ion_geospatial_vertical_min,
+            "upper":data.ion_geospatial_vertical_min, "lower":data.ion_geospatial_vertical_max,
             "vertical_positive":data.ion_geospatial_vertical_positive
         };
         var html = _.template(tmpl_str, tmpl_vals);
@@ -1434,7 +1436,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
         "click .vertical_extent_button":"vertical_extent_direction_toggle",
         "click .bb_direction":"bounding_box_direction_toggle",
-        "keyup input[type='text']":"validate_input_values",
+        "keyup input[type='text']":"validate_input_values"
     },
 
     initialize: function() {
@@ -1568,16 +1570,24 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         var posVertical = "down";
         if ($("#radioBoundingDefined").is(":checked")){
         	if (minLatitude !== "") {
-                data["minLatitude"] = parseFloat(minLatitude);
+                var minLatVal = parseFloat(minLatitude);
+                if ($("#geospatialContainer .Stext").text() === "S") minLatVal = -1*minLatVal;
+                data["minLatitude"] = minLatVal;
         	}
         	if (maxLatitude !== "") {
-        		data["maxLatitude"] = parseFloat(maxLatitude);
+                var maxLatVal = parseFloat(maxLatitude);
+                if ($("#geospatialContainer .Ntext").text() === "S") maxLatVal = -1*maxLatVal;
+        		data["maxLatitude"] = maxLatVal;
         	}
             if (minLongitude !== "") {
-            	data["minLongitude"] = parseFloat(minLongitude);
+                var minLonVal = parseFloat(minLongitude);
+                if ($("#geospatialContainer .Wtext").text() === "W") minLonVal = -1*minLonVal;
+            	data["minLongitude"] = minLonVal;
             }
         	if (maxLongitude !== "") {
-        		data["maxLongitude"] = parseFloat(maxLongitude);
+                var maxLonVal = parseFloat(maxLongitude);
+                if ($("#geospatialContainer .Etext").text() === "W") maxLonVal = -1*maxLonVal;
+        		data["maxLongitude"] = maxLonVal;
         	}
         }
         var default_minVertical = false, default_maxVertical = false;
@@ -2065,7 +2075,7 @@ OOI.Views.Layout = Backbone.View.extend({
             north__size: 60,
             west__size: 350,
             east__size: 350,
-            onresize:function(){self.controller.datatable_resizer();},
+            onresize:function(){self.controller.datatable_resizer();}
         });
         return layout_main;
     },
@@ -2087,7 +2097,7 @@ OOI.Views.Layout = Backbone.View.extend({
         var layout_center_inner = $("div.ui-layout-center").layout({
             minSize: 50,
             center__paneSelector:".center-center",
-            south__paneSelector: ".center-south",
+            south__paneSelector: ".center-south"
         });
         return layout_center_inner;
     },

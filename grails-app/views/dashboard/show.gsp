@@ -283,7 +283,7 @@
         <input id="te_from_input" title="<%= HELP.P1003_SP17 %>" name="te_from_input" type="text" size="21" maxlength="21"/>
         <br><span class="te-to boldText">To:</span>
         <input id="te_to_input" title="<%= HELP.P1003_SP17 %>" name="te_to_input" type="text" size="21" maxlength="21"/>
-        <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC</div>
+        <div style="color:#aaa" class="te-footer-text">ISO Formatted Time in UTC<br>yyyy-mm-ddThh:mm:ssZ</div>
       </div><!-- end .temporalExtentControls -->
       </div>
 
@@ -380,7 +380,7 @@
    </div><!-- end .east-center -->
 
    <div class="east-south">
-      <button id="download_dataset_button" title="<%= HELP.P1073_SP63 %>" disabled="disabled">Download</button>
+      <button id="download_dataset_button" title="<%= HELP.P1073_SP63 %>" disabled="disabled">Dataset Access</button>
       <button id="setup_notifications" title="<%= HELP.P1073_SP64 %>" disabled="disabled">Set Up Notifications</button>
       <button id="start_notifications" title="<%= HELP.P1072_SP211 %>">Start Notifications</button>
       <button id="save_myresources_changes" title="<%= HELP.P1065_SP198 %>" disabled="disabled">Save Changes</button>
@@ -620,21 +620,21 @@
 
     <div id="template-bounding-box">
       <div class="boundingBoxControlsSidebar">
-          <span class="bb_direction Ntext" title="<%= HELP.P1001_SP26 %>">N</span>
-          <input id="ge_bb_north" disabled="disabled" value="{{ north }}" title="<%= HELP.P1001_SP23 %>" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
-          <span class="bb_direction Stext" title="<%= HELP.P1001_SP26 %>">S</span>
-          <input id="ge_bb_south" disabled="disabled" value="{{ south }}" title="<%= HELP.P1001_SP23 %>" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
-          <span class="bb_direction Etext" title="<%= HELP.P1001_SP26 %>">E</span>
-          <input id="ge_bb_east" disabled="disabled" value="{{ east }}" title="<%= HELP.P1001_SP23 %>" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
-          <span class="bb_direction Wtext" title="<%= HELP.P1001_SP26 %>">W</span>
-          <input id="ge_bb_west" disabled="disabled" value="{{ west }}"  title="<%= HELP.P1001_SP23 %>" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Ntext">N</span>
+          <input id="ge_bb_north" disabled="disabled" value="{{ north }}" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Stext">S</span>
+          <input id="ge_bb_south" disabled="disabled" value="{{ south }}" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Etext">E</span>
+          <input id="ge_bb_east" disabled="disabled" value="{{ east }}" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
+          <span class="bb_direction Wtext">W</span>
+          <input id="ge_bb_west" disabled="disabled" value="{{ west }}" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
           <span class="NSEWBackgroundBorder"></span>
         <div class="altitudeControlsSidebar">
           <span class="altitudeUpper"><div>Upper Bound</div>
-          <input type="text" disabled="disabled" value="{{ upper }}" maxlength="6" size="6" name="altUpper" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_ub">
+          <input type="text" disabled="disabled" value="{{ upper }}" maxlength="6" size="6" name="altUpper" class="textfield" id="ge_altitude_ub">
           </span>
           <span class="altitudeLower"><div>Lower Bound</div>
-          <input type="text" disabled="disabled" value="{{ lower }}" maxlength="6" size="6" name="altLower" class="textfield" title="<%= HELP.P1001_SP28 %>" id="ge_altitude_lb">
+          <input type="text" disabled="disabled" value="{{ lower }}" maxlength="6" size="6" name="altLower" class="textfield" id="ge_altitude_lb">
           </span>
           <div class="verticalPositive">Vertical Positive: {{ vertical_positive }}</div>
         </div>
