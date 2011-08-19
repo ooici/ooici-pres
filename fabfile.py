@@ -289,7 +289,7 @@ def deployTest():
     global tomcatDir
     webAppHost = 'buildbot.oceanobservatories.org'
     webAppName = 'ooici-pres-0.1' 
-    webAppPort = '8080' 
+    webAppPort = '9443' 
     topicHost = 'amoeba.ucsd.edu'
     topicSysname = 'buildbot'
     topicPort = '5672'
@@ -300,7 +300,7 @@ def deployTest():
     debugMode = 'force'
     tomcatDir = '/var/lib/jenkins/apache-tomcat-6.0.32'
     buildWebApp(True,True)
-    startWebApp(True,True,False)
+    startWebApp(True,True,True)
 
 def deployRemoteTomcat():
     buildWebApp(False,True)
