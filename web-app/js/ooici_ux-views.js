@@ -72,7 +72,7 @@ OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
     events: {
         "click #dataset_scroll_left":"scroll_left",
         "click #dataset_scroll_right":"scroll_right",
-        "click #dataset_return_button":"return_to_dataset_listing",
+        "click #dataset_return_button":"return_to_dataset_listing"
     },
 
     initialize: function() {
@@ -383,7 +383,7 @@ OOI.Views.Workflow104 = Backbone.View.extend({
         "click #datatable_104 tbody tr":"show_detail_clicked",
         "click #setup_notifications":"setup_notifications", //XXX part of Workflow100 really...
         "click #start_notifications":"start_notifications",
-        "click #save_notifications_changes":"save_notifications_changes",
+        "click #save_notifications_changes":"save_notifications_changes"
     },
 
     initialize: function() {
@@ -700,7 +700,7 @@ OOI.Views.Workflow105 = Backbone.View.extend({
             ion_geospatial_vertical_positive:dataResourceSummary.ion_geospatial_vertical_positive, 
             ion_time_coverage_start:dataResourceSummary.ion_time_coverage_start, 
             ion_time_coverage_end:dataResourceSummary.ion_time_coverage_end,base_url:dataResourceSummary.base_url,
-            summary:dataResourceSummary.summary, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id,
+            summary:dataResourceSummary.summary, references:dataResourceSummary.references, station_id:dataResourceSummary.station_id
         }
         var html = _.template(tmpl_str, tmpl_vals);
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
@@ -770,7 +770,7 @@ OOI.Views.ResourceActions = Backbone.View.extend({
 
     events: {
         "click #save_myresources_changes":"save_myresources_changes",
-		"click #save_register_resource":"save_register_resource",
+		"click #save_register_resource":"save_register_resource"
     },
 
     initialize: function() {
@@ -1437,7 +1437,7 @@ OOI.Views.GeospatialContainer = Backbone.View.extend({
         "click #vertical_extent_units_toggle":"vertical_extent_units_toggle",
         "click .vertical_extent_button":"vertical_extent_direction_toggle",
         "click .bb_direction":"bounding_box_direction_toggle",
-        "keyup input[type='text']":"validate_input_values",
+        "keyup input[type='text']":"validate_input_values"
     },
 
     initialize: function() {
@@ -2068,7 +2068,7 @@ OOI.Views.Layout = Backbone.View.extend({
             north__size: 60,
             west__size: 350,
             east__size: 350,
-            onresize:function(){self.controller.datatable_resizer();},
+            onresize:function(){self.controller.datatable_resizer();}
         });
         return layout_main;
     },
@@ -2090,7 +2090,7 @@ OOI.Views.Layout = Backbone.View.extend({
         var layout_center_inner = $("div.ui-layout-center").layout({
             minSize: 50,
             center__paneSelector:".center-center",
-            south__paneSelector: ".center-south",
+            south__paneSelector: ".center-south"
         });
         return layout_center_inner;
     },
