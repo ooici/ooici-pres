@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.regex.Pattern;
 
-public class Test_3_W0100_Search_for_a_data_set extends SeleneseTestCase {
+public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 	@Before
 	public void setUp() throws Exception {
 		selenium = new DefaultSelenium("localhost", 4444, "*chrome", "https://buildbot.oceanobservatories.org:8080/");
@@ -14,7 +14,7 @@ public class Test_3_W0100_Search_for_a_data_set extends SeleneseTestCase {
 	}
 
 	@Test
-	public void test_3_W0100_Search_for_a_data_set() throws Exception {
+	public void test_03_W0100_Search_for_a_data_set() throws Exception {
 		selenium.open("/ooici-pres-0.1/");
 		selenium.click("login_button");
 		selenium.waitForPageToLoad("30000");

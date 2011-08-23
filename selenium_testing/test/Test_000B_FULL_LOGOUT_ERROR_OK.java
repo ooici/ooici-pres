@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.regex.Pattern;
 
-public class Test_0B_FULL_LOGOUT_ERROR_OK extends SeleneseTestCase {
+public class Test_000B_FULL_LOGOUT_ERROR_OK extends SeleneseTestCase {
 	@Before
 	public void setUp() throws Exception {
 		selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://www.google.com/");
@@ -14,7 +14,7 @@ public class Test_0B_FULL_LOGOUT_ERROR_OK extends SeleneseTestCase {
 	}
 
 	@Test
-	public void test_0B_FULL_LOGOUT_ERROR_OK() throws Exception {
+	public void test_000B_FULL_LOGOUT_ERROR_OK() throws Exception {
 		selenium.open("http://www.google.com/");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
