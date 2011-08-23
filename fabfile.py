@@ -297,7 +297,7 @@ def deployTest():
     topicPassword = 'guest'
     topicExchange = 'magnet.topic'
     instrumentMonitorURL = 'http://buildbot.oceanobservatories.org:9998'
-    debugMode = 'force'
+    debugMode = 'disabled'
     tomcatDir = '/var/lib/jenkins/apache-tomcat-6.0.32'
     buildWebApp(True,True)
     startWebApp(True,True,False)
