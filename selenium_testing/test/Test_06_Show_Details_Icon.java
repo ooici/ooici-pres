@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.regex.Pattern;
 
-public class Test_6_Show_Details_Icon extends SeleneseTestCase {
+public class Test_06_Show_Details_Icon extends SeleneseTestCase {
 	@Before
 	public void setUp() throws Exception {
 		selenium = new DefaultSelenium("localhost", 4444, "*chrome", "https://buildbot.oceanobservatories.org:8080/");
@@ -14,7 +14,7 @@ public class Test_6_Show_Details_Icon extends SeleneseTestCase {
 	}
 
 	@Test
-	public void test_6_Show_Details_Icon() throws Exception {
+	public void test_06_Show_Details_Icon() throws Exception {
 		selenium.open("/ooici-pres-0.1/index.html");
 		selenium.click("id=login_button");
 		selenium.waitForPageToLoad("30000");
