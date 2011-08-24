@@ -72,42 +72,56 @@ class InstrumentController extends BaseController {
 		// Special handle numeric and boolean params
 		try {
 			if (propertiesJSON.get("navg") != null)
-				propertiesJSON.put("navg",propertiesJSON.int("navg"))
+				propertiesJSON.put("navg",Integer.parseInt(propertiesJSON.get("navg")))
 		}
 		catch(JSONException e) {
 			// Ignore
 		}
 		try {
 			if (propertiesJSON.get("interval") != null)
-				propertiesJSON.put("interval",propertiesJSON.int("interval"))
+				propertiesJSON.put("interval",Integer.parseInt(propertiesJSON.get("interval")))
 		}
 		catch(JSONException e) {
 			// Ignore
 		}
 		try {
 			if (propertiesJSON.get("outputsv") != null)
-				propertiesJSON.put("outputsv",propertiesJSON.boolean("outputsv"))
+				propertiesJSON.put("outputsv",Integer.parseInt(propertiesJSON.get("outputsv")))
 		}
 		catch(JSONException e) {
 			// Ignore
 		}
 		try {
 			if (propertiesJSON.get("outputsal") != null)
-				propertiesJSON.put("outputsal",propertiesJSON.int("outputsal"))
+				propertiesJSON.put("outputsal",Integer.parseInt(propertiesJSON.get("outputsal")))
 		}
 		catch(JSONException e) {
 			// Ignore
 		}
 		try {
 			if (propertiesJSON.get("txrealtime") != null)
-				propertiesJSON.put("txrealtime",propertiesJSON.int("txrealtime"))
+				propertiesJSON.put("txrealtime",Integer.parseInt(propertiesJSON.get("txrealtime")))
 		}
 		catch(JSONException e) {
 			// Ignore
 		}
 		try {
 			if (propertiesJSON.get("storetime") != null)
-				propertiesJSON.put("storetime",propertiesJSON.int("storetime"))
+				propertiesJSON.put("storetime",Integer.parseInt(propertiesJSON.get("storetime")))
+		}
+		catch(JSONException e) {
+			// Ignore
+		}
+		try {
+			if (propertiesJSON.get("earth_datum") != null)
+				propertiesJSON.put("earth_datum",Integer.parseInt(propertiesJSON.get("earth_datum")))
+		}
+		catch(JSONException e) {
+			// Ignore
+		}
+		try {
+			if (propertiesJSON.get("alt_msl") != null)
+				propertiesJSON.put("alt_msl",Float.parseFloat(propertiesJSON.get("alt_msl")))
 		}
 		catch(JSONException e) {
 			// Ignore
