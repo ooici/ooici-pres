@@ -317,8 +317,14 @@ OOI.Views.Workflow100 = Backbone.View.extend({
     format_geospatial:function(data){
         var tmpl_str = $("#template-bounding-box").html();
         var tmpl_vals = {
-            "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
-            "east":data.ion_geospatial_lon_max, "west":data.ion_geospatial_lon_min,
+            "north_button":(isNaN(data.ion_geospatial_lat_max) ? "N" : data.ion_geospatial_lat_max >= 0 ? "N" : "S"),
+            "south_button":(isNaN(data.ion_geospatial_lat_min) ? "S" : data.ion_geospatial_lat_min >= 0 ? "N" : "S"),
+            "east_button":(isNaN(data.ion_geospatial_lon_max) ? "E" : data.ion_geospatial_lon_max >= 0 ? "E" : "W"),
+            "west_button":(isNaN(data.ion_geospatial_lon_min) ? "W" : data.ion_geospatial_lon_min >= 0 ? "E" : "W"),
+            "north":(isNaN(data.ion_geospatial_lat_max) ? "NaN" : Math.abs(data.ion_geospatial_lat_max)),
+            "south":(isNaN(data.ion_geospatial_lat_min) ? "NaN" : Math.abs(data.ion_geospatial_lat_min)), 
+            "east":(isNaN(data.ion_geospatial_lon_max) ? "NaN" : Math.abs(data.ion_geospatial_lon_max)),
+            "west":(isNaN(data.ion_geospatial_lon_min) ? "NaN" : Math.abs(data.ion_geospatial_lon_min)),
             "upper":data.ion_geospatial_vertical_min, "lower":data.ion_geospatial_vertical_max,
             "vertical_positive":data.ion_geospatial_vertical_positive
         };
@@ -1165,8 +1171,14 @@ OOI.Views.Workflow106 = Backbone.View.extend({
     format_geospatial:function(data){
         var tmpl_str = $("#template-bounding-box").html();
         var tmpl_vals = {
-            "north":data.ion_geospatial_lat_max, "south":data.ion_geospatial_lat_min, 
-            "east":data.ion_geospatial_lon_max, "west":data.ion_geospatial_lon_min,
+            "north_button":(isNaN(data.ion_geospatial_lat_max) ? "N" : data.ion_geospatial_lat_max >= 0 ? "N" : "S"),
+            "south_button":(isNaN(data.ion_geospatial_lat_min) ? "S" : data.ion_geospatial_lat_min >= 0 ? "N" : "S"),
+            "east_button":(isNaN(data.ion_geospatial_lon_max) ? "E" : data.ion_geospatial_lon_max >= 0 ? "E" : "W"),
+            "west_button":(isNaN(data.ion_geospatial_lon_min) ? "W" : data.ion_geospatial_lon_min >= 0 ? "E" : "W"),
+            "north":(isNaN(data.ion_geospatial_lat_max) ? "NaN" : Math.abs(data.ion_geospatial_lat_max)),
+            "south":(isNaN(data.ion_geospatial_lat_min) ? "NaN" : Math.abs(data.ion_geospatial_lat_min)), 
+            "east":(isNaN(data.ion_geospatial_lon_max) ? "NaN" : Math.abs(data.ion_geospatial_lon_max)),
+            "west":(isNaN(data.ion_geospatial_lon_min) ? "NaN" : Math.abs(data.ion_geospatial_lon_min)),
             "upper":data.ion_geospatial_vertical_min, "lower":data.ion_geospatial_vertical_max,
             "vertical_positive":data.ion_geospatial_vertical_positive
         };
@@ -1881,7 +1893,9 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 			_.each($form.serializeArray(), function(item) { props[item.name] = item.value; });
 
 			self.controller.loading_dialog('Saving instrument properties...');
-			var postData = {action: "setState", instrument_resource_id: instrument_resource_id, properties: props};
+			var propsJson = JSON.stringify(props);
+
+			var postData = {action: "setState", instrument_resource_id: instrument_resource_id, properties: propsJson};
 			$.ajax({url: 'instrument', type: 'POST', dataType: 'json', data: postData, success: function(data) {
 				self.controller.loading_dialog();
 			}, error: function(xhr) {
@@ -2008,7 +2022,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
                                     $.ajax({url:"instrument", type:"POST", data:startData, dataType:"json",
                                         success: function(data) {
                                             if (model == "NMEA0183") {
-                                                var props = {"gpgga":"ON", "gpgll":"OFF", "gprmc":"OFF", "pgrmf":"OFF", "pgrmc":"OFF", "fix_mode":"A", "alt_msl":0.0, "earth_datum":100, "diffmode":"A"}
+                                                var props = {"gpgga":"ON", "gpgll":"OFF", "gprmc":"OFF", "pgrmf":"OFF", "pgrmc":"OFF", "fix_mode":"A", "alt_msl":"0.0", "earth_datum":"100", "diffmode":"A"}
                                                 var propsJson = JSON.stringify(props);
 
                                                 var setStateData = {action: "setState", instrument_resource_id: instrument_id, properties: propsJson};
