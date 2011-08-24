@@ -4,6 +4,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>OOI Integrated Observatory Network</title>
 
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico'"/>
+
   <link rel="stylesheet" type="text/css" href="css/ciux-default.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui-1.8.6.custom.css"/> 
   <link rel="stylesheet" type="text/css" media="screen" href="css/ciux-datatable-page.css"/>
@@ -620,13 +622,13 @@
 
     <div id="template-bounding-box">
       <div class="boundingBoxControlsSidebar">
-          <span class="bb_direction Ntext">N</span>
+          <span class="bb_direction Ntext">{{ north_button }}</span>
           <input id="ge_bb_north" disabled="disabled" value="{{ north }}" class="north textfield" name="north" type="text" size="11" maxlength="11"/>
-          <span class="bb_direction Stext">S</span>
+          <span class="bb_direction Stext">{{ south_button }}</span>
           <input id="ge_bb_south" disabled="disabled" value="{{ south }}" class="south textfield" name="south" type="text" size="11" maxlength="11"/>
-          <span class="bb_direction Etext">E</span>
+          <span class="bb_direction Etext">{{ east_button }}</span>
           <input id="ge_bb_east" disabled="disabled" value="{{ east }}" class="east textfield" name="east" type="text" size="11" maxlength="11"/>
-          <span class="bb_direction Wtext">W</span>
+          <span class="bb_direction Wtext">{{ west_button }}</span>
           <input id="ge_bb_west" disabled="disabled" value="{{ west }}" class="west textfield" name="west" type="text" size="11" maxlength="11"/>
           <span class="NSEWBackgroundBorder"></span>
         <div class="altitudeControlsSidebar">
