@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.regex.Pattern;
 
-public class Test_13_Notification_setup extends SeleneseTestCase {
+public class Test_13_Notification_setup2 extends SeleneseTestCase {
 	@Before
 	public void setUp() throws Exception {
 		selenium = new DefaultSelenium("localhost", 4444, "*chrome", "https://buildbot.oceanobservatories.org:9443/");
@@ -14,7 +14,7 @@ public class Test_13_Notification_setup extends SeleneseTestCase {
 	}
 
 	@Test
-	public void test_13_Notification_setup() throws Exception {
+	public void test_13_Notification_setup2() throws Exception {
 		selenium.open("/ooici-pres-0.1/index.html");
 		selenium.click("login_button");
 		selenium.waitForPageToLoad("30000");
@@ -54,23 +54,24 @@ public class Test_13_Notification_setup extends SeleneseTestCase {
 		selenium.click("datasourceIsOffline");
 		Thread.sleep(1000);
 		selenium.click("start_notifications");
-		for (int second = 0;; second++) {
-			if (second >= 60) fail("timeout");
-			try { if ("Notification saved".equals(selenium.getAlert())) break; } catch (Exception e) {}
-			Thread.sleep(1000);
-		}
-
+		selenium.click("radioAllPubRes");
 		assertEquals("Notification saved", selenium.getAlert());
+		Thread.sleep(1000);
+		selenium.click("radioMySub");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("Showing 1 to 1 of 1 entries")) break; } catch (Exception e) {}
+			try { if (selenium.isTextPresent("7723 Moanalua RG No 1 at alt 1000 ft")) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
 
-		selenium.click("radioMySub");
-		selenium.click("//input[@type='checkbox']");
+		selenium.check("//input[@type='checkbox']");
 		selenium.click("delete_selected");
-		selenium.click("radioMySub");
+		for (int second = 0;; second++) {
+			if (second >= 60) fail("timeout");
+			try { if (selenium.isTextPresent("Showing 0 to 0 of 0 entries")) break; } catch (Exception e) {}
+			Thread.sleep(1000);
+		}
+
 	}
 
 	@After
