@@ -35,6 +35,14 @@ public class Test_09_Guest_Request_Credentials extends SeleneseTestCase {
 		selenium.waitForPageToLoad("30000");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
+			try { if (selenium.isTextPresent("Select An Identity Provider:")) break; } catch (Exception e) {}
+			Thread.sleep(1000);
+		}
+
+		selenium.click("wayflogonbutton");
+		selenium.waitForPageToLoad("30000");
+		for (int second = 0;; second++) {
+			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Cilogon.org is asking for some information from your Google Accoun")) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
