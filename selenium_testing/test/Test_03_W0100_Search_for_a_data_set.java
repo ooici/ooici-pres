@@ -39,13 +39,13 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 		selenium.click("radioBoundingDefined");
 		selenium.type("ge_bb_north", "21.4");
 		selenium.type("ge_bb_south", "21.3");
-		selenium.type("ge_bb_east", "-157.6");
-		selenium.type("ge_bb_west", "-157.9");
+		selenium.type("ge_bb_east", "157.6");
+		selenium.type("ge_bb_west", "157.9");
 		//selenium.click("apply_filter_button");  // This is the one to lose
 		selenium.click("radioAllPubRes");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("Showing 1 to 1 of 1 entries")) break; } catch (Exception e) {}
+			try { if (selenium.isTextPresent("Showing 1 to 2 of 2 entries")) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
 
