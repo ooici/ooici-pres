@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.regex.Pattern;
 
-public class Test_10_Guest_View_Vertical_Extent extends SeleneseTestCase {
+public class Test_10_View_Vertical_Extent extends SeleneseTestCase {
 	@Before
 	public void setUp() throws Exception {
 		selenium = new DefaultSelenium("localhost", 4444, "*chrome", "https://buildbot.oceanobservatories.org:9443/");
@@ -14,7 +14,7 @@ public class Test_10_Guest_View_Vertical_Extent extends SeleneseTestCase {
 	}
 
 	@Test
-	public void test_10_Guest_View_Vertical_Extent() throws Exception {
+	public void test_10_View_Vertical_Extent() throws Exception {
                 selenium.open("/ooici-pres-0.1/index.html");
                 selenium.click("id=login_button");
                 selenium.waitForPageToLoad("30000");
