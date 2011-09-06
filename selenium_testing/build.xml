@@ -34,7 +34,6 @@
         </target>
  
         <target name="junit" depends="jar">
-            <parallel  threadCount='10'>
                 <junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="true">
                         <formatter type="xml" usefile="true"/>
                         <classpath>
@@ -42,13 +41,14 @@
                                 <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
                         </classpath>
  
+                    <parallel  threadCount='10'>
                         <batchtest fork="true" todir="${report.dir}" failureproperty="seleniumTests.failed"  errorproperty="seleniumTests.failed">
                                 <fileset dir="${test.dir}">
                                         <include name="**/*Test*.java" />
                                 </fileset>
                         </batchtest>
+                    </parallel>
                 </junit>
-            </parallel>
         </target>
  
         <target name="junitreport">
