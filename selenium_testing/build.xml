@@ -34,7 +34,7 @@
         </target>
  
         <target name="junit" depends="jar">
-                <junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perBatch">
+                <junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest">
                         <formatter type="xml" usefile="true"/>
                         <classpath>
                                 <path refid="classpath" />
