@@ -34,14 +34,15 @@
         </target>
  
         <target name="junit" depends="jar">
-                <junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
                         <formatter type="xml" usefile="true"/>
                         <classpath>
                                 <path refid="classpath" />
                                 <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
                         </classpath>
  
-                        <batchtest fork="true" todir="${report.dir}" failureproperty="seleniumTests.failed"  errorproperty="seleniumTests.failed">
+                        <batchtest fork="true" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
                                         <include name="**/*Test*.java" />
                                 </fileset>
