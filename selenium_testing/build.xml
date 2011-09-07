@@ -20,7 +20,7 @@
                 <delete dir="${build.dir}" />
         </target>
  
-        <target name="compile" depends="clean">
+        <target name="compile" >
                 <mkdir dir="${classes.dir}" />
                 <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath" />
         </target>
