@@ -50,6 +50,345 @@
                 </junit>
         </target>
  
+<!-- BEGIN STRESS TEST SECTION -->
+
+        <target name="junit_Firefox_on_OS_X" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+        <target name="junit_Firefox_on_Linux" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*Firefox_on_Linux.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+        <target name="junit_Firefox_on_Windows7" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*Firefox_on_Windows7.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+        <target name="junit_Firefox_on_Windows_Vista" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*Firefox_on_Windows_Vista.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+        <target name="junit_Firefox_on_Windows_XP" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*Firefox_on_Windows_XP.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+        <target name="junit_IE_on_Windows7" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*IE_on_Windows7.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+        <target name="junit_IE_on_Windows_Vista" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*IE_on_Windows_Vista.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+        <target name="junit_IE_on_Windows_XP" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*IE_on_Windows_XP.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+        <target name="junit_Safari_on_OS_X" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test*Safari_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+<!-- MAY WANT TO REMOVE ABOVE SECTION -->
+
+        <target name="junit_Firefox_on_OS_X_A" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_A*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_B" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_B*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_C" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_C*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_D" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_D*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_E" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_E*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_F" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_F*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_G" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_G*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_H" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_H*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_I" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_I*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+        <target name="junit_Firefox_on_OS_X_J" depends="jar">
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
+                        <classpath>
+                                <path refid="classpath" />
+                                <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
+                        </classpath>
+ 
+                        <batchtest fork="yes" todir="${report.dir}">
+                                <fileset dir="${test.dir}">
+                                        <include name="**/*Test_J*Firefox_on_OS_X.java" />
+                                </fileset>
+                        </batchtest>
+                </junit>
+        </target>
+
+
+<!-- END STRESS TEST SECTION -->
+
         <target name="junitreport">
                 <junitreport todir="${report.dir}">
                         <fileset dir="${report.dir}" includes="TEST-*.xml" />
