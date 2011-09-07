@@ -190,7 +190,7 @@ def startWebAppOfficial(localDeployment):
         local('ssh %s@%s -t chmod 666 /opt/tomcat/webapps/%s.war' % (sshUser, webAppHost, context))
         local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
 
-def deployIon():
+def deployIonBeta():
     global webAppHost
     global webAppName
     global context
@@ -203,7 +203,7 @@ def deployIon():
     global topicExchange
     global instrumentMonitorURL
     global debugMode
-    webAppHost = 'ion.oceanobservatories.org'
+    webAppHost = 'ion-beta.oceanobservatories.org'
     webAppName = 'ooici-pres-0.1' 
     context = 'ROOT'
     webAppPort = '443' 
