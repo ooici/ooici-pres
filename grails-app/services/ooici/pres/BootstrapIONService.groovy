@@ -1,10 +1,7 @@
 package ooici.pres
 
-import ion.core.BaseProcess
 import au.com.bytecode.opencsv.CSVReader
 
-import com.rabbitmq.client.AMQP
-import ion.core.messaging.MsgBrokerClient
 import ion.integration.ais.AppIntegrationService
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
@@ -13,8 +10,6 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 class BootstrapIONService  {
 
 	static transactional = false
-	public static BaseProcess baseProcess
-	public static MsgBrokerClient ionClient
 	public static AppIntegrationService appIntegrationService
 	public static HashMap helpStrings
 
@@ -34,21 +29,14 @@ class BootstrapIONService  {
 		String exchange = config.ioncore.exchange
 		String sysName = config.ioncore.sysname
 
-		String str = "Starting msg broker client.  Connecting to " + hostName + ":" + portNumber
+		String str = "Starting AppIntegrationService.  Connecting to " + hostName + ":" + portNumber
 		if (username != null) {
 			str += ":" + username
 		}
 		str += ":" + exchange + ":" + sysName
 		System.out.println(str)
 
-		// Messaging environment
-		ionClient = new MsgBrokerClient(hostName, portNumber, username, password, exchange)
-		ionClient.attach()
-
-		baseProcess = new BaseProcess(ionClient)
-		baseProcess.spawn()
-
-		appIntegrationService = new AppIntegrationService(sysName, baseProcess)
+		appIntegrationService = new AppIntegrationService(sysName, hostName, portNumber, username, password, exchange)
 		
 		// Load help file into list
 		String helpFile = config.ioncore.helpfile
