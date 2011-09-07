@@ -229,9 +229,11 @@ OOI.Controllers.Dashboard = Backbone.Controller.extend({
             var msg = error_msg + " '"+path+"'";
         }
         if (error_type === 500){
-            msg = "Error accessing: '"+path+"'";
-        }
-        msg += "\n\n"+contact_msg;
+			msg = "Your request failed due to an internal error.\nPlease try again.\nIf it continues to fail, please contact support at:\nhelpdesk@oceanobservatories.org";
+            msg += "\n\n\nThe error occurred while accessing: '"+path+"'";
+        } else {
+			msg += "\n\n"+contact_msg;
+		}
         setTimeout(function(){alert(msg)}, 100); //setTimeout needed for loading_dialog to correctly be closed.
     },
 

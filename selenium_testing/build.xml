@@ -34,8 +34,9 @@
         </target>
  
         <target name="junit" depends="jar">
-                <junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="true">
-                        <formatter type="xml" />
+                <junit forkmode="perTest" printsummary="yes" haltonfailure="no" haltonerror="no" maxmemory="4096m">
+                <!--<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="yes" forkmode="perTest"> -->
+                        <formatter type="xml" usefile="true"/>
                         <classpath>
                                 <path refid="classpath" />
                                 <path id="application" location="${jar.dir}/${ant.project.name}.jar" />

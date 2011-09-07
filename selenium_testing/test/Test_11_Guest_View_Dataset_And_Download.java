@@ -41,12 +41,12 @@ public class Test_11_Guest_View_Dataset_And_Download extends SeleneseTestCase {
 		selenium.click("//tr[@id='3319A67F-81F3-424F-8E69-4F28C4E04806']/td[1]");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("7723 Moanalua RG No 1 at alt 1000 ft")) break; } catch (Exception e) {}
+			try { if (selenium.isTextPresent("Title: Moana Loa Data Source")) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
 
 		selenium.click("download_dataset_button");
-		selenium.waitForPopUp("", "30000");
+		selenium.waitForPopUp("null", "30000");
 	}
 
 	@After
