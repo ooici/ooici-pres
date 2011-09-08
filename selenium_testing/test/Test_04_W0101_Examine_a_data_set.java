@@ -17,9 +17,9 @@ public class Test_04_W0101_Examine_a_data_set extends SeleneseTestCase {
 	public void test_04_W0101_Examine_a_data_set() throws Exception {
 		selenium.open("/ooici-pres-0.1/");
 		selenium.click("login_button");
-		selenium.waitForPageToLoad("30000");
+		selenium.waitForPageToLoad("60000");
 		selenium.click("wayflogonbutton");
-		selenium.waitForPageToLoad("30000");
+		selenium.waitForPageToLoad("60000");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Cilogon.org is asking for some informa")) break; } catch (Exception e) {}
@@ -30,7 +30,7 @@ public class Test_04_W0101_Examine_a_data_set extends SeleneseTestCase {
 		selenium.type("Passwd", "P_A_S_S-W_O_R_D");
 		selenium.uncheck("PersistentCookie");
 		selenium.click("signIn");
-		selenium.waitForPageToLoad("30000");
+		selenium.waitForPageToLoad("60000");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Showing 1 to 8 of 8 entries")) break; } catch (Exception e) {}
@@ -45,11 +45,11 @@ public class Test_04_W0101_Examine_a_data_set extends SeleneseTestCase {
 		}
 
                 selenium.click("logout_link");
-                selenium.waitForPageToLoad("30000");
+                selenium.waitForPageToLoad("60000");
                 selenium.open("http://google.com");
                 selenium.click("gbgs4");
                 selenium.click("gb_71");
-                selenium.waitForPageToLoad("30000");
+                selenium.waitForPageToLoad("60000");
 
 	}
 
