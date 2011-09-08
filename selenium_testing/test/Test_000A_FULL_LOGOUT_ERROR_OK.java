@@ -26,7 +26,7 @@ public class Test_000A_FULL_LOGOUT_ERROR_OK extends SeleneseTestCase {
 		selenium.waitForPageToLoad("30000");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("Welcome to Release 1 of the Integrated")) break; } catch (Exception e) {}
+			try { if (selenium.isTextPresent("Welcome to the Integrated Observatory Network")) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
 	}
