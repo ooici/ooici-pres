@@ -218,7 +218,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_A*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_A*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -236,7 +236,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_B*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_B*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -254,7 +254,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_C*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_C*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -272,7 +272,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_D*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_D*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -290,7 +290,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_E*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_E*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -308,7 +308,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_F*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_F*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -326,7 +326,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_G*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_G*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -344,7 +344,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_H*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_H*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -362,7 +362,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_I*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_I*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
@@ -380,7 +380,7 @@
  
                         <batchtest fork="yes" todir="${report.dir}">
                                 <fileset dir="${test.dir}">
-                                        <include name="**/*Test_J*Firefox_on_OS_X.java" />
+                                        <include name="**/*Test_*Firefox_on_OS_X_J*.java" />
                                 </fileset>
                         </batchtest>
                 </junit>
