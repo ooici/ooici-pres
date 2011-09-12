@@ -66,7 +66,7 @@ def appConfig(localDeployment):
     global topicSysname
     if topicSysname is None:
         if localDeployment:
-            topicSysname = prompt('Please enter topic sysname:', default=os.getlogin())
+            topicSysname = prompt('Please enter topic sysname:', default=safe_getlogin())
         else:
             topicSysname = prompt('Please enter topic sysname:', default='R1_UI_DEMO')
 
@@ -163,7 +163,7 @@ def startWebApp(localDeployment, useTomcat, restartTomcat):
                 tomcatDir = prompt('Please enter fully qualified Tomcat install directory:', default='/opt/tomcat')
         global sshUser
         if sshUser is None:
-            sshUser = os.getlogin()
+            sshUser = safe_getlogin()
             sshUser = prompt('Please enter your ssh login name:', default=sshUser)
 
         local('ssh %s@%s -t %s/bin/shutdown.sh' % (sshUser, webAppHost, tomcatDir))
@@ -179,7 +179,7 @@ def startWebAppOfficial(localDeployment):
     else:
         global sshUser
         if sshUser is None:
-            sshUser = os.getlogin()
+            sshUser = safe_getlogin()
             sshUser = prompt('Please enter your ssh login name:', default=sshUser)
 
         local('ssh %s@%s -t sudo /etc/init.d/grails stop' % (sshUser, webAppHost))
@@ -189,6 +189,13 @@ def startWebAppOfficial(localDeployment):
         local('scp target/%s.war %s@%s:/opt/tomcat/webapps/%s.war' % (webAppName, sshUser, webAppHost, context))
         local('ssh %s@%s -t chmod 666 /opt/tomcat/webapps/%s.war' % (sshUser, webAppHost, context))
         local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
+
+def safe_getlogin():
+    if sys.stdin.isatty():
+        return os.getlogin()
+    else:
+        return os.environ["USER"]
+
 
 def deployIonBeta():
     global webAppHost
