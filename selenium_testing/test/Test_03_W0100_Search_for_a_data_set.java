@@ -65,8 +65,8 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
                 
-                //selenium.type("//input[@type='text']", "HYCOM");
-		selenium.typeKeys("//input[@type='text']", "HYCOM");
+		//selenium.typeKeys("//input[@type='text']", "HYCOM");
+                selenium.typeKeys("//div[@id='datatable_100_filter']/input", "HYCOM");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Showing 1 to 2 of 2 entries")) break; } catch (Exception e) {}
