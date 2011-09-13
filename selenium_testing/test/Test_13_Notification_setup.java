@@ -64,7 +64,8 @@ public class Test_13_Notification_setup extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
 
-		selenium.check("//input[@type='checkbox']");
+		//selenium.check("//input[@type='checkbox']");
+                selenium.check("//td[1]/input");
 		selenium.click("delete_selected");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
