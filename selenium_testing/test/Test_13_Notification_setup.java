@@ -50,10 +50,13 @@ public class Test_13_Notification_setup extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
 
+		Thread.sleep(1000);
 		selenium.click("updateWhenAvailable");
+		Thread.sleep(1000);
 		selenium.click("datasourceIsOffline");
 		Thread.sleep(1000);
 		selenium.click("start_notifications");
+                Thread.sleep(1000);
 		selenium.click("radioAllPubRes");
 		assertEquals("Notification saved", selenium.getAlert());
 		Thread.sleep(1000);
@@ -64,9 +67,12 @@ public class Test_13_Notification_setup extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
 
+                Thread.sleep(1000);
 		//selenium.check("//input[@type='checkbox']");
                 selenium.check("//td[1]/input");
+                Thread.sleep(1000);
 		selenium.click("delete_selected");
+                Thread.sleep(1000);
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Showing 0 to 0 of 0 entries")) break; } catch (Exception e) {}

@@ -56,9 +56,13 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
 
+		Thread.sleep(3000);
 		selenium.click("radioBoundingAll");
-		//selenium.click("apply_filter_button");  // This is the one to lose
+		Thread.sleep(3000);
+		selenium.click("apply_filter_button");  // This is the one to lose
+		Thread.sleep(3000);
 		selenium.click("radioAllPubRes");
+		Thread.sleep(3000);
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Showing 1 to 8 of 8 entries")) break; } catch (Exception e) {}
@@ -66,7 +70,9 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 		}
                 
 		//selenium.typeKeys("//input[@type='text']", "HYCOM");
+		Thread.sleep(3000);
                 selenium.typeKeys("//div[@id='datatable_100_filter']/input", "HYCOM");
+		Thread.sleep(3000);
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Showing 1 to 2 of 2 entries")) break; } catch (Exception e) {}

@@ -37,13 +37,20 @@ public class Test_02_W0108_Log_in4 extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
                 // LOGOUT OF EVERYTHING!!!!
+		Thread.sleep(1000);
                 selenium.open("/ooici-pres-0.1/dashboard");
+		Thread.sleep(1000);
                 selenium.click("logout_link");
+		Thread.sleep(1000);
                 selenium.waitForPageToLoad("30000");
+		Thread.sleep(1000);
                 selenium.open("http://www.google.com/");
+		Thread.sleep(1000);
                 selenium.click("gbgs4");
+		Thread.sleep(1000);
                 selenium.click("gb_71");
                 selenium.waitForPageToLoad("30000");
+		Thread.sleep(1000);
 
 
 	}

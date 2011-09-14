@@ -35,9 +35,11 @@ public class Test_10_View_Vertical_Extent extends SeleneseTestCase {
 		selenium.type("ge_altitude_ub", "1");
 		selenium.type("ge_altitude_lb", "30");
 		selenium.click("vertical_extent_above");
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 		selenium.click("apply_filter_button");
+		Thread.sleep(3000);
 		selenium.click("radioAllPubRes");
+		Thread.sleep(3000);
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("HYCOM archive file")) break; } catch (Exception e) {}
