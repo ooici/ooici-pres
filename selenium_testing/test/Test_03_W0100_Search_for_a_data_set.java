@@ -71,7 +71,10 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
                 
 		//selenium.typeKeys("//input[@type='text']", "HYCOM");
 		Thread.sleep(3000);
+                // below was ok, but maybe type works better... testing
                 selenium.typeKeys("//div[@id='datatable_100_filter']/input", "HYCOM");
+		Thread.sleep(3000);
+                selenium.type("//div[@id='datatable_100_filter']/input", "HYCOM");
 		Thread.sleep(3000);
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
