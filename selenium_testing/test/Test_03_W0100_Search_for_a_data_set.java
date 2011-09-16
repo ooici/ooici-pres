@@ -15,21 +15,27 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 
 	@Test
 	public void test_03_W0100_Search_for_a_data_set() throws Exception {
-		selenium.open("/ooici-pres-0.1/");
+		selenium.open("https://buildbot.oceanobservatories.org:9443/ooici-pres-0.1/");
 		selenium.click("login_button");
-		selenium.waitForPageToLoad("60000");
-		selenium.click("wayflogonbutton");
-		selenium.waitForPageToLoad("60000");
+		selenium.waitForPageToLoad("30000");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("Cilogon.org is asking for some information from")) break; } catch (Exception e) {}
+			try { if (selenium.isTextPresent("Select An Identity Provider:")) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
 
-		selenium.type("Email", "U_S_E_R-N_A_M_E");
-		selenium.type("Passwd", "P_A_S_S-W_O_R_D");
+		selenium.click("wayflogonbutton");
+		selenium.waitForPageToLoad("30000");
+		for (int second = 0;; second++) {
+			if (second >= 60) fail("timeout");
+			try { if (selenium.isTextPresent("Cilogon.org is asking for some information fr")) break; } catch (Exception e) {}
+			Thread.sleep(1000);
+		}
+
+                selenium.type("Email", "U_S_E_R-N_A_M_E");
+                selenium.type("Passwd", "P_A_S_S-W_O_R_D");
 		selenium.click("signIn");
-		selenium.waitForPageToLoad("60000");
+		selenium.waitForPageToLoad("30000");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Showing 1 to 8 of 8 entries")) break; } catch (Exception e) {}
@@ -41,7 +47,7 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 		selenium.type("ge_bb_south", "21.3");
 		selenium.type("ge_bb_east", "157.6");
 		selenium.type("ge_bb_west", "157.9");
-		//selenium.click("apply_filter_button");  // This is the one to lose
+		selenium.click("apply_filter_button");
 		selenium.click("radioAllPubRes");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
@@ -56,23 +62,18 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
 
-		Thread.sleep(3000);
 		selenium.click("radioBoundingAll");
-		Thread.sleep(3000);
-		selenium.click("apply_filter_button");  // This is the one to lose
-		Thread.sleep(3000);
+		selenium.click("apply_filter_button");
+		Thread.sleep(2000);
 		selenium.click("radioAllPubRes");
-		Thread.sleep(3000);
+		Thread.sleep(2000);
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Showing 1 to 8 of 8 entries")) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
-                
-		//selenium.typeKeys("//input[@type='text']", "HYCOM");
-		Thread.sleep(3000);
-                selenium.typeKeys("//div[@id='datatable_100_filter']/input", "HYCOM");
-		Thread.sleep(3000);
+
+		selenium.typeKeys("//input[@type='text']", "HYCOM");
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("Showing 1 to 2 of 2 entries")) break; } catch (Exception e) {}
@@ -87,11 +88,11 @@ public class Test_03_W0100_Search_for_a_data_set extends SeleneseTestCase {
 		}
 
 		selenium.click("logout_link");
-		selenium.waitForPageToLoad("60000");
+		selenium.waitForPageToLoad("30000");
 		selenium.open("http://google.com");
 		selenium.click("gbgs4");
 		selenium.click("gb_71");
-		selenium.waitForPageToLoad("60000");
+		selenium.waitForPageToLoad("30000");
 	}
 
 	@After

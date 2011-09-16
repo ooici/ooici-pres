@@ -36,48 +36,43 @@ public class Test_13_Notification_setup extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
 
-		selenium.click("//tr[@id='3319A67F-81F3-424F-8E69-4F28C4E04806']/td[1]");
-		for (int second = 0;; second++) {
-			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("Title: Moana Loa Data Source")) break; } catch (Exception e) {}
-			Thread.sleep(1000);
-		}
+                selenium.click("//tr[@id='3319A67F-81F3-424F-8E69-4F28C4E04806']/td[1]");
+                for (int second = 0;; second++) {
+                        if (second >= 60) fail("timeout");
+                        try { if (selenium.isTextPresent("Title: Moana Loa Data Source")) break; } catch (Exception e) {}
+                        Thread.sleep(1000);
+                }
 
-		selenium.click("setup_notifications");
-		for (int second = 0;; second++) {
-			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("Send notifications when:")) break; } catch (Exception e) {}
-			Thread.sleep(1000);
-		}
+                selenium.click("setup_notifications");
+                for (int second = 0;; second++) {
+                        if (second >= 60) fail("timeout");
+                        try { if (selenium.isTextPresent("Send notifications when:")) break; } catch (Exception e) {}
+                        Thread.sleep(1000);
+                }
 
-		Thread.sleep(1000);
-		selenium.click("updateWhenAvailable");
-		Thread.sleep(1000);
-		selenium.click("datasourceIsOffline");
-		Thread.sleep(1000);
-		selenium.click("start_notifications");
+                selenium.click("updateWhenAvailable");
+                selenium.click("datasourceIsOffline");
+                selenium.click("start_notifications");
                 Thread.sleep(1000);
-		selenium.click("radioAllPubRes");
-		assertEquals("Notification saved", selenium.getAlert());
-		Thread.sleep(1000);
-		selenium.click("radioMySub");
-		for (int second = 0;; second++) {
-			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("7723 Moanalua RG No 1 at alt 1000 ft")) break; } catch (Exception e) {}
-			Thread.sleep(1000);
-		}
+                assertEquals("Notification saved", selenium.getAlert());
+                selenium.click("radioMySub");
+                for (int second = 0;; second++) {
+                        if (second >= 60) fail("timeout");
+                        try { if (selenium.isTextPresent("Showing 1 to 1 of 1 entries")) break; } catch (Exception e) {}
+                        Thread.sleep(1000);
+                }
 
-                Thread.sleep(1000);
-		//selenium.check("//input[@type='checkbox']");
-                selenium.check("//td[1]/input");
-                Thread.sleep(1000);
-		selenium.click("delete_selected");
-                Thread.sleep(1000);
-		for (int second = 0;; second++) {
-			if (second >= 60) fail("timeout");
-			try { if (selenium.isTextPresent("Showing 0 to 0 of 0 entries")) break; } catch (Exception e) {}
-			Thread.sleep(1000);
-		}
+                selenium.check("//input[@type='checkbox']");
+                selenium.click("delete_selected");
+                assertTrue(selenium.getConfirmation().matches("^Delete 1 selected items[\\s\\S]$"));
+                for (int second = 0;; second++) {
+                        if (second >= 60) fail("timeout");
+                        try { if (selenium.isTextPresent("Showing 0 to 0 of 0 entries")) break; } catch (Exception e) {}
+                        Thread.sleep(1000);
+                }
+
+                selenium.click("radioMySub");
+
 
 	}
 
