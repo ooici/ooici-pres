@@ -47,7 +47,6 @@ public class Test_11_Guest_View_Dataset_And_Download extends SeleneseTestCase {
 
                 Thread.sleep(1000);
                 selenium.click("download_dataset_button");
-                // This fails on windows IE....
                 selenium.waitForPopUp("", "30000");
 
 

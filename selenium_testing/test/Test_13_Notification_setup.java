@@ -56,13 +56,11 @@ public class Test_13_Notification_setup extends SeleneseTestCase {
 		selenium.click("datasourceIsOffline");
 		Thread.sleep(1000);
 		selenium.click("start_notifications");
-                Thread.sleep(10000);
+                Thread.sleep(1000);
 		selenium.click("radioAllPubRes");
-                Thread.sleep(10000);
 		assertEquals("Notification saved", selenium.getAlert());
-		Thread.sleep(10000);
+		Thread.sleep(1000);
 		selenium.click("radioMySub");
-		Thread.sleep(10000);
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if (selenium.isTextPresent("7723 Moanalua RG No 1 at alt 1000 ft")) break; } catch (Exception e) {}

@@ -89,19 +89,19 @@ public class Test_06_Show_Details_Icon extends SeleneseTestCase {
 			Thread.sleep(1000);
 		}
 
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		selenium.click("id=logout_link");
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		selenium.waitForPageToLoad("30000");
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		selenium.open("http://google.com");
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		selenium.click("css=#gbi4 > span.gbma");
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		selenium.click("id=gb_71");
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		selenium.waitForPageToLoad("30000");
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 	}
 
 	@After
