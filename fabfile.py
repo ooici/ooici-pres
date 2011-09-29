@@ -9,10 +9,42 @@ import re
 import sys
 import time
 
+# global variables
+gitUrl = 'git@github.com:ooici/ooici-pres.git'
+project = 'ooici-pres'
 webAppHost = None
 webAppName = None 
 webAppPort = None 
 context = None
+
+# Monkey-patch "open" to honor fabric's current directory
+_old_open = open
+def open(path, *args, **kwargs):
+    if os.path.isabs(path):
+        return _old_open(path, *args, **kwargs)
+    return _old_open(os.path.join(env.lcwd, path), *args, **kwargs)
+
+# Decorator class
+class cloneDir(object):
+    def __init__(self, f):
+        self.f = f
+
+    def __call__(self, *args, **kwargs):
+        global webAppName
+        local('rm -rf ../tmpfab')
+        local('mkdir ../tmpfab')
+        local('git clone %s ../tmpfab/%s' % (gitUrl, project))
+        
+        with lcd(os.path.join('..', 'tmpfab', project)):
+            print 'Below is a list of release tags available for deploying:'
+            local('git tag | sort -r')
+            defaultTagVersion = local('git tag|sort -n|tail -1', capture=True)
+            tagVersion = prompt('Please enter release tag you want to deploy based on list above:',
+                default=defaultTagVersion)
+            webAppName = 'ooici-pres-%s' % tagVersion[1:]
+            self.f(*args, **kwargs)
+        local('rm -rf ../tmpfab')
+
 def ciLogonConfig(localDeployment):
     global webAppHost
     if webAppHost is None:
@@ -126,15 +158,13 @@ def appConfig(localDeployment):
 
 def buildWebApp(localDeployment, useTomcat):
     global webAppName
-    if webAppName is None:
-        webAppName = prompt('Please enter web application name:', default='ooici-pres-0.1')
 
     if useTomcat:
         ciLogonConfig(localDeployment)
     appConfig(localDeployment)
 
     # Build and package app
-    os.system('grails war')
+    local('grails war')
 
 sshUser = None
 tomcatDir = None
@@ -190,6 +220,15 @@ def startWebAppOfficial(localDeployment):
         local('ssh %s@%s -t chmod 666 /opt/tomcat/webapps/%s.war' % (sshUser, webAppHost, context))
         local('ssh %s@%s -t sudo /etc/init.d/grails start' % (sshUser, webAppHost))
 
+@cloneDir
+def buildAndStartWebApp(isWebAppOfficial, localDeployment, useTomcat,
+        restartTomcat):
+    buildWebApp(localDeployment, useTomcat)
+    if isWebAppOfficial:
+        startWebAppOfficial(localDeployment)
+    else:
+        startWebApp(localDeployment, useTomcat, restartTomcat)
+
 def deployIonBeta():
     global webAppHost
     global webAppName
@@ -204,7 +243,6 @@ def deployIonBeta():
     global instrumentMonitorURL
     global debugMode
     webAppHost = 'ion-beta.oceanobservatories.org'
-    webAppName = 'ooici-pres-0.1' 
     context = 'ROOT'
     webAppPort = '443' 
     topicHost = 'rabbitmq.oceanobservatories.org'
@@ -215,8 +253,10 @@ def deployIonBeta():
     topicExchange = 'magnet.topic'
     instrumentMonitorURL = 'http://pubdebug01.oceanobservatories.org:9998'
     debugMode = 'disabled'
-    buildWebApp(False,True)
-    startWebAppOfficial(False)
+    buildAndStartWebApp(isWebAppOfficial=True, localDeployment=False,
+            useTomcat=True, restartTomcat=True)
+    # buildWebApp(False,True)
+    # startWebAppOfficial(False)
 
 def deployIonTest():
     global webAppHost
@@ -232,7 +272,6 @@ def deployIonTest():
     global instrumentMonitorURL
     global debugMode
     webAppHost = 'ion-test.oceanobservatories.org'
-    webAppName = 'ooici-pres-0.1' 
     context = 'ROOT'
     webAppPort = '443' 
     topicHost = 'rabbitmq-test.oceanobservatories.org'
@@ -243,8 +282,10 @@ def deployIonTest():
     topicExchange = 'magnet.topic'
     instrumentMonitorURL = 'http://pubdebug01.oceanobservatories.org:9998'
     debugMode = 'disabled'
-    buildWebApp(False,True)
-    startWebAppOfficial(False)
+    buildAndStartWebApp(isWebAppOfficial=True, localDeployment=False,
+            useTomcat=True, restartTomcat=True)
+    # buildWebApp(False,True)
+    # startWebAppOfficial(False)
 
 def deployAmoeba():
     global webAppHost
@@ -260,7 +301,6 @@ def deployAmoeba():
     global debugMode
     global tomcatDir
     webAppHost = 'amoeba.ucsd.edu'
-    webAppName = 'ooici-pres-0.1' 
     webAppPort = '9443' 
     topicHost = 'amoeba.ucsd.edu'
     topicSysname = 'R1_UI_DEMO'
@@ -271,8 +311,10 @@ def deployAmoeba():
     instrumentMonitorURL = 'http://amoeba.ucsd.edu:9998'
     debugMode = 'disabled'
     tomcatDir = '/opt/apache-tomcat-6.0.32'
-    buildWebApp(False,True)
-    startWebApp(False,True,True)
+    buildAndStartWebApp(isWebAppOfficial=False, localDeployment=False,
+            useTomcat=True, restartTomcat=True)
+    # buildWebApp(False,True)
+    # startWebApp(False,True,True)
 
 def deployTest():
     global webAppHost
@@ -288,7 +330,6 @@ def deployTest():
     global debugMode
     global tomcatDir
     webAppHost = 'buildbot.oceanobservatories.org'
-    webAppName = 'ooici-pres-0.1' 
     webAppPort = '9443' 
     topicHost = 'amoeba.ucsd.edu'
     topicSysname = 'buildbot'
@@ -299,17 +340,26 @@ def deployTest():
     instrumentMonitorURL = 'http://buildbot.oceanobservatories.org:9998'
     debugMode = 'disabled'
     tomcatDir = '/var/lib/jenkins/apache-tomcat-6.0.32'
-    buildWebApp(True,True)
-    startWebApp(True,True,False)
+
+    buildAndStartWebApp(isWebAppOfficial=False, localDeployment=True,
+            useTomcat=True, restartTomcat=False)
+    # buildWebApp(True,True)
+    # startWebApp(True,True,False)
 
 def deployRemoteTomcat():
-    buildWebApp(False,True)
-    startWebApp(False,True,True)
+    buildAndStartWebApp(isWebAppOfficial=False, localDeployment=False,
+            useTomcat=True, restartTomcat=True)
+    # buildWebApp(False,True)
+    # startWebApp(False,True,True)
 
 def deployLocalTomcat():
-    buildWebApp(True,True)
-    startWebApp(True,True,True)
+    buildAndStartWebApp(isWebAppOfficial=False, localDeployment=True,
+            useTomcat=True, restartTomcat=True)
+    # buildWebApp(True,True)
+    # startWebApp(True,True,True)
 
 def deployLocal():
-    buildWebApp(True,False)
-    startWebApp(True,False,True)
+    buildAndStartWebApp(isWebAppOfficial=False, localDeployment=True,
+            useTomcat=False, restartTomcat=False)
+    # buildWebApp(True,False)
+    # startWebApp(True,False,True)
