@@ -287,6 +287,35 @@ def deployIonTest():
     # buildWebApp(False,True)
     # startWebAppOfficial(False)
 
+def deployIonStage():
+    global webAppHost
+    global webAppName
+    global context
+    global webAppPort
+    global topicHost
+    global topicSysname
+    global topicPort
+    global topicUsername
+    global topicPassword
+    global topicExchange
+    global instrumentMonitorURL
+    global debugMode
+    webAppHost = 'ion-stage.oceanobservatories.org'
+    context = 'ROOT'
+    webAppPort = '443'
+    topicHost = 'rabbitmq-stage.oceanobservatories.org'
+    topicSysname = 'R1_STAGE_SYSTEM'
+    topicPort = '5672'
+    topicUsername = 'guest'
+    topicPassword = 'guest'
+    topicExchange = 'magnet.topic'
+    instrumentMonitorURL = 'http://pubdebug01.oceanobservatories.org:9998'
+    debugMode = 'disabled'
+    buildAndStartWebApp(isWebAppOfficial=True, localDeployment=False,
+            useTomcat=True, restartTomcat=True)
+    # buildWebApp(False,True)
+    # startWebAppOfficial(False)
+
 def deployAmoeba():
     global webAppHost
     global webAppName
