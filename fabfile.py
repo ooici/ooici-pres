@@ -10,7 +10,7 @@ import sys
 import time
 
 # global variables
-gitUrl = 'git@github.com:ooici/ooici-pres.git'
+gitUrl = 'git://github.com/ooici/ooici-pres.git'
 project = 'ooici-pres'
 webAppHost = None
 webAppName = None 
@@ -360,6 +360,7 @@ def deployTest():
     global tomcatDir
     webAppHost = 'buildbot.oceanobservatories.org'
     webAppPort = '9443' 
+    webAppName = 'ooici-pres-0.1'
     topicHost = 'amoeba.ucsd.edu'
     topicSysname = 'buildbot'
     topicPort = '5672'
@@ -370,10 +371,10 @@ def deployTest():
     debugMode = 'disabled'
     tomcatDir = '/var/lib/jenkins/apache-tomcat-6.0.32'
 
-    buildAndStartWebApp(isWebAppOfficial=False, localDeployment=True,
-            useTomcat=True, restartTomcat=False)
-    # buildWebApp(True,True)
-    # startWebApp(True,True,False)
+    local('sed -e "s/app.version=.*/app.version=0.1/" application.properties > tmp.properties')
+    local("mv tmp.properties application.properties")
+    buildWebApp(True,True)
+    startWebApp(True,True,False)
 
 def deployRemoteTomcat():
     buildAndStartWebApp(isWebAppOfficial=False, localDeployment=False,
