@@ -13,8 +13,8 @@ import time
 gitUrl = 'git://github.com/ooici/ooici-pres.git'
 project = 'ooici-pres'
 webAppHost = None
-webAppName = None 
-webAppPort = None 
+webAppName = None
+webAppPort = None
 context = None
 
 # Monkey-patch "open" to honor fabric's current directory
@@ -34,7 +34,7 @@ class cloneDir(object):
         local('rm -rf ../tmpfab')
         local('mkdir ../tmpfab')
         local('git clone %s ../tmpfab/%s' % (gitUrl, project))
-        
+
         with lcd(os.path.join('..', 'tmpfab', project)):
             print 'Below is a list of release tags available for deploying:'
             local('git tag | sort -r')
@@ -128,7 +128,7 @@ def appConfig(localDeployment):
             debugMode = prompt('Please enter CILogon bypass authentication mode (force, url, disabled):', default='force')
         else:
             debugMode = prompt('Please enter CILogon bypass authentication mode (force, url, disabled):', default='disabled')
-    
+
     # Perform value substitution in app config file(s)
     o = open('src/java/ioncore-config.properties', 'w')
     appCfg = open('config/ioncore-config.properties.template').read()
@@ -244,7 +244,7 @@ def deployIonBeta():
     global debugMode
     webAppHost = 'ion-beta.oceanobservatories.org'
     context = 'ROOT'
-    webAppPort = '443' 
+    webAppPort = '443'
     topicHost = 'rabbitmq.oceanobservatories.org'
     topicSysname = 'R1_TEST_SYSTEM2'
     topicPort = '5672'
@@ -273,7 +273,7 @@ def deployIonTest():
     global debugMode
     webAppHost = 'ion-test.oceanobservatories.org'
     context = 'ROOT'
-    webAppPort = '443' 
+    webAppPort = '443'
     topicHost = 'rabbitmq-test.oceanobservatories.org'
     topicSysname = 'R1_TEST_SYSTEM1'
     topicPort = '5672'
@@ -330,7 +330,7 @@ def deployAmoeba():
     global debugMode
     global tomcatDir
     webAppHost = 'amoeba.ucsd.edu'
-    webAppPort = '9443' 
+    webAppPort = '9443'
     topicHost = 'amoeba.ucsd.edu'
     topicSysname = 'R1_UI_DEMO'
     topicPort = '5672'
@@ -359,7 +359,7 @@ def deployTest():
     global debugMode
     global tomcatDir
     webAppHost = 'buildbot.oceanobservatories.org'
-    webAppPort = '9443' 
+    webAppPort = '9443'
     webAppName = 'ooici-pres-0.1'
     topicHost = 'amoeba.ucsd.edu'
     topicSysname = 'buildbot'
