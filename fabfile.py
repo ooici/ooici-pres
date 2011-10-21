@@ -229,6 +229,35 @@ def buildAndStartWebApp(isWebAppOfficial, localDeployment, useTomcat,
     else:
         startWebApp(localDeployment, useTomcat, restartTomcat)
 
+def deployIonProd():
+    global webAppHost
+    global webAppName
+    global context
+    global webAppPort
+    global topicHost
+    global topicSysname
+    global topicPort
+    global topicUsername
+    global topicPassword
+    global topicExchange
+    global instrumentMonitorURL
+    global debugMode
+    webAppHost = 'grails-prod.oceanobservatories.org'
+    context = 'ROOT'
+    webAppPort = '443'
+    topicHost = 'rabbitmq-prod.oceanobservatories.org'
+    topicSysname = 'R1_PROD_SYSTEM'
+    topicPort = '5672'
+    topicUsername = 'guest'
+    topicPassword = 'guest'
+    topicExchange = 'magnet.topic'
+    instrumentMonitorURL = 'http://pubdebug01.oceanobservatories.org:9998'
+    debugMode = 'disabled'
+    buildAndStartWebApp(isWebAppOfficial=True, localDeployment=False,
+            useTomcat=True, restartTomcat=True)
+    # buildWebApp(False,True)
+    # startWebAppOfficial(False)
+
 def deployIonBeta():
     global webAppHost
     global webAppName
