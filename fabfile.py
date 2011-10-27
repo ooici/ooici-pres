@@ -229,7 +229,7 @@ def buildAndStartWebApp(isWebAppOfficial, localDeployment, useTomcat,
     else:
         startWebApp(localDeployment, useTomcat, restartTomcat)
 
-def deployIonProd():
+def deployIonBeta():
     global webAppHost
     global webAppName
     global context
@@ -242,7 +242,7 @@ def deployIonProd():
     global topicExchange
     global instrumentMonitorURL
     global debugMode
-    webAppHost = 'grails-prod.oceanobservatories.org'
+    webAppHost = 'ion-beta.oceanobservatories.org'
     context = 'ROOT'
     webAppPort = '443'
     topicHost = 'rabbitmq-prod.oceanobservatories.org'
@@ -258,7 +258,7 @@ def deployIonProd():
     # buildWebApp(False,True)
     # startWebAppOfficial(False)
 
-def deployIonBeta():
+def deployIonAlpha():
     global webAppHost
     global webAppName
     global context
@@ -271,7 +271,7 @@ def deployIonBeta():
     global topicExchange
     global instrumentMonitorURL
     global debugMode
-    webAppHost = 'ion-beta.oceanobservatories.org'
+    webAppHost = 'ion-alpha.oceanobservatories.org'
     context = 'ROOT'
     webAppPort = '443'
     topicHost = 'rabbitmq.oceanobservatories.org'
