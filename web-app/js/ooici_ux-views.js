@@ -66,6 +66,30 @@ OOI.Views.AdminSelector = Backbone.View.extend({
     }
 });
 
+OOI.Views.InstrumentSelector = Backbone.View.extend({
+
+    events: {
+        "click .instrument_selector":"list_or_new_instrument"
+    },
+
+    initialize: function() {
+        _.bindAll(this, "list_or_new_instrument"); 
+        this.controller = this.options.controller;
+    },
+
+    list_or_new_instrument: function(e){
+        var instrument_id = $(e.target).attr("id");
+        switch (instrument_id) {
+            case "radioViewInstruments":
+                return window.location.hash="instrument/list";
+            case "radioNewInstrument":
+                return window.location.hash="instrument/new";
+            default:
+                return window.location.hash="";
+        }
+    }
+});
+
 
 OOI.Views.ResourceDetailsScroll = Backbone.View.extend({
 
@@ -1851,7 +1875,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
         this.show_detail(instrument_resource_id);
     },
 
-    show_detail: function(instrument_resource_id){
+    show_detail: function(instrument_resource_id) {
         var self = this;
 		$('.agent_button').prop('disabled', true);
 		$("#instrument_agent_details").text('Loading instrument details...');
@@ -1861,6 +1885,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
                 self.instrument_sidebar(instrument_resource_id, resp, self);
             }, error: function(xhr) {
 				$("#instrument_agent_details").text('Failed to load properties for this agent. Are you sure it is running?');
+				self.controller.loading_dialog();
 			}
         });
     },

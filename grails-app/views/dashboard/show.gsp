@@ -200,10 +200,10 @@
           <form action="">
             <table>
               <tr>
-                <td><a href="#instrument/list"><input id="radioViewInstruments" title="<%= HELP.P1099_SP1 %>" class="resource_selector controlradios" name="group1" type="radio"/></a></td>
-                <td style="padding-right: 30px;"><a href="#instrument/list"><label for="radioViewInstruments" title="<%= HELP.P1099_SP1 %>">View All Instruments</label></a></td>
-                <td><a href="#instrument/new"><input id="radioNewInstrument" title="<%= HELP.P1099_SP2 %>" class="resource_selector controlradios" name="group1" type="radio"/></a></td>
-                <td style="padding-right: 30px;"><a href="#instrument/new"><label for="radioNewInstrument" title="<%= HELP.P1099_SP2 %>">Register New Instrument</label></a></td>
+                <td><input id="radioViewInstruments" title="<%= HELP.P1099_SP1 %>" class="instrument_selector resource_selector controlradios" name="group1" type="radio"/></td>
+                <td style="padding-right: 30px;"><label for="radioViewInstruments" title="<%= HELP.P1099_SP1 %>">View All Instruments</label></td>
+                <td><input id="radioNewInstrument" title="<%= HELP.P1099_SP2 %>" class="instrument_selector resource_selector controlradios" name="group1" type="radio"/></td>
+                <td style="padding-right: 30px;"><label for="radioNewInstrument" title="<%= HELP.P1099_SP2 %>">Register New Instrument</label></td>
               </tr>
             </table>
           </form>
