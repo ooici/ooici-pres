@@ -1861,6 +1861,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
     render: function() {
         this.populate_table();
         this.presentation();
+		$("#instrument_agent_details").empty();
         $('.ui-layout-center, .ui-layout-east').show();
 		$('.agent_button').prop('disabled', true);
         return this;
@@ -2023,7 +2024,7 @@ OOI.Views.InstrumentList = Backbone.View.extend({
 		
 		function submit(e) {
 			e.preventDefault(); e.stopPropagation();
-
+			
 			function close() {
 				self.controller.loading_dialog();
 				$dlg.colorbox.close();
