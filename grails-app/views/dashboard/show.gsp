@@ -347,7 +347,7 @@
         <form action="">
           <p>Send notifications when:</p>
           <p id="notification_details"></p>
-          <p><input id="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update when available</label></p>
+          <p><input id="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update is available</label></p>
         <p><input id="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></p>
         </form>
       </div><!-- end #notification_settings -->
@@ -357,7 +357,7 @@
         <form action="">
           <p class="dispatcher_details">Notification Triggers</p>
           <p>Send notifications when:</p>
-          <p><input id="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update when available</label></p>
+          <p><input id="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="dispatcher_updateWhenAvailable" title="<%= HELP.P1023_SP120 %>">Update is available</label></p>
           <p><input id="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>" class="_controlradios notifications_dispatcher" name="group1" type="checkbox"/><label for="dispatcher_datasourceIsOffline" title="<%= HELP.P1067_SP276 %>">Datasource is offline</label></p>
           <p class="dispatcher_details">Dispatcher Script</p>
           Dispatcher Script Path: <input id="dispatcher_script_path" title="<%= HELP.P1067_SP125 %>" type="text"/>
@@ -473,7 +473,7 @@
         </tr>
       </tbody></table>
       <p class="heading">Optional Email Updates</p>
-      <p>Send email when there is:</p>
+      <p>Please send me email updates about:</p>
       <table width="100%" cellspacing="0" cellpadding="3px" border="0" style="margin-left:132px; margin-bottom:10px" class="table-text">
         <tbody><tr>
           <td width="10px"><input id="account_system_change" type="checkbox" class="colorbox_checkbox"/></td>
@@ -492,7 +492,7 @@
           <td>Opportunity to participate in the OOI User Experience Improvement Program</td>
         </tr>
       </tbody></table>
-      <p style="padding:0px;margin-bottom:10px;position:relative;top:-12px">You can change your optional selections at any time by <br>clicking Account Settings in the top right of the ION window.</p>
+      <p style="padding:0px;margin-bottom:10px;position:relative;top:-12px">You may edit your settings at any time by clicking on "Account Settings" at the top right of any ION window.</p>
       </div>
     <div id="account_settings_bottom" align="left" style=" background-color:#FFF; width:590px; height:30px; padding:5px; padding-left:30px; padding-right:20px; border-left:1px solid #494949; border-right:1px solid #494949; border-bottom:1px solid #494949">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">

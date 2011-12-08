@@ -718,7 +718,7 @@ OOI.Views.Workflow105 = Backbone.View.extend({
             $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
         }
         
-        var tmpl_str = $("#template-dataset-details-resourcesummary").html();
+        var tmpl_str = $("#template-dataset-details").html();
 
         var tmpl_vals = {
             title:dataResourceSummary.title, institution:dataResourceSummary.institution,
@@ -936,7 +936,7 @@ OOI.Views.Workflow106 = Backbone.View.extend({
                 self.controller.my_resources_collection.remove_all();
                 if (typeof data.datasetByOwnerMetadata === "undefined"){
                     data["datasetByOwnerMetadata"] = [];
-                }
+                }  
                 $.each(data.datasetByOwnerMetadata, function(i, elem){
                     self.controller.my_resources_collection.add(elem);
                     var cb = "<input type='checkbox'/>";
