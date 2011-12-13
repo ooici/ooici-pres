@@ -2,7 +2,7 @@ ioncore.sysname=SYSNAME
 ioncore.host=HOSTNAME
 ioncore.amqpport=PORT
 ioncore.username=USERNAME
-ioncore.password=PASSWORD
+ioncore.password="PASSWORD"
 ioncore.exchange=EXCHANGE
 
 ioncore.helpfile=help/help_text.csv
