@@ -311,13 +311,13 @@
         <div id="ds_publisher_contact"></div><br>
       </div>
 
-      <h3 class="data_sources my_resources_sidebar accordion-inactive"><a href="#">Resource Availability Settings</a></h3>
+      <h3 id="availablity-settings" class="data_sources my_resources_sidebar accordion-inactive"><a href="#">Resource Availability Settings</a></h3>
       <div class="data_sources registered_registration_availability_editable my_resources_sidebar">
         <div><input id="availability_radio_private" title="<%= HELP.P1064_SP255 %>" name="availability_radio" type="radio"/><label for="availability_radio_private" title="<%= HELP.P1064_SP255 %>">Resource is private and available to me only</label></div>
         <div><input id="availability_radio_public" title="<%= HELP.P1064_SP255 %>" name="availability_radio" type="radio"/><label for="availability_radio_public" title="<%= HELP.P1064_SP255 %>">Resource is publically available</label></div>
       </div>
 
-      <h3 class="data_sources my_resources_sidebar accordion-inactive"><a href="#">Resource Activation Settings</a></h3>
+      <h3 id="activation-settings"class="data_sources my_resources_sidebar accordion-inactive"><a href="#">Resource Activation Settings</a></h3>
       <div class="data_sources my_resources_sidebar" id="registered_registration_activation_polling_editable">
         <div><input id="polling_radio_yes" class="polling_radio" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_yes" title="<%= HELP.P1064_SP196 %>">Activate resource <br><span style="margin-left:40px">Poll every: </label><input id="polling_time" title="<%= HELP.P1064_SP197 %>" name="" type="text" size="8" maxlength="8"/> DD:HH:MM</span></div>
         <div><input id="polling_radio_no" class="polling_radio" title="<%= HELP.P1064_SP196 %>" name="polling_radio" type="radio"/><label for="polling_radio_no" title="<%= HELP.P1064_SP196 %>">Deactivate resource</label></div>

@@ -734,6 +734,9 @@ OOI.Views.Workflow105 = Backbone.View.extend({
         }
         var html = _.template(tmpl_str, tmpl_vals);
         $("#datatable_details_container").html(html).removeClass().addClass(data_resource_id);
+        // Quick fix to show section headings
+        $("#availablity-settings").show();
+        $("#activation-settings").show();
     },
 
     register_resource:function(){
