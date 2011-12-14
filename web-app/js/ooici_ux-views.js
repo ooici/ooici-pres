@@ -718,7 +718,8 @@ OOI.Views.Workflow105 = Backbone.View.extend({
             $("#datatable h1").text("Metadata for " + dataResourceSummary.title);
         }
         
-        var tmpl_str = $("#template-dataset-details").html();
+        var tmpl_str = $("#template-dataset-details-resourcesummary").html();
+        // var tmpl_str = $("#template-dataset-details").html();
 
         var tmpl_vals = {
             title:dataResourceSummary.title, institution:dataResourceSummary.institution,
