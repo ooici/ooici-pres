@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="https://buildbot.oceanobservatories.org:9443/" />
+<title>Guest_View_Vertical_Extent_RAW</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Guest_View_Vertical_Extent_RAW</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/ooici-pres-0.1/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>guest_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Showing 1 to 8 of 8 entries</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>radioAllPubRes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Showing 1 to 8 of 8 entries</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>radioAllPubRes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Showing 1 to 8 of 8 entries</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[@id='3319A67F-81F3-424F-8E69-4F28C4E04806']/td[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>7723 Moanalua RG No 1 at alt 1000 ft </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>radioAltitudeDefined</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>ge_altitude_ub</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>ge_altitude_lb</td>
+	<td>30</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>vertical_extent_above</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>apply_filter_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>radioAllPubRes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>HYCOM archive file</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>(urn:ioos:station:wmo:48900)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Showing 1 to 3 of 3 entries</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

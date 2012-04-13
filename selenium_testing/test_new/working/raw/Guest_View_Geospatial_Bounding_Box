@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="https://buildbot.oceanobservatories.org:9443/" />
+<title>Guest_View_Geospatial_Bounding_Box_RAW</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Guest_View_Geospatial_Bounding_Box_RAW</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/ooici-pres-0.1/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>guest_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Showing 1 to 8 of 8 entries</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>radioAllPubRes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Showing 1 to 8 of 8 entries</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>radioAllPubRes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Showing 1 to 8 of 8 entries</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[@id='3319A67F-81F3-424F-8E69-4F28C4E04806']/td[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>7723 Moanalua RG No 1 at alt 1000 ft </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>radioBoundingDefined</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>ge_bb_north</td>
+	<td>21.4</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='geospatialContainer']/div[3]/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>ge_bb_east</td>
+	<td>157.6</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>ge_bb_south</td>
+	<td>21.3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>ge_bb_west</td>
+	<td>157.9</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>radioAllPubRes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Showing 1 to 1 of 1 entries</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
